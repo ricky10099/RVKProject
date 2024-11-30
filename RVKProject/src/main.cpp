@@ -1,10 +1,12 @@
-#include "Framework/VulkanApp.h"
+#include "Framework/RVKApp.h"
 
 int main() {
 	RVK::Log::Init();
-	RVK::VulkanApp app(1280, 720, "VulkanApp");
+	RVK::RVKApp app(1280, 720, "VulkanApp");
 
-	app.Run();
+	while (app.StartFrame()) {
+		app.EndFrame();
+	}
 
 	RVK::Log::Shutdown();
 }
