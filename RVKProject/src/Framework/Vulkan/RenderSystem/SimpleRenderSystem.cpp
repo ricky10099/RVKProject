@@ -61,8 +61,8 @@ namespace RVK {
             0,
             nullptr);
 
-        for (auto& kv : frameInfo.gameObjects) {
-            auto& obj = kv.second;
+        for (auto& it : frameInfo.gameObjects) {
+            auto& obj = it.second;
             if (obj.model == nullptr) continue;
             SimplePushConstantData push{};
             push.modelMatrix = obj.transform.mat4();

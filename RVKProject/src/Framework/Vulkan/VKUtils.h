@@ -5,7 +5,10 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#include <GLM/glm.hpp>
+
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <glm/glm.hpp>
 
 #include "Framework/Utils.h"
 //#include "Framework/Camera.h"
@@ -57,6 +60,16 @@ namespace RVK {
 #pragma endregion
 
 #pragma region ShaderData
+    struct PointLight {
+        glm::vec4 position{}; // ignore w
+        glm::vec4 color{};    // w is intensity
+    };
+
+    struct DirectionalLight {
+        glm::vec4 direction{}; // ignore w
+        glm::vec4 color{};     // w is intensity
+    };
+
     // remember alignment requirements!
     // https://www.oreilly.com/library/view/opengl-programming-guide/9780132748445/app09lev1sec2.html
     struct GlobalUniformBuffer {
@@ -89,16 +102,6 @@ namespace RVK {
         }
     };
 
-    struct PointLight {
-        glm::vec4 position{}; // ignore w
-        glm::vec4 color{};    // w is intensity
-    };
-
-    struct DirectionalLight {
-        glm::vec4 direction{}; // ignore w
-        glm::vec4 color{};     // w is intensity
-    };
-
     struct ShadowUniformBuffer {
         glm::mat4 projection{ 1.0f };
         glm::mat4 view{ 1.0f };
@@ -111,6 +114,7 @@ namespace RVK {
 #pragma endregion
 
     class Camera;
+    class GameObject;
     struct FrameInfo {
         u32 frameIndex;
         u32 imageIndex;
@@ -118,6 +122,7 @@ namespace RVK {
         VkCommandBuffer commandBuffer;
         Camera* camera;
         VkDescriptorSet descriptorSet;
+        GameObject::Map& gameObjects;
     };
 
     struct PipelineConfig {
