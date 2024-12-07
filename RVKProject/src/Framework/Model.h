@@ -1,52 +1,65 @@
 #pragma once
 
-#include "Framework/Vulkan/VKUtils.h"
-#include "Framework/Vulkan/RVKBuffer.h"
+#include "lve_buffer.hpp"
+#include "lve_device.hpp"
+
+// libs
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <glm/glm.hpp>
+
+// std
+#include <memory>
+#include <vector>
 
 namespace RVK {
-    class Model {
-    public:
-        struct Vertex {
-            glm::vec3 position{};
-            glm::vec3 color{};
-            glm::vec3 normal{};
-            glm::vec2 uv{};
+class LveModel {
+ public:
+  struct Vertex {
+    glm::vec3 position{};
+    glm::vec3 color{};
+    glm::vec3 normal{};
+    glm::vec2 uv{};
 
-            static std::vector<VkVertexInputBindingDescription> GetBindingDescriptions();
-            static std::vector<VkVertexInputAttributeDescription> GetAttributeDescriptions();
+    static std::vector<VkVertexInputBindingDescription> getBindingDescriptions();
+    static std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions();
 
-            bool operator==(const Vertex& other) const {
-                return position == other.position && color == other.color && normal == other.normal &&
-                    uv == other.uv;
-            }
-        };
+    bool operator==(const Vertex &other) const {
+      return position == other.position && color == other.color && normal == other.normal &&
+             uv == other.uv;
+    }
+  };
 
-        struct Builder {
-            std::vector<Vertex> vertices{};
-            std::vector<uint32_t> indices{};
+  struct Builder {
+    std::vector<Vertex> vertices{};
+    std::vector<u32> indices{};
 
-            void LoadModel(const std::string& filepath);
-        };
+    void loadModel(const std::string &filepath);
+  };
 
-        Model(const Model::Builder& builder);
-        ~Model();
+  LveModel(RVKDevice &device, const LveModel::Builder &builder);
+  ~LveModel();
 
-        NO_COPY(Model)
+  LveModel(const LveModel &) = delete;
+  LveModel &operator=(const LveModel &) = delete;
 
-        static std::unique_ptr<Model> CreateModelFromFile(const std::string& filepath);
+  static std::unique_ptr<LveModel> createModelFromFile(
+      RVKDevice &device, const std::string &filepath);
 
-        void Bind(VkCommandBuffer commandBuffer);
-        void Draw(VkCommandBuffer commandBuffer);
+  void bind(VkCommandBuffer commandBuffer);
+  void draw(VkCommandBuffer commandBuffer);
 
-    private:
-        void CreateVertexBuffers(const std::vector<Vertex>& vertices);
-        void CreateIndexBuffers(const std::vector<uint32_t>& indices);
+ private:
+  void createVertexBuffers(const std::vector<Vertex> &vertices);
+  void createIndexBuffers(const std::vector<u32> &indices);
 
-        std::unique_ptr<RVKBuffer> m_vertexBuffer;
-        u32 m_vertexCount;
+  RVKDevice &lveDevice;
 
-        bool m_hasIndexBuffer = false;
-        std::unique_ptr<RVKBuffer> m_indexBuffer;
-        u32 m_indexCount;
-    };
-}
+  std::unique_ptr<LveBuffer> vertexBuffer;
+  u32 vertexCount;
+
+  bool hasIndexBuffer = false;
+  std::unique_ptr<LveBuffer> indexBuffer;
+  u32 indexCount;
+};
+}  // namespace RVK

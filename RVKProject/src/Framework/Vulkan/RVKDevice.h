@@ -1,65 +1,68 @@
 #pragma once
-#include "Framework/Vulkan/RVKWindow.h"
+
 #include "Framework/Vulkan/VKUtils.h"
-#include "Framework/Vulkan/VKValidate.h"
+#include "Framework/Vulkan/RVKWindow.h"
 
 namespace RVK {
+	struct SwapChainSupportDetails {
+		VkSurfaceCapabilitiesKHR capabilities;
+		std::vector<VkSurfaceFormatKHR> formats;
+		std::vector<VkPresentModeKHR> presentModes;
+	};
+
+	struct QueueFamilyIndices {
+		u32 graphicsFamily;
+		u32 presentFamily;
+		bool graphicsFamilyHasValue = false;
+		bool presentFamilyHasValue = false;
+		bool IsComplete() const { return graphicsFamilyHasValue && presentFamilyHasValue; }
+	};
+
 	class RVKDevice {
 	public:
-		RVKDevice(RVKWindow* window);
+		static std::shared_ptr<RVKDevice> s_rvkDevice;
+		VkPhysicalDeviceProperties m_properties;
+
+	public:
+		RVKDevice(RVKWindow& window);
 		~RVKDevice();
 
+		// Not copyable or movable
 		NO_COPY(RVKDevice)
 		NO_MOVE(RVKDevice)
 
-		VkCommandBuffer BeginCommandBuffer();
-		void EndCommandBuffer(VkCommandBuffer& commandBuffer);
-		void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize bufferSize);
-		void CopyImageBuffer(VkBuffer srcBuffer, VkImage image, uint32_t width, uint32_t height);
-		void TransitionImageLayout(VkImage image, VkImageLayout oldLayout, VkImageLayout newLayout);
-		u32 FindMemoryType(u32 allowedTypes, VkMemoryPropertyFlags properties);
-		VkFormat FindSupportedFormat(const std::vector<VkFormat>& formats, VkImageTiling tiling, VkFormatFeatureFlags features);
-		VkFormat FindDepthFormat();
-		void CreateBuffer(VkDeviceSize bufferSize, VkBufferUsageFlags bufferUsageFlags,
-			VkMemoryPropertyFlags bufferProperties, VkBuffer* buffer, VkDeviceMemory* bufferMemory);
-		VkImage CreateImage(u32 width, u32 height, VkFormat format, VkImageTiling tiling,
-			VkImageUsageFlags useFlags, VkMemoryPropertyFlags propFlags, VkDeviceMemory* imageMemory);
-		VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
+		VkCommandPool GetCommandPool() { return m_commandPool; }
+		VkDevice GetDevice() { return m_device; }
+		VkSurfaceKHR GetSurface() { return m_surface; }
+		VkQueue GetGraphicsQueue() { return m_graphicsQueue; }
+		VkQueue GetPresentQueue() { return m_presentQueue; }
+		SwapChainSupportDetails GetSwapChainSupport() { return QuerySwapChainSupport(m_physicalDevice); }
 
-		// Getter Functions
-		inline VkPhysicalDevice GetPhysicalDevice() const { return m_physicalDevice; }
-		inline VkDevice GetLogicalDevice() const { return m_device; }
-		inline VkSurfaceKHR GetSurface() const { return m_surface; }
-		inline VkCommandPool GetCommandPool() const { return m_commandPool; }
-		inline VkQueue GetGraphicsQueue() const { return m_graphicsQueue; }
-		inline VkQueue GetPresentQueue() const { return m_presentQueue; }
-		inline SwapChainDetails GetSwapChainDetails() { return m_swapChainDetails; }
-		inline QueueFamilyIndices& GetQueueFamilies() { return m_queueFamilyIndices; }
-		inline u32 GetGraphicsQueueFamily() const { return m_queueFamilyIndices.graphicsFamily; }
+		u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties);
+		QueueFamilyIndices FindPhysicalQueueFamilies() { return FindQueueFamilies(m_physicalDevice); }
+		VkFormat FindSupportedFormat(
+			const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
-		static std::shared_ptr<RVKDevice> s_rvkDevice;
+		// Buffer Helper Functions
+		void CreateBuffer(
+			VkDeviceSize size,
+			VkBufferUsageFlags usage,
+			VkMemoryPropertyFlags properties,
+			VkBuffer& buffer,
+			VkDeviceMemory& bufferMemory);
+		VkCommandBuffer BeginSingleTimeCommands();
+		void EndSingleTimeCommands(VkCommandBuffer commandBuffer);
+		void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+		void CopyBufferToImage(
+			VkBuffer buffer, VkImage image, u32 width, u32 height, u32 layerCount);
 
-	private:
-		RVKWindow* m_rvkWindow;
-
-		// Vulkan Components
-		VkInstance m_instance = VK_NULL_HANDLE;
-		VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
-		VkDevice m_device = VK_NULL_HANDLE;
-		VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
-		VkSurfaceKHR m_surface = VK_NULL_HANDLE;
-		VkQueue m_graphicsQueue = VK_NULL_HANDLE;
-		VkQueue m_presentQueue = VK_NULL_HANDLE;
-		VkCommandPool m_commandPool = VK_NULL_HANDLE;
-
-		VkPhysicalDeviceProperties m_deviceProperties;
-		QueueFamilyIndices m_queueFamilyIndices;
-		SwapChainDetails m_swapChainDetails;
-
-		bool m_destroyed = false;
+		void CreateImageWithInfo(
+			const VkImageCreateInfo& imageInfo,
+			VkMemoryPropertyFlags properties,
+			VkImage& image,
+			VkDeviceMemory& imageMemory);
 
 	private:
-		// Vulkan Functions
 		void CreateInstance();
 		void SetupDebugMessenger();
 		void CreateSurface();
@@ -67,14 +70,25 @@ namespace RVK {
 		void CreateLogicalDevice();
 		void CreateCommandPool();
 
-		// Checker Functions
-		bool CheckDeviceSuitable(VkPhysicalDevice device);
+		// helper functions
+		bool IsDeviceSuitable(VkPhysicalDevice device);
+		std::vector<const char*> GetRequiredExtensions();
 		bool CheckValidationLayerSupport();
-		bool CheckInstanceExtensionSupport(std::vector<const char*>* checkExtensions);
-		bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
-
-		// Finder Functions
 		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
-		SwapChainDetails FindSwapChainDetails(VkPhysicalDevice device);
+		//void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+		void HasGflwRequiredInstanceExtensions();
+		bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
+		SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
+
+		VkInstance m_instance;
+		VkDebugUtilsMessengerEXT m_debugMessenger;
+		VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
+		RVKWindow& m_rvkWindow;
+		VkCommandPool m_commandPool;
+
+		VkDevice m_device;
+		VkSurfaceKHR m_surface;
+		VkQueue m_graphicsQueue;
+		VkQueue m_presentQueue;
 	};
-}
+}  // namespace RVK

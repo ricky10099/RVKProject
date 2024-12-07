@@ -2,20 +2,28 @@
 
 #include "Framework/Utils.h"
 #include "Framework/Vulkan/RVKWindow.h"
-#include "Framework/Vulkan/RVKRenderer.h"
-
 
 namespace RVK {
 	class RVKApp {
-	public:
-		RVKApp(u32 width = 800, u32 height = 600, const std::string& title = "VkLib");
-		~RVKApp();
+	 public:
+	  static constexpr int WIDTH = 1280;
+	  static constexpr int HEIGHT = 720;
 
-		bool StartFrame();
-		void EndFrame();
+	  RVKApp();
+	  ~RVKApp();
 
-	private:
-		RVKWindow m_rvkWindow;
-		RVKRenderer m_rvkRenderer;
+	  NO_COPY(RVKApp)
+
+	  void Run();
+
+	 private:
+	  void LoadGameObjects();
+
+	  RVKWindow m_rvkWindow{WIDTH, HEIGHT, "Vulkan App"};
+	  RVKRenderer lveRenderer{m_rvkWindow};
+
+	  // note: order of declarations matters
+	  std::unique_ptr<RVKDescriptorPool> globalPool{};
+	  GameObject::Map gameObjects;
 	};
-}
+}  // namespace RVK

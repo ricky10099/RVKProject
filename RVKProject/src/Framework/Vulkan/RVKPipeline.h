@@ -1,28 +1,64 @@
 #pragma once
-#include "Framework/Vulkan/VKUtils.h"
+
+#include "lve_device.hpp"
+
+// std
+#include <string>
+#include <vector>
 
 namespace RVK {
-    class RVKPipeline {
-    public:
-        RVKPipeline(
-            const std::string& vertFilepath,
-            const std::string& fragFilepath,
-            const PipelineConfig& configInfo);
-        ~RVKPipeline();
 
-        NO_COPY(RVKPipeline)
+struct PipelineConfigInfo {
+  PipelineConfigInfo() = default;
+  PipelineConfigInfo(const PipelineConfigInfo&) = delete;
+  PipelineConfigInfo& operator=(const PipelineConfigInfo&) = delete;
 
-        void Bind(VkCommandBuffer commandBuffer);
+  std::vector<VkVertexInputBindingDescription> bindingDescriptions{};
+  std::vector<VkVertexInputAttributeDescription> attributeDescriptions{};
+  VkPipelineViewportStateCreateInfo viewportInfo;
+  VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
+  VkPipelineRasterizationStateCreateInfo rasterizationInfo;
+  VkPipelineMultisampleStateCreateInfo multisampleInfo;
+  VkPipelineColorBlendAttachmentState colorBlendAttachment;
+  VkPipelineColorBlendStateCreateInfo colorBlendInfo;
+  VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
+  std::vector<VkDynamicState> dynamicStateEnables;
+  VkPipelineDynamicStateCreateInfo dynamicStateInfo;
+  VkPipelineLayout pipelineLayout = nullptr;
+  VkRenderPass renderPass = nullptr;
+  u32 subpass = 0;
+};
 
-        static void DefaultPipelineConfigInfo(PipelineConfig& config);
+class LvePipeline {
+ public:
+  LvePipeline(
+      RVKDevice& device,
+      const std::string& vertFilepath,
+      const std::string& fragFilepath,
+      const PipelineConfigInfo& configInfo);
+  ~LvePipeline();
 
-    private:
-        VkPipeline m_graphicsPipeline;
-        VkShaderModule m_vertShaderModule;
-        VkShaderModule m_fragShaderModule;
+  LvePipeline(const LvePipeline&) = delete;
+  LvePipeline& operator=(const LvePipeline&) = delete;
 
-    private:
-        void CreateGraphicsPipeline(const std::string& vertFilepath, const std::string& fragFilepath, const PipelineConfig& config);
-        void CreateShaderModule(const std::vector<char>& code, VkShaderModule& shaderModule);
-    };
-}
+  void bind(VkCommandBuffer commandBuffer);
+
+  static void defaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
+  static void enableAlphaBlending(PipelineConfigInfo& configInfo);
+
+ private:
+  static std::vector<char> readFile(const std::string& filepath);
+
+  void createGraphicsPipeline(
+      const std::string& vertFilepath,
+      const std::string& fragFilepath,
+      const PipelineConfigInfo& configInfo);
+
+  void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
+
+  RVKDevice& lveDevice;
+  VkPipeline graphicsPipeline;
+  VkShaderModule vertShaderModule;
+  VkShaderModule fragShaderModule;
+};
+}  // namespace RVK
