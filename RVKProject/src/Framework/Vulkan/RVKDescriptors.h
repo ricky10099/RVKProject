@@ -1,103 +1,90 @@
 #pragma once
 
-#include "lve_device.hpp"
-
-// std
-#include <memory>
-#include <unordered_map>
-#include <vector>
+#include "Framework/Vulkan/VKUtils.h"
 
 namespace RVK {
+	class RVKDescriptorSetLayout {
+	public:
+		class Builder {
+		public:
+			Builder() = default;
 
-class LveDescriptorSetLayout {
- public:
-  class Builder {
-   public:
-    Builder(RVKDevice &lveDevice) : lveDevice{lveDevice} {}
+			Builder& AddBinding(
+				u32 binding,
+				VkDescriptorType descriptorType,
+				VkShaderStageFlags stageFlags,
+				u32 count = 1);
+			std::unique_ptr<RVKDescriptorSetLayout> Build() const;
 
-    Builder &addBinding(
-        u32 binding,
-        VkDescriptorType descriptorType,
-        VkShaderStageFlags stageFlags,
-        u32 count = 1);
-    std::unique_ptr<LveDescriptorSetLayout> build() const;
+		private:
+			std::unordered_map<u32, VkDescriptorSetLayoutBinding> m_bindings{};
+		};
 
-   private:
-    RVKDevice &lveDevice;
-    std::unordered_map<u32, VkDescriptorSetLayoutBinding> bindings{};
-  };
+		RVKDescriptorSetLayout(std::unordered_map<u32, VkDescriptorSetLayoutBinding> bindings);
+		~RVKDescriptorSetLayout();
 
-  LveDescriptorSetLayout(
-      RVKDevice &lveDevice, std::unordered_map<u32, VkDescriptorSetLayoutBinding> bindings);
-  ~LveDescriptorSetLayout();
-  LveDescriptorSetLayout(const LveDescriptorSetLayout &) = delete;
-  LveDescriptorSetLayout &operator=(const LveDescriptorSetLayout &) = delete;
+		NO_COPY(RVKDescriptorSetLayout)
 
-  VkDescriptorSetLayout getDescriptorSetLayout() const { return descriptorSetLayout; }
+		VkDescriptorSetLayout GetDescriptorSetLayout() const { return m_descriptorSetLayout; }
 
- private:
-  RVKDevice &lveDevice;
-  VkDescriptorSetLayout descriptorSetLayout;
-  std::unordered_map<u32, VkDescriptorSetLayoutBinding> bindings;
+	private:
+		VkDescriptorSetLayout m_descriptorSetLayout;
+		std::unordered_map<u32, VkDescriptorSetLayoutBinding> m_bindings;
 
-  friend class LveDescriptorWriter;
-};
+		friend class RVKDescriptorWriter;
+	};
 
-class RVKDescriptorPool {
- public:
-  class Builder {
-   public:
-    Builder(RVKDevice &lveDevice) : lveDevice{lveDevice} {}
+	class RVKDescriptorPool {
+	public:
+		class Builder {
+		public:
+			Builder() = default;
 
-    Builder &addPoolSize(VkDescriptorType descriptorType, u32 count);
-    Builder &setPoolFlags(VkDescriptorPoolCreateFlags flags);
-    Builder &setMaxSets(u32 count);
-    std::unique_ptr<RVKDescriptorPool> build() const;
+			Builder& AddPoolSize(VkDescriptorType descriptorType, u32 count);
+			Builder& SetPoolFlags(VkDescriptorPoolCreateFlags flags);
+			Builder& SetMaxSets(u32 count);
+			std::unique_ptr<RVKDescriptorPool> Build() const;
 
-   private:
-    RVKDevice &lveDevice;
-    std::vector<VkDescriptorPoolSize> poolSizes{};
-    u32 maxSets = 1000;
-    VkDescriptorPoolCreateFlags poolFlags = 0;
-  };
+		private:
+			std::vector<VkDescriptorPoolSize> m_poolSizes{};
+			u32 m_maxSets = 1000;
+			VkDescriptorPoolCreateFlags m_poolFlags = 0;
+		};
 
-  RVKDescriptorPool(
-      RVKDevice &lveDevice,
-      u32 maxSets,
-      VkDescriptorPoolCreateFlags poolFlags,
-      const std::vector<VkDescriptorPoolSize> &poolSizes);
-  ~RVKDescriptorPool();
-  RVKDescriptorPool(const RVKDescriptorPool &) = delete;
-  RVKDescriptorPool &operator=(const RVKDescriptorPool &) = delete;
+		RVKDescriptorPool(
+			u32 maxSets,
+			VkDescriptorPoolCreateFlags poolFlags,
+			const std::vector<VkDescriptorPoolSize>& poolSizes);
+		~RVKDescriptorPool();
 
-  bool allocateDescriptor(
-      const VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const;
+		NO_COPY(RVKDescriptorPool)
 
-  void freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const;
+		bool AllocateDescriptor(
+			const VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet& descriptor) const;
 
-  void resetPool();
+		void FreeDescriptors(std::vector<VkDescriptorSet>& descriptors) const;
 
- private:
-  RVKDevice &lveDevice;
-  VkDescriptorPool descriptorPool;
+		void ResetPool();
 
-  friend class LveDescriptorWriter;
-};
+	private:
+		VkDescriptorPool m_descriptorPool;
 
-class LveDescriptorWriter {
- public:
-  LveDescriptorWriter(LveDescriptorSetLayout &setLayout, RVKDescriptorPool &pool);
+		friend class RVKDescriptorWriter;
+	};
 
-  LveDescriptorWriter &writeBuffer(u32 binding, VkDescriptorBufferInfo *bufferInfo);
-  LveDescriptorWriter &writeImage(u32 binding, VkDescriptorImageInfo *imageInfo);
+	class RVKDescriptorWriter {
+	public:
+		RVKDescriptorWriter(RVKDescriptorSetLayout& setLayout, RVKDescriptorPool& pool);
 
-  bool build(VkDescriptorSet &set);
-  void overwrite(VkDescriptorSet &set);
+		RVKDescriptorWriter& WriteBuffer(u32 binding, VkDescriptorBufferInfo* bufferInfo);
+		RVKDescriptorWriter& WriteImage(u32 binding, VkDescriptorImageInfo* imageInfo);
 
- private:
-  LveDescriptorSetLayout &setLayout;
-  RVKDescriptorPool &pool;
-  std::vector<VkWriteDescriptorSet> writes;
-};
+		bool Build(VkDescriptorSet& set);
+		void Overwrite(VkDescriptorSet& set);
 
+	private:
+		RVKDescriptorSetLayout& m_setLayout;
+		RVKDescriptorPool& m_pool;
+		std::vector<VkWriteDescriptorSet> m_writes;
+	};
 }  // namespace RVK

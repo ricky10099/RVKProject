@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Framework/Vulkan/RVKDevice.h"
+#include "Framework/Vulkan/RVKSwapChain.h"
 
 namespace RVK {
 	class RVKRenderer {
@@ -35,7 +36,7 @@ namespace RVK {
 		void RecreateSwapChain();
 
 		RVKWindow& m_rvkWindow;
-		//std::unique_ptr<RVKSwapChain> m_rvkSwapChain;
+		std::unique_ptr<RVKSwapChain> m_rvkSwapChain;
 		std::vector<VkCommandBuffer> m_commandBuffers;
 
 		u32 m_currentImageIndex;

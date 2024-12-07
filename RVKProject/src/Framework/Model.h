@@ -55,11 +55,11 @@ class LveModel {
 
   RVKDevice &lveDevice;
 
-  std::unique_ptr<LveBuffer> vertexBuffer;
+  std::unique_ptr<RVKBuffer> vertexBuffer;
   u32 vertexCount;
 
   bool hasIndexBuffer = false;
-  std::unique_ptr<LveBuffer> indexBuffer;
+  std::unique_ptr<RVKBuffer> indexBuffer;
   u32 indexCount;
 };
 }  // namespace RVK

@@ -1,59 +1,54 @@
 #pragma once
 
-#include "lve_device.hpp"
+#include "Framework/Vulkan/VKUtils.h"
 
 namespace RVK {
+	class RVKBuffer {
+	public:
+		RVKBuffer(
+			VkDeviceSize instanceSize,
+			u32 instanceCount,
+			VkBufferUsageFlags usageFlags,
+			VkMemoryPropertyFlags memoryPropertyFlags,
+			VkDeviceSize minOffsetAlignment = 1);
+		~RVKBuffer();
 
-class LveBuffer {
- public:
-  LveBuffer(
-      RVKDevice& device,
-      VkDeviceSize instanceSize,
-      u32 instanceCount,
-      VkBufferUsageFlags usageFlags,
-      VkMemoryPropertyFlags memoryPropertyFlags,
-      VkDeviceSize minOffsetAlignment = 1);
-  ~LveBuffer();
+		NO_COPY(RVKBuffer)
 
-  LveBuffer(const LveBuffer&) = delete;
-  LveBuffer& operator=(const LveBuffer&) = delete;
+		VkResult Map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
+		void Unmap();
 
-  VkResult map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
-  void unmap();
+		void WriteToBuffer(void* data, VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
+		VkResult Flush(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
+		VkDescriptorBufferInfo DescriptorInfo(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
+		VkResult Invalidate(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
 
-  void writeToBuffer(void* data, VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
-  VkResult flush(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
-  VkDescriptorBufferInfo descriptorInfo(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
-  VkResult invalidate(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
+		void WriteToIndex(void* data, int index);
+		VkResult FlushIndex(int index);
+		VkDescriptorBufferInfo DescriptorInfoForIndex(int index);
+		VkResult InvalidateIndex(int index);
 
-  void writeToIndex(void* data, int index);
-  VkResult flushIndex(int index);
-  VkDescriptorBufferInfo descriptorInfoForIndex(int index);
-  VkResult invalidateIndex(int index);
+		VkBuffer GetBuffer() const { return m_buffer; }
+		void* GetMappedMemory() const { return m_mapped; }
+		u32 GetInstanceCount() const { return m_instanceCount; }
+		VkDeviceSize GetInstanceSize() const { return m_instanceSize; }
+		VkDeviceSize GetAlignmentSize() const { return m_instanceSize; }
+		VkBufferUsageFlags GetUsageFlags() const { return m_usageFlags; }
+		VkMemoryPropertyFlags GetMemoryPropertyFlags() const { return m_memoryPropertyFlags; }
+		VkDeviceSize GetBufferSize() const { return m_bufferSize; }
 
-  VkBuffer getBuffer() const { return buffer; }
-  void* getMappedMemory() const { return mapped; }
-  u32 getInstanceCount() const { return instanceCount; }
-  VkDeviceSize getInstanceSize() const { return instanceSize; }
-  VkDeviceSize getAlignmentSize() const { return instanceSize; }
-  VkBufferUsageFlags getUsageFlags() const { return usageFlags; }
-  VkMemoryPropertyFlags getMemoryPropertyFlags() const { return memoryPropertyFlags; }
-  VkDeviceSize getBufferSize() const { return bufferSize; }
+	private:
+		static VkDeviceSize GetAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment);
 
- private:
-  static VkDeviceSize getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment);
+		void* m_mapped = nullptr;
+		VkBuffer m_buffer = VK_NULL_HANDLE;
+		VkDeviceMemory m_memory = VK_NULL_HANDLE;
 
-  RVKDevice& lveDevice;
-  void* mapped = nullptr;
-  VkBuffer buffer = VK_NULL_HANDLE;
-  VkDeviceMemory memory = VK_NULL_HANDLE;
-
-  VkDeviceSize bufferSize;
-  u32 instanceCount;
-  VkDeviceSize instanceSize;
-  VkDeviceSize alignmentSize;
-  VkBufferUsageFlags usageFlags;
-  VkMemoryPropertyFlags memoryPropertyFlags;
-};
-
+		VkDeviceSize m_bufferSize;
+		u32 m_instanceCount;
+		VkDeviceSize m_instanceSize;
+		VkDeviceSize m_alignmentSize;
+		VkBufferUsageFlags m_usageFlags;
+		VkMemoryPropertyFlags m_memoryPropertyFlags;
+	};
 }  // namespace RVK

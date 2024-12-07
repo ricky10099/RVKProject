@@ -32,9 +32,9 @@ RVKApp::RVKApp() {
 RVKApp::~RVKApp() {}
 
 void RVKApp::run() {
-  std::vector<std::unique_ptr<LveBuffer>> uboBuffers(RVKSwapChain::MAX_FRAMES_IN_FLIGHT);
+  std::vector<std::unique_ptr<RVKBuffer>> uboBuffers(RVKSwapChain::MAX_FRAMES_IN_FLIGHT);
   for (int i = 0; i < uboBuffers.size(); i++) {
-    uboBuffers[i] = std::make_unique<LveBuffer>(
+    uboBuffers[i] = std::make_unique<RVKBuffer>(
         lveDevice,
         sizeof(GlobalUbo),
         1,
@@ -44,14 +44,14 @@ void RVKApp::run() {
   }
 
   auto globalSetLayout =
-      LveDescriptorSetLayout::Builder(lveDevice)
+      RVKDescriptorSetLayout::Builder(lveDevice)
           .addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
           .build();
 
   std::vector<VkDescriptorSet> globalDescriptorSets(RVKSwapChain::MAX_FRAMES_IN_FLIGHT);
   for (int i = 0; i < globalDescriptorSets.size(); i++) {
     auto bufferInfo = uboBuffers[i]->descriptorInfo();
-    LveDescriptorWriter(*globalSetLayout, *globalPool)
+    RVKDescriptorWriter(*globalSetLayout, *globalPool)
         .writeBuffer(0, &bufferInfo)
         .build(globalDescriptorSets[i]);
   }
@@ -64,7 +64,7 @@ void RVKApp::run() {
       lveDevice,
       lveRenderer.getSwapChainRenderPass(),
       globalSetLayout->getDescriptorSetLayout()};
-  LveCamera camera{};
+  Camera camera{};
 
   auto viewerObject = GameObject::createGameObject();
   viewerObject.transform.translation.z = -2.5f;
@@ -116,7 +116,7 @@ void RVKApp::run() {
     }
   }
 
-  vkDeviceWaitIdle(lveDevice.device());
+  vkDeviceWaitIdle(RVKDevice::s_rvkDevice->device());
 }
 
 void RVKApp::loadGameObjects() {

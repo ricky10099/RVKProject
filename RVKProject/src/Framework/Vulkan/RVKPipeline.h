@@ -1,64 +1,52 @@
 #pragma once
 
-#include "lve_device.hpp"
-
-// std
-#include <string>
-#include <vector>
+#include "Framework/Vulkan/VKUtils.h"
 
 namespace RVK {
+	struct PipelineConfigInfo {
+		PipelineConfigInfo() = default;
 
-struct PipelineConfigInfo {
-  PipelineConfigInfo() = default;
-  PipelineConfigInfo(const PipelineConfigInfo&) = delete;
-  PipelineConfigInfo& operator=(const PipelineConfigInfo&) = delete;
+		NO_COPY(PipelineConfigInfo)
 
-  std::vector<VkVertexInputBindingDescription> bindingDescriptions{};
-  std::vector<VkVertexInputAttributeDescription> attributeDescriptions{};
-  VkPipelineViewportStateCreateInfo viewportInfo;
-  VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
-  VkPipelineRasterizationStateCreateInfo rasterizationInfo;
-  VkPipelineMultisampleStateCreateInfo multisampleInfo;
-  VkPipelineColorBlendAttachmentState colorBlendAttachment;
-  VkPipelineColorBlendStateCreateInfo colorBlendInfo;
-  VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
-  std::vector<VkDynamicState> dynamicStateEnables;
-  VkPipelineDynamicStateCreateInfo dynamicStateInfo;
-  VkPipelineLayout pipelineLayout = nullptr;
-  VkRenderPass renderPass = nullptr;
-  u32 subpass = 0;
-};
+		std::vector<VkVertexInputBindingDescription> bindingDescriptions{};
+		std::vector<VkVertexInputAttributeDescription> attributeDescriptions{};
+		VkPipelineViewportStateCreateInfo viewportInfo;
+		VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
+		VkPipelineRasterizationStateCreateInfo rasterizationInfo;
+		VkPipelineMultisampleStateCreateInfo multisampleInfo;
+		VkPipelineColorBlendAttachmentState colorBlendAttachment;
+		VkPipelineColorBlendStateCreateInfo colorBlendInfo;
+		VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
+		std::vector<VkDynamicState> dynamicStateEnables;
+		VkPipelineDynamicStateCreateInfo dynamicStateInfo;
+		VkPipelineLayout pipelineLayout = nullptr;
+		VkRenderPass renderPass = nullptr;
+		u32 subpass = 0;
+	};
 
-class LvePipeline {
- public:
-  LvePipeline(
-      RVKDevice& device,
-      const std::string& vertFilepath,
-      const std::string& fragFilepath,
-      const PipelineConfigInfo& configInfo);
-  ~LvePipeline();
+	class RVKPipeline {
+	public:
+		RVKPipeline(const std::string& vertFilepath, const std::string& fragFilepath, const PipelineConfigInfo& configInfo);
+		~RVKPipeline();
 
-  LvePipeline(const LvePipeline&) = delete;
-  LvePipeline& operator=(const LvePipeline&) = delete;
+		RVKPipeline(const RVKPipeline&) = delete;
+		RVKPipeline& operator=(const RVKPipeline&) = delete;
 
-  void bind(VkCommandBuffer commandBuffer);
+		void Bind(VkCommandBuffer commandBuffer);
 
-  static void defaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
-  static void enableAlphaBlending(PipelineConfigInfo& configInfo);
+		static void DefaultPipelineConfigInfo(PipelineConfigInfo& configInfo);
+		static void EnableAlphaBlending(PipelineConfigInfo& configInfo);
 
- private:
-  static std::vector<char> readFile(const std::string& filepath);
+	private:
+		void CreateGraphicsPipeline(
+			const std::string& vertFilepath,
+			const std::string& fragFilepath,
+			const PipelineConfigInfo& configInfo);
 
-  void createGraphicsPipeline(
-      const std::string& vertFilepath,
-      const std::string& fragFilepath,
-      const PipelineConfigInfo& configInfo);
+		void CreateShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 
-  void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
-
-  RVKDevice& lveDevice;
-  VkPipeline graphicsPipeline;
-  VkShaderModule vertShaderModule;
-  VkShaderModule fragShaderModule;
-};
+		VkPipeline m_graphicsPipeline;
+		VkShaderModule m_vertShaderModule;
+		VkShaderModule m_fragShaderModule;
+	};
 }  // namespace RVK

@@ -50,7 +50,7 @@ void LveModel::createVertexBuffers(const std::vector<Vertex> &vertices) {
   VkDeviceSize bufferSize = sizeof(vertices[0]) * vertexCount;
   u32 vertexSize = sizeof(vertices[0]);
 
-  LveBuffer stagingBuffer{
+  RVKBuffer stagingBuffer{
       lveDevice,
       vertexSize,
       vertexCount,
@@ -61,14 +61,14 @@ void LveModel::createVertexBuffers(const std::vector<Vertex> &vertices) {
   stagingBuffer.map();
   stagingBuffer.writeToBuffer((void *)vertices.data());
 
-  vertexBuffer = std::make_unique<LveBuffer>(
+  vertexBuffer = std::make_unique<RVKBuffer>(
       lveDevice,
       vertexSize,
       vertexCount,
       VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
       VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-  lveDevice.copyBuffer(stagingBuffer.getBuffer(), vertexBuffer->getBuffer(), bufferSize);
+  RVKDevice::s_rvkDevice->copyBuffer(stagingBuffer.getBuffer(), vertexBuffer->getBuffer(), bufferSize);
 }
 
 void LveModel::createIndexBuffers(const std::vector<u32> &indices) {
@@ -82,7 +82,7 @@ void LveModel::createIndexBuffers(const std::vector<u32> &indices) {
   VkDeviceSize bufferSize = sizeof(indices[0]) * indexCount;
   u32 indexSize = sizeof(indices[0]);
 
-  LveBuffer stagingBuffer{
+  RVKBuffer stagingBuffer{
       lveDevice,
       indexSize,
       indexCount,
@@ -93,14 +93,14 @@ void LveModel::createIndexBuffers(const std::vector<u32> &indices) {
   stagingBuffer.map();
   stagingBuffer.writeToBuffer((void *)indices.data());
 
-  indexBuffer = std::make_unique<LveBuffer>(
+  indexBuffer = std::make_unique<RVKBuffer>(
       lveDevice,
       indexSize,
       indexCount,
       VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
       VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-  lveDevice.copyBuffer(stagingBuffer.getBuffer(), indexBuffer->getBuffer(), bufferSize);
+  RVKDevice::s_rvkDevice->copyBuffer(stagingBuffer.getBuffer(), indexBuffer->getBuffer(), bufferSize);
 }
 
 void LveModel::draw(VkCommandBuffer commandBuffer) {

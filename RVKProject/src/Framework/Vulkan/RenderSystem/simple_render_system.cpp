@@ -26,7 +26,7 @@ SimpleRenderSystem::SimpleRenderSystem(
 }
 
 SimpleRenderSystem::~SimpleRenderSystem() {
-  vkDestroyPipelineLayout(lveDevice.device(), pipelineLayout, nullptr);
+  vkDestroyPipelineLayout(RVKDevice::s_rvkDevice->device(), pipelineLayout, nullptr);
 }
 
 void SimpleRenderSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
@@ -43,7 +43,7 @@ void SimpleRenderSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLay
   pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
   pipelineLayoutInfo.pushConstantRangeCount = 1;
   pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
-  if (vkCreatePipelineLayout(lveDevice.device(), &pipelineLayoutInfo, nullptr, &pipelineLayout) !=
+  if (vkCreatePipelineLayout(RVKDevice::s_rvkDevice->device(), &pipelineLayoutInfo, nullptr, &pipelineLayout) !=
       VK_SUCCESS) {
     VK_CORE_CRITICAL("failed to create pipeline layout!");
   }
@@ -53,10 +53,10 @@ void SimpleRenderSystem::createPipeline(VkRenderPass renderPass) {
   assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 
   PipelineConfigInfo pipelineConfig{};
-  LvePipeline::defaultPipelineConfigInfo(pipelineConfig);
+  RVKPipeline::defaultPipelineConfigInfo(pipelineConfig);
   pipelineConfig.renderPass = renderPass;
   pipelineConfig.pipelineLayout = pipelineLayout;
-  lvePipeline = std::make_unique<LvePipeline>(
+  RVKPipeline = std::make_unique<RVKPipeline>(
       lveDevice,
       "shaders/simple_shader.vert.spv",
       "shaders/simple_shader.frag.spv",
@@ -64,7 +64,7 @@ void SimpleRenderSystem::createPipeline(VkRenderPass renderPass) {
 }
 
 void SimpleRenderSystem::renderGameObjects(FrameInfo& frameInfo) {
-  lvePipeline->bind(frameInfo.commandBuffer);
+  RVKPipeline->bind(frameInfo.commandBuffer);
 
   vkCmdBindDescriptorSets(
       frameInfo.commandBuffer,

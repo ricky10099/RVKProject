@@ -25,7 +25,7 @@ namespace RVK {
 			std::shared_ptr<RVKSwapChain> oldSwapChain = std::move(m_rvkSwapChain);
 			m_rvkSwapChain = std::make_unique<RVKSwapChain>(extent, oldSwapChain);
 
-			if (!oldSwapChain->compareSwapFormats(*m_rvkSwapChain.get())) {
+			if (!oldSwapChain->CompareSwapFormats(*m_rvkSwapChain.get())) {
 				VK_CORE_CRITICAL("Swap Chain Image(or Depth) Format Has Changed!");
 			}
 		}

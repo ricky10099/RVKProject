@@ -28,7 +28,7 @@ PointLightSystem::PointLightSystem(
 }
 
 PointLightSystem::~PointLightSystem() {
-  vkDestroyPipelineLayout(lveDevice.device(), pipelineLayout, nullptr);
+  vkDestroyPipelineLayout(RVKDevice::s_rvkDevice->device(), pipelineLayout, nullptr);
 }
 
 void PointLightSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
@@ -45,7 +45,7 @@ void PointLightSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayou
   pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
   pipelineLayoutInfo.pushConstantRangeCount = 1;
   pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
-  if (vkCreatePipelineLayout(lveDevice.device(), &pipelineLayoutInfo, nullptr, &pipelineLayout) !=
+  if (vkCreatePipelineLayout(RVKDevice::s_rvkDevice->device(), &pipelineLayoutInfo, nullptr, &pipelineLayout) !=
       VK_SUCCESS) {
     VK_CORE_CRITICAL("failed to create pipeline layout!");
   }
@@ -55,13 +55,13 @@ void PointLightSystem::createPipeline(VkRenderPass renderPass) {
   assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 
   PipelineConfigInfo pipelineConfig{};
-  LvePipeline::defaultPipelineConfigInfo(pipelineConfig);
-  LvePipeline::enableAlphaBlending(pipelineConfig);
+  RVKPipeline::defaultPipelineConfigInfo(pipelineConfig);
+  RVKPipeline::enableAlphaBlending(pipelineConfig);
   pipelineConfig.attributeDescriptions.clear();
   pipelineConfig.bindingDescriptions.clear();
   pipelineConfig.renderPass = renderPass;
   pipelineConfig.pipelineLayout = pipelineLayout;
-  lvePipeline = std::make_unique<LvePipeline>(
+  RVKPipeline = std::make_unique<RVKPipeline>(
       lveDevice,
       "shaders/point_light.vert.spv",
       "shaders/point_light.frag.spv",
@@ -102,7 +102,7 @@ void PointLightSystem::render(FrameInfo& frameInfo) {
     sorted[disSquared] = obj.getId();
   }
 
-  lvePipeline->bind(frameInfo.commandBuffer);
+  RVKPipeline->bind(frameInfo.commandBuffer);
 
   vkCmdBindDescriptorSets(
       frameInfo.commandBuffer,
