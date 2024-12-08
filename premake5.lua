@@ -67,6 +67,10 @@ project "RVKProject"
 			"GLFW_INCLUDE_NONE",
 		}
 
+		postbuildcommands{
+			"call $(SolutionDir)compileGLSL.bat",
+		}
+
 	filter "configurations:Debug"
 		defines "VK_DEBUG"
 		runtime "Debug"

@@ -25,6 +25,7 @@ namespace RVK {
 		int numLights;
 	};
 
+
 	struct FrameInfo {
 		int frameIndex;
 		float frameTime;
