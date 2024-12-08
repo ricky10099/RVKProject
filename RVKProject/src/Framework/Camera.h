@@ -1,9 +1,6 @@
 #pragma once
 
-// libs
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
+#include "Framework/Vulkan/VKUtils.h"
 
 namespace RVK {
 	class Camera {

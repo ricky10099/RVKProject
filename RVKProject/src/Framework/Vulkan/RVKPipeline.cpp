@@ -1,9 +1,6 @@
 #include "Framework/Vulkan/RVKPipeline.h"
 #include "Framework/Vulkan/RVKDevice.h"
-
-#ifndef ENGINE_DIR
-	#define ENGINE_DIR "../"
-#endif
+#include "Framework/Model.h"
 
 namespace RVK {
 	RVKPipeline::RVKPipeline(

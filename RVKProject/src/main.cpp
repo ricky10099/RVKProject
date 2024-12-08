@@ -2,11 +2,16 @@
 
 int main() {
 	RVK::Log::Init();
-	RVK::RVKApp app(1280, 720, "VulkanApp");
+	RVK::RVKApp app{};
 
-	while (app.StartFrame()) {
-		app.EndFrame();
+	try {
+		app.Run();
+	}
+	catch (const std::exception& e) {
+		std::cerr << e.what() << '\n';
+		return EXIT_FAILURE;
 	}
 
 	RVK::Log::Shutdown();
+	return EXIT_SUCCESS;
 }

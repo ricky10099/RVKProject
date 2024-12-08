@@ -2,6 +2,9 @@
 
 #include "Framework/Utils.h"
 #include "Framework/Vulkan/RVKWindow.h"
+#include "Framework/Vulkan/RVKRenderer.h"
+#include "Framework/Vulkan/RVKDescriptors.h"
+#include "Framework/GameObject.h"
 
 namespace RVK {
 	class RVKApp {
@@ -20,7 +23,7 @@ namespace RVK {
 	  void LoadGameObjects();
 
 	  RVKWindow m_rvkWindow{WIDTH, HEIGHT, "Vulkan App"};
-	  RVKRenderer lveRenderer{m_rvkWindow};
+	  RVKRenderer m_rvkRenderer{m_rvkWindow};
 
 	  // note: order of declarations matters
 	  std::unique_ptr<RVKDescriptorPool> globalPool{};

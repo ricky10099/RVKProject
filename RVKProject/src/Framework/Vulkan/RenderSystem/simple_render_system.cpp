@@ -1,98 +1,84 @@
-#include "simple_render_system.hpp"
+#include "Framework/Vulkan/RenderSystem/simple_render_system.h"
 
-// libs
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#include <glm/gtc/constants.hpp>
-
-// std
-#include <array>
-#include <cassert>
-#include <stdexcept>
+#include "Framework/Vulkan/RVKDevice.h"
 
 namespace RVK {
+	struct SimplePushConstantData {
+		glm::mat4 modelMatrix{ 1.f };
+		glm::mat4 normalMatrix{ 1.f };
+	};
 
-struct SimplePushConstantData {
-  glm::mat4 modelMatrix{1.f};
-  glm::mat4 normalMatrix{1.f};
-};
+	SimpleRenderSystem::SimpleRenderSystem(VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout) {
+		CreatePipelineLayout(globalSetLayout);
+		CreatePipeline(renderPass);
+	}
 
-SimpleRenderSystem::SimpleRenderSystem(
-    RVKDevice& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout)
-    : lveDevice{device} {
-  createPipelineLayout(globalSetLayout);
-  createPipeline(renderPass);
-}
+	SimpleRenderSystem::~SimpleRenderSystem() {
+		vkDestroyPipelineLayout(RVKDevice::s_rvkDevice->GetDevice(), m_pipelineLayout, nullptr);
+	}
 
-SimpleRenderSystem::~SimpleRenderSystem() {
-  vkDestroyPipelineLayout(RVKDevice::s_rvkDevice->device(), pipelineLayout, nullptr);
-}
+	void SimpleRenderSystem::CreatePipelineLayout(VkDescriptorSetLayout globalSetLayout) {
+		VkPushConstantRange pushConstantRange{};
+		pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+		pushConstantRange.offset = 0;
+		pushConstantRange.size = sizeof(SimplePushConstantData);
 
-void SimpleRenderSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
-  VkPushConstantRange pushConstantRange{};
-  pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
-  pushConstantRange.offset = 0;
-  pushConstantRange.size = sizeof(SimplePushConstantData);
+		std::vector<VkDescriptorSetLayout> descriptorSetLayouts{ globalSetLayout };
 
-  std::vector<VkDescriptorSetLayout> descriptorSetLayouts{globalSetLayout};
+		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+		pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+		pipelineLayoutInfo.setLayoutCount = static_cast<u32>(descriptorSetLayouts.size());
+		pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
+		pipelineLayoutInfo.pushConstantRangeCount = 1;
+		pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
-  VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
-  pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-  pipelineLayoutInfo.setLayoutCount = static_cast<u32>(descriptorSetLayouts.size());
-  pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
-  pipelineLayoutInfo.pushConstantRangeCount = 1;
-  pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
-  if (vkCreatePipelineLayout(RVKDevice::s_rvkDevice->device(), &pipelineLayoutInfo, nullptr, &pipelineLayout) !=
-      VK_SUCCESS) {
-    VK_CORE_CRITICAL("failed to create pipeline layout!");
-  }
-}
+		VkResult result = vkCreatePipelineLayout(RVKDevice::s_rvkDevice->GetDevice(), &pipelineLayoutInfo, nullptr, &m_pipelineLayout);
+		VK_CHECK(result, "Failed to Create Pipeline Layout!");
+	}
 
-void SimpleRenderSystem::createPipeline(VkRenderPass renderPass) {
-  assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
+	void SimpleRenderSystem::CreatePipeline(VkRenderPass renderPass) {
+		VK_ASSERT(m_pipelineLayout != nullptr, "Cannot Create Pipeline before Pipeline Layout!");
 
-  PipelineConfigInfo pipelineConfig{};
-  RVKPipeline::defaultPipelineConfigInfo(pipelineConfig);
-  pipelineConfig.renderPass = renderPass;
-  pipelineConfig.pipelineLayout = pipelineLayout;
-  RVKPipeline = std::make_unique<RVKPipeline>(
-      lveDevice,
-      "shaders/simple_shader.vert.spv",
-      "shaders/simple_shader.frag.spv",
-      pipelineConfig);
-}
+		PipelineConfigInfo pipelineConfig{};
+		RVKPipeline::DefaultPipelineConfigInfo(pipelineConfig);
+		pipelineConfig.renderPass = renderPass;
+		pipelineConfig.pipelineLayout = m_pipelineLayout;
+		m_rvkPipeline = std::make_unique<RVKPipeline>(
+			"shaders/simple_shader.vert.spv",
+			"shaders/simple_shader.frag.spv",
+			pipelineConfig
+		);
+	}
 
-void SimpleRenderSystem::renderGameObjects(FrameInfo& frameInfo) {
-  RVKPipeline->bind(frameInfo.commandBuffer);
+	void SimpleRenderSystem::RenderGameObjects(FrameInfo& frameInfo) {
+		m_rvkPipeline->Bind(frameInfo.commandBuffer);
 
-  vkCmdBindDescriptorSets(
-      frameInfo.commandBuffer,
-      VK_PIPELINE_BIND_POINT_GRAPHICS,
-      pipelineLayout,
-      0,
-      1,
-      &frameInfo.globalDescriptorSet,
-      0,
-      nullptr);
+		vkCmdBindDescriptorSets(
+			frameInfo.commandBuffer,
+			VK_PIPELINE_BIND_POINT_GRAPHICS,
+			m_pipelineLayout,
+			0,
+			1,
+			&frameInfo.globalDescriptorSet,
+			0,
+			nullptr);
 
-  for (auto& kv : frameInfo.gameObjects) {
-    auto& obj = kv.second;
-    if (obj.model == nullptr) continue;
-    SimplePushConstantData push{};
-    push.modelMatrix = obj.transform.mat4();
-    push.normalMatrix = obj.transform.normalMatrix();
+		for (auto& kv : frameInfo.gameObjects) {
+			auto& obj = kv.second;
+			if (obj.m_model == nullptr) continue;
+			SimplePushConstantData push{};
+			push.modelMatrix = obj.m_transform.Mat4();
+			push.normalMatrix = obj.m_transform.NormalMatrix();
 
-    vkCmdPushConstants(
-        frameInfo.commandBuffer,
-        pipelineLayout,
-        VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-        0,
-        sizeof(SimplePushConstantData),
-        &push);
-    obj.model->bind(frameInfo.commandBuffer);
-    obj.model->draw(frameInfo.commandBuffer);
-  }
-}
-
+			vkCmdPushConstants(
+				frameInfo.commandBuffer,
+				m_pipelineLayout,
+				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+				0,
+				sizeof(SimplePushConstantData),
+				&push);
+			obj.m_model->Bind(frameInfo.commandBuffer);
+			obj.m_model->Draw(frameInfo.commandBuffer);
+		}
+	}
 }  // namespace RVK

@@ -114,7 +114,6 @@ namespace RVK {
 	}
 
 	// *************** Descriptor Writer *********************
-
 	RVKDescriptorWriter::RVKDescriptorWriter(RVKDescriptorSetLayout& setLayout, RVKDescriptorPool& pool)
 		: m_setLayout{ setLayout }, m_pool{ pool } {}
 

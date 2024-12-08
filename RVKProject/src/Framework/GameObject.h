@@ -1,63 +1,55 @@
 #pragma once
 
-#include "lve_model.hpp"
-
-// libs
 #include <glm/gtc/matrix_transform.hpp>
 
-// std
-#include <memory>
-#include <unordered_map>
+#include "Framework/Model.h"
 
 namespace RVK {
+	struct TransformComponent {
+		glm::vec3 translation{};
+		glm::vec3 scale{ 1.f, 1.f, 1.f };
+		glm::vec3 rotation{};
 
-struct TransformComponent {
-  glm::vec3 translation{};
-  glm::vec3 scale{1.f, 1.f, 1.f};
-  glm::vec3 rotation{};
+		// Matrix corrsponds to Translate * Ry * Rx * Rz * Scale
+		// Rotations correspond to Tait-bryan angles of Y(1), X(2), Z(3)
+		// https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix
+		glm::mat4 Mat4();
 
-  // Matrix corrsponds to Translate * Ry * Rx * Rz * Scale
-  // Rotations correspond to Tait-bryan angles of Y(1), X(2), Z(3)
-  // https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix
-  glm::mat4 mat4();
+		glm::mat3 NormalMatrix();
+	};
 
-  glm::mat3 normalMatrix();
-};
+	struct PointLightComponent {
+		float lightIntensity = 1.0f;
+	};
 
-struct PointLightComponent {
-  float lightIntensity = 1.0f;
-};
+	class GameObject {
+	public:
+		using Map = std::unordered_map<u32, GameObject>;
+		glm::vec3 m_color{};
+		TransformComponent m_transform{};
 
-class GameObject {
- public:
-  using id_t = unsigned int;
-  using Map = std::unordered_map<id_t, GameObject>;
+		// Optional pointer components
+		std::shared_ptr<Model> m_model{};
+		std::unique_ptr<PointLightComponent> m_pointLight = nullptr;
 
-  static GameObject createGameObject() {
-    static id_t currentId = 0;
-    return GameObject{currentId++};
-  }
+	public:
+		static GameObject CreateGameObject() {
+			static u32 currentId = 0;
+			return GameObject{ currentId++ };
+		}
 
-  static GameObject makePointLight(
-      float intensity = 10.f, float radius = 0.1f, glm::vec3 color = glm::vec3(1.f));
+		static GameObject MakePointLight(
+			float intensity = 10.f, float radius = 0.1f, glm::vec3 color = glm::vec3(1.f));
 
-  GameObject(const GameObject &) = delete;
-  GameObject &operator=(const GameObject &) = delete;
-  GameObject(GameObject &&) = default;
-  GameObject &operator=(GameObject &&) = default;
+		NO_COPY(GameObject)
+		CAN_MOVE(GameObject)
 
-  id_t getId() { return id; }
+		u32 GetId() { return m_id; }		
 
-  glm::vec3 color{};
-  TransformComponent transform{};
+	private:
+		u32 m_id;
 
-  // Optional pointer components
-  std::shared_ptr<LveModel> model{};
-  std::unique_ptr<PointLightComponent> pointLight = nullptr;
-
- private:
-  GameObject(id_t objId) : id{objId} {}
-
-  id_t id;
-};
+	private:
+		GameObject(u32 objId) : m_id{ objId } {}
+	};
 }  // namespace RVK

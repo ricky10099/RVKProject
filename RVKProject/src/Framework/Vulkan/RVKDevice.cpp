@@ -5,7 +5,7 @@ namespace RVK {
 	std::shared_ptr<RVKDevice> RVKDevice::s_rvkDevice;
 
 	// class member functions
-	RVKDevice::RVKDevice(RVKWindow& window) : m_rvkWindow{ window } {
+	RVKDevice::RVKDevice(RVKWindow* window) : m_rvkWindow{ window } {
 		CreateInstance();
 		SetupDebugMessenger();
 		CreateSurface();
@@ -141,7 +141,7 @@ namespace RVK {
 		VK_CHECK(result, "Failed to Create Command Pool!");
 	}
 
-	void RVKDevice::CreateSurface() { m_rvkWindow.CreateWindowSurface(m_instance, &m_surface); }
+	void RVKDevice::CreateSurface() { m_rvkWindow->CreateWindowSurface(m_instance, &m_surface); }
 
 	bool RVKDevice::IsDeviceSuitable(VkPhysicalDevice device) {
 		QueueFamilyIndices indices = FindQueueFamilies(device);

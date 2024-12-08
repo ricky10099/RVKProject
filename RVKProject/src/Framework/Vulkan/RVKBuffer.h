@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vulkan/vulkan.h>
+
 #include "Framework/Vulkan/VKUtils.h"
 
 namespace RVK {

@@ -24,7 +24,7 @@ namespace RVK {
 		VkPhysicalDeviceProperties m_properties;
 
 	public:
-		RVKDevice(RVKWindow& window);
+		RVKDevice(RVKWindow* window);
 		~RVKDevice();
 
 		// Not copyable or movable
@@ -83,7 +83,7 @@ namespace RVK {
 		VkInstance m_instance;
 		VkDebugUtilsMessengerEXT m_debugMessenger;
 		VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
-		RVKWindow& m_rvkWindow;
+		RVKWindow* m_rvkWindow;
 		VkCommandPool m_commandPool;
 
 		VkDevice m_device;

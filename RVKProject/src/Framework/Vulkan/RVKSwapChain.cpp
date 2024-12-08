@@ -58,12 +58,12 @@ namespace RVK {
 			1,
 			&m_inFlightFences[m_currentFrame],
 			VK_TRUE,
-			std::numeric_limits<uint64_t>::max());
+			std::numeric_limits<u64>::max());
 
 		VkResult result = vkAcquireNextImageKHR(
 			RVKDevice::s_rvkDevice->GetDevice(),
 			m_swapChain,
-			std::numeric_limits<uint64_t>::max(),
+			std::numeric_limits<u64>::max(),
 			m_imageAvailableSemaphores[m_currentFrame],  // must be a not signaled semaphore
 			VK_NULL_HANDLE,
 			imageIndex);
@@ -95,7 +95,7 @@ namespace RVK {
 
 		vkResetFences(RVKDevice::s_rvkDevice->GetDevice(), 1, &m_inFlightFences[m_currentFrame]);
 
-		VkResult result = (vkQueueSubmit(RVKDevice::s_rvkDevice->GetGraphicsQueue(), 1, &submitInfo, m_inFlightFences[m_currentFrame]);
+		VkResult result = vkQueueSubmit(RVKDevice::s_rvkDevice->GetGraphicsQueue(), 1, &submitInfo, m_inFlightFences[m_currentFrame]);
 		VK_CHECK(result, "Failed to Submit Draw Command Buffer!");
 
 		VkPresentInfoKHR presentInfo = {};
@@ -110,7 +110,7 @@ namespace RVK {
 
 		presentInfo.pImageIndices = imageIndex;
 
-		auto result = vkQueuePresentKHR(RVKDevice::s_rvkDevice->GetPresentQueue(), &presentInfo);
+		result = vkQueuePresentKHR(RVKDevice::s_rvkDevice->GetPresentQueue(), &presentInfo);
 
 		m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 

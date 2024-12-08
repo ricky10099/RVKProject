@@ -1,5 +1,5 @@
 #include "Framework/Vulkan/RVKWindow.h"
-
+#include "Framework/Vulkan/RVKDevice.h"
 namespace RVK {
 	RVKWindow::RVKWindow(int width, int height, std::string name) : m_width{ width }, m_height{ height }, m_windowName{ name } {
 		InitWindow();
@@ -18,6 +18,8 @@ namespace RVK {
 		m_window = glfwCreateWindow(m_width, m_height, m_windowName.c_str(), nullptr, nullptr);
 		glfwSetWindowUserPointer(m_window, this);
 		glfwSetFramebufferSizeCallback(m_window, FramebufferResizeCallback);
+
+		RVKDevice::s_rvkDevice = std::make_shared<RVKDevice>(this);
 	}
 
 	void RVKWindow::CreateWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
