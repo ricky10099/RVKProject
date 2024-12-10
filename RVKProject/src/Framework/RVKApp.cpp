@@ -56,7 +56,7 @@ namespace RVK {
 		Camera camera{};
 
 		auto viewerObject = GameObject::CreateGameObject();
-		viewerObject.m_transform.translation.z = -2.5f;
+		viewerObject.m_transform.translation = { 0.0f, 1.0f, -2.5f };
 		KeyboardMovementController cameraController{};
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
@@ -68,7 +68,7 @@ namespace RVK {
 				std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
 			currentTime = newTime;
 
-			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, viewerObject);
+			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, gameObjects.at(0));
 			camera.SetViewYXZ(viewerObject.m_transform.translation, viewerObject.m_transform.rotation);
 
 			float aspect = m_rvkRenderer.GetAspectRatio();
@@ -88,7 +88,7 @@ namespace RVK {
 				GlobalUbo ubo{};
 				ubo.projection = camera.GetProjection();
 				ubo.view = camera.GetView();
-				ubo.inverseView = camera.GetInverseView();
+				//ubo.inverseView = camera.GetInverseView();
 				pointLightSystem.Update(frameInfo, ubo);
 				uboBuffers[frameIndex]->WriteToBuffer(&ubo);
 				uboBuffers[frameIndex]->Flush();
@@ -110,17 +110,17 @@ namespace RVK {
 
 	void RVKApp::LoadGameObjects() {
 		std::shared_ptr<Model> lveModel =
-			Model::CreateModelFromFile("models/flat_vase.obj");
+			Model::CreateModelFromFile("models/Male.obj");
 		auto flatVase = GameObject::CreateGameObject();
 		flatVase.m_model = lveModel;
-		flatVase.m_transform.translation = { -.5f, .5f, 0.f };
-		flatVase.m_transform.scale = { 3.f, 1.5f, 3.f };
+		flatVase.m_transform.translation = { -.5f, 1.5f, 0.f };
+		flatVase.m_transform.scale = { .1f, .1f, .1f };
 		gameObjects.emplace(flatVase.GetId(), std::move(flatVase));
 
 		lveModel = Model::CreateModelFromFile("models/smooth_vase.obj");
 		auto smoothVase = GameObject::CreateGameObject();
 		smoothVase.m_model = lveModel;
-		smoothVase.m_transform.translation = { .5f, .5f, 0.f };
+		smoothVase.m_transform.translation = { .5f, 1.5f, 0.f };
 		smoothVase.m_transform.scale = { 3.f, 1.5f, 3.f };
 		gameObjects.emplace(smoothVase.GetId(), std::move(smoothVase));
 
@@ -137,7 +137,7 @@ namespace RVK {
 			{.1f, 1.f, .1f},
 			{1.f, 1.f, .1f},
 			{.1f, 1.f, 1.f},
-			{1.f, 1.f, 1.f}  //
+			{1.f, 1.f, 1.f},
 		};
 
 		for (int i = 0; i < lightColors.size(); i++) {
@@ -146,8 +146,8 @@ namespace RVK {
 			auto rotateLight = glm::rotate(
 				glm::mat4(1.f),
 				(i * glm::two_pi<float>()) / lightColors.size(),
-				{ 0.f, -1.f, 0.f });
-			pointLight.m_transform.translation = glm::vec3(rotateLight * glm::vec4(-1.f, -1.f, -1.f, 1.f));
+				{ 0.f, 1.f, 0.f });
+			pointLight.m_transform.translation = glm::vec3(rotateLight * glm::vec4(1.f, 1.f, 1.f, 1.f));
 			gameObjects.emplace(pointLight.GetId(), std::move(pointLight));
 		}
 	}

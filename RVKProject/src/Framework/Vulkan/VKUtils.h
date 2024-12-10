@@ -3,7 +3,7 @@
 #include <vector>
 #include <fstream>
 
-#define GLFW_INCLUDE_VULKAN
+#include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 
 #define GLM_FORCE_RADIANS
@@ -20,7 +20,8 @@ namespace RVK {
     //const int MAX_OBJECTS = 20;
 
     const std::vector<const char*> DEVICE_EXTENSIONS = {
-        "VK_KHR_swapchain"
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+        VK_KHR_MAINTENANCE1_EXTENSION_NAME
     };
 
     static std::vector<char> ReadFile(const std::string& filename) {

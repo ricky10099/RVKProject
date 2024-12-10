@@ -16,12 +16,12 @@ namespace RVK {
 
 		const glm::mat4& GetProjection() const { return m_projectionMatrix; }
 		const glm::mat4& GetView() const { return m_viewMatrix; }
-		const glm::mat4& GetInverseView() const { return m_inverseViewMatrix; }
-		const glm::vec3 GetPosition() const { return glm::vec3(m_inverseViewMatrix[3]); }
+		//const glm::mat4& GetInverseView() const { return m_inverseViewMatrix; }
+		const glm::vec3 GetPosition() const { return glm::vec3(m_viewMatrix[3]); }
 
 	private:
 		glm::mat4 m_projectionMatrix{ 1.f };
 		glm::mat4 m_viewMatrix{ 1.f };
-		glm::mat4 m_inverseViewMatrix{ 1.f };
+		//glm::mat4 m_inverseViewMatrix{ 1.f };
 	};
 }  // namespace RVK
