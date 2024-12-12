@@ -126,7 +126,7 @@ namespace RVK {
 		viewport.x = 0.0f;
 		viewport.y = static_cast<float>(m_rvkSwapChain->GetSwapChainExtent().height);
 		viewport.width = static_cast<float>(m_rvkSwapChain->GetSwapChainExtent().width);
-		viewport.height = static_cast<float>(m_rvkSwapChain->GetSwapChainExtent().height * -1.0f);
+		viewport.height = static_cast<float>(m_rvkSwapChain->GetSwapChainExtent().height) * -1.0f;
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 		VkRect2D scissor{ {0, 0}, m_rvkSwapChain->GetSwapChainExtent() };

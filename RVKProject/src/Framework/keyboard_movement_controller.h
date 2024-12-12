@@ -20,7 +20,7 @@ namespace RVK {
 			int lookDown = GLFW_KEY_DOWN;
 		};
 
-		void MoveInPlaneXZ(GLFWwindow* window, float dt, GameObject& gameObject);
+		void MoveInPlaneXZ(GLFWwindow* window, float dt, GameObject& gameObject, GameObject& camera);
 
 		KeyMappings keys{};
 		float moveSpeed{ 3.f };

@@ -14,10 +14,12 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "external/GLFW/include"
 IncludeDir["spdlog"] = "external/spdlog/include"
 IncludeDir["Assimp"] = "external/Assimp/include"
+IncludeDir["PhysX"] = "external/PhysX/include"
 
 LibDir = {}
 LibDir["GLFW"] = "external/GLFW/lib-vc2022"
 LibDir["Assimp"] = "external/Assimp/lib"
+LibDir["PhysX"] = "external/PhysX/lib"
 
 project "RVKProject"
 	location "RVKProject"
@@ -45,12 +47,14 @@ project "RVKProject"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.Assimp}",
+		"%{IncludeDir.PhysX}",
 	}
 	
 	libdirs{
 		"%{VULKAN_SDK}/Lib",
 		"%{LibDir.GLFW}",
 		"%{LibDir.Assimp}",
+		"%{LibDir.PhysX}/%{cfg.buildcfg}",
 	}
 
 	links{
@@ -58,6 +62,12 @@ project "RVKProject"
 		"glfw3.lib",
 		"ImGui",
 		"assimp-vc143-mt.lib",
+		"PhysX_64.lib",
+		"PhysXCommon_64.lib",
+		"PhysXCooking_64.lib",
+		"PhysXFoundation_64.lib",
+		"PhysXPvdSDK_static_64.lib",
+		"PhysXExtensions_static_64.lib",
 	}
 
 	filter"system:windows"
@@ -68,7 +78,7 @@ project "RVKProject"
 		}
 
 		postbuildcommands{
-			"call $(SolutionDir)compileGLSL.bat",
+			"{COPY} ../%{LibDir.PhysX}/%{cfg.buildcfg}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\""
 		}
 
 	filter "configurations:Debug"

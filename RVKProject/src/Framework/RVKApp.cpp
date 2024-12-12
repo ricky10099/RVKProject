@@ -17,10 +17,46 @@ namespace RVK {
 			.SetMaxSets(MAX_FRAMES_IN_FLIGHT)
 			.AddPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT)
 			.Build();
+
+		/////////////////////////////////////////////////////////////////
+		m_pFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_defaultAllocator, m_defaultErrorCallback);
+		m_pPvd = physx::PxCreatePvd(*m_pFoundation);
+		physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
+		m_pPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
+		m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, physx::PxTolerancesScale(), true, m_pPvd);
+		m_pDispatcher = physx::PxDefaultCpuDispatcherCreate(8);
+		physx::PxSceneDesc scene_desc(m_pPhysics->getTolerancesScale());
+		scene_desc.gravity = physx::PxVec3(0, -9, 0);
+		scene_desc.filterShader = physx::PxDefaultSimulationFilterShader;
+		scene_desc.cpuDispatcher = m_pDispatcher;
+		m_pScene = m_pPhysics->createScene(scene_desc);
+		physx::PxPvdSceneClient* pvd_client = m_pScene->getScenePvdClient();
+		pvd_client->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+		pvd_client->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+		pvd_client->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+
+		// create simulation
+		m_pMaterial = m_pPhysics->createMaterial(5.0f, 0.0f, 0.0f);
+		physx::PxRigidStatic* groundPlane = PxCreatePlane(*m_pPhysics, physx::PxPlane(0, 1, 0, 50), *m_pMaterial);
+		m_pScene->addActor(*groundPlane);
+		/////////////////////////////////////////////////////////////////
+
 		LoadGameObjects();
 	}
 
-	RVKApp::~RVKApp() {}
+	RVKApp::~RVKApp() {
+		PxCloseExtensions();
+		m_pScene->release();
+		m_pDispatcher->release();
+		m_pPhysics->release();
+		if (m_pPvd) {
+			m_pPvd->disconnect();
+			physx::PxPvdTransport* transport = m_pPvd->getTransport();
+			m_pPvd->release();
+			transport->release();
+		}
+		m_pFoundation->release();
+	}
 
 	void RVKApp::Run() {
 		std::vector<std::unique_ptr<RVKBuffer>> uboBuffers(MAX_FRAMES_IN_FLIGHT);
@@ -68,8 +104,16 @@ namespace RVK {
 				std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
 			currentTime = newTime;
 
-			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, gameObjects.at(0));
+			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, gameObjects.at(0), viewerObject);
 			camera.SetViewYXZ(viewerObject.m_transform.translation, viewerObject.m_transform.rotation);
+
+			physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(gameObjects.at(0).m_transform.translation + glm::vec3(0.f, 1.5f, 0.f)) };
+			m_pBody->setGlobalPose(t);
+
+			m_pScene->simulate(frameTime);
+			m_pScene->fetchResults(true);
+
+			gameObjects.at(0).m_transform.translation = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p) - glm::vec3(0.f, 1.5f, 0.f);
 
 			float aspect = m_rvkRenderer.GetAspectRatio();
 			camera.SetPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
@@ -109,27 +153,52 @@ namespace RVK {
 	}
 
 	void RVKApp::LoadGameObjects() {
-		std::shared_ptr<Model> lveModel =
+		std::shared_ptr<Model> model =
 			Model::CreateModelFromFile("models/Male.obj");
-		auto flatVase = GameObject::CreateGameObject();
-		flatVase.m_model = lveModel;
-		flatVase.m_transform.translation = { -.5f, 1.5f, 0.f };
-		flatVase.m_transform.scale = { .1f, .1f, .1f };
-		gameObjects.emplace(flatVase.GetId(), std::move(flatVase));
+		auto male = GameObject::CreateGameObject();
+		male.m_model = model;
+		male.m_transform.translation = { -.5f, 1.5f, 0.f };
+		male.m_transform.scale = { .1f, .1f, .1f };
+		gameObjects.emplace(male.GetId(), std::move(male));
+		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
+		{
+			physx::PxTransform localTm(physx::PxVec3(-.5f, 1.5f, 0.f));
+			physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
+			m_pBody = m_pPhysics->createRigidDynamic(localTm);
+			shape->setLocalPose(relativePose);
+			m_pBody->attachShape(*shape);
+			physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
+			m_pScene->addActor(*m_pBody);
+			//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
+		}
+		shape = m_pPhysics->createShape(physx::PxBoxGeometry(1.f, 1.0f, 1.0f), *m_pMaterial);
+		{
+			physx::PxTransform localTm(physx::PxVec3(-.5f, .5f, 2.f));
+			physx::PxRigidStatic* b= m_pPhysics->createRigidStatic(localTm);
+			b->attachShape(*shape);
+			m_pScene->addActor(*b);
+		}
 
-		lveModel = Model::CreateModelFromFile("models/smooth_vase.obj");
+		model = Model::CreateModelFromFile("models/smooth_vase.obj");
 		auto smoothVase = GameObject::CreateGameObject();
-		smoothVase.m_model = lveModel;
+		smoothVase.m_model = model;
 		smoothVase.m_transform.translation = { .5f, 1.5f, 0.f };
 		smoothVase.m_transform.scale = { 3.f, 1.5f, 3.f };
 		gameObjects.emplace(smoothVase.GetId(), std::move(smoothVase));
 
-		lveModel = Model::CreateModelFromFile("models/quad.obj");
+		model = Model::CreateModelFromFile("models/quad.obj");
 		auto floor = GameObject::CreateGameObject();
-		floor.m_model = lveModel;
-		floor.m_transform.translation = { 0.f, .5f, 0.f };
+		floor.m_model = model;
+		floor.m_transform.translation = { 2.f, .5f, 2.f };
 		floor.m_transform.scale = { 3.f, 1.f, 3.f };
 		gameObjects.emplace(floor.GetId(), std::move(floor));
+		shape = m_pPhysics->createShape(physx::PxBoxGeometry(3.0f, 0.001f, 3.0f), *m_pMaterial);
+		{
+			physx::PxTransform localTm(physx::PxVec3(2.0f, .5f, 2.f));
+			m_pFloor = m_pPhysics->createRigidStatic(localTm);
+			m_pFloor->attachShape(*shape);
+			m_pScene->addActor(*m_pFloor);
+		}
 
 		std::vector<glm::vec3> lightColors{
 			{1.f, .1f, .1f},
