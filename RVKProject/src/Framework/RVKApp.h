@@ -22,7 +22,7 @@ namespace RVK {
 	  NO_COPY(RVKApp)
 
 	  void Run();
-	  void LoadScene(const Scene* scene);
+	  void LoadScene(std::unique_ptr<GameScene> scene);
 
 	 private:
 	  void LoadGameObjects();
@@ -34,7 +34,10 @@ namespace RVK {
 	  std::unique_ptr<RVKDescriptorPool> globalPool{};
 	  GameObject::Map gameObjects;
 
-	  std::unique_ptr<Scene> m_currentScene;
+	  std::unique_ptr<GameScene> m_currentScene;
+
+	  Entity m_test;
+	  Entity m_testLight;
 
 	  ////////////////////////////////////////////////////////////
 	  physx::PxDefaultAllocator m_defaultAllocator;

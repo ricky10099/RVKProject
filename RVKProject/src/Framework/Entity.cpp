@@ -1,7 +1,7 @@
 #include "Framework/Entity.h"
 
 namespace RVK {
-	Entity::Entity(entt::entity entity, std::string_view name, const Scene* scene) : m_entity(entity), m_name(name), m_scene(scene){}
+	Entity::Entity(entt::entity entity, GameScene* scene, std::string_view name) : m_entity(entity), m_scene(scene), m_name(name){}
 
 	void Entity::Move(const glm::vec3& translation) {
 		m_position += translation;

@@ -3,8 +3,11 @@
 #include "Framework/Vulkan/VKUtils.h"
 
 namespace RVK {
-	class Camera {
+	class SceneCamera {
 	public:
+		SceneCamera();
+		~SceneCamera() = default;
+
 		void SetOrthographicProjection(
 			float left, float right, float top, float bottom, float near, float far);
 		void SetPerspectiveProjection(float fovy, float aspect, float near, float far);
@@ -23,5 +26,7 @@ namespace RVK {
 		glm::mat4 m_projectionMatrix{ 1.f };
 		glm::mat4 m_viewMatrix{ 1.f };
 		//glm::mat4 m_inverseViewMatrix{ 1.f };
+
+		float m_aspect = 1280.0f / 720.0f;
 	};
 }  // namespace RVK

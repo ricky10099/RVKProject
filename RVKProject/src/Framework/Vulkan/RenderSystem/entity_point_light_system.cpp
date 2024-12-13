@@ -1,7 +1,8 @@
-#include "Framework/Vulkan/RenderSystem/point_light_system.h"
+#include "Framework/Vulkan/RenderSystem/entity_point_light_system.h"
 
 #include "Framework/Vulkan/RVKDevice.h"
 #include "Framework/Vulkan/FrameInfo.h"
+#include "Framework/Component.h"
 
 namespace RVK {
 	struct PointLightPushConstants {
@@ -10,16 +11,16 @@ namespace RVK {
 		float radius;
 	};
 
-	PointLightSystem::PointLightSystem(VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout) {
+	EntityPointLightSystem::EntityPointLightSystem(VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout) {
 		CreatePipelineLayout(globalSetLayout);
 		CreatePipeline(renderPass);
 	}
 
-	PointLightSystem::~PointLightSystem() {
+	EntityPointLightSystem::~EntityPointLightSystem() {
 		vkDestroyPipelineLayout(RVKDevice::s_rvkDevice->GetDevice(), m_pipelineLayout, nullptr);
 	}
 
-	void PointLightSystem::CreatePipelineLayout(VkDescriptorSetLayout globalSetLayout) {
+	void EntityPointLightSystem::CreatePipelineLayout(VkDescriptorSetLayout globalSetLayout) {
 		VkPushConstantRange pushConstantRange{};
 		pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
 		pushConstantRange.offset = 0;
@@ -38,7 +39,7 @@ namespace RVK {
 		VK_CHECK(result, "Failed to Create Pipeline Layout!");
 	}
 
-	void PointLightSystem::CreatePipeline(VkRenderPass renderPass) {
+	void EntityPointLightSystem::CreatePipeline(VkRenderPass renderPass) {
 		VK_ASSERT(m_pipelineLayout != nullptr, "Cannot Create Pipeline before Pipeline Layout!");
 
 		PipelineConfigInfo pipelineConfig{};
@@ -55,40 +56,29 @@ namespace RVK {
 		);
 	}
 
-	void PointLightSystem::Update(FrameInfo& frameInfo, GlobalUbo& ubo) {
+	void EntityPointLightSystem::Update(FrameInfo& frameInfo, GlobalUbo& ubo, entt::registry& registry) {
 		auto rotateLight = glm::rotate(glm::mat4(1.f), 0.5f * frameInfo.frameTime, { 0.f, -1.f, 0.f });
 		int lightIndex = 0;
-		for (auto& kv : frameInfo.gameObjects) {
-			auto& obj = kv.second;
-			if (obj.m_pointLight == nullptr) continue;
+
+		auto view = registry.view<Components::PointLight, Components::Transform>();
+		for (auto entity : view)
+		{
+			auto& pointLight = view.get<Components::PointLight>(entity);
+			auto& transform = view.get<Components::Transform>(entity);
 
 			assert(lightIndex < MAX_LIGHTS && "Point lights exceed maximum specified");
+			transform.position = glm::vec3(rotateLight * glm::vec4(transform.position, 1.f));
 
-			// update light position
-			obj.m_transform.translation = glm::vec3(rotateLight * glm::vec4(obj.m_transform.translation, 1.f));
-
-			// copy light to ubo
-			ubo.pointLights[lightIndex].position = glm::vec4(obj.m_transform.translation, 1.f);
-			ubo.pointLights[lightIndex].color = glm::vec4(obj.m_color, obj.m_pointLight->lightIntensity);
+			//copy light to ubo
+			ubo.pointLights[lightIndex].position = glm::vec4(transform.position, 1.f);
+			ubo.pointLights[lightIndex].color = glm::vec4(pointLight.color, pointLight.lightIntensity);
 
 			lightIndex += 1;
 		}
 		ubo.numLights = lightIndex;
 	}
 
-	void PointLightSystem::Render(FrameInfo& frameInfo) {
-		//// sort lights
-		//std::map<float, u32> sorted;
-		//for (auto& kv : frameInfo.gameObjects) {
-		//	auto& obj = kv.second;
-		//	if (obj.m_pointLight == nullptr) continue;
-
-		//	// calculate distance
-		//	auto offset = frameInfo.camera.GetPosition() - obj.m_transform.translation;
-		//	float disSquared = glm::dot(offset, offset);
-		//	sorted[disSquared] = obj.GetId();
-		//}
-
+	void EntityPointLightSystem::Render(FrameInfo& frameInfo, entt::registry& registry) {
 		m_rvkPipeline->Bind(frameInfo.commandBuffer);
 
 		vkCmdBindDescriptorSets(
@@ -101,24 +91,25 @@ namespace RVK {
 			0,
 			nullptr);
 
-		//// iterate through sorted lights in reverse order
-		//for (auto it = sorted.rbegin(); it != sorted.rend(); ++it) {
-		//	// use game obj id to find light object
-		//	auto& obj = frameInfo.gameObjects.at(it->second);
+		auto view = registry.view<Components::PointLight, Components::Transform>();
+		for (auto entity : view) {
+			auto& pointLight = view.get<Components::PointLight>(entity);
+			auto& transform = view.get<Components::Transform>(entity);
 
-		//	PointLightPushConstants push{};
-		//	push.position = glm::vec4(obj.m_transform.translation, 1.f);
-		//	push.color = glm::vec4(obj.m_color, obj.m_pointLight->lightIntensity);
-		//	push.radius = obj.m_transform.scale.x;
+			PointLightPushConstants push{};
+			push.position = glm::vec4(transform.position, 1.f);
+			push.color = glm::vec4(pointLight.color, pointLight.lightIntensity);
 
-		//	vkCmdPushConstants(
-		//		frameInfo.commandBuffer,
-		//		m_pipelineLayout,
-		//		VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-		//		0,
-		//		sizeof(PointLightPushConstants),
-		//		&push);
-		//	vkCmdDraw(frameInfo.commandBuffer, 6, 1, 0, 0);
-		//}
+			push.radius = pointLight.radius;
+
+			vkCmdPushConstants(
+				frameInfo.commandBuffer,
+				m_pipelineLayout,
+				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+				0,
+				sizeof(PointLightPushConstants),
+				&push);
+			vkCmdDraw(frameInfo.commandBuffer, 6, 1, 0, 0);
+		}
 	}
 }  // namespace RVK

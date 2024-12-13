@@ -1,7 +1,11 @@
 #include "Framework/Camera.h"
 
 namespace RVK {
-	void Camera::SetOrthographicProjection(
+	SceneCamera::SceneCamera() {
+		SetPerspectiveProjection(glm::radians(50.f), m_aspect, 0.1f, 100.f);
+	}
+
+	void SceneCamera::SetOrthographicProjection(
 		float left, float right, float top, float bottom, float near, float far) {
 		m_projectionMatrix = glm::mat4{ 1.0f };
 		m_projectionMatrix[0][0] = 2.f / (right - left);
@@ -12,7 +16,7 @@ namespace RVK {
 		m_projectionMatrix[3][2] = -near / (far - near);
 	}
 
-	void Camera::SetPerspectiveProjection(float fovy, float aspect, float near, float far) {
+	void SceneCamera::SetPerspectiveProjection(float fovy, float aspect, float near, float far) {
 		VK_ASSERT(glm::abs(aspect - std::numeric_limits<float>::epsilon()) > 0.0f);
 		//const float tanHalfFovy = tan(fovy / 2.f);
 		//m_projectionMatrix = glm::mat4{ 0.0f };
@@ -25,7 +29,7 @@ namespace RVK {
 		m_projectionMatrix = glm::perspectiveLH(fovy, aspect, 0.1f, 100.0f);
 	}
 
-	void Camera::SetViewDirection(glm::vec3 position, glm::vec3 direction, glm::vec3 up) {
+	void SceneCamera::SetViewDirection(glm::vec3 position, glm::vec3 direction, glm::vec3 up) {
 		const glm::vec3 w{ glm::normalize(direction) };
 		const glm::vec3 u{ glm::normalize(glm::cross(w, up)) };
 		const glm::vec3 v{ glm::cross(w, u) };
@@ -59,11 +63,11 @@ namespace RVK {
 		//m_inverseViewMatrix[3][2] = position.z;
 	}
 
-	void Camera::SetViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up) {
+	void SceneCamera::SetViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up) {
 		SetViewDirection(position, target - position, up);
 	}
 
-	void Camera::SetViewYXZ(glm::vec3 position, glm::vec3 rotation) {
+	void SceneCamera::SetViewYXZ(glm::vec3 position, glm::vec3 rotation) {
 		const float c3 = glm::cos(rotation.z);
 		const float s3 = glm::sin(rotation.z);
 		const float c2 = glm::cos(rotation.x);
