@@ -36,7 +36,7 @@ namespace RVK {
 		pvd_client->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 
 		// create simulation
-		m_pMaterial = m_pPhysics->createMaterial(5.0f, 0.0f, 0.0f);
+		m_pMaterial = m_pPhysics->createMaterial(0.0f, 0.0f, 0.0f);
 		physx::PxRigidStatic* groundPlane = PxCreatePlane(*m_pPhysics, physx::PxPlane(0, 1, 0, 50), *m_pMaterial);
 		m_pScene->addActor(*groundPlane);
 		/////////////////////////////////////////////////////////////////

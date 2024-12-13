@@ -70,16 +70,19 @@ project "RVKProject"
 		"PhysXExtensions_static_64.lib",
 	}
 
+	postbuildcommands{
+		"call $(SolutionDir)compileGLSL.bat",
+		"{COPY} ../%{LibDir.PhysX}/%{cfg.buildcfg}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\""
+	}
+
+	buildoptions{"/utf-8"}
+
 	filter"system:windows"
 		systemversion "latest"
 		
 		defines{
 			"GLFW_INCLUDE_NONE",
-		}
-
-		postbuildcommands{
-			"{COPY} ../%{LibDir.PhysX}/%{cfg.buildcfg}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\""
-		}
+		}		
 
 	filter "configurations:Debug"
 		defines "VK_DEBUG"
