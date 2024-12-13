@@ -7,6 +7,8 @@
 #include "Framework/Vulkan/RVKRenderer.h"
 #include "Framework/Vulkan/RVKDescriptors.h"
 #include "Framework/GameObject.h"
+#include "Framework/Scene.h"
+#include "Framework/Entity.h"
 
 namespace RVK {
 	class RVKApp {
@@ -20,6 +22,7 @@ namespace RVK {
 	  NO_COPY(RVKApp)
 
 	  void Run();
+	  void LoadScene(const Scene* scene);
 
 	 private:
 	  void LoadGameObjects();
@@ -30,6 +33,8 @@ namespace RVK {
 	  // note: order of declarations matters
 	  std::unique_ptr<RVKDescriptorPool> globalPool{};
 	  GameObject::Map gameObjects;
+
+	  std::unique_ptr<Scene> m_currentScene;
 
 	  ////////////////////////////////////////////////////////////
 	  physx::PxDefaultAllocator m_defaultAllocator;

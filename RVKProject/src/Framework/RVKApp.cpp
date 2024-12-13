@@ -1,13 +1,13 @@
 #include "Framework/RVKApp.h"
 
+#include <glm/gtc/constants.hpp>
+
 #include "Framework/keyboard_movement_controller.h"
 #include "Framework/Vulkan/RVKBuffer.h"
 #include "Framework/Camera.h"
 #include "Framework/Vulkan/RenderSystem/simple_render_system.h"
 #include "Framework/Vulkan/RenderSystem/point_light_system.h"
 #include "Framework/Vulkan/FrameInfo.h"
-
-#include <glm/gtc/constants.hpp>
 
 namespace RVK {
 
