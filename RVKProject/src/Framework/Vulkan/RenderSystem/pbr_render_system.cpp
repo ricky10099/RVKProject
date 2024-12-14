@@ -1,28 +1,27 @@
-#include "Framework/Vulkan/RenderSystem/entity_render_system.h"
+#include "Framework/Vulkan/RenderSystem/pbr_render_system.h"
 
 #include "Framework/Vulkan/RVKDevice.h"
-#include "Framework/Component.h"
 
 namespace RVK {
-	struct EntityPushConstantData {
+	struct SimplePushConstantData {
 		glm::mat4 modelMatrix{ 1.f };
 		glm::mat4 normalMatrix{ 1.f };
 	};
 
-	EntityRenderSystem::EntityRenderSystem(VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout) {
+	PBRRenderSystem::PBRRenderSystem(VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout) {
 		CreatePipelineLayout(globalSetLayout);
 		CreatePipeline(renderPass);
 	}
 
-	EntityRenderSystem::~EntityRenderSystem() {
+	PBRRenderSystem::~PBRRenderSystem() {
 		vkDestroyPipelineLayout(RVKDevice::s_rvkDevice->GetDevice(), m_pipelineLayout, nullptr);
 	}
 
-	void EntityRenderSystem::CreatePipelineLayout(VkDescriptorSetLayout globalSetLayout) {
+	void PBRRenderSystem::CreatePipelineLayout(VkDescriptorSetLayout globalSetLayout) {
 		VkPushConstantRange pushConstantRange{};
 		pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
 		pushConstantRange.offset = 0;
-		pushConstantRange.size = sizeof(EntityPushConstantData);
+		pushConstantRange.size = sizeof(SimplePushConstantData);
 
 		std::vector<VkDescriptorSetLayout> descriptorSetLayouts{ globalSetLayout };
 
@@ -37,7 +36,7 @@ namespace RVK {
 		VK_CHECK(result, "Failed to Create Pipeline Layout!");
 	}
 
-	void EntityRenderSystem::CreatePipeline(VkRenderPass renderPass) {
+	void PBRRenderSystem::CreatePipeline(VkRenderPass renderPass) {
 		VK_ASSERT(m_pipelineLayout != nullptr, "Cannot Create Pipeline before Pipeline Layout!");
 
 		PipelineConfigInfo pipelineConfig{};
@@ -51,7 +50,7 @@ namespace RVK {
 		);
 	}
 
-	void EntityRenderSystem::RenderEntities(FrameInfo& frameInfo, entt::registry& registry) {
+	void PBRRenderSystem::RenderGameObjects(FrameInfo& frameInfo) {
 		m_rvkPipeline->Bind(frameInfo.commandBuffer);
 
 		vkCmdBindDescriptorSets(
@@ -64,27 +63,22 @@ namespace RVK {
 			0,
 			nullptr);
 
-		auto view = registry.view<Components::Mesh, Components::Transform>();
-		for (auto entity : view)
-		{
-			auto& mesh = view.get<Components::Mesh>(entity);
-			auto& transform = view.get<Components::Transform>(entity);
-
-			if (mesh.model == nullptr) continue;
-			EntityPushConstantData push{};
-			push.modelMatrix = mesh.offset.GetTransform() * transform.GetTransform();
-			push.normalMatrix = mesh.offset.NormalMatrix() * transform.NormalMatrix();
+		for (auto& kv : frameInfo.gameObjects) {
+			auto& obj = kv.second;
+			if (obj.m_model == nullptr) continue;
+			SimplePushConstantData push{};
+			push.modelMatrix = obj.m_transform.Mat4();
+			push.normalMatrix = obj.m_transform.NormalMatrix();
 
 			vkCmdPushConstants(
 				frameInfo.commandBuffer,
 				m_pipelineLayout,
 				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
 				0,
-				sizeof(EntityPushConstantData),
+				sizeof(SimplePushConstantData),
 				&push);
-
-			static_cast<Model*>(mesh.model.get())->Bind(frameInfo.commandBuffer);
-			static_cast<Model*>(mesh.model.get())->Draw(frameInfo.commandBuffer);
+			obj.m_model->Bind(frameInfo.commandBuffer);
+			obj.m_model->Draw(frameInfo.commandBuffer);
 		}
 	}
 }  // namespace RVK

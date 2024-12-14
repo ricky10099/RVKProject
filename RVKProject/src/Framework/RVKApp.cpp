@@ -44,12 +44,11 @@ namespace RVK {
 		m_pScene->addActor(*groundPlane);
 		/////////////////////////////////////////////////////////////////
 
-		LoadScene(std::make_unique<GameScene>());
+		LoadScene(std::make_unique<Scene>());
 		LoadGameObjects();
 	}
 
 	RVKApp::~RVKApp() {
-		PxCloseExtensions();
 		m_pScene->release();
 		m_pDispatcher->release();
 		m_pPhysics->release();
@@ -101,25 +100,26 @@ namespace RVK {
 		auto currentTime = std::chrono::high_resolution_clock::now();
 
 		m_test = m_currentScene->CreateEntity("test");
-		m_test.AddComponent<Components::Transform>(glm::vec3(0.f), glm::vec3(0.0f), glm::vec3(0.1f));
+		m_test.AddComponent<Components::Transform>(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
 		m_test.AddComponent<Components::Mesh>("models/Male.obj");
 		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
 		{
-			physx::PxTransform localTm(physx::PxVec3(0.0f, 0.0f, 0.f));
+			physx::PxTransform localTm(physx::PxVec3(0.0f, 3.0f, 0.f));
 			physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
 			m_pBody = m_pPhysics->createRigidDynamic(localTm);
 			shape->setLocalPose(relativePose);
 			m_pBody->attachShape(*shape);
 			physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
 			m_pScene->addActor(*m_pBody);
-			//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
+			m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
 		}
-		m_currentScene->CreateEntity("Floor")
-			.AddComponent<Components::Mesh>("models/quad.obj")
-			.AddComponent<Components::Transform>(glm::vec3(0.0f, -5.0f, 0.0f), glm::vec3(0.0f), glm::vec3(5.0f));
-		shape = m_pPhysics->createShape(physx::PxBoxGeometry(3.0f, 0.001f, 3.0f), *m_pMaterial);
+
+		m_testFloor = m_currentScene->CreateEntity("Floor");
+		m_testFloor.AddComponent<Components::Mesh>("models/quad.obj").SetOffsetPosition(glm::vec3(1.0f));
+		m_testFloor.AddComponent<Components::Transform>(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(5.0f));
+		shape = m_pPhysics->createShape(physx::PxBoxGeometry(5.0f, 0.001f, 5.0f), *m_pMaterial);
 		{
-			physx::PxTransform localTm(physx::PxVec3(0.0f, -0.5f, 0.0f));
+			physx::PxTransform localTm(physx::PxVec3(0.0f, -3.0f, 0.0f));
 			m_pFloor = m_pPhysics->createRigidStatic(localTm);
 			m_pFloor->attachShape(*shape);
 			m_pScene->addActor(*m_pFloor);
@@ -178,9 +178,12 @@ namespace RVK {
 					cam.camera.SetPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
 				}
 			}
-			physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(m_test.GetComponent<Components::Transform>().position + glm::vec3(0.f, 1.5f, 0.f))};
-			m_pBody->setGlobalPose(t);
-
+			{
+				Components::Transform pos = m_test.GetComponent<Components::Transform>();
+				glm::vec3 bodyPos = pos.position + glm::vec3(0.f, 1.5f, 0.f);
+				physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
+				m_pBody->setGlobalPose(t);
+			}
 			m_pScene->simulate(frameTime);
 			m_pScene->fetchResults(true);
 
@@ -293,7 +296,7 @@ namespace RVK {
 		}
 	}
 
-	void RVKApp::LoadScene(std::unique_ptr<GameScene> scene) {
+	void RVKApp::LoadScene(std::unique_ptr<Scene> scene) {
 		m_currentScene = std::move(scene);
 	}
 }  // namespace RVK

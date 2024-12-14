@@ -6,7 +6,7 @@ namespace RVK {
 	class Entity {
 	public:
 		Entity() = default;
-		Entity(entt::entity entity, GameScene* scene, std::string_view name = "Empty Entity");
+		Entity(entt::entity entity, Scene* scene, std::string_view name = "Empty Entity");
 		Entity(const Entity& other) = default;
 
 		void Move(const glm::vec3& translation);
@@ -15,9 +15,8 @@ namespace RVK {
 		entt::entity GetEntityID() { return m_entity; }
 
 		template<typename T, typename... Args>
-		Entity AddComponent(Args&&... args){
-			m_scene->m_entityRoot.emplace<T>(m_entity, std::forward<Args>(args)...);
-			return &this;
+		T& AddComponent(Args&&... args){
+			return m_scene->m_entityRoot.emplace<T>(m_entity, std::forward<Args>(args)...);
 		}
 
 		template<typename T>
@@ -37,9 +36,9 @@ namespace RVK {
 
 	private:
 		entt::entity m_entity{ entt::null };
-		GameScene* m_scene = nullptr;
+		Scene* m_scene = nullptr;
 		//const Entity* m_parent;
-		std::vector<std::shared_ptr<Entity>> m_children;
+		//std::vector<std::shared_ptr<Entity>> m_children;
 		std::string_view m_name;
 		glm::vec3 m_position{0.f, 0.f, 0.f};
 		bool m_isVisible = true;

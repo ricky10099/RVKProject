@@ -4,6 +4,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
+#include <PxPhysicsAPI.h>
+
 #include "Framework/Utils.h"
 #include "Framework/Model.h"
 #include "Framework/Camera.h"
@@ -48,11 +50,21 @@ namespace RVK::Components {
 
 	struct Mesh {
 		std::shared_ptr<Model> model;
+		Transform offset{ glm::vec3(0.0f) };
 
 		Mesh() = default;
 		Mesh(const Mesh&) = default;
 		Mesh(const std::string& path)
 			: model(Model::CreateModelFromFile(path)) {}
+		void SetOffsetPosition(const glm::vec3& pos) {
+			offset.position = pos;
+		}
+		void SetOffsetRotation(const glm::vec3& rot) {
+			offset.rotation = rot;
+		}
+		void SetOffetScale(const glm::vec3& scale) {
+			offset.scale = scale;
+		}
 	};
 
 	struct Camera {
@@ -78,5 +90,17 @@ namespace RVK::Components {
 			this->radius = radius;
 		}
 	};
+
+	//struct RigidBody {
+	//	physx::PxRigidBody* rigidBody;
+	//	Transform offset{glm::vec3(0.0f)};
+
+	//	RigidBody() = default;
+	//	RigidBody(const RigidBody&) = default;
+	//	RigidBody(const glm::vec3& pos, bool isStatic = true): RigidBody(pos, glm::vec3(0.0f), glm::vec3(1.0f), isStatic) {}
+	//	RigidBody(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, bool isStatic) {
+	//		rigidBody = 
+	//	}
+	//};
 
 }

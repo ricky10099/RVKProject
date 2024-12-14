@@ -8,16 +8,16 @@
 
 namespace RVK {
 	class Entity;
-	class GameScene {
+	class Scene {
 	public:
-		GameScene();
-		~GameScene() = default;
+		Scene();
+		~Scene() = default;
 
 		//virtual void Init();
 		//virtual void PreUpdate();
 		//virtual void Update([[maybe_unused]] float deltaTime);
 
-		Entity CreateEntity(std::string_view name);
+		Entity& CreateEntity(std::string_view name);
 
 		bool IsRunning() { return m_isRunning; }
 		bool IsPause() { return m_isPaused; }
