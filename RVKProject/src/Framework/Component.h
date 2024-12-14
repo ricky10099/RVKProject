@@ -28,6 +28,8 @@ namespace RVK::Components {
 		Transform(const Transform&) = default;
 		Transform(const glm::vec3& pos)
 			: position(pos) {}
+		Transform(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
+			: position(pos), rotation(rot), scale(sca) {}
 
 		glm::mat4 GetTransform() const {
 			return glm::translate(glm::mat4(1.0f), position)*
@@ -60,6 +62,7 @@ namespace RVK::Components {
 
 		Camera() = default;
 		Camera(const Camera&) = default;
+		Camera(bool curr) : currentCamera(curr) {}
 	};
 
 	struct PointLight {

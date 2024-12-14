@@ -15,8 +15,9 @@ namespace RVK {
 		entt::entity GetEntityID() { return m_entity; }
 
 		template<typename T, typename... Args>
-		T& AddComponent(Args&&... args){
-			return m_scene->m_entityRoot.emplace<T>(m_entity, std::forward<Args>(args)...);
+		Entity AddComponent(Args&&... args){
+			m_scene->m_entityRoot.emplace<T>(m_entity, std::forward<Args>(args)...);
+			return &this;
 		}
 
 		template<typename T>
