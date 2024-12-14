@@ -2,6 +2,12 @@
 
 #include "Framework/Vulkan/VKUtils.h"
 #include "Framework/Vulkan/RVKBuffer.h"
+#include "Framework/Materials.h"
+#include "Framework/Texture.h"
+
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
 
 namespace RVK {
 	class Model {
@@ -26,6 +32,22 @@ namespace RVK {
 			std::vector<u32> indices{};
 
 			void LoadModel(const std::string& filepath);
+		};
+		 
+		struct AssimpLoader {
+			std::vector<Vertex> vertices{};
+			std::vector<u32> indices{};
+			std::vector<Material> m_materials;
+			std::vector<Material::MaterialTextures> m_materialTextures{};
+			std::vector<std::shared_ptr<Texture>> m_textures;
+
+			void LoadModel(std::string_view filepath);
+			void LoadMaterials(const aiScene* scene);
+			void LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial);
+			void LoadMap(const aiMaterial* fbxMaterial, aiTextureType textureType, int materialIndex);
+			//void MarkNode(const aiNode* fbxNodePtr, const aiScene* scene);
+			void ProcessNode(const aiNode* fbxNodePtr);
+			std::shared_ptr<Texture> LoadTexture(std::string const& filepath, bool useSRGB);
 		};
 
 		Model(const Model::Builder& builder);

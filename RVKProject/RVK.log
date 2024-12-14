@@ -1,32 +1,32 @@
-[14:31:08] [trace] CORE: windows_get_device_registry_files: GUID for 2 is not SoftwareComponent skipping
-[14:31:08] [trace] CORE: Searching for ICD drivers named .\nvoglv64.dll
-[14:31:08] [trace] CORE: Loading layer library C:\VulkanSDK\1.3.290.0\Bin\.\VkLayer_khronos_validation.dll
-[14:31:08] [trace] CORE: Loading layer library C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll
-[14:31:08] [trace] CORE: Loading layer library C:\Windows\System32\DriverStore\FileRepository\nvmdi.inf_amd64_7b5ca18eebabd2c0\.\nvoglv64.dll
-[14:31:09] [info] CORE: Available Extensions:
-[14:31:09] [info] CORE: 	VK_KHR_device_group_creation
-[14:31:09] [info] CORE: 	VK_KHR_external_fence_capabilities
-[14:31:09] [info] CORE: 	VK_KHR_external_memory_capabilities
-[14:31:09] [info] CORE: 	VK_KHR_external_semaphore_capabilities
-[14:31:09] [info] CORE: 	VK_KHR_get_physical_device_properties2
-[14:31:09] [info] CORE: 	VK_KHR_get_surface_capabilities2
-[14:31:09] [info] CORE: 	VK_KHR_surface
-[14:31:09] [info] CORE: 	VK_KHR_surface_protected_capabilities
-[14:31:09] [info] CORE: 	VK_KHR_win32_surface
-[14:31:09] [info] CORE: 	VK_EXT_debug_report
-[14:31:09] [info] CORE: 	VK_EXT_debug_utils
-[14:31:09] [info] CORE: 	VK_EXT_surface_maintenance1
-[14:31:09] [info] CORE: 	VK_EXT_swapchain_colorspace
-[14:31:09] [info] CORE: 	VK_NV_external_memory_capabilities
-[14:31:09] [info] CORE: 	VK_KHR_portability_enumeration
-[14:31:09] [info] CORE: 	VK_LUNARG_direct_driver_loading
-[14:31:09] [info] CORE: Required Extensions:
-[14:31:09] [info] CORE: 	VK_KHR_surface
-[14:31:09] [info] CORE: 	VK_KHR_win32_surface
-[14:31:09] [info] CORE: 	VK_EXT_debug_utils
-[14:31:09] [info] CORE: Device count: 1
-[14:31:09] [info] CORE: Physical Device: 
-[14:31:09] [info] CORE: Present mode: Mailbox
-[14:31:37] [trace] CORE: Unloading layer library C:\Windows\System32\DriverStore\FileRepository\nvmdi.inf_amd64_7b5ca18eebabd2c0\.\nvoglv64.dll
-[14:31:37] [trace] CORE: Unloading layer library C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll
-[14:31:37] [trace] CORE: Unloading layer library C:\VulkanSDK\1.3.290.0\Bin\.\VkLayer_khronos_validation.dll
+[17:03:59] [trace] CORE: windows_get_device_registry_files: GUID for 2 is not SoftwareComponent skipping
+[17:03:59] [trace] CORE: Searching for ICD drivers named .\nvoglv64.dll
+[17:03:59] [trace] CORE: Loading layer library C:\VulkanSDK\1.3.290.0\Bin\.\VkLayer_khronos_validation.dll
+[17:03:59] [trace] CORE: Loading layer library C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll
+[17:03:59] [trace] CORE: Loading layer library C:\WINDOWS\System32\DriverStore\FileRepository\nvmdi.inf_amd64_7b5ca18eebabd2c0\.\nvoglv64.dll
+[17:03:59] [info] CORE: Available Extensions:
+[17:03:59] [info] CORE: 	VK_KHR_device_group_creation
+[17:03:59] [info] CORE: 	VK_KHR_external_fence_capabilities
+[17:03:59] [info] CORE: 	VK_KHR_external_memory_capabilities
+[17:03:59] [info] CORE: 	VK_KHR_external_semaphore_capabilities
+[17:03:59] [info] CORE: 	VK_KHR_get_physical_device_properties2
+[17:03:59] [info] CORE: 	VK_KHR_get_surface_capabilities2
+[17:03:59] [info] CORE: 	VK_KHR_surface
+[17:03:59] [info] CORE: 	VK_KHR_surface_protected_capabilities
+[17:03:59] [info] CORE: 	VK_KHR_win32_surface
+[17:03:59] [info] CORE: 	VK_EXT_debug_report
+[17:03:59] [info] CORE: 	VK_EXT_debug_utils
+[17:03:59] [info] CORE: 	VK_EXT_surface_maintenance1
+[17:03:59] [info] CORE: 	VK_EXT_swapchain_colorspace
+[17:03:59] [info] CORE: 	VK_NV_external_memory_capabilities
+[17:03:59] [info] CORE: 	VK_KHR_portability_enumeration
+[17:03:59] [info] CORE: 	VK_LUNARG_direct_driver_loading
+[17:03:59] [info] CORE: Required Extensions:
+[17:03:59] [info] CORE: 	VK_KHR_surface
+[17:03:59] [info] CORE: 	VK_KHR_win32_surface
+[17:03:59] [info] CORE: 	VK_EXT_debug_utils
+[17:03:59] [info] CORE: Device count: 1
+[17:03:59] [info] CORE: Physical Device: 
+[17:03:59] [info] CORE: Present mode: Mailbox
+[17:04:10] [trace] CORE: Unloading layer library C:\WINDOWS\System32\DriverStore\FileRepository\nvmdi.inf_amd64_7b5ca18eebabd2c0\.\nvoglv64.dll
+[17:04:10] [trace] CORE: Unloading layer library C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll
+[17:04:10] [trace] CORE: Unloading layer library C:\VulkanSDK\1.3.290.0\Bin\.\VkLayer_khronos_validation.dll

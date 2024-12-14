@@ -101,7 +101,7 @@ namespace RVK {
 
 		m_test = m_currentScene->CreateEntity("test");
 		m_test.AddComponent<Components::Transform>(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
-		m_test.AddComponent<Components::Mesh>("models/Male.obj");
+		m_test.AddComponent<Components::Mesh>("models/Male.obj").SetOffsetPosition(glm::vec3(0.0f, -1.5f, 0.0f));
 		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
 		{
 			physx::PxTransform localTm(physx::PxVec3(0.0f, 3.0f, 0.f));
@@ -111,11 +111,11 @@ namespace RVK {
 			m_pBody->attachShape(*shape);
 			physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
 			m_pScene->addActor(*m_pBody);
-			m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
+			//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
 		}
 
 		m_testFloor = m_currentScene->CreateEntity("Floor");
-		m_testFloor.AddComponent<Components::Mesh>("models/quad.obj").SetOffsetPosition(glm::vec3(1.0f));
+		m_testFloor.AddComponent<Components::Mesh>("models/quad.obj");
 		m_testFloor.AddComponent<Components::Transform>(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(5.0f));
 		shape = m_pPhysics->createShape(physx::PxBoxGeometry(5.0f, 0.001f, 5.0f), *m_pMaterial);
 		{
@@ -180,14 +180,14 @@ namespace RVK {
 			}
 			{
 				Components::Transform pos = m_test.GetComponent<Components::Transform>();
-				glm::vec3 bodyPos = pos.position + glm::vec3(0.f, 1.5f, 0.f);
+				glm::vec3 bodyPos = pos.position/* + glm::vec3(0.f, 1.5f, 0.f)*/;
 				physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
 				m_pBody->setGlobalPose(t);
 			}
 			m_pScene->simulate(frameTime);
 			m_pScene->fetchResults(true);
 
-			m_test.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p) - glm::vec3(0.f, 1.5f, 0.f);
+			m_test.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p)/* - glm::vec3(0.f, 1.5f, 0.f)*/;
 
 			if (auto commandBuffer = m_rvkRenderer.BeginFrame()) {
 				int frameIndex = m_rvkRenderer.GetFrameIndex();
@@ -195,7 +195,6 @@ namespace RVK {
 					frameIndex,
 					frameTime,
 					commandBuffer,
-					//camera,
 					globalDescriptorSets[frameIndex],
 					gameObjects };
 

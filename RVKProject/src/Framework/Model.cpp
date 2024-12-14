@@ -6,6 +6,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/hash.hpp>
 
+
+
 namespace std {
 	template <>
 	struct hash<RVK::Model::Vertex> {
@@ -124,6 +126,330 @@ namespace RVK {
 		return attributeDescriptions;
 	}
 
+	void Model::AssimpLoader::LoadModel(std::string_view filepath) {
+		Assimp::Importer importer;
+
+		const auto aiscene = importer.ReadFile(filepath.data(), aiProcess_Triangulate);
+		if (!aiscene) {
+			VK_CORE_CRITICAL("Unable to load: {}: {}", filepath, importer.GetErrorString());
+			return;
+		}
+
+		std::vector<std::shared_ptr<Material>> materials;
+		//if (loadMaterials) {
+		materials.reserve(aiscene->mNumMaterials);
+		LoadMaterials(aiscene);
+
+		vertices.clear();
+		indices.clear();
+		int num = aiscene->mRootNode.mNumVertices;
+		for (size_t i = 0; i < aiscene->mRootNode->mNumMeshes; ++i) {
+			vertices.resize();
+			for (auto i = 0u; i < aimesh.mNumVertices; ++i) {
+				const auto& position = aimesh.mVertices[i];
+				const auto& normal = aimesh.mNormals[i];
+
+				auto& vertex = result->vertices.emplace_back();
+				vertex.position = { position.x, position.y, position.z };
+				vertex.normal = { normal.x, normal.y, normal.z };
+				vertex.matIndex = aimesh.mMaterialIndex;
+			}
+
+			result->indices.reserve((size_t)aimesh.mNumFaces * 3);
+			for (auto i = 0u; i < aimesh.mNumFaces; ++i) {
+				const auto& face = aimesh.mFaces[i];
+
+				if (face.mNumIndices != 3) {
+					RAYGUN_WARN("Face {} of mesh {} has {} vertices, skipping", i, aimesh.mName.C_Str(), face.mNumIndices);
+					continue;
+				}
+
+				result->indices.push_back(face.mIndices[0]);
+				result->indices.push_back(face.mIndices[1]);
+				result->indices.push_back(face.mIndices[2]);
+			}
+
+			RAYGUN_DEBUG("Loaded Mesh: {}: {} vertices", aimesh.mName.C_Str(), result->vertices.size());
+
+			return result;
+		}
+		//MarkNode(aiscene->mRootNode, aiscene);
+		//ProcessNode(aiscene->mRootNode);
+		
+
+		//for (auto i = 0u; i < aiscene->mNumMaterials; ++i) {
+		//	const auto aimaterial = aiscene->mMaterials[i];
+
+		//	aiString matName;
+		//	aimaterial->Get(AI_MATKEY_NAME, matName);
+		//	materials.push_back(LoadMaterial(matName.C_Str()));
+		//}
+		////}
+
+		//for (auto i = 0u; i < aiscene->mRootNode->mNumChildren; ++i) {
+		//	const auto ainode = aiscene->mRootNode->mChildren[i];
+
+		//	auto childModel = std::make_shared<render::Model>();
+		//	childModel->mesh = collapseMeshes(aiscene, ainode);
+		//	childModel->materials = materials;
+
+		//	RG().resourceManager().registerModel(childModel);
+
+		//	auto child = emplaceChild(ainode->mName.C_Str());
+		//	child->setTransform(utils::toTransform(ainode->mTransformation));
+		//	child->model = childModel;
+		//}
+	}
+
+	void Model::AssimpLoader::LoadMaterials(const aiScene* scene){
+		u32 numMaterials = scene->mNumMaterials;
+		m_materials.resize(numMaterials);
+		//m_MaterialTextures.resize(numMaterials);
+		for (auto i = 0u; i < numMaterials; ++i){
+			const aiMaterial* fbxMaterial = scene->mMaterials[i];
+			// PrintMaps(fbxMaterial);
+
+			Material& material = m_materials[i];
+
+			LoadProperties(fbxMaterial, material.m_PBRMaterial);
+
+			LoadMap(fbxMaterial, aiTextureType_DIFFUSE, i);
+			LoadMap(fbxMaterial, aiTextureType_NORMALS, i);
+			LoadMap(fbxMaterial, aiTextureType_SHININESS, i);
+			LoadMap(fbxMaterial, aiTextureType_METALNESS, i);
+			LoadMap(fbxMaterial, aiTextureType_EMISSIVE, i);
+		}
+	}
+
+	void Model::AssimpLoader::LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial){
+		// diffuse
+		{
+			aiColor3D diffuseColor;
+			if (fbxMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == aiReturn_SUCCESS){
+				pbrMaterial.diffuseColor.r = diffuseColor.r;
+				pbrMaterial.diffuseColor.g = diffuseColor.g;
+				pbrMaterial.diffuseColor.b = diffuseColor.b;
+			}
+		}
+
+		// roughness
+		{
+			float roughnessFactor;
+			if (fbxMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughnessFactor) == aiReturn_SUCCESS){
+				pbrMaterial.roughness = roughnessFactor;
+			}
+			else{
+				pbrMaterial.roughness = 0.1f;
+			}
+		}
+
+		// metallic
+		{
+			float metallicFactor;
+			if (fbxMaterial->Get(AI_MATKEY_REFLECTIVITY, metallicFactor) == aiReturn_SUCCESS){
+				pbrMaterial.metallic = metallicFactor;
+			}
+			else if (fbxMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallicFactor) == aiReturn_SUCCESS){
+				pbrMaterial.metallic = metallicFactor;
+			}
+			else{
+				pbrMaterial.metallic = 0.886f;
+			}
+		}
+
+		// emissive color
+		{
+			aiColor3D emission;
+			auto result = fbxMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emission);
+			if (result == aiReturn_SUCCESS){
+				pbrMaterial.emissiveColor = glm::vec3(emission.r, emission.g, emission.b);
+			}
+		}
+
+		// emissive strength
+		{ 
+			float emissiveStrength;
+			auto result = fbxMaterial->Get(AI_MATKEY_EMISSIVE_INTENSITY, emissiveStrength);
+			if (result == aiReturn_SUCCESS){
+				pbrMaterial.emissiveStrength = emissiveStrength;
+			}
+		}
+
+		pbrMaterial.normalMapIntensity = 1.0f;
+	}
+
+	void Model::AssimpLoader::LoadMap(const aiMaterial* fbxMaterial, aiTextureType textureType, int materialIndex){
+		u32 textureCount = fbxMaterial->GetTextureCount(textureType);
+		if (!textureCount){
+			return;
+		}
+
+		Material& material = m_materials[materialIndex];
+		Material::PBRMaterial& pbrMaterial = material.m_PBRMaterial;
+		Material::MaterialTextures& materialTextures = m_materialTextures[materialIndex];
+
+		aiString aiFilepath;
+		auto getTexture = fbxMaterial->GetTexture(textureType, 0 /* first map*/, &aiFilepath);
+		std::string fbxFilepath(aiFilepath.C_Str());
+		std::string filepath(fbxFilepath);
+		if (getTexture == aiReturn_SUCCESS){
+			switch (textureType){
+				// LoadTexture is inside switch statement for sRGB and UNORM
+			case aiTextureType_DIFFUSE:{
+				auto texture = LoadTexture(filepath, Texture::USE_SRGB);
+				if (texture){
+					materialTextures[Material::DIFFUSE_MAP_INDEX] = texture;
+					pbrMaterial.features |= Material::HAS_DIFFUSE_MAP;
+				}
+				break;
+			}
+			case aiTextureType_NORMALS:{
+				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
+				if (texture){
+					materialTextures[Material::NORMAL_MAP_INDEX] = texture;
+					pbrMaterial.features |= Material::HAS_NORMAL_MAP;
+				}
+				break;
+			}
+			case aiTextureType_SHININESS:{
+				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
+				if (texture){
+					materialTextures[Material::ROUGHNESS_MAP_INDEX] = texture;
+					pbrMaterial.features |= Material::HAS_ROUGHNESS_MAP;
+				}
+				break;
+			}
+			case aiTextureType_METALNESS:{
+				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
+				if (texture){
+					materialTextures[Material::METALLIC_MAP_INDEX] = texture;
+					pbrMaterial.features |= Material::HAS_METALLIC_MAP;
+				}
+				break;
+			}
+			case aiTextureType_EMISSIVE:{
+				auto texture = LoadTexture(filepath, Texture::USE_SRGB);
+				if (texture){
+					materialTextures[Material::EMISSIVE_MAP_INDEX] = texture;
+					pbrMaterial.features |= Material::HAS_EMISSIVE_MAP;
+					pbrMaterial.emissiveColor = glm::vec3(1.0f);
+				}
+				break;
+			}
+			default:{
+				VK_CORE_ASSERT(false, "texture type not recognized");
+			}
+			}
+		}
+	}
+
+	std::shared_ptr<Texture> Model::AssimpLoader::LoadTexture(std::string const& filepath, bool useSRGB){
+		std::shared_ptr<Texture> texture;
+		bool loadSucess = false;
+
+		//if (EngineCore::FileExists(filepath) && !EngineCore::IsDirectory(filepath))
+		//{
+		texture = std::make_shared<Texture>();
+		loadSucess = texture->Init(filepath, useSRGB);
+
+		if (!loadSucess) {
+			VK_CORE_CRITICAL("bool AssimpLoader::LoadTexture(): file '{0}' not found", filepath);
+		}
+		//}
+		//else if (EngineCore::FileExists(m_Basepath + filepath) && !EngineCore::IsDirectory(m_Basepath + filepath))
+		//{
+		//	texture = Texture::Create();
+		//	loadSucess = texture->Init(m_Basepath + filepath, useSRGB);
+		//}
+		//else
+		//{
+		//	LOG_CORE_CRITICAL("bool FbxBuilder::LoadTexture(): file '{0}' not found", filepath);
+		//}
+
+
+		m_textures.push_back(texture);
+		return texture;
+	}
+
+	//void Model::AssimpLoader::ProcessNode(const aiNode* fbxNodePtr)
+	//{
+	//	std::string nodeName = std::string(fbxNodePtr->mName.C_Str());
+	//	//u32 currentNode = parentNode;
+
+	//	if (m_HasMesh[hasMeshIndex])
+	//	{
+	//		if (fbxNodePtr->mNumMeshes)
+	//		{
+	//			currentNode = CreateGameObject(fbxNodePtr, parentNode);
+	//		}
+	//		else // one or more children have a mesh, but not this one --> create group node
+	//		{
+	//			// create game object and transform component
+	//			auto entity = m_Registry.Create();
+	//			{
+	//				TransformComponent transform(LoadTransformationMatrix(fbxNodePtr));
+	//				if (fbxNodePtr->mParent == m_FbxScene->mRootNode)
+	//				{
+	//					auto scale = transform.GetScale();
+	//					transform.SetScale({ scale.x / 100.0f, scale.y / 100.0f, scale.z / 100.0f });
+	//					auto translation = transform.GetTranslation();
+	//					transform.SetTranslation({ translation.x / 100.0f, translation.y / 100.0f, translation.z / 100.0f });
+	//				}
+	//				m_Registry.emplace<TransformComponent>(entity, transform);
+	//			}
+
+	//			// create scene graph node and add to parent
+	//			auto shortName = "::" + std::to_string(m_InstanceIndex) + "::" + nodeName;
+	//			auto longName = m_Filepath + "::" + std::to_string(m_InstanceIndex) + "::" + nodeName;
+	//			currentNode = m_SceneGraph.CreateNode(entity, shortName, longName, m_Dictionary);
+	//			m_SceneGraph.GetNode(parentNode).AddChild(currentNode);
+	//		}
+	//	}
+	//	++hasMeshIndex;
+
+	//	uint childNodeCount = fbxNodePtr->mNumChildren;
+	//	for (uint childNodeIndex = 0; childNodeIndex < childNodeCount; ++childNodeIndex)
+	//	{
+	//		ProcessNode(fbxNodePtr->mChildren[childNodeIndex], currentNode, hasMeshIndex);
+	//	}
+	//}
+
+	//void Model::AssimpLoader::MarkNode(const aiNode* fbxNodePtr, const aiScene* scene){
+	//	// each recursive call of this function marks a node in "m_HasMesh" if itself or a child has a mesh
+
+	//	// does this Fbx node have a mesh?
+	//	bool localHasMesh = false;
+
+	//	// check if at least one mesh is usable, i.e. is a triangle mesh
+	//	for (u32 i = 0; i < fbxNodePtr->mNumMeshes; ++i)
+	//	{
+	//		// retrieve index for global/scene mesh array
+	//		u32 sceneMeshIndex = fbxNodePtr->mMeshes[i];
+	//		aiMesh* mesh = scene->mMeshes[sceneMeshIndex];
+
+	//		// check if triangle mesh
+	//		if (mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE)
+	//		{
+	//			localHasMesh = true;
+	//			break;
+	//		}
+	//	}
+
+	//	//int hasMeshIndex = m_HasMesh.size();
+	//	//m_HasMesh.push_back(localHasMesh); // reserve space in m_HasMesh, so that ProcessNode can find it
+
+	//	// do any of the child nodes have a mesh?
+	//	u32 childNodeCount = fbxNodePtr->mNumChildren;
+	//	for (u32 childNodeIndex = 0; childNodeIndex < childNodeCount; ++childNodeIndex)
+	//	{
+	//		/*bool childHasMesh = */
+	//		MarkNode(fbxNodePtr->mChildren[childNodeIndex], scene);
+	//		//localHasMesh = localHasMesh || childHasMesh;
+	//	}
+	//	//m_HasMesh[hasMeshIndex] = localHasMesh;
+	//	//return localHasMesh;
+	//}
+
 	void Model::Builder::LoadModel(const std::string& filepath) {
 		tinyobj::attrib_t attrib;
 		std::vector<tinyobj::shape_t> shapes;
@@ -179,4 +505,5 @@ namespace RVK {
 			}
 		}
 	}
+
 }  // namespace RVK
