@@ -22,7 +22,34 @@ namespace RVK {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME,
         VK_KHR_MAINTENANCE1_EXTENSION_NAME
     };
+    
+    struct PointLight {
+		glm::vec4 position{};  // ignore w
+		glm::vec4 color{};     // w is intensity
+	};
 
+	struct DirectionalLight{
+		glm::vec4 direction{}; // ignore w
+		glm::vec4 color{};     // w is intensity
+	};
+
+	struct GlobalUbo {
+		glm::mat4 projection{ 1.f };
+		glm::mat4 view{ 1.f };
+		glm::mat4 inverseView{ 1.f };
+		glm::vec4 ambientLightColor{ 1.f, 1.f, 1.f, .02f };  // w is intensity
+		PointLight pointLights[MAX_LIGHTS];
+		int numLights;
+	};
+
+	struct FrameInfo {
+		int frameIndex;
+		float frameTime;
+		VkCommandBuffer commandBuffer;
+		VkDescriptorSet globalDescriptorSet;
+		GameObject::Map& gameObjects;
+	};
+    
     static std::vector<char> ReadFile(const std::string& filename) {
         // Open stream from given file
         // std::ios::binary tells stream to read file as binary
