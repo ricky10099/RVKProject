@@ -3,7 +3,7 @@
 #include <EnTT/entt.hpp>
 
 #include "Framework/Vulkan/RVKPipeline.h"
-#include "Framework/Vulkan/FrameInfo.h"
+//#include "Framework/Vulkan/FrameInfo.h"
 
 namespace RVK {
 	class EntityRenderSystem {

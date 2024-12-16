@@ -9,7 +9,7 @@
 #include "Framework/Vulkan/RenderSystem/entity_render_system.h"
 #include "Framework/Vulkan/RenderSystem/point_light_system.h"
 #include "Framework/Vulkan/RenderSystem/entity_point_light_system.h"
-#include "Framework/Vulkan/FrameInfo.h"
+//#include "Framework/Vulkan/FrameInfo.h"
 #include "Framework/Component.h"
 
 namespace RVK {
@@ -218,7 +218,7 @@ namespace RVK {
 					frameTime,
 					commandBuffer,
 					globalDescriptorSets[frameIndex],
-					gameObjects };
+				};
 
 				// update
 				GlobalUbo ubo{};

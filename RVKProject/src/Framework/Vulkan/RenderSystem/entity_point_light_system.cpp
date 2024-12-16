@@ -1,7 +1,7 @@
 #include "Framework/Vulkan/RenderSystem/entity_point_light_system.h"
 
 #include "Framework/Vulkan/RVKDevice.h"
-#include "Framework/Vulkan/FrameInfo.h"
+//#include "Framework/Vulkan/FrameInfo.h"
 #include "Framework/Component.h"
 
 namespace RVK {

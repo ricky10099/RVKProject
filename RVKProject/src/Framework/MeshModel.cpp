@@ -92,8 +92,26 @@ namespace RVK {
 		RVKDevice::s_rvkDevice->CopyBuffer(stagingBuffer.GetBuffer(), m_indexBuffer->GetBuffer(), bufferSize);
 	}
 
+	void MeshModel::BindDescriptors(FrameInfo& frameInfo, VkPipelineLayout pipelineLayout, Mesh mesh) {
+		const VkDescriptorSet& materialDescriptorSet = mesh.material.m_materialDescriptor->GetDescriptorSet();
+
+		std::vector<VkDescriptorSet> descriptorSets = { frameInfo.globalDescriptorSet, materialDescriptorSet};
+		vkCmdBindDescriptorSets(frameInfo.commandBuffer,    // VkCommandBuffer        commandBuffer,
+			VK_PIPELINE_BIND_POINT_GRAPHICS,				// VkPipelineBindPoint    pipelineBindPoint,
+			pipelineLayout,									// VkPipelineLayout       layout,
+			0,												// uint32_t               firstSet,
+			descriptorSets.size(),							// uint32_t               descriptorSetCount,
+			descriptorSets.data(),							// const VkDescriptorSet* pDescriptorSets,
+			0,												// uint32_t               dynamicOffsetCount,
+			nullptr											// const uint32_t*        pDynamicOffsets);
+		);
+	}
+
+
 	void MeshModel::Draw(VkCommandBuffer commandBuffer) {
 		for (auto& mesh : m_meshesMap) {
+			BindDescriptors(frameInfo, pipelineLayout, mesh);
+			PushConstantsPbr(frameInfo, pipelineLayout, mesh);
 			DrawMesh(commandBuffer, mesh);
 		}
 	}
@@ -107,13 +125,18 @@ namespace RVK {
 		}
 	}
 
-	void MeshModel::Bind(VkCommandBuffer commandBuffer) {
+	void MeshModel::Bind(FrameInfo& frameInfo) {
 		VkBuffer buffers[] = { m_vertexBuffer->GetBuffer() };
 		VkDeviceSize offsets[] = { 0 };
 		vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
 
 		if (m_hasIndexBuffer) {
 			vkCmdBindIndexBuffer(commandBuffer, m_indexBuffer->GetBuffer(), 0, VK_INDEX_TYPE_UINT32);
+		}
+
+		for (auto& mesh : m_meshesMap) {
+			BindDescriptors(frameInfo, pipelineLayout, mesh);
+			PushConstantsPbr(frameInfo, pipelineLayout, mesh);
 		}
 	}
 

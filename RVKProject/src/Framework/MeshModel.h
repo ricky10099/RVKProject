@@ -92,5 +92,8 @@ namespace RVK {
 
 		void CreateVertexBuffers(const std::vector<Vertex>& vertices);
 		void CreateIndexBuffers(const std::vector<u32>& indices);
+
+		void BindDescriptors(FrameInfo& frameInfo, VkPipelineLayout pipelineLayout, Mesh mesh);
+		void PushConstantsPbr(FrameInfo& frameInfo, VkPipelineLayout pipelineLayout, Mesh mesh);
 	};
 }  // namespace RVK

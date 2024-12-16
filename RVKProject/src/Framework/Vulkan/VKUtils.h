@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 
 #include "Framework/Utils.h"
+#include "Framework/Vulkan/SharedDefines.h"
 
 #define VK_CHECK(x, msg) if (x != VK_SUCCESS) { VK_CORE_ERROR(msg); }
 #define MAX_INSTANCE 64
@@ -47,7 +48,7 @@ namespace RVK {
 		float frameTime;
 		VkCommandBuffer commandBuffer;
 		VkDescriptorSet globalDescriptorSet;
-		GameObject::Map& gameObjects;
+		//GameObject::Map& gameObjects;
 	};
     
     static std::vector<char> ReadFile(const std::string& filename) {

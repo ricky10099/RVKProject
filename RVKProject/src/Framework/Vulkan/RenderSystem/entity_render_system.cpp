@@ -65,8 +65,7 @@ namespace RVK {
 			nullptr);
 
 		auto view = registry.view<Components::Mesh, Components::Transform>();
-		for (auto entity : view)
-		{
+		for (auto entity : view) {
 			auto& mesh = view.get<Components::Mesh>(entity);
 			auto& transform = view.get<Components::Transform>(entity);
 
@@ -88,8 +87,7 @@ namespace RVK {
 		}
 
 		auto view2 = registry.view<Components::Model, Components::Transform>();
-		for (auto entity : view2)
-		{
+		for (auto entity : view2) {
 			auto& mesh = view2.get<Components::Model>(entity);
 			auto& transform = view2.get<Components::Transform>(entity);
 

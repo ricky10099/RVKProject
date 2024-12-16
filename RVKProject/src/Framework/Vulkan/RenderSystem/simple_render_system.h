@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Framework/Vulkan/RVKPipeline.h"
-#include "Framework/Vulkan/FrameInfo.h"
+//#include "Framework/Vulkan/FrameInfo.h"
 
 namespace RVK {
 	class SimpleRenderSystem {
