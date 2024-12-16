@@ -1,12 +1,12 @@
 #include "Framework/Model.h"
 #include "Framework/Vulkan/RVKDevice.h"
 
+#include "ufbx/ufbx.c"
+
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tinyobjloader/tiny_obj_loader.h>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/hash.hpp>
-
-
 
 namespace std {
 	template <>
@@ -20,17 +20,44 @@ namespace std {
 }  // namespace std
 
 namespace RVK {
-	Model::Model(const Model::Builder& builder) {
+	Model::Model(const Model::TinyObjBuilder& builder) {
+		CreateVertexBuffers(builder.vertices);
+		CreateIndexBuffers(builder.indices);
+	}
+
+	Model::Model(const Model::ufbxBuilder& builder) {
+		CreateVertexBuffers(builder.vertices);
+		CreateIndexBuffers(builder.indices);
+	}
+
+	Model::Model(const Model::AssimpBuilder& builder) {
 		CreateVertexBuffers(builder.vertices);
 		CreateIndexBuffers(builder.indices);
 	}
 
 	Model::~Model() {}
 
-	std::unique_ptr<Model> Model::CreateModelFromFile(const std::string& filepath) {
-		Builder builder{};
-		builder.LoadModel(ENGINE_DIR + filepath);
-		return std::make_unique<Model>(builder);
+	std::unique_ptr<Model> Model::CreateModelFromFile(const std::string& filepath, Model::ModelType type) {
+		switch (type)
+		{
+		case Model::ModelType::TinyObj: {
+			TinyObjBuilder builder{};
+			builder.LoadModel(ENGINE_DIR + filepath);
+			return std::make_unique<Model>(builder);
+		}
+		case Model::ModelType::Ufbx: {
+			ufbxBuilder builder{};
+			builder.LoadModel(ENGINE_DIR + filepath);
+			return std::make_unique<Model>(builder);
+		}
+		default: {
+			AssimpBuilder builder{};
+			builder.LoadModel(ENGINE_DIR + filepath);
+			return std::make_unique<Model>(builder);
+		}
+			break;
+		}
+
 	}
 
 	void Model::CreateVertexBuffers(const std::vector<Vertex>& vertices) {
@@ -126,331 +153,7 @@ namespace RVK {
 		return attributeDescriptions;
 	}
 
-	void Model::AssimpLoader::LoadModel(std::string_view filepath) {
-		Assimp::Importer importer;
-
-		const auto aiscene = importer.ReadFile(filepath.data(), aiProcess_Triangulate);
-		if (!aiscene) {
-			VK_CORE_CRITICAL("Unable to load: {}: {}", filepath, importer.GetErrorString());
-			return;
-		}
-
-		std::vector<std::shared_ptr<Material>> materials;
-		//if (loadMaterials) {
-		materials.reserve(aiscene->mNumMaterials);
-		LoadMaterials(aiscene);
-
-		vertices.clear();
-		indices.clear();
-		int num = aiscene->mRootNode.mNumVertices;
-		for (size_t i = 0; i < aiscene->mRootNode->mNumMeshes; ++i) {
-			vertices.resize();
-			for (auto i = 0u; i < aimesh.mNumVertices; ++i) {
-				const auto& position = aimesh.mVertices[i];
-				const auto& normal = aimesh.mNormals[i];
-
-				auto& vertex = result->vertices.emplace_back();
-				vertex.position = { position.x, position.y, position.z };
-				vertex.normal = { normal.x, normal.y, normal.z };
-				vertex.matIndex = aimesh.mMaterialIndex;
-			}
-
-			result->indices.reserve((size_t)aimesh.mNumFaces * 3);
-			for (auto i = 0u; i < aimesh.mNumFaces; ++i) {
-				const auto& face = aimesh.mFaces[i];
-
-				if (face.mNumIndices != 3) {
-					RAYGUN_WARN("Face {} of mesh {} has {} vertices, skipping", i, aimesh.mName.C_Str(), face.mNumIndices);
-					continue;
-				}
-
-				result->indices.push_back(face.mIndices[0]);
-				result->indices.push_back(face.mIndices[1]);
-				result->indices.push_back(face.mIndices[2]);
-			}
-
-			RAYGUN_DEBUG("Loaded Mesh: {}: {} vertices", aimesh.mName.C_Str(), result->vertices.size());
-
-			return result;
-		}
-		//MarkNode(aiscene->mRootNode, aiscene);
-		//ProcessNode(aiscene->mRootNode);
-		
-
-		//for (auto i = 0u; i < aiscene->mNumMaterials; ++i) {
-		//	const auto aimaterial = aiscene->mMaterials[i];
-
-		//	aiString matName;
-		//	aimaterial->Get(AI_MATKEY_NAME, matName);
-		//	materials.push_back(LoadMaterial(matName.C_Str()));
-		//}
-		////}
-
-		//for (auto i = 0u; i < aiscene->mRootNode->mNumChildren; ++i) {
-		//	const auto ainode = aiscene->mRootNode->mChildren[i];
-
-		//	auto childModel = std::make_shared<render::Model>();
-		//	childModel->mesh = collapseMeshes(aiscene, ainode);
-		//	childModel->materials = materials;
-
-		//	RG().resourceManager().registerModel(childModel);
-
-		//	auto child = emplaceChild(ainode->mName.C_Str());
-		//	child->setTransform(utils::toTransform(ainode->mTransformation));
-		//	child->model = childModel;
-		//}
-	}
-
-	void Model::AssimpLoader::LoadMaterials(const aiScene* scene){
-		u32 numMaterials = scene->mNumMaterials;
-		m_materials.resize(numMaterials);
-		//m_MaterialTextures.resize(numMaterials);
-		for (auto i = 0u; i < numMaterials; ++i){
-			const aiMaterial* fbxMaterial = scene->mMaterials[i];
-			// PrintMaps(fbxMaterial);
-
-			Material& material = m_materials[i];
-
-			LoadProperties(fbxMaterial, material.m_PBRMaterial);
-
-			LoadMap(fbxMaterial, aiTextureType_DIFFUSE, i);
-			LoadMap(fbxMaterial, aiTextureType_NORMALS, i);
-			LoadMap(fbxMaterial, aiTextureType_SHININESS, i);
-			LoadMap(fbxMaterial, aiTextureType_METALNESS, i);
-			LoadMap(fbxMaterial, aiTextureType_EMISSIVE, i);
-		}
-	}
-
-	void Model::AssimpLoader::LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial){
-		// diffuse
-		{
-			aiColor3D diffuseColor;
-			if (fbxMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == aiReturn_SUCCESS){
-				pbrMaterial.diffuseColor.r = diffuseColor.r;
-				pbrMaterial.diffuseColor.g = diffuseColor.g;
-				pbrMaterial.diffuseColor.b = diffuseColor.b;
-			}
-		}
-
-		// roughness
-		{
-			float roughnessFactor;
-			if (fbxMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughnessFactor) == aiReturn_SUCCESS){
-				pbrMaterial.roughness = roughnessFactor;
-			}
-			else{
-				pbrMaterial.roughness = 0.1f;
-			}
-		}
-
-		// metallic
-		{
-			float metallicFactor;
-			if (fbxMaterial->Get(AI_MATKEY_REFLECTIVITY, metallicFactor) == aiReturn_SUCCESS){
-				pbrMaterial.metallic = metallicFactor;
-			}
-			else if (fbxMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallicFactor) == aiReturn_SUCCESS){
-				pbrMaterial.metallic = metallicFactor;
-			}
-			else{
-				pbrMaterial.metallic = 0.886f;
-			}
-		}
-
-		// emissive color
-		{
-			aiColor3D emission;
-			auto result = fbxMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emission);
-			if (result == aiReturn_SUCCESS){
-				pbrMaterial.emissiveColor = glm::vec3(emission.r, emission.g, emission.b);
-			}
-		}
-
-		// emissive strength
-		{ 
-			float emissiveStrength;
-			auto result = fbxMaterial->Get(AI_MATKEY_EMISSIVE_INTENSITY, emissiveStrength);
-			if (result == aiReturn_SUCCESS){
-				pbrMaterial.emissiveStrength = emissiveStrength;
-			}
-		}
-
-		pbrMaterial.normalMapIntensity = 1.0f;
-	}
-
-	void Model::AssimpLoader::LoadMap(const aiMaterial* fbxMaterial, aiTextureType textureType, int materialIndex){
-		u32 textureCount = fbxMaterial->GetTextureCount(textureType);
-		if (!textureCount){
-			return;
-		}
-
-		Material& material = m_materials[materialIndex];
-		Material::PBRMaterial& pbrMaterial = material.m_PBRMaterial;
-		Material::MaterialTextures& materialTextures = m_materialTextures[materialIndex];
-
-		aiString aiFilepath;
-		auto getTexture = fbxMaterial->GetTexture(textureType, 0 /* first map*/, &aiFilepath);
-		std::string fbxFilepath(aiFilepath.C_Str());
-		std::string filepath(fbxFilepath);
-		if (getTexture == aiReturn_SUCCESS){
-			switch (textureType){
-				// LoadTexture is inside switch statement for sRGB and UNORM
-			case aiTextureType_DIFFUSE:{
-				auto texture = LoadTexture(filepath, Texture::USE_SRGB);
-				if (texture){
-					materialTextures[Material::DIFFUSE_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_DIFFUSE_MAP;
-				}
-				break;
-			}
-			case aiTextureType_NORMALS:{
-				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
-				if (texture){
-					materialTextures[Material::NORMAL_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_NORMAL_MAP;
-				}
-				break;
-			}
-			case aiTextureType_SHININESS:{
-				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
-				if (texture){
-					materialTextures[Material::ROUGHNESS_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_ROUGHNESS_MAP;
-				}
-				break;
-			}
-			case aiTextureType_METALNESS:{
-				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
-				if (texture){
-					materialTextures[Material::METALLIC_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_METALLIC_MAP;
-				}
-				break;
-			}
-			case aiTextureType_EMISSIVE:{
-				auto texture = LoadTexture(filepath, Texture::USE_SRGB);
-				if (texture){
-					materialTextures[Material::EMISSIVE_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_EMISSIVE_MAP;
-					pbrMaterial.emissiveColor = glm::vec3(1.0f);
-				}
-				break;
-			}
-			default:{
-				VK_CORE_ASSERT(false, "texture type not recognized");
-			}
-			}
-		}
-	}
-
-	std::shared_ptr<Texture> Model::AssimpLoader::LoadTexture(std::string const& filepath, bool useSRGB){
-		std::shared_ptr<Texture> texture;
-		bool loadSucess = false;
-
-		//if (EngineCore::FileExists(filepath) && !EngineCore::IsDirectory(filepath))
-		//{
-		texture = std::make_shared<Texture>();
-		loadSucess = texture->Init(filepath, useSRGB);
-
-		if (!loadSucess) {
-			VK_CORE_CRITICAL("bool AssimpLoader::LoadTexture(): file '{0}' not found", filepath);
-		}
-		//}
-		//else if (EngineCore::FileExists(m_Basepath + filepath) && !EngineCore::IsDirectory(m_Basepath + filepath))
-		//{
-		//	texture = Texture::Create();
-		//	loadSucess = texture->Init(m_Basepath + filepath, useSRGB);
-		//}
-		//else
-		//{
-		//	LOG_CORE_CRITICAL("bool FbxBuilder::LoadTexture(): file '{0}' not found", filepath);
-		//}
-
-
-		m_textures.push_back(texture);
-		return texture;
-	}
-
-	//void Model::AssimpLoader::ProcessNode(const aiNode* fbxNodePtr)
-	//{
-	//	std::string nodeName = std::string(fbxNodePtr->mName.C_Str());
-	//	//u32 currentNode = parentNode;
-
-	//	if (m_HasMesh[hasMeshIndex])
-	//	{
-	//		if (fbxNodePtr->mNumMeshes)
-	//		{
-	//			currentNode = CreateGameObject(fbxNodePtr, parentNode);
-	//		}
-	//		else // one or more children have a mesh, but not this one --> create group node
-	//		{
-	//			// create game object and transform component
-	//			auto entity = m_Registry.Create();
-	//			{
-	//				TransformComponent transform(LoadTransformationMatrix(fbxNodePtr));
-	//				if (fbxNodePtr->mParent == m_FbxScene->mRootNode)
-	//				{
-	//					auto scale = transform.GetScale();
-	//					transform.SetScale({ scale.x / 100.0f, scale.y / 100.0f, scale.z / 100.0f });
-	//					auto translation = transform.GetTranslation();
-	//					transform.SetTranslation({ translation.x / 100.0f, translation.y / 100.0f, translation.z / 100.0f });
-	//				}
-	//				m_Registry.emplace<TransformComponent>(entity, transform);
-	//			}
-
-	//			// create scene graph node and add to parent
-	//			auto shortName = "::" + std::to_string(m_InstanceIndex) + "::" + nodeName;
-	//			auto longName = m_Filepath + "::" + std::to_string(m_InstanceIndex) + "::" + nodeName;
-	//			currentNode = m_SceneGraph.CreateNode(entity, shortName, longName, m_Dictionary);
-	//			m_SceneGraph.GetNode(parentNode).AddChild(currentNode);
-	//		}
-	//	}
-	//	++hasMeshIndex;
-
-	//	uint childNodeCount = fbxNodePtr->mNumChildren;
-	//	for (uint childNodeIndex = 0; childNodeIndex < childNodeCount; ++childNodeIndex)
-	//	{
-	//		ProcessNode(fbxNodePtr->mChildren[childNodeIndex], currentNode, hasMeshIndex);
-	//	}
-	//}
-
-	//void Model::AssimpLoader::MarkNode(const aiNode* fbxNodePtr, const aiScene* scene){
-	//	// each recursive call of this function marks a node in "m_HasMesh" if itself or a child has a mesh
-
-	//	// does this Fbx node have a mesh?
-	//	bool localHasMesh = false;
-
-	//	// check if at least one mesh is usable, i.e. is a triangle mesh
-	//	for (u32 i = 0; i < fbxNodePtr->mNumMeshes; ++i)
-	//	{
-	//		// retrieve index for global/scene mesh array
-	//		u32 sceneMeshIndex = fbxNodePtr->mMeshes[i];
-	//		aiMesh* mesh = scene->mMeshes[sceneMeshIndex];
-
-	//		// check if triangle mesh
-	//		if (mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE)
-	//		{
-	//			localHasMesh = true;
-	//			break;
-	//		}
-	//	}
-
-	//	//int hasMeshIndex = m_HasMesh.size();
-	//	//m_HasMesh.push_back(localHasMesh); // reserve space in m_HasMesh, so that ProcessNode can find it
-
-	//	// do any of the child nodes have a mesh?
-	//	u32 childNodeCount = fbxNodePtr->mNumChildren;
-	//	for (u32 childNodeIndex = 0; childNodeIndex < childNodeCount; ++childNodeIndex)
-	//	{
-	//		/*bool childHasMesh = */
-	//		MarkNode(fbxNodePtr->mChildren[childNodeIndex], scene);
-	//		//localHasMesh = localHasMesh || childHasMesh;
-	//	}
-	//	//m_HasMesh[hasMeshIndex] = localHasMesh;
-	//	//return localHasMesh;
-	//}
-
-	void Model::Builder::LoadModel(const std::string& filepath) {
+	void Model::TinyObjBuilder::LoadModel(const std::string& filepath) {
 		tinyobj::attrib_t attrib;
 		std::vector<tinyobj::shape_t> shapes;
 		std::vector<tinyobj::material_t> materials;
@@ -463,6 +166,8 @@ namespace RVK {
 		vertices.clear();
 		indices.clear();
 
+		VK_CORE_TRACE("Tiny Obj Model Loaded");
+		int count = 0;
 		std::unordered_map<Vertex, u32> uniqueVertices{};
 		for (const auto& shape : shapes) {
 			for (const auto& index : shape.mesh.indices) {
@@ -501,9 +206,585 @@ namespace RVK {
 					uniqueVertices[vertex] = static_cast<u32>(vertices.size());
 					vertices.push_back(vertex);
 				}
+				++count;
 				indices.push_back(uniqueVertices[vertex]);
+
+				VK_CORE_TRACE("Vertex position: {0}, {1}, {2} Vertex normal: {3}, {4}, {5}", vertex.position.x, vertex.position.y, vertex.position.z, vertex.normal.x, vertex.normal.y, vertex.normal.z);
+				VK_CORE_TRACE("Index: {0}", uniqueVertices[vertex]);
+			}
+		}
+
+		VK_CORE_TRACE("Loop count: {0}", count);
+	}
+
+	void Model::ufbxBuilder::LoadModel(const std::string& filepath) {
+		ufbx_load_opts loadOptions{};
+		loadOptions.load_external_files = true;
+		loadOptions.ignore_missing_external_files = true;
+		loadOptions.generate_missing_normals = true;
+		loadOptions.target_axes = {
+			.right = UFBX_COORDINATE_AXIS_POSITIVE_X,
+			.up = UFBX_COORDINATE_AXIS_POSITIVE_Y,
+			.front = UFBX_COORDINATE_AXIS_NEGATIVE_Z,
+		};
+		loadOptions.target_unit_meters = 1.0f;
+
+		ufbx_error ufbxError;
+		ufbx_scene* scene = ufbx_load_file(filepath.c_str(), &loadOptions, &ufbxError);
+
+		if (!scene) {
+			char errorBuffer[512];
+			ufbx_format_error(errorBuffer, sizeof(errorBuffer), &ufbxError);
+			VK_CORE_CRITICAL(errorBuffer);
+		}
+		VK_CORE_TRACE("ufbx Model Loaded");
+
+		vertices.clear();
+		indices.clear();
+		std::unordered_map<Vertex, u32> uniqueVertices{};
+		int count = 0;
+		// Let's just list all objects within the scene for example:
+		for (size_t i = 0; i < scene->nodes.count; i++) {
+			ufbx_node* node = scene->nodes.data[i];
+			if (node->is_root) continue;
+
+			VK_CORE_TRACE("Object: {0}\n", node->name.data);
+			if (node->mesh) {
+				VK_CORE_TRACE("-> mesh with {0} faces\n", node->mesh->faces.count);
+			}
+
+			for(size_t j = 0; j < node->mesh->num_triangles; j++) {
+				auto face = node->mesh->faces.data[j];
+				// Loop through the corners of the polygon.
+				for (uint32_t corner = 0; corner < face.num_indices; corner++) {
+
+					// Faces are defined by consecutive indices, one for each corner.
+					uint32_t index = face.index_begin + corner;
+
+					// Retrieve the position, normal and uv for the vertex.
+					ufbx_vec3 position = ufbx_get_vertex_vec3(&node->mesh->vertex_position, index);
+					ufbx_vec3 normal = ufbx_get_vertex_vec3(&node->mesh->vertex_normal, index);
+					ufbx_vec2 uv{0.0f, 0.0f};
+					if (node->mesh->vertex_uv.exists) {
+						uv = ufbx_get_vertex_vec2(&node->mesh->vertex_uv, index);
+					}
+					Vertex vertex{};
+
+					vertex.position = { position.x, position.y, position.z };
+					vertex.normal = { normal.x, normal.y, normal.z };
+					vertex.uv = { uv.x, uv.y };
+					if (uniqueVertices.count(vertex) == 0) {
+						uniqueVertices[vertex] = static_cast<u32>(vertices.size());
+						vertices.push_back(vertex);
+					}
+					indices.push_back(uniqueVertices[vertex]);
+					VK_CORE_TRACE("Vertex position: {0}, {1}, {2} Vertex normal: {3}, {4}, {5}", vertex.position.x, vertex.position.y, vertex.position.z, vertex.normal.x, vertex.normal.y, vertex.normal.z);
+					VK_CORE_TRACE("Index: {0}", uniqueVertices[vertex]);
+					++count;
+				}
+			}
+		}
+		VK_CORE_TRACE("Loop count: {0}", count);
+		ufbx_free_scene(scene);
+	}
+
+	void Model::ufbxBuilder::convert_mesh_part(ufbx_mesh* mesh, ufbx_mesh_part* part)
+	{
+		vertices.clear();
+		std::vector<uint32_t> tri_indices;
+		tri_indices.resize(mesh->max_face_triangles * 3);
+
+		// Iterate over each face using the specific material.
+		for (uint32_t face_index : part->face_indices) {
+			ufbx_face face = mesh->faces[face_index];
+
+			// Triangulate the face into `tri_indices[]`.
+			uint32_t num_tris = ufbx_triangulate_face(
+				tri_indices.data(), tri_indices.size(), mesh, face);
+
+			// Iterate over each triangle corner contiguously.
+			for (size_t i = 0; i < num_tris * 3; i++) {
+				uint32_t index = tri_indices[i];
+
+				Vertex v;
+				if(mesh->vertex_position.exists)
+				v.position = { mesh->vertex_position.values.data[index].x, mesh->vertex_position.values.data[index].y, mesh->vertex_position.values.data[index].z };
+				if (mesh->vertex_color.exists) {
+					v.color = { mesh->vertex_color.values.data[index].x, mesh->vertex_color.values.data[index].y, mesh->vertex_color.values.data[index].z };
+				}
+				else {
+					v.color = { 1.0f, 1.0f, 1.0f };
+				}
+				if (mesh->vertex_normal.exists)
+				v.normal = { mesh->vertex_normal.values.data[index].x, mesh->vertex_normal.values.data[index].y, mesh->vertex_normal.values.data[index].z };
+				if (mesh->vertex_uv.exists) {
+					v.uv = { mesh->vertex_uv.values.data[index].x, mesh->vertex_uv.values.data[index].y };
+				}
+				vertices.push_back(v);
+			}
+		}
+
+		// Should have written all the vertices.
+		assert(vertices.size() == part->num_triangles * 3);
+
+		// Generate the index buffer.
+		ufbx_vertex_stream streams[1] = {
+			{ vertices.data(), vertices.size(), sizeof(Vertex) },
+		};
+		indices.clear();
+		indices.resize(part->num_triangles * 3);
+
+		// This call will deduplicate vertices, modifying the arrays passed in `streams[]`,
+		// indices are written in `indices[]` and the number of unique vertices is returned.
+		size_t num_vertices = ufbx_generate_indices(
+			streams, 1, indices.data(), indices.size(), nullptr, nullptr);
+
+		// Trim to only unique vertices.
+		vertices.resize(num_vertices);
+	}
+
+	void Model::ufbxBuilder::LoadVertexData(const ufbx_node* fbxNodePtr, u32 const submeshIndex)
+	{
+		ufbx_mesh& fbxMesh = *fbxNodePtr->mesh; // mesh for this node, contains submeshes
+		const ufbx_mesh_part& fbxSubmesh = fbxNodePtr->mesh->material_parts[submeshIndex];
+		size_t numFaces = fbxSubmesh.num_faces;
+
+		//if (!(fbxSubmesh.num_triangles))
+		//{
+		//	LOG_CORE_CRITICAL("UFbxBuilder::LoadVertexData: only triangle meshes are supported");
+		//	return;
+		//}
+
+		size_t numVerticesBefore = vertices.size();
+		size_t numIndicesBefore = indices.size();
+
+		//Submesh& submesh = m_Submeshes[submeshIndex];
+		//submesh.m_FirstVertex = numVerticesBefore;
+		//submesh.m_FirstIndex = numIndicesBefore;
+		//// submesh.m_VertexCount = 0;
+		//submesh.m_IndexCount = 0;
+		//submesh.m_InstanceCount = m_InstanceCount;
+
+		glm::vec4 diffuseColor{1.0f};
+		{
+			//ufbx_material_map& baseColorMap = fbxNodePtr->materials[submeshIndex]->pbr.base_color;
+			//diffuseColor = baseColorMap.has_value ? glm::vec4(baseColorMap.value_vec4.x, baseColorMap.value_vec4.y,
+			//	baseColorMap.value_vec4.z, baseColorMap.value_vec4.w)
+			//	: glm::vec4(1.0f);
+		}
+
+		{ // vertices
+			bool hasTangents = fbxMesh.vertex_tangent.exists;
+			bool hasUVs = fbxMesh.uv_sets.count;
+			bool hasVertexColors = fbxMesh.vertex_color.exists;
+			ufbx_skin_deformer* fbxSkin = nullptr;
+			if (fbxMesh.skin_deformers.count)
+			{
+				fbxSkin = fbxMesh.skin_deformers.data[0];
+			}
+
+			//m_FbxNoBuiltInTangents = m_FbxNoBuiltInTangents || (!hasTangents);
+			for (size_t fbxFaceIndex = 0; fbxFaceIndex < numFaces; ++fbxFaceIndex)
+			{
+				ufbx_face& fbxFace = fbxMesh.faces[fbxSubmesh.face_indices.data[fbxFaceIndex]];
+				size_t numTriangleIndices = fbxMesh.max_face_triangles * 3;
+				std::vector<u32> verticesPerFaceIndexBuffer(numTriangleIndices);
+				size_t numTriangles =
+					ufbx_triangulate_face(verticesPerFaceIndexBuffer.data(), numTriangleIndices, &fbxMesh, fbxFace);
+				size_t numVerticesPerFace = 3 * numTriangles;
+				for (u32 vertexPerFace = 0; vertexPerFace < numVerticesPerFace; ++vertexPerFace)
+				{
+					// if the face is a quad, then 2 triangles, numVerticesPerFace = 6
+					u32 vertexPerFaceIndex = verticesPerFaceIndexBuffer[vertexPerFace];
+
+					Vertex vertex{};
+
+					// position
+					u32 fbxVertexIndex = fbxMesh.vertex_indices[vertexPerFaceIndex];
+					{
+						ufbx_vec3& positionFbx = fbxMesh.vertices[fbxVertexIndex];
+						vertex.position = glm::vec3(positionFbx.x, positionFbx.y, positionFbx.z);
+					}
+
+					// normals, always defined if `ufbx_load_opts.generate_missing_normals` is used
+					{
+						u32 fbxNormalIndex = fbxMesh.vertex_normal.indices[vertexPerFaceIndex];
+						/*CORE_ASSERT(fbxNormalIndex < fbxMesh.vertex_normal.values.count,
+							"LoadVertexData: memory violation normals");*/
+						ufbx_vec3& normalFbx = fbxMesh.vertex_normal.values.data[fbxNormalIndex];
+						vertex.normal = glm::vec3(normalFbx.x, normalFbx.y, normalFbx.z);
+					}
+					//if (hasTangents) // tangents (check `tangent space` in Blender when exporting fbx)
+					//{
+					//	u32 fbxTangentIndex = fbxMesh.vertex_tangent.indices[vertexPerFaceIndex];
+					//	/*CORE_ASSERT(fbxTangentIndex < fbxMesh.vertex_tangent.values.count,
+					//		"LoadVertexData: memory violation tangents");*/
+					//	ufbx_vec3& tangentFbx = fbxMesh.vertex_tangent.values.data[fbxTangentIndex];
+					//	vertex.m_Tangent = glm::vec3(tangentFbx.x, tangentFbx.y, tangentFbx.z);
+					//}
+
+					if (hasUVs) // uv coordinates
+					{
+						u32 fbxUVIndex = fbxMesh.vertex_uv.indices[vertexPerFaceIndex];
+						/*CORE_ASSERT(fbxUVIndex < fbxMesh.vertex_uv.values.count,
+							"LoadVertexData: memory violation uv coordinates");*/
+						ufbx_vec2& uvFbx = fbxMesh.vertex_uv.values.data[fbxUVIndex];
+						vertex.uv = glm::vec2(uvFbx.x, uvFbx.y);
+					}
+
+					if (hasVertexColors) // vertex colors
+					{
+						u32 fbxColorIndex = fbxMesh.vertex_color.indices[vertexPerFaceIndex];
+						ufbx_vec4& colorFbx = fbxMesh.vertex_color.values.data[fbxColorIndex];
+
+						// convert from sRGB to linear
+						glm::vec3 linearColor = glm::pow(glm::vec3(colorFbx.x, colorFbx.y, colorFbx.z), glm::vec3(2.2f));
+						glm::vec4 vertexColor(linearColor.x, linearColor.y, linearColor.z, colorFbx.w);
+						vertex.color = vertexColor * diffuseColor;
+					}
+					else
+					{
+						vertex.color = diffuseColor;
+					}
+					//if (fbxSkin)
+					//{
+					//	ufbx_skin_vertex skinVertex = fbxSkin->vertices[fbxVertexIndex];
+					//	size_t numWeights =
+					//		skinVertex.num_weights < MAX_JOINT_INFLUENCE ? skinVertex.num_weights : MAX_JOINT_INFLUENCE;
+
+					//	for (size_t weightIndex = 0; weightIndex < numWeights; ++weightIndex)
+					//	{
+					//		ufbx_skin_weight skinWeight = fbxSkin->weights.data[skinVertex.weight_begin + weightIndex];
+					//		int jointIndex = skinWeight.cluster_index;
+					//		float weight = skinWeight.weight;
+
+					//		switch (weightIndex)
+					//		{
+					//		case 0:
+					//			vertex.m_JointIds.x = jointIndex;
+					//			vertex.m_Weights.x = weight;
+					//			break;
+					//		case 1:
+					//			vertex.m_JointIds.y = jointIndex;
+					//			vertex.m_Weights.y = weight;
+					//			break;
+					//		case 2:
+					//			vertex.m_JointIds.z = jointIndex;
+					//			vertex.m_Weights.z = weight;
+					//			break;
+					//		case 3:
+					//			vertex.m_JointIds.w = jointIndex;
+					//			vertex.m_Weights.w = weight;
+					//			break;
+					//		default:
+					//			break;
+					//		}
+					//	}
+					//	{ // normalize weights
+					//		float weightSum =
+					//			vertex.m_Weights.x + vertex.m_Weights.y + vertex.m_Weights.z + vertex.m_Weights.w;
+					//		if (weightSum > std::numeric_limits<float>::epsilon())
+					//		{
+					//			vertex.m_Weights = vertex.m_Weights / weightSum;
+					//		}
+					//	}
+					//}
+					vertices.push_back(vertex);
+				}
+			}
+		}
+
+		// resolve indices
+		// A face has four vertices, while above loop generates at least six vertices for per face)
+		{
+			// get number of all vertices created from above (faces * trianglesPerFace * 3)
+			u32 submeshAllVertices = vertices.size() - numVerticesBefore;
+
+			// create a ufbx vertex stream with data pointing to the first vertex of this submesh
+			// (m_vertices is for all submeshes)
+			ufbx_vertex_stream streams;
+			streams.data = &vertices[numVerticesBefore];
+			streams.vertex_count = submeshAllVertices;
+			streams.vertex_size = sizeof(Vertex);
+
+			// index buffer: add space for all new vertices from above
+			indices.resize(numIndicesBefore + submeshAllVertices);
+
+			// ufbx_generate_indices() will rearrange m_Vertices (via streams.data) and fill m_Indices
+			ufbx_error ufbxError;
+			size_t numVertices = ufbx_generate_indices(&streams, 1 /*size_t num_streams*/, &indices[numIndicesBefore],
+				submeshAllVertices, nullptr, &ufbxError);
+
+			// handle error
+			if (ufbxError.type != UFBX_ERROR_NONE)
+			{
+				char errorBuffer[512];
+				ufbx_format_error(errorBuffer, sizeof(errorBuffer), &ufbxError);
+				//LOG_CORE_CRITICAL("UFbxBuilder: creation of index buffer failed, file: {0}, error: {1},  node: {2}",
+				//	m_Filepath, errorBuffer, fbxNodePtr->name.data);
+			}
+
+			// m_Vertices can be downsized now
+			vertices.resize(numVerticesBefore + numVertices);
+			//submesh.m_VertexCount = numVertices;
+			//submesh.m_IndexCount = submeshAllVertices;
+		}
+	}
+
+	void Model::AssimpBuilder::LoadModel(const std::string& filepath) {
+		// Assimp importer
+		Assimp::Importer importer;
+
+		// Load the model file
+		m_scene = importer.ReadFile(filepath,
+			aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenNormals |
+			aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+
+		// Check if the scene or root node is null
+		if (!m_scene || m_scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !m_scene->mRootNode) {
+			throw std::runtime_error("Failed to load model: " + filepath);
+		}
+		//VK_CORE_TRACE("assimp Model Loaded");
+
+		// Process Assimp's root node
+		ProcessNode(m_scene->mRootNode, m_scene);
+	}
+
+	void Model::AssimpBuilder::ProcessNode(aiNode* node, const aiScene* scene) {
+		if (node->mNumMeshes){
+			LoadVertexData(node);
+		}
+		u32 childNodeCount = node->mNumChildren;
+		for (u32 childNodeIndex = 0; childNodeIndex < childNodeCount; ++childNodeIndex)
+		{
+			ProcessNode(node->mChildren[childNodeIndex], scene);
+		}
+	}
+
+	void Model::AssimpBuilder::CreateObject(const aiNode* node) {
+		
+	}
+
+	void Model::AssimpBuilder::LoadVertexData(const aiNode* fbxNodePtr, int vertexColorSet, u32 uvSet)
+	{
+		vertices.clear();
+		indices.clear();
+
+		u32 numMeshes = fbxNodePtr->mNumMeshes;
+		if (numMeshes)
+		{
+			for (u32 meshIndex = 0; meshIndex < numMeshes; ++meshIndex)
+			{
+				LoadVertexData(fbxNodePtr, meshIndex, fbxNodePtr->mMeshes[meshIndex], vertexColorSet, uvSet);
 			}
 		}
 	}
 
+	void Model::AssimpBuilder::LoadVertexData(const aiNode* fbxNodePtr, u32 const meshIndex, u32 const fbxMeshIndex,
+		int vertexColorSet, u32 uvSet)
+	{
+		const aiMesh* mesh = m_scene->mMeshes[fbxMeshIndex];
+
+		// only triangle mesh supported
+		if (!(mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE))
+		{
+			//LOG_CORE_CRITICAL("FbxBuilder::LoadVertexData: only triangle meshes are supported");
+			return;
+		}
+
+		const u32 numVertices = mesh->mNumVertices;
+		const u32 numFaces = mesh->mNumFaces;
+		const u32 numIndices = numFaces * 3; // 3 indices per triangle a.k.a face
+
+		size_t numVerticesBefore = vertices.size();
+		size_t numIndicesBefore = indices.size();
+		vertices.resize(numVerticesBefore + numVertices);
+		indices.resize(numIndicesBefore + numIndices);
+
+		{ // vertices
+			bool hasPositions = mesh->HasPositions();
+			bool hasNormals = mesh->HasNormals();
+			bool hasTangents = mesh->HasTangentsAndBitangents();
+			bool hasUVs = mesh->HasTextureCoords(uvSet);
+			bool hasColors = mesh->HasVertexColors(vertexColorSet);
+
+			//CORE_ASSERT(hasPositions, "no postions found in " + m_Filepath);
+			//CORE_ASSERT(hasNormals, "no normals found in " + m_Filepath);
+
+			m_FbxNoBuiltInTangents = m_FbxNoBuiltInTangents || (!hasTangents);
+
+			u32 vertexIndex = numVerticesBefore;
+			for (u32 fbxVertexIndex = 0; fbxVertexIndex < numVertices; ++fbxVertexIndex)
+			{
+				Vertex& vertex = vertices[vertexIndex];
+
+				if (hasPositions)
+				{ // position (guaranteed to always be there)
+					aiVector3D& positionFbx = mesh->mVertices[fbxVertexIndex];
+					vertex.position = glm::vec3(positionFbx.x, positionFbx.y, positionFbx.z);
+				}
+
+				if (hasNormals) // normals
+				{
+					aiVector3D& normalFbx = mesh->mNormals[fbxVertexIndex];
+					vertex.normal = glm::vec3(normalFbx.x, normalFbx.y, normalFbx.z);
+				}
+
+				//if (hasTangents) // tangents
+				//{
+				//	aiVector3D& tangentFbx = mesh->mTangents[fbxVertexIndex];
+				//	vertex.tangent = glm::vec3(tangentFbx.x, tangentFbx.y, tangentFbx.z);
+				//}
+
+				if (hasUVs) // uv coordinates
+				{
+					aiVector3D& uvFbx = mesh->mTextureCoords[uvSet][fbxVertexIndex];
+					vertex.uv = glm::vec2(uvFbx.x, uvFbx.y);
+				}
+
+				// vertex colors
+				{
+					glm::vec4 vertexColor;
+					u32 materialIndex = mesh->mMaterialIndex;
+					if (hasColors)
+					{
+						aiColor4D& colorFbx = mesh->mColors[vertexColorSet][fbxVertexIndex];
+						glm::vec3 linearColor = glm::pow(glm::vec3(colorFbx.r, colorFbx.g, colorFbx.b), glm::vec3(2.2f));
+						vertexColor = glm::vec4(linearColor.r, linearColor.g, linearColor.b, colorFbx.a);
+						//vertex.color = vertexColor * m_Materials[materialIndex].m_PbrMaterial.m_DiffuseColor;
+					}
+					else
+					{
+						vertex.color = { 1.0f, 1.0f, 1.0f };
+					}
+				}
+				++vertexIndex;
+			}
+		}
+
+		// Indices
+		{
+			u32 index = numIndicesBefore;
+			for (u32 faceIndex = 0; faceIndex < numFaces; ++faceIndex)
+			{
+				const aiFace& face = mesh->mFaces[faceIndex];
+				indices[index + 0] = face.mIndices[0];
+				indices[index + 1] = face.mIndices[1];
+				indices[index + 2] = face.mIndices[2];
+				index += 3;
+			}
+		}
+
+		//// bone indices and bone weights
+		//{
+		//	u32 numberOfBones = mesh->mNumBones;
+		//	std::vector<u32> numberOfBonesBoundtoVertex;
+		//	numberOfBonesBoundtoVertex.resize(vertices.size(), 0);
+		//	for (u32 boneIndex = 0; boneIndex < numberOfBones; ++boneIndex)
+		//	{
+		//		aiBone& bone = *mesh->mBones[boneIndex];
+		//		u32 numberOfWeights = bone.mNumWeights;
+
+		//		// loop over vertices that are bound to that bone
+		//		for (u32 weightIndex = 0; weightIndex < numberOfWeights; ++weightIndex)
+		//		{
+		//			u32 vertexId = bone.mWeights[weightIndex].mVertexId;
+		//			CORE_ASSERT(vertexId < vertices.size(), "memory violation");
+		//			float weight = bone.mWeights[weightIndex].mWeight;
+		//			switch (numberOfBonesBoundtoVertex[vertexId])
+		//			{
+		//			case 0:
+		//				vertices[vertexId].m_JointIds.x = boneIndex;
+		//				vertices[vertexId].m_Weights.x = weight;
+		//				break;
+		//			case 1:
+		//				vertices[vertexId].m_JointIds.y = boneIndex;
+		//				vertices[vertexId].m_Weights.y = weight;
+		//				break;
+		//			case 2:
+		//				vertices[vertexId].m_JointIds.z = boneIndex;
+		//				vertices[vertexId].m_Weights.z = weight;
+		//				break;
+		//			case 3:
+		//				vertices[vertexId].m_JointIds.w = boneIndex;
+		//				vertices[vertexId].m_Weights.w = weight;
+		//				break;
+		//			default:
+		//				break;
+		//			}
+		//			// track how many times this bone was hit
+		//			// (up to four bones can be bound to a vertex)
+		//			++numberOfBonesBoundtoVertex[vertexId];
+		//		}
+		//	}
+		//	// normalize weights
+		//	for (u32 vertexIndex = 0; vertexIndex < vertices.size(); ++vertexIndex)
+		//	{
+		//		glm::vec4& boneWeights = vertices[vertexIndex].m_Weights;
+		//		float weightSum = boneWeights.x + boneWeights.y + boneWeights.z + boneWeights.w;
+		//		if (weightSum > std::numeric_limits<float>::epsilon())
+		//		{
+		//			vertices[vertexIndex].m_Weights = glm::vec4(boneWeights.x / weightSum, boneWeights.y / weightSum,
+		//				boneWeights.z / weightSum, boneWeights.w / weightSum);
+		//		}
+		//	}
+		//}
+	}
+
+	void Model::AssimpBuilder::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
+		vertices.clear();
+		indices.clear();
+		std::unordered_map<Vertex, u32> uniqueVertices{};
+
+		// Extract vertices
+		for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
+			Vertex vertex;
+
+			// Position
+			vertex.position = {
+				mesh->mVertices[i].x,
+				mesh->mVertices[i].y,
+				mesh->mVertices[i].z
+			};
+
+			// Normal
+			vertex.normal = /*-1.0f * glm::vec3*/{
+				mesh->mNormals[i].x,
+				mesh->mNormals[i].y,
+				mesh->mNormals[i].z
+			};
+
+			// Texture Coordinates
+			//if (mesh->mTextureCoords[0]) { // Check if there are texture coordinates
+			//	vertex.uv = {
+			//		mesh->mTextureCoords[0][i].x,
+			//		mesh->mTextureCoords[0][i].y
+			//	};
+			//}
+			//else {
+				vertex.uv = { 0.0f, 0.0f };
+			//}
+			//vertex.color = { 1.0f, 1.0f, 1.0f };
+
+			if (uniqueVertices.count(vertex) == 0) {
+				uniqueVertices[vertex] = static_cast<u32>(vertices.size());
+				vertices.push_back(vertex);
+			}
+			indices.push_back(uniqueVertices[vertex]);
+
+			//VK_CORE_TRACE("Vertex: {0}, {1}, {2}", vertex.position.x, vertex.position.y, vertex.position.z);
+			//VK_CORE_TRACE("Index: {0}", uniqueVertices[vertex]);
+
+		}
+
+		//// Extract indices
+		//for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
+		//	aiFace face = mesh->mFaces[i];
+
+		//	for (unsigned int j = 0; j < face.mNumIndices; ++j) {
+		//		indices.push_back(face.mIndices[j]);
+		//		VK_CORE_TRACE("Index: {0}", indices[j]);
+		//	}
+		//}
+	}
 }  // namespace RVK

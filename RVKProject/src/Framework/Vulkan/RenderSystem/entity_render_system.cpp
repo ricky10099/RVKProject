@@ -86,5 +86,28 @@ namespace RVK {
 			static_cast<Model*>(mesh.model.get())->Bind(frameInfo.commandBuffer);
 			static_cast<Model*>(mesh.model.get())->Draw(frameInfo.commandBuffer);
 		}
+
+		auto view2 = registry.view<Components::Model, Components::Transform>();
+		for (auto entity : view2)
+		{
+			auto& mesh = view2.get<Components::Model>(entity);
+			auto& transform = view2.get<Components::Transform>(entity);
+
+			if (mesh.model == nullptr) continue;
+			EntityPushConstantData push{};
+			push.modelMatrix = mesh.offset.GetTransform() * transform.GetTransform();
+			push.normalMatrix = mesh.offset.NormalMatrix() * transform.NormalMatrix();
+
+			vkCmdPushConstants(
+				frameInfo.commandBuffer,
+				m_pipelineLayout,
+				VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+				0,
+				sizeof(EntityPushConstantData),
+				&push);
+
+			static_cast<MeshModel*>(mesh.model.get())->Bind(frameInfo.commandBuffer);
+			static_cast<MeshModel*>(mesh.model.get())->Draw(frameInfo.commandBuffer);
+		}
 	}
 }  // namespace RVK

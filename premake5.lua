@@ -53,7 +53,7 @@ project "RVKProject"
 	libdirs{
 		"%{VULKAN_SDK}/Lib",
 		"%{LibDir.GLFW}",
-		"%{LibDir.Assimp}",
+		"%{LibDir.Assimp}/%{cfg.buildcfg}",
 		"%{LibDir.PhysX}/%{cfg.buildcfg}",
 	}
 
@@ -61,7 +61,6 @@ project "RVKProject"
 		"vulkan-1.lib",
 		"glfw3.lib",
 		"ImGui",
-		"assimp-vc143-mt.lib",
 		"PhysX_64.lib",
 		"PhysXCommon_64.lib",
 		"PhysXCooking_64.lib",
@@ -71,8 +70,9 @@ project "RVKProject"
 	}
 
 	postbuildcommands{
-		"call $(SolutionDir)compileGLSL.bat",
-		"{COPY} ../%{LibDir.PhysX}/%{cfg.buildcfg}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\""
+		"call $(SolutionDir)compileGLSLC.bat",
+		"{COPY} ../%{LibDir.PhysX}/%{cfg.buildcfg}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\"",
+		"{COPY} ../%{LibDir.Assimp}/%{cfg.buildcfg}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\"",
 	}
 
 	buildoptions{"/utf-8"}
@@ -89,10 +89,18 @@ project "RVKProject"
 		runtime "Debug"
 		symbols "on"
 
+		links{			
+			"assimp-vc143-mtd.lib",
+		}
+
 	filter "configurations:Release"
 		defines "VK_RELEASE"
 		runtime "Release"
 		optimize "on"
 		
+		links{			
+			"assimp-vc143-mt.lib",
+		}
+
 group "external"
 	include "external/ImGui.lua"

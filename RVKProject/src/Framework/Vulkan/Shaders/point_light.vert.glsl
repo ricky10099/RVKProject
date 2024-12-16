@@ -1,4 +1,7 @@
 #version 450
+#pragma shader_stage(vertex)
+
+#include "../SharedDefines.h"
 
 const vec2 OFFSETS[6] = vec2[](
   vec2(-1.0, -1.0),
@@ -21,7 +24,7 @@ layout(set = 0, binding = 0) uniform GlobalUbo {
   mat4 view;
   mat4 invView;
   vec4 ambientLightColor; // w is intensity
-  PointLight pointLights[128];
+  PointLight pointLights[MAX_LIGHTS];
   int numLights;
 } ubo;
 

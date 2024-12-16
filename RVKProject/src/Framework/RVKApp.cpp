@@ -13,8 +13,24 @@
 #include "Framework/Component.h"
 
 namespace RVK {
+	static RVKApp* appInstance;
+
+	RVKApp& GetApp() {
+		if (!appInstance) {
+			VK_CORE_CRITICAL("RVKApp is not initialized");
+		}
+
+		return *appInstance;
+	}
 
 	RVKApp::RVKApp() {
+		if (appInstance) {
+			VK_CORE_CRITICAL("RVKApp already initialized");
+		}
+		else {
+			appInstance = this;
+		}
+
 		globalPool =
 			RVKDescriptorPool::Builder()
 			.SetMaxSets(MAX_FRAMES_IN_FLIGHT)
@@ -59,6 +75,8 @@ namespace RVK {
 			transport->release();
 		}
 		m_pFoundation->release();
+
+		appInstance = nullptr;
 	}
 
 	void RVKApp::Run() {
@@ -101,21 +119,25 @@ namespace RVK {
 
 		m_test = m_currentScene->CreateEntity("test");
 		m_test.AddComponent<Components::Transform>(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
-		m_test.AddComponent<Components::Mesh>("models/Male.obj").SetOffsetPosition(glm::vec3(0.0f, -1.5f, 0.0f));
+		m_test.AddComponent<Components::Mesh>("models/sphere.obj", Model::ModelType::TinyObj).SetOffsetPosition(glm::vec3(0.0f, -1.5f, 0.0f));
 		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
-		{
-			physx::PxTransform localTm(physx::PxVec3(0.0f, 3.0f, 0.f));
-			physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
-			m_pBody = m_pPhysics->createRigidDynamic(localTm);
-			shape->setLocalPose(relativePose);
-			m_pBody->attachShape(*shape);
-			physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
-			m_pScene->addActor(*m_pBody);
-			//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
-		}
+		//{
+		//	physx::PxTransform localTm(physx::PxVec3(0.0f, 3.0f, 0.f));
+		//	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
+		//	m_pBody = m_pPhysics->createRigidDynamic(localTm);
+		//	shape->setLocalPose(relativePose);
+		//	m_pBody->attachShape(*shape);
+		//	physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
+		//	m_pScene->addActor(*m_pBody);
+		//	//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
+		//}
 
-		m_testFloor = m_currentScene->CreateEntity("Floor");
-		m_testFloor.AddComponent<Components::Mesh>("models/quad.obj");
+		m_test2 = m_currentScene->CreateEntity("test2");
+		m_test2.AddComponent<Components::Transform>(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
+		m_test2.AddComponent<Components::Model>("models/Helicopter.fbx").SetOffsetPosition(glm::vec3(0.0f, -1.5f, 0.0f));
+
+		/*m_testFloor = m_currentScene->CreateEntity("Floor");
+		m_testFloor.AddComponent<Components::Mesh>("models/quad.obj", Model::ModelType::TinyObj);
 		m_testFloor.AddComponent<Components::Transform>(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(5.0f));
 		shape = m_pPhysics->createShape(physx::PxBoxGeometry(5.0f, 0.001f, 5.0f), *m_pMaterial);
 		{
@@ -123,7 +145,7 @@ namespace RVK {
 			m_pFloor = m_pPhysics->createRigidStatic(localTm);
 			m_pFloor->attachShape(*shape);
 			m_pScene->addActor(*m_pFloor);
-		}
+		}*/
 
 		m_testLight = m_currentScene->CreateEntity("testLight");
 		m_testLight.AddComponent<Components::Transform>(glm::vec3(0.f, 0.f, 0.f));
@@ -178,16 +200,16 @@ namespace RVK {
 					cam.camera.SetPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
 				}
 			}
-			{
-				Components::Transform pos = m_test.GetComponent<Components::Transform>();
-				glm::vec3 bodyPos = pos.position/* + glm::vec3(0.f, 1.5f, 0.f)*/;
-				physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
-				m_pBody->setGlobalPose(t);
-			}
+			//{
+			//	Components::Transform pos = m_test.GetComponent<Components::Transform>();
+			//	glm::vec3 bodyPos = pos.position/* + glm::vec3(0.f, 1.5f, 0.f)*/;
+			//	physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
+			//	m_pBody->setGlobalPose(t);
+			//}
 			m_pScene->simulate(frameTime);
 			m_pScene->fetchResults(true);
 
-			m_test.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p)/* - glm::vec3(0.f, 1.5f, 0.f)*/;
+			//m_test.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p)/* - glm::vec3(0.f, 1.5f, 0.f)*/;
 
 			if (auto commandBuffer = m_rvkRenderer.BeginFrame()) {
 				int frameIndex = m_rvkRenderer.GetFrameIndex();

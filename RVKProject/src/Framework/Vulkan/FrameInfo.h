@@ -2,10 +2,9 @@
 
 #include "Framework/Camera.h"
 #include "Framework/GameObject.h"
+#include "Framework/Vulkan/SharedDefines.h"
 
 namespace RVK {
-#define MAX_LIGHTS 128
-
 	struct PointLight {
 		glm::vec4 position{};  // ignore w
 		glm::vec4 color{};     // w is intensity
@@ -24,7 +23,6 @@ namespace RVK {
 		PointLight pointLights[MAX_LIGHTS];
 		int numLights;
 	};
-
 
 	struct FrameInfo {
 		int frameIndex;

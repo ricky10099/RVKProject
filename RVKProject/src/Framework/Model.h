@@ -9,9 +9,28 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
+#include "ufbx/ufbx.h"
+
 namespace RVK {
+	struct Submesh
+	{
+		u32 firstIndex;
+		u32 firstVertex;
+		u32 indexCount;
+		u32 vertexCount;
+		//u32 instanceCount;
+		//Material m_Material;
+		//Resources m_Resources;
+	};
+
 	class Model {
 	public:
+		enum class ModelType {
+			TinyObj,
+			Ufbx,
+			Assimp,
+		};
+
 		struct Vertex {
 			glm::vec3 position{};
 			glm::vec3 color{};
@@ -27,35 +46,48 @@ namespace RVK {
 			}
 		};
 
-		struct Builder {
+		struct TinyObjBuilder {
 			std::vector<Vertex> vertices{};
 			std::vector<u32> indices{};
 
 			void LoadModel(const std::string& filepath);
 		};
-		 
-		struct AssimpLoader {
+
+		struct ufbxBuilder {
 			std::vector<Vertex> vertices{};
 			std::vector<u32> indices{};
-			std::vector<Material> m_materials;
-			std::vector<Material::MaterialTextures> m_materialTextures{};
-			std::vector<std::shared_ptr<Texture>> m_textures;
 
-			void LoadModel(std::string_view filepath);
-			void LoadMaterials(const aiScene* scene);
-			void LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial);
-			void LoadMap(const aiMaterial* fbxMaterial, aiTextureType textureType, int materialIndex);
-			//void MarkNode(const aiNode* fbxNodePtr, const aiScene* scene);
-			void ProcessNode(const aiNode* fbxNodePtr);
-			std::shared_ptr<Texture> LoadTexture(std::string const& filepath, bool useSRGB);
+			void LoadModel(const std::string& filepath);
+			void LoadVertexData(const ufbx_node* fbxNodePtr, const u32 idx);
+			void convert_mesh_part(ufbx_mesh* mesh, ufbx_mesh_part* part);
 		};
 
-		Model(const Model::Builder& builder);
+		struct AssimpBuilder {
+			std::vector<Vertex> vertices{};
+			std::vector<u32> indices{};
+			std::vector<Submesh> submeshes{};
+			const aiScene* m_scene{};
+			bool m_FbxNoBuiltInTangents;
+
+			void LoadModel(const std::string& filepath);
+			void ProcessNode(aiNode* node, const aiScene* scene);
+			void ProcessMesh(aiMesh* mesh, const aiScene* scene);
+			void CreateObject(const aiNode* fbxNodePtr);
+			void LoadVertexData(const aiNode* fbxNodePtr, int vertexColorSet = 0, u32 uvSet = 0);
+			void LoadVertexData(const aiNode* fbxNodePtr, u32 const meshIndex, u32 const fbxMeshIndex, int vertexColorSet = 0,
+				u32 uvSet = 0);
+			void CalculateTangents();
+			void CalculateTangentsFromIndexBuffer(const std::vector<u32>& indices);
+		};
+
+		Model(const Model::TinyObjBuilder& builder);
+		Model(const Model::ufbxBuilder& builder);
+		Model(const Model::AssimpBuilder& builder);
 		~Model();
 
 		NO_COPY(Model)
 
-		static std::unique_ptr<Model> CreateModelFromFile(const std::string& filepath);
+		static std::unique_ptr<Model> CreateModelFromFile(const std::string& filepath, ModelType type = ModelType::Ufbx);
 
 		void Bind(VkCommandBuffer commandBuffer);
 		void Draw(VkCommandBuffer commandBuffer);

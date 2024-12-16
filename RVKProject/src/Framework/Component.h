@@ -8,6 +8,7 @@
 
 #include "Framework/Utils.h"
 #include "Framework/Model.h"
+#include "Framework/MeshModel.h"
 #include "Framework/Camera.h"
 
 
@@ -49,13 +50,32 @@ namespace RVK::Components {
 	};
 
 	struct Mesh {
-		std::shared_ptr<Model> model;
+		std::shared_ptr<RVK::Model> model;
 		Transform offset{ glm::vec3(0.0f) };
 
 		Mesh() = default;
 		Mesh(const Mesh&) = default;
-		Mesh(const std::string& path)
-			: model(Model::CreateModelFromFile(path)) {}
+		Mesh(const std::string& path, RVK::Model::ModelType type = RVK::Model::ModelType::Ufbx)
+			: model(RVK::Model::CreateModelFromFile(path, type)) {}
+		void SetOffsetPosition(const glm::vec3& pos) {
+			offset.position = pos;
+		}
+		void SetOffsetRotation(const glm::vec3& rot) {
+			offset.rotation = rot;
+		}
+		void SetOffetScale(const glm::vec3& scale) {
+			offset.scale = scale;
+		}
+	};
+
+	struct Model {
+		std::shared_ptr<MeshModel> model;
+		Transform offset{ glm::vec3(0.0f) };
+
+		Model() = default;
+		Model(const Model&) = default;
+		Model(const std::string& path)
+			: model(MeshModel::CreateMeshModelFromFile(path)) {}
 		void SetOffsetPosition(const glm::vec3& pos) {
 			offset.position = pos;
 		}

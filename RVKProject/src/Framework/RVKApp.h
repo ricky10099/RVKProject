@@ -15,7 +15,10 @@ namespace RVK {
 	 public:
 	  static constexpr int WIDTH = 1280;
 	  static constexpr int HEIGHT = 720;
+	  // note: order of declarations matters
+	  std::unique_ptr<RVKDescriptorPool> globalPool{};
 
+	public:
 	  RVKApp();
 	  ~RVKApp();
 
@@ -30,13 +33,13 @@ namespace RVK {
 	  RVKWindow m_rvkWindow{WIDTH, HEIGHT, "Vulkan App"};
 	  RVKRenderer m_rvkRenderer{m_rvkWindow};
 
-	  // note: order of declarations matters
-	  std::unique_ptr<RVKDescriptorPool> globalPool{};
+
 	  GameObject::Map gameObjects;
 
 	  std::unique_ptr<Scene> m_currentScene;
 
 	  Entity m_test;
+	  Entity m_test2;
 	  Entity m_testLight;
 	  Entity m_testFloor;
 
@@ -53,4 +56,6 @@ namespace RVK {
 	  physx::PxRigidStatic* m_pFloor = nullptr;
 	  ///////////////////////////////////////////////////////////////
 	};
+
+	RVKApp& GetApp();
 }  // namespace RVK
