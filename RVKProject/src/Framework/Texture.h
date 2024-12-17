@@ -26,6 +26,7 @@ namespace RVK {
         int GetWidth() const { return m_width; }
         int GetHeight() const { return m_height; }
 
+
 	private:
         bool Create();
         void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer,

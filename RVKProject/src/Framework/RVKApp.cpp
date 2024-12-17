@@ -136,9 +136,9 @@ namespace RVK {
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
 
-		m_test = m_currentScene->CreateEntity("test");
-		m_test.AddComponent<Components::Transform>(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
-		m_test.AddComponent<Components::Model>("models/sphere.obj").SetOffsetPosition(glm::vec3(0.0f));
+		//m_test = m_currentScene->CreateEntity("test");
+		//m_test.AddComponent<Components::Transform>(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
+		//m_test.AddComponent<Components::Model>("models/sphere.obj").SetOffsetPosition(glm::vec3(0.0f));
 		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
 		//{
 		//	physx::PxTransform localTm(physx::PxVec3(0.0f, 3.0f, 0.f));
