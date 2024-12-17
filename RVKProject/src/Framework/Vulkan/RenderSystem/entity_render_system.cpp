@@ -9,7 +9,7 @@ namespace RVK {
 		glm::mat4 normalMatrix{ 1.f };
 	};
 
-	EntityRenderSystem::EntityRenderSystem(VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout) {
+	EntityRenderSystem::EntityRenderSystem(VkRenderPass renderPass, std::vector<VkDescriptorSetLayout> globalSetLayout) {
 		CreatePipelineLayout(globalSetLayout);
 		CreatePipeline(renderPass);
 	}
@@ -18,18 +18,18 @@ namespace RVK {
 		vkDestroyPipelineLayout(RVKDevice::s_rvkDevice->GetDevice(), m_pipelineLayout, nullptr);
 	}
 
-	void EntityRenderSystem::CreatePipelineLayout(VkDescriptorSetLayout globalSetLayout) {
+	void EntityRenderSystem::CreatePipelineLayout(std::vector<VkDescriptorSetLayout> globalSetLayout) {
 		VkPushConstantRange pushConstantRange{};
 		pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
 		pushConstantRange.offset = 0;
 		pushConstantRange.size = sizeof(EntityPushConstantData);
 
-		std::vector<VkDescriptorSetLayout> descriptorSetLayouts{ globalSetLayout };
+		//std::vector<VkDescriptorSetLayout> descriptorSetLayouts{ globalSetLayout };
 
 		VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 		pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		pipelineLayoutInfo.setLayoutCount = static_cast<u32>(descriptorSetLayouts.size());
-		pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
+		pipelineLayoutInfo.setLayoutCount = static_cast<u32>(globalSetLayout.size());
+		pipelineLayoutInfo.pSetLayouts = globalSetLayout.data();
 		pipelineLayoutInfo.pushConstantRangeCount = 1;
 		pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
@@ -64,7 +64,7 @@ namespace RVK {
 			0,
 			nullptr);
 
-		auto view = registry.view<Components::Mesh, Components::Transform>();
+		/*auto view = registry.view<Components::Mesh, Components::Transform>();
 		for (auto entity : view) {
 			auto& mesh = view.get<Components::Mesh>(entity);
 			auto& transform = view.get<Components::Transform>(entity);
@@ -84,7 +84,7 @@ namespace RVK {
 
 			static_cast<Model*>(mesh.model.get())->Bind(frameInfo.commandBuffer);
 			static_cast<Model*>(mesh.model.get())->Draw(frameInfo.commandBuffer);
-		}
+		}*/
 
 		auto view2 = registry.view<Components::Model, Components::Transform>();
 		for (auto entity : view2) {
@@ -104,7 +104,7 @@ namespace RVK {
 				sizeof(EntityPushConstantData),
 				&push);
 
-			static_cast<MeshModel*>(mesh.model.get())->Bind(frameInfo.commandBuffer);
+			static_cast<MeshModel*>(mesh.model.get())->Bind(frameInfo, m_pipelineLayout);
 			static_cast<MeshModel*>(mesh.model.get())->Draw(frameInfo.commandBuffer);
 		}
 	}

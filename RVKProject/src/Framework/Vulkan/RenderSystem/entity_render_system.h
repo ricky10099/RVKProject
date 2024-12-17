@@ -3,12 +3,11 @@
 #include <EnTT/entt.hpp>
 
 #include "Framework/Vulkan/RVKPipeline.h"
-//#include "Framework/Vulkan/FrameInfo.h"
 
 namespace RVK {
 	class EntityRenderSystem {
 	public:
-		EntityRenderSystem(VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
+		EntityRenderSystem(VkRenderPass renderPass, std::vector<VkDescriptorSetLayout> globalSetLayouts);
 		~EntityRenderSystem();
 
 		NO_COPY(EntityRenderSystem)
@@ -16,7 +15,7 @@ namespace RVK {
 		void RenderEntities(FrameInfo& frameInfo, entt::registry& registry);
 
 	private:
-		void CreatePipelineLayout(VkDescriptorSetLayout globalSetLayout);
+		void CreatePipelineLayout(std::vector<VkDescriptorSetLayout> globalSetLayout);
 		void CreatePipeline(VkRenderPass renderPass);
 
 		std::unique_ptr<RVKPipeline> m_rvkPipeline;

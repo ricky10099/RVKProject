@@ -6,7 +6,6 @@
 #include "Framework/Vulkan/RVKWindow.h"
 #include "Framework/Vulkan/RVKRenderer.h"
 #include "Framework/Vulkan/RVKDescriptors.h"
-#include "Framework/GameObject.h"
 #include "Framework/Scene.h"
 #include "Framework/Entity.h"
 
@@ -32,9 +31,6 @@ namespace RVK {
 
 	  RVKWindow m_rvkWindow{WIDTH, HEIGHT, "Vulkan App"};
 	  RVKRenderer m_rvkRenderer{m_rvkWindow};
-
-
-	  GameObject::Map gameObjects;
 
 	  std::unique_ptr<Scene> m_currentScene;
 

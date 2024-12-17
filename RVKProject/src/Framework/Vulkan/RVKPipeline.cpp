@@ -1,6 +1,6 @@
 #include "Framework/Vulkan/RVKPipeline.h"
 #include "Framework/Vulkan/RVKDevice.h"
-#include "Framework/Model.h"
+#include "Framework/MeshModel.h"
 
 namespace RVK {
 	RVKPipeline::RVKPipeline(
@@ -165,8 +165,8 @@ namespace RVK {
 			static_cast<u32>(configInfo.dynamicStateEnables.size());
 		configInfo.dynamicStateInfo.flags = 0;
 
-		configInfo.bindingDescriptions = Model::Vertex::GetBindingDescriptions();
-		configInfo.attributeDescriptions = Model::Vertex::GetAttributeDescriptions();
+		configInfo.bindingDescriptions = Vertex::GetBindingDescriptions();
+		configInfo.attributeDescriptions = Vertex::GetAttributeDescriptions();
 	}
 
 	void RVKPipeline::EnableAlphaBlending(PipelineConfigInfo& configInfo) {

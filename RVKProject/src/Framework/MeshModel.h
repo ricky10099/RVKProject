@@ -73,7 +73,7 @@ namespace RVK {
 
 		static std::unique_ptr<MeshModel> CreateMeshModelFromFile(const std::string& filepath);
 
-		void Bind(VkCommandBuffer commandBuffer);
+		void Bind(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout);
 		void Draw(VkCommandBuffer commandBuffer);
 		void DrawMesh(VkCommandBuffer commandBuffer, Mesh mesh);
 
@@ -93,7 +93,7 @@ namespace RVK {
 		void CreateVertexBuffers(const std::vector<Vertex>& vertices);
 		void CreateIndexBuffers(const std::vector<u32>& indices);
 
-		void BindDescriptors(FrameInfo& frameInfo, VkPipelineLayout pipelineLayout, Mesh mesh);
-		void PushConstantsPbr(FrameInfo& frameInfo, VkPipelineLayout pipelineLayout, Mesh mesh);
+		void BindDescriptors(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, const Mesh& mesh);
+		void PushConstantsPbr(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, const Mesh& mesh);
 	};
 }  // namespace RVK

@@ -3,7 +3,7 @@
 
 namespace RVK {
 	void KeyboardMovementController::MoveInPlaneXZ(
-		GLFWwindow* window, float dt, Entity& entity, GameObject& camera) {
+		GLFWwindow* window, float dt, Entity& entity) {
 		glm::vec3 rotate{ 0 };
 
 		const glm::vec3 forwardDir{ 0.f, 0.f, -1.0f };

@@ -92,7 +92,7 @@ namespace RVK {
 		RVKDevice::s_rvkDevice->CopyBuffer(stagingBuffer.GetBuffer(), m_indexBuffer->GetBuffer(), bufferSize);
 	}
 
-	void MeshModel::BindDescriptors(FrameInfo& frameInfo, VkPipelineLayout pipelineLayout, Mesh mesh) {
+	void MeshModel::BindDescriptors(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, const Mesh& mesh) {
 		const VkDescriptorSet& materialDescriptorSet = mesh.material.m_materialDescriptor->GetDescriptorSet();
 
 		std::vector<VkDescriptorSet> descriptorSets = { frameInfo.globalDescriptorSet, materialDescriptorSet};
@@ -100,18 +100,20 @@ namespace RVK {
 			VK_PIPELINE_BIND_POINT_GRAPHICS,				// VkPipelineBindPoint    pipelineBindPoint,
 			pipelineLayout,									// VkPipelineLayout       layout,
 			0,												// uint32_t               firstSet,
-			descriptorSets.size(),							// uint32_t               descriptorSetCount,
+			static_cast<u32>(descriptorSets.size()),			// uint32_t               descriptorSetCount,
 			descriptorSets.data(),							// const VkDescriptorSet* pDescriptorSets,
 			0,												// uint32_t               dynamicOffsetCount,
 			nullptr											// const uint32_t*        pDynamicOffsets);
 		);
 	}
 
+	void MeshModel::PushConstantsPbr(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, const Mesh& mesh) {
+		vkCmdPushConstants(frameInfo.commandBuffer, pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0,
+			sizeof(Material::PBRMaterial), &mesh.material.m_PBRMaterial);
+	}
 
 	void MeshModel::Draw(VkCommandBuffer commandBuffer) {
 		for (auto& mesh : m_meshesMap) {
-			BindDescriptors(frameInfo, pipelineLayout, mesh);
-			PushConstantsPbr(frameInfo, pipelineLayout, mesh);
 			DrawMesh(commandBuffer, mesh);
 		}
 	}
@@ -124,19 +126,18 @@ namespace RVK {
 			vkCmdDraw(commandBuffer, mesh.vertexCount, 1, mesh.firstVertex, 0);
 		}
 	}
-
-	void MeshModel::Bind(FrameInfo& frameInfo) {
+	void MeshModel::Bind(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout) {
 		VkBuffer buffers[] = { m_vertexBuffer->GetBuffer() };
 		VkDeviceSize offsets[] = { 0 };
-		vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
+		vkCmdBindVertexBuffers(frameInfo.commandBuffer, 0, 1, buffers, offsets);
 
 		if (m_hasIndexBuffer) {
-			vkCmdBindIndexBuffer(commandBuffer, m_indexBuffer->GetBuffer(), 0, VK_INDEX_TYPE_UINT32);
+			vkCmdBindIndexBuffer(frameInfo.commandBuffer, m_indexBuffer->GetBuffer(), 0, VK_INDEX_TYPE_UINT32);
 		}
 
 		for (auto& mesh : m_meshesMap) {
 			BindDescriptors(frameInfo, pipelineLayout, mesh);
-			PushConstantsPbr(frameInfo, pipelineLayout, mesh);
+			//PushConstantsPbr(frameInfo, pipelineLayout, mesh);
 		}
 	}
 
@@ -290,7 +291,7 @@ namespace RVK {
 		aiString aiFilepath;
 		auto getTexture = fbxMaterial->GetTexture(textureType, 0 /* first map*/, &aiFilepath);
 		std::string fbxFilepath(aiFilepath.C_Str());
-		std::string filepath(fbxFilepath);
+		std::string filepath("../models/" + fbxFilepath);
 		if (getTexture == aiReturn_SUCCESS)
 		{
 			switch (textureType)

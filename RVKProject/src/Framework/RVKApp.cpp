@@ -5,11 +5,8 @@
 #include "Framework/keyboard_movement_controller.h"
 #include "Framework/Vulkan/RVKBuffer.h"
 #include "Framework/Camera.h"
-#include "Framework/Vulkan/RenderSystem/simple_render_system.h"
 #include "Framework/Vulkan/RenderSystem/entity_render_system.h"
-#include "Framework/Vulkan/RenderSystem/point_light_system.h"
 #include "Framework/Vulkan/RenderSystem/entity_point_light_system.h"
-//#include "Framework/Vulkan/FrameInfo.h"
 #include "Framework/Component.h"
 
 namespace RVK {
@@ -31,10 +28,13 @@ namespace RVK {
 			appInstance = this;
 		}
 
+		// create a global pool for desciptor sets
+		static constexpr u32 POOL_SIZE = 10000;
 		globalPool =
 			RVKDescriptorPool::Builder()
-			.SetMaxSets(MAX_FRAMES_IN_FLIGHT)
+			.SetMaxSets(MAX_FRAMES_IN_FLIGHT * POOL_SIZE)
 			.AddPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT)
+			.AddPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, MAX_FRAMES_IN_FLIGHT * 1000)
 			.Build();
 
 		/////////////////////////////////////////////////////////////////
@@ -95,6 +95,22 @@ namespace RVK {
 			.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
 			.Build();
 
+		std::unique_ptr<RVKDescriptorSetLayout> pbrMaterialDescriptorSetLayout =
+			RVKDescriptorSetLayout::Builder()
+			.AddBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+				VK_SHADER_STAGE_FRAGMENT_BIT) // diffuse color map
+			.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+				VK_SHADER_STAGE_FRAGMENT_BIT) // normal map
+			.AddBinding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+				VK_SHADER_STAGE_FRAGMENT_BIT) // roughness metallic map
+			.AddBinding(3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+				VK_SHADER_STAGE_FRAGMENT_BIT) // emissive map
+			.AddBinding(4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+				VK_SHADER_STAGE_FRAGMENT_BIT) // roughness map
+			.AddBinding(5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+				VK_SHADER_STAGE_FRAGMENT_BIT) // metallic map
+			.Build();
+
 		std::vector<VkDescriptorSet> globalDescriptorSets(MAX_FRAMES_IN_FLIGHT);
 		for (int i = 0; i < globalDescriptorSets.size(); i++) {
 			auto bufferInfo = uboBuffers[i]->DescriptorInfo();
@@ -103,23 +119,26 @@ namespace RVK {
 				.Build(globalDescriptorSets[i]);
 		}
 
+		std::vector<VkDescriptorSetLayout> descriptorSetLayoutsPbr = {
+			globalSetLayout->GetDescriptorSetLayout(),
+			pbrMaterialDescriptorSetLayout->GetDescriptorSetLayout()
+		};
+
 		EntityRenderSystem entityRenderSystem{
 			m_rvkRenderer.GetSwapChainRenderPass(),
-			globalSetLayout->GetDescriptorSetLayout() };
+			descriptorSetLayoutsPbr };
 
 		EntityPointLightSystem entityPointLightSystem{
 			m_rvkRenderer.GetSwapChainRenderPass(),
 			globalSetLayout->GetDescriptorSetLayout() };
 
-		auto viewerObject = GameObject::CreateGameObject();
-		viewerObject.m_transform.translation = { 0.0f, 1.0f, -2.5f };
 		KeyboardMovementController cameraController{};
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
 
 		m_test = m_currentScene->CreateEntity("test");
-		m_test.AddComponent<Components::Transform>(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
-		m_test.AddComponent<Components::Mesh>("models/sphere.obj", Model::ModelType::TinyObj).SetOffsetPosition(glm::vec3(0.0f, -1.5f, 0.0f));
+		m_test.AddComponent<Components::Transform>(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
+		m_test.AddComponent<Components::Model>("models/sphere.obj").SetOffsetPosition(glm::vec3(0.0f));
 		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
 		//{
 		//	physx::PxTransform localTm(physx::PxVec3(0.0f, 3.0f, 0.f));
@@ -133,8 +152,8 @@ namespace RVK {
 		//}
 
 		m_test2 = m_currentScene->CreateEntity("test2");
-		m_test2.AddComponent<Components::Transform>(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
-		m_test2.AddComponent<Components::Model>("models/Helicopter.fbx").SetOffsetPosition(glm::vec3(0.0f, -1.5f, 0.0f));
+		m_test2.AddComponent<Components::Transform>(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
+		m_test2.AddComponent<Components::Model>("models/Helicopter.fbx").SetOffsetPosition(glm::vec3(0.0f));
 
 		/*m_testFloor = m_currentScene->CreateEntity("Floor");
 		m_testFloor.AddComponent<Components::Mesh>("models/quad.obj", Model::ModelType::TinyObj);
@@ -159,7 +178,7 @@ namespace RVK {
 				std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
 			currentTime = newTime;
 
-			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, m_test, viewerObject);
+			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, m_test);
 
 			float aspect = m_rvkRenderer.GetAspectRatio();
 			for (auto [entity, cam, transform] : 
@@ -250,53 +269,6 @@ namespace RVK {
 	}
 
 	void RVKApp::LoadGameObjects() {
-		//std::shared_ptr<Model> model =
-		//	Model::CreateModelFromFile("models/Male.obj");
-		//auto male = GameObject::CreateGameObject();
-		//male.m_model = model;
-		//male.m_transform.translation = { -.5f, 1.5f, 0.f };
-		//male.m_transform.scale = { .1f, .1f, .1f };
-		//gameObjects.emplace(male.GetId(), std::move(male));
-		//physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
-		//{
-		//	physx::PxTransform localTm(physx::PxVec3(-.5f, 1.5f, 0.f));
-		//	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
-		//	m_pBody = m_pPhysics->createRigidDynamic(localTm);
-		//	shape->setLocalPose(relativePose);
-		//	m_pBody->attachShape(*shape);
-		//	physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
-		//	m_pScene->addActor(*m_pBody);
-		//	//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
-		//}
-		//shape = m_pPhysics->createShape(physx::PxBoxGeometry(1.f, 1.0f, 1.0f), *m_pMaterial);
-		//{
-		//	physx::PxTransform localTm(physx::PxVec3(-.5f, .5f, 2.f));
-		//	physx::PxRigidStatic* b= m_pPhysics->createRigidStatic(localTm);
-		//	b->attachShape(*shape);
-		//	m_pScene->addActor(*b);
-		//}
-
-		//model = Model::CreateModelFromFile("models/smooth_vase.obj");
-		//auto smoothVase = GameObject::CreateGameObject();
-		//smoothVase.m_model = model;
-		//smoothVase.m_transform.translation = { .5f, 1.5f, 0.f };
-		//smoothVase.m_transform.scale = { 3.f, 1.5f, 3.f };
-		//gameObjects.emplace(smoothVase.GetId(), std::move(smoothVase));
-
-		//model = Model::CreateModelFromFile("models/quad.obj");
-		//auto floor = GameObject::CreateGameObject();
-		//floor.m_model = model;
-		//floor.m_transform.translation = { 2.f, .5f, 2.f };
-		//floor.m_transform.scale = { 3.f, 1.f, 3.f };
-		//gameObjects.emplace(floor.GetId(), std::move(floor));
-		//shape = m_pPhysics->createShape(physx::PxBoxGeometry(3.0f, 0.001f, 3.0f), *m_pMaterial);
-		//{
-		//	physx::PxTransform localTm(physx::PxVec3(2.0f, .5f, 2.f));
-		//	m_pFloor = m_pPhysics->createRigidStatic(localTm);
-		//	m_pFloor->attachShape(*shape);
-		//	m_pScene->addActor(*m_pFloor);
-		//}
-
 		std::vector<glm::vec3> lightColors{
 			{1.f, .1f, .1f},
 			{.1f, .1f, 1.f},

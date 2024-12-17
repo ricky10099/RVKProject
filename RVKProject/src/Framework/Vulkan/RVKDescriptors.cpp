@@ -95,7 +95,8 @@ namespace RVK {
 
 		// Might want to create a "DescriptorPoolManager" class that handles this case, and builds
 		// a new pool whenever an old pool fills up. But this is beyond our current scope
-		if (vkAllocateDescriptorSets(RVKDevice::s_rvkDevice->GetDevice(), &allocInfo, &descriptor) != VK_SUCCESS) {
+		VkResult result = vkAllocateDescriptorSets(RVKDevice::s_rvkDevice->GetDevice(), &allocInfo, &descriptor);
+		if (result != VK_SUCCESS) {
 			return false;
 		}
 		return true;

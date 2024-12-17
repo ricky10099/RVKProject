@@ -4,7 +4,6 @@
 #include <EnTT/entt.hpp>
 
 #include "Framework/Entity.h"
-#include "Framework/GameObject.h"
 
 namespace RVK {
 	class KeyboardMovementController {
@@ -22,7 +21,7 @@ namespace RVK {
 			int lookDown = GLFW_KEY_DOWN;
 		};
 
-		void MoveInPlaneXZ(GLFWwindow* window, float dt, Entity& entity, GameObject& camera);
+		void MoveInPlaneXZ(GLFWwindow* window, float dt, Entity& entity);
 
 		KeyMappings keys{};
 		float moveSpeed{ 3.f };

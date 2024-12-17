@@ -7,7 +7,6 @@
 #include <PxPhysicsAPI.h>
 
 #include "Framework/Utils.h"
-#include "Framework/Model.h"
 #include "Framework/MeshModel.h"
 #include "Framework/Camera.h"
 
@@ -47,25 +46,6 @@ namespace RVK::Components {
 		}
 
 		void Translate(const glm::vec3& pos) { position += pos; }
-	};
-
-	struct Mesh {
-		std::shared_ptr<RVK::Model> model;
-		Transform offset{ glm::vec3(0.0f) };
-
-		Mesh() = default;
-		Mesh(const Mesh&) = default;
-		Mesh(const std::string& path, RVK::Model::ModelType type = RVK::Model::ModelType::Ufbx)
-			: model(RVK::Model::CreateModelFromFile(path, type)) {}
-		void SetOffsetPosition(const glm::vec3& pos) {
-			offset.position = pos;
-		}
-		void SetOffsetRotation(const glm::vec3& rot) {
-			offset.rotation = rot;
-		}
-		void SetOffetScale(const glm::vec3& scale) {
-			offset.scale = scale;
-		}
 	};
 
 	struct Model {

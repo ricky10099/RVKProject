@@ -3,6 +3,7 @@
 #include "Framework/RVKApp.h"
 
 namespace RVK {
+    extern std::shared_ptr<Texture> DefaultTexture;
 	MaterialDescriptor::MaterialDescriptor(Material::MaterialTextures& textures) {
         // textures
         std::shared_ptr<Texture> diffuseMap;
@@ -11,7 +12,8 @@ namespace RVK {
         std::shared_ptr<Texture> emissiveMap;
         std::shared_ptr<Texture> roughnessMap;
         std::shared_ptr<Texture> metallicMap;
-        std::shared_ptr<Texture> dummy;
+        std::shared_ptr<Texture> dummy = std::make_shared<Texture>(true);
+        dummy->Init("../models/checker.png", true);
 
         diffuseMap = textures[Material::DIFFUSE_MAP_INDEX] ? textures[Material::DIFFUSE_MAP_INDEX] : dummy;
         normalMap = textures[Material::NORMAL_MAP_INDEX] ? textures[Material::NORMAL_MAP_INDEX] : dummy;

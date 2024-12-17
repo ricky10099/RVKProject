@@ -1,5 +1,6 @@
 #version 450
 #pragma shader_stage(fragment)
+#extension GL_KHR_vulkan_glsl: enable
 
 #include "../SharedDefines.h"
 
