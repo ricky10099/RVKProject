@@ -95,20 +95,25 @@ namespace RVK {
 			.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
 			.Build();
 
-		std::unique_ptr<RVKDescriptorSetLayout> pbrMaterialDescriptorSetLayout =
+		std::unique_ptr<RVKDescriptorSetLayout> textureDescriptorSetLayout =
 			RVKDescriptorSetLayout::Builder()
 			.AddBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
 				VK_SHADER_STAGE_FRAGMENT_BIT) // diffuse color map
-			.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-				VK_SHADER_STAGE_FRAGMENT_BIT) // normal map
-			.AddBinding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-				VK_SHADER_STAGE_FRAGMENT_BIT) // roughness metallic map
-			.AddBinding(3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-				VK_SHADER_STAGE_FRAGMENT_BIT) // emissive map
-			.AddBinding(4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-				VK_SHADER_STAGE_FRAGMENT_BIT) // roughness map
-			.AddBinding(5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-				VK_SHADER_STAGE_FRAGMENT_BIT) // metallic map
+			//.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			//	VK_SHADER_STAGE_FRAGMENT_BIT) // normal map
+			//.AddBinding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			//	VK_SHADER_STAGE_FRAGMENT_BIT) // roughness metallic map
+			//.AddBinding(3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			//	VK_SHADER_STAGE_FRAGMENT_BIT) // emissive map
+			//.AddBinding(4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			//	VK_SHADER_STAGE_FRAGMENT_BIT) // roughness map
+			//.AddBinding(5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			//	VK_SHADER_STAGE_FRAGMENT_BIT) // metallic map
+			.Build();
+
+		std::unique_ptr<RVKDescriptorSetLayout> pbrDescriptorSetLayout = 
+			RVKDescriptorSetLayout::Builder()
+			.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT)
 			.Build();
 
 		std::vector<VkDescriptorSet> globalDescriptorSets(MAX_FRAMES_IN_FLIGHT);
@@ -121,7 +126,7 @@ namespace RVK {
 
 		std::vector<VkDescriptorSetLayout> descriptorSetLayoutsPbr = {
 			globalSetLayout->GetDescriptorSetLayout(),
-			pbrMaterialDescriptorSetLayout->GetDescriptorSetLayout()
+			textureDescriptorSetLayout->GetDescriptorSetLayout()
 		};
 
 		EntityRenderSystem entityRenderSystem{
@@ -178,7 +183,7 @@ namespace RVK {
 				std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
 			currentTime = newTime;
 
-			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, m_test);
+			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, m_test2);
 
 			float aspect = m_rvkRenderer.GetAspectRatio();
 			for (auto [entity, cam, transform] : 

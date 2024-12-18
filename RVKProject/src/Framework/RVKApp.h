@@ -39,6 +39,7 @@ namespace RVK {
 	  Entity m_testLight;
 	  Entity m_testFloor;
 
+
 	  ////////////////////////////////////////////////////////////
 	  physx::PxDefaultAllocator m_defaultAllocator;
 	  physx::PxDefaultErrorCallback m_defaultErrorCallback;

@@ -26,28 +26,28 @@ namespace RVK {
 
         {
             RVKDescriptorSetLayout::Builder builder{};
-            builder.AddBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
-                .AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
-                .AddBinding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
-                .AddBinding(3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
-                .AddBinding(4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
-                .AddBinding(5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
+            builder.AddBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
+                //.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
+                //.AddBinding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
+                //.AddBinding(3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
+                //.AddBinding(4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
+                //.AddBinding(5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
             std::unique_ptr<RVKDescriptorSetLayout> localDescriptorSetLayout = builder.Build();
 
             auto& imageInfo0 = static_cast<Texture*>(diffuseMap.get())->GetDescriptorImageInfo();
-            auto& imageInfo1 = static_cast<Texture*>(normalMap.get())->GetDescriptorImageInfo();
-            auto& imageInfo2 = static_cast<Texture*>(roughnessMetallicMap.get())->GetDescriptorImageInfo();
-            auto& imageInfo3 = static_cast<Texture*>(emissiveMap.get())->GetDescriptorImageInfo();
-            auto& imageInfo4 = static_cast<Texture*>(roughnessMap.get())->GetDescriptorImageInfo();
-            auto& imageInfo5 = static_cast<Texture*>(metallicMap.get())->GetDescriptorImageInfo();
+            //auto& imageInfo1 = static_cast<Texture*>(normalMap.get())->GetDescriptorImageInfo();
+            //auto& imageInfo2 = static_cast<Texture*>(roughnessMetallicMap.get())->GetDescriptorImageInfo();
+            //auto& imageInfo3 = static_cast<Texture*>(emissiveMap.get())->GetDescriptorImageInfo();
+            //auto& imageInfo4 = static_cast<Texture*>(roughnessMap.get())->GetDescriptorImageInfo();
+            //auto& imageInfo5 = static_cast<Texture*>(metallicMap.get())->GetDescriptorImageInfo();
 
             RVKDescriptorWriter descriptorWriter(*localDescriptorSetLayout, *GetApp().globalPool);
-            descriptorWriter.WriteImage(0, &imageInfo0)
-                .WriteImage(1, &imageInfo1)
-                .WriteImage(2, &imageInfo2)
-                .WriteImage(3, &imageInfo3)
-                .WriteImage(4, &imageInfo4)
-                .WriteImage(5, &imageInfo5);
+            descriptorWriter.WriteImage(0, &imageInfo0);
+                //.WriteImage(1, &imageInfo1)
+                //.WriteImage(2, &imageInfo2)
+                //.WriteImage(3, &imageInfo3)
+                //.WriteImage(4, &imageInfo4)
+                //.WriteImage(5, &imageInfo5);
             descriptorWriter.Build(m_descriptorSet);
         }
 	}

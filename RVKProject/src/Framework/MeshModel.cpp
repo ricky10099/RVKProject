@@ -112,9 +112,10 @@ namespace RVK {
 			sizeof(Material::PBRMaterial), &mesh.material.m_PBRMaterial);
 	}
 
-	void MeshModel::Draw(VkCommandBuffer commandBuffer) {
+	void MeshModel::Draw(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout) {
 		for (auto& mesh : m_meshesMap) {
-			DrawMesh(commandBuffer, mesh);
+			BindDescriptors(frameInfo, pipelineLayout, mesh);
+			DrawMesh(frameInfo.commandBuffer, mesh);
 		}
 	}
 
@@ -133,11 +134,6 @@ namespace RVK {
 
 		if (m_hasIndexBuffer) {
 			vkCmdBindIndexBuffer(frameInfo.commandBuffer, m_indexBuffer->GetBuffer(), 0, VK_INDEX_TYPE_UINT32);
-		}
-
-		for (auto& mesh : m_meshesMap) {
-			BindDescriptors(frameInfo, pipelineLayout, mesh);
-			//PushConstantsPbr(frameInfo, pipelineLayout, mesh);
 		}
 	}
 
@@ -170,24 +166,6 @@ namespace RVK {
 			throw std::runtime_error("Failed to load model! (" + filepath + ")");
 		}
 
-		//// Get vector of all materials with 1:1 ID placement
-		//std::vector<std::string> textureNames = MeshModel::LoadMaterials(scene);
-
-		//// Conversion from the materials lsit Ids to our Descriptor Array IDs
-		//std::vector<int> matToTex(textureNames.size());
-
-		//// Loop over textureNames and create textures for them
-		//for (size_t i = 0; i < textureNames.size(); ++i) {
-		//	// If material had no texture, set '0' to indicate no texture, texture 0 will be reserved for a default texture
-		//	if (textureNames[i].empty()) {
-		//		matToTex[i] = 0;
-		//	}
-		//	else {
-		//		// Otherwise, create texture and set value to index of new texture
-		//		matToTex[i] = createTexture(textureNames[i]);
-		//	}
-		//}
-
 		LoadMaterials(scene);
 		meshes.clear();
 
@@ -198,27 +176,23 @@ namespace RVK {
 	void MeshModel::AssimpBuilder::LoadMaterials(const aiScene* scene) {
 		u32 numMaterials = scene->mNumMaterials;
 		materials.resize(numMaterials);
-		materialTextures.resize(numMaterials);
+		//samplerDescriptorSets.resize(numMaterials);
 		for (u32 materialIndex = 0; materialIndex < numMaterials; ++materialIndex) {
 			const aiMaterial* fbxMaterial = scene->mMaterials[materialIndex];
 			// PrintMaps(fbxMaterial);
 
 			Material& material = materials[materialIndex];
 
-			//LoadProperties(fbxMaterial, material.m_PBRMaterial);
-
 			LoadMap(fbxMaterial, aiTextureType_DIFFUSE, materialIndex);
-			LoadMap(fbxMaterial, aiTextureType_NORMALS, materialIndex);
-			LoadMap(fbxMaterial, aiTextureType_SHININESS, materialIndex);
-			LoadMap(fbxMaterial, aiTextureType_METALNESS, materialIndex);
-			LoadMap(fbxMaterial, aiTextureType_EMISSIVE, materialIndex);
 		}
 	}
 
-	void MeshModel::AssimpBuilder::LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial) {
+	void MeshModel::AssimpBuilder::LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial)
+	{
 		{ // diffuse
 			aiColor3D diffuseColor;
-			if (fbxMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == aiReturn_SUCCESS) {
+			if (fbxMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == aiReturn_SUCCESS)
+			{
 				pbrMaterial.diffuseColor.r = diffuseColor.r;
 				pbrMaterial.diffuseColor.g = diffuseColor.g;
 				pbrMaterial.diffuseColor.b = diffuseColor.b;
@@ -226,23 +200,28 @@ namespace RVK {
 		}
 		{ // roughness
 			float roughnessFactor;
-			if (fbxMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughnessFactor) == aiReturn_SUCCESS) {
+			if (fbxMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughnessFactor) == aiReturn_SUCCESS)
+			{
 				pbrMaterial.roughness = roughnessFactor;
 			}
-			else {
+			else
+			{
 				pbrMaterial.roughness = 0.1f;
 			}
 		}
 
 		{ // metallic
 			float metallicFactor;
-			if (fbxMaterial->Get(AI_MATKEY_REFLECTIVITY, metallicFactor) == aiReturn_SUCCESS) {
+			if (fbxMaterial->Get(AI_MATKEY_REFLECTIVITY, metallicFactor) == aiReturn_SUCCESS)
+			{
 				pbrMaterial.metallic = metallicFactor;
 			}
-			else if (fbxMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallicFactor) == aiReturn_SUCCESS) {
+			else if (fbxMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallicFactor) == aiReturn_SUCCESS)
+			{
 				pbrMaterial.metallic = metallicFactor;
 			}
-			else {
+			else
+			{
 				pbrMaterial.metallic = 0.886f;
 			}
 		}
@@ -250,7 +229,8 @@ namespace RVK {
 		{ // emissive color
 			aiColor3D emission;
 			auto result = fbxMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emission);
-			if (result == aiReturn_SUCCESS) {
+			if (result == aiReturn_SUCCESS)
+			{
 				pbrMaterial.emissiveColor = glm::vec3(emission.r, emission.g, emission.b);
 			}
 		}
@@ -258,7 +238,8 @@ namespace RVK {
 		{ // emissive strength
 			float emissiveStrength;
 			auto result = fbxMaterial->Get(AI_MATKEY_EMISSIVE_INTENSITY, emissiveStrength);
-			if (result == aiReturn_SUCCESS) {
+			if (result == aiReturn_SUCCESS)
+			{
 				pbrMaterial.emissiveStrength = emissiveStrength;
 			}
 		}
@@ -274,7 +255,7 @@ namespace RVK {
 
 		Material& material = materials[materialIndex];
 		Material::PBRMaterial& pbrMaterial = material.m_PBRMaterial;
-		Material::MaterialTextures& tmpTextures = materialTextures[materialIndex];
+		Material::MaterialTextures& tmpTextures = material.m_materialTextures;
 
 		aiString aiFilepath;
 		auto getTexture = fbxMaterial->GetTexture(textureType, 0 /* first map*/, &aiFilepath);
@@ -284,43 +265,11 @@ namespace RVK {
 			switch (textureType) {
 				// LoadTexture is inside switch statement for sRGB and UNORM
 			case aiTextureType_DIFFUSE: {
-				auto texture = LoadTexture(filepath, Texture::USE_SRGB);
+				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
 				if (texture) {
+					//textures.push_back(texture);
 					tmpTextures[Material::DIFFUSE_MAP_INDEX] = texture;
 					pbrMaterial.features |= Material::HAS_DIFFUSE_MAP;
-				}
-				break;
-			}
-			case aiTextureType_NORMALS: {
-				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
-				if (texture) {
-					tmpTextures[Material::NORMAL_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_NORMAL_MAP;
-				}
-				break;
-			}
-			case aiTextureType_SHININESS: {
-				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
-				if (texture) {
-					tmpTextures[Material::ROUGHNESS_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_ROUGHNESS_MAP;
-				}
-				break;
-			}
-			case aiTextureType_METALNESS: {
-				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
-				if (texture) {
-					tmpTextures[Material::METALLIC_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_METALLIC_MAP;
-				}
-				break;
-			}
-			case aiTextureType_EMISSIVE: {
-				auto texture = LoadTexture(filepath, Texture::USE_SRGB);
-				if (texture) {
-					tmpTextures[Material::EMISSIVE_MAP_INDEX] = texture;
-					pbrMaterial.features |= Material::HAS_EMISSIVE_MAP;
-					pbrMaterial.emissiveColor = glm::vec3(1.0f);
 				}
 				break;
 			}
@@ -335,27 +284,16 @@ namespace RVK {
 		std::shared_ptr<Texture> tmpTexture;
 		bool loadSucess = false;
 
-		//if (EngineCore::FileExists(filepath) && !EngineCore::IsDirectory(filepath))
-		//{
 		tmpTexture = std::make_shared<Texture>();
 		loadSucess = tmpTexture->Init(filepath, useSRGB);
-		//}
-		//else if (EngineCore::FileExists(m_Basepath + filepath) && !EngineCore::IsDirectory(m_Basepath + filepath))
-		//{
-		//	texture = Texture::Create();
-		//	loadSucess = texture->Init(m_Basepath + filepath, useSRGB);
-		//}
-		//else
-		//{
-		if (!loadSucess)
-			VK_CORE_CRITICAL("bool FbxBuilder::LoadTexture(): file '{0}' not found", filepath);
-		//}
 
-		if (loadSucess) {
-			textures.push_back(tmpTexture);
-			return tmpTexture;
+		if (!loadSucess) {
+			VK_CORE_CRITICAL("bool FbxBuilder::LoadTexture(): file '{0}' not found", filepath);
+			return nullptr;
 		}
-		return nullptr;
+
+		//textures.push_back(tmpTexture);
+		return tmpTexture;
 	}
 
 	void MeshModel::AssimpBuilder::LoadNode(aiNode* node, const aiScene* scene) {
@@ -363,10 +301,10 @@ namespace RVK {
 
 		size_t numMeshesBefore = meshes.size();
 		meshes.resize(numMeshes + meshes.size());
+
 		// Go through each mesh at this node and create it, then add it to our meshList
 		for (size_t i = 0; i < numMeshes; ++i) {
 			LoadMesh(scene->mMeshes[node->mMeshes[i]], scene, numMeshesBefore + i);
-			AssignMaterial(meshes[numMeshesBefore + i], scene->mMeshes[numMeshesBefore + i]->mMaterialIndex);
 		}
 
 		// Go through each node attached to this node and load it, then append their meshes to this mode's mesh list
@@ -434,44 +372,42 @@ namespace RVK {
 
 			// Go thorugh face's indices and add to list
 			for (size_t j = 0; j < face.mNumIndices; ++j) {
-				//indices.push_back(face.mIndices[j]);
 				indices[index + j] = face.mIndices[j];
-				//indices[index + 1] = face.mIndices[1];
-				//indices[index + 2] = face.mIndices[2];
 			}
 			index += 3;
 		}
+
+		VK_CORE_INFO("mesh loaded (Assimp): {0} vertices, {1} indices", numVertices, numIndices);
+
+		int materialIndex = aimesh->mMaterialIndex;
+		if (!(static_cast<size_t>(materialIndex) < materials.size())) {
+			VK_CORE_CRITICAL("AssignMaterial: materialIndex must be less than m_Materials.size()");
+		}
+		if (materialIndex != -1) {
+			mesh.material = materials[materialIndex];
+			mesh.material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(mesh.material.m_materialTextures);
+		}
+
+		VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);
 	}
 
 	void MeshModel::AssimpBuilder::AssignMaterial(Mesh& submesh, int const materialIndex) {
-		{ // material
+		// material
+		{
 			if (!(static_cast<size_t>(materialIndex) < materials.size())) {
 				VK_CORE_CRITICAL("AssignMaterial: materialIndex must be less than m_Materials.size()");
 			}
 
 			Material& material = submesh.material;
 
-			// material
 			if (materialIndex != -1) {
 				material = materials[materialIndex];
-				material.m_materialTextures = materialTextures[materialIndex];
 			}
 
 			// create material descriptor
 			material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(material.m_materialTextures);
 		}
 
-		//{ // resources
-		//	Resources::ResourceBuffers& resourceBuffers = submesh.m_Resources.m_ResourceBuffers;
-		//	std::shared_ptr<Buffer> instanceUbo{ m_InstanceBuffer->GetBuffer() };
-		//	resourceBuffers[Resources::INSTANCE_BUFFER_INDEX] = instanceUbo;
-		//	if (m_SkeletalAnimation)
-		//	{
-		//		resourceBuffers[Resources::SKELETAL_ANIMATION_BUFFER_INDEX] = m_ShaderData;
-		//	}
-		//	submesh.m_Resources.m_ResourceDescriptor = ResourceDescriptor::Create(resourceBuffers);
-		//}
-
-		VK_CORE_INFO("material assigned (fastgltf): material index {0}", materialIndex);
+		VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);
 	}
 }  // namespace RVK

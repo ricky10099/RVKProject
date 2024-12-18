@@ -64,6 +64,8 @@ namespace RVK {
 
 		void FreeDescriptors(std::vector<VkDescriptorSet>& descriptors) const;
 
+		VkDescriptorPool GetDescriptorPool() const { return m_descriptorPool; }
+
 		void ResetPool();
 
 	private:

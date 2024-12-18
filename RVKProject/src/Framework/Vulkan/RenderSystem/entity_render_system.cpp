@@ -105,7 +105,7 @@ namespace RVK {
 				&push);
 
 			static_cast<MeshModel*>(mesh.model.get())->Bind(frameInfo, m_pipelineLayout);
-			static_cast<MeshModel*>(mesh.model.get())->Draw(frameInfo.commandBuffer);
+			static_cast<MeshModel*>(mesh.model.get())->Draw(frameInfo, m_pipelineLayout);
 		}
 	}
 }  // namespace RVK

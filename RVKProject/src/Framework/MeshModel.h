@@ -35,6 +35,9 @@ namespace RVK {
 		u32 vertexCount;
 		//u32 instanceCount;
 		Material material;
+		//VkDescriptorSet samplerDescriptorSet;
+
+
 		//Resources m_Resources;
 		//std::unique_ptr<RVKBuffer> m_vertexBuffer;
 		//u32 m_vertexCount;
@@ -53,8 +56,8 @@ namespace RVK {
 			std::vector<u32> indices{};
 			std::vector<Mesh> meshes{};
 			std::vector<Material> materials{};
-			std::vector<Material::MaterialTextures> materialTextures{};
-			std::vector<std::shared_ptr<Texture>> textures;
+			//std::vector<std::shared_ptr<Texture>> textures;
+			//std::vector<VkDescriptorSet> samplerDescriptorSets;
 
 			void LoadMeshModel(const std::string& filepath);
 			void LoadNode(aiNode* node, const aiScene* scene);
@@ -74,7 +77,7 @@ namespace RVK {
 		static std::unique_ptr<MeshModel> CreateMeshModelFromFile(const std::string& filepath);
 
 		void Bind(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout);
-		void Draw(VkCommandBuffer commandBuffer);
+		void Draw(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout);
 		void DrawMesh(VkCommandBuffer commandBuffer, Mesh mesh);
 
 	private:

@@ -25,6 +25,11 @@ namespace RVK {
 		VkDescriptorImageInfo& GetDescriptorImageInfo() { return m_descriptorImageInfo; }
         int GetWidth() const { return m_width; }
         int GetHeight() const { return m_height; }
+        VkImage& GetImage() { return m_textureImage; }
+		VkImageView& GetImageView() { return m_imageView; }
+		VkSampler& GetSampler() { return m_sampler; }
+
+        VkDescriptorSet& GetDescriptorSet() { return m_descriptorSet; }
 
 
 	private:
@@ -60,6 +65,7 @@ namespace RVK {
         VkSampler m_sampler;
 
         VkDescriptorImageInfo m_descriptorImageInfo;
+        VkDescriptorSet m_descriptorSet;
 
     private:
         static constexpr int TEXTURE_FILTER_NEAREST = 9728;

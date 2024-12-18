@@ -5,6 +5,7 @@
 
 #include "Framework/Vulkan/VKUtils.h"
 #include "Framework/Vulkan/RVKDevice.h"
+#include "Framework/RVKApp.h"
 
 namespace RVK {
 
@@ -62,6 +63,7 @@ namespace RVK {
 		else {
 			VK_CORE_CRITICAL("Texture: Couldn't load file {0}", fileName);
 		}
+
 		return ok;
 	}
 
@@ -95,7 +97,8 @@ namespace RVK {
 		barrier.image = m_textureImage;
 		barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		barrier.subresourceRange.baseMipLevel = 0;
-		barrier.subresourceRange.levelCount = m_mipLevels;
+		//barrier.subresourceRange.levelCount = m_mipLevels;
+		barrier.subresourceRange.levelCount = 1;
 		barrier.subresourceRange.baseArrayLayer = 0;
 		barrier.subresourceRange.layerCount = 1;
 
@@ -138,7 +141,8 @@ namespace RVK {
 		imageInfo.extent.width = m_width;
 		imageInfo.extent.height = m_height;
 		imageInfo.extent.depth = 1;
-		imageInfo.mipLevels = m_mipLevels;
+		//imageInfo.mipLevels = m_mipLevels;
+		imageInfo.mipLevels = 1;
 		imageInfo.arrayLayers = 1;
 		imageInfo.format = format;
 		imageInfo.tiling = tiling;
@@ -298,7 +302,8 @@ namespace RVK {
 		view.subresourceRange.layerCount = 1;
 		// Linear tiling usually won't support mip maps
 		// Only set mip map count if optimal tiling is used
-		view.subresourceRange.levelCount = m_mipLevels;
+		//view.subresourceRange.levelCount = m_mipLevels;
+		view.subresourceRange.levelCount = 1;
 		// The view will be based on the texture's image
 		view.image = m_textureImage;
 
@@ -312,6 +317,19 @@ namespace RVK {
 		m_descriptorImageInfo.sampler = m_sampler;
 		m_descriptorImageInfo.imageView = m_imageView;
 		m_descriptorImageInfo.imageLayout = m_imageLayout;
+
+		// Check image handles
+		if (m_textureImage == VK_NULL_HANDLE) {
+			VK_CORE_ERROR("Invalid Vulkan Image Handle");
+		}
+
+		if (m_imageView == VK_NULL_HANDLE) {
+			VK_CORE_ERROR("Invalid Vulkan Image View Handle");
+		}
+
+		if (m_sampler == VK_NULL_HANDLE) {
+			VK_CORE_ERROR("Invalid Vulkan Sampler Handle");
+		}
 
 		return true;
 	}
