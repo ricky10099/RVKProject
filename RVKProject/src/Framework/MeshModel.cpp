@@ -92,7 +92,11 @@ namespace RVK {
 		RVKDevice::s_rvkDevice->CopyBuffer(stagingBuffer.GetBuffer(), m_indexBuffer->GetBuffer(), bufferSize);
 	}
 
-	void MeshModel::BindDescriptors(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, const Mesh& mesh) {
+	void MeshModel::BindDescriptors(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, Mesh& mesh) {
+
+		mesh.material.m_materialBuffer->WriteToBuffer(&mesh.material.m_PBRMaterial);
+		mesh.material.m_materialBuffer->Flush();
+
 		const VkDescriptorSet& materialDescriptorSet = mesh.material.m_materialDescriptor->GetDescriptorSet();
 
 		std::vector<VkDescriptorSet> descriptorSets = { frameInfo.globalDescriptorSet, materialDescriptorSet };
@@ -149,7 +153,7 @@ namespace RVK {
 		std::vector<VkVertexInputAttributeDescription> attributeDescriptions{};
 
 		attributeDescriptions.push_back({ 0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position) });
-		attributeDescriptions.push_back({ 1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color) });
+		attributeDescriptions.push_back({ 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(Vertex, color) });
 		attributeDescriptions.push_back({ 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal) });
 		attributeDescriptions.push_back({ 3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, uv) });
 
@@ -182,6 +186,8 @@ namespace RVK {
 			// PrintMaps(fbxMaterial);
 
 			Material& material = materials[materialIndex];
+
+			LoadProperties(fbxMaterial, material.m_PBRMaterial);
 
 			LoadMap(fbxMaterial, aiTextureType_DIFFUSE, materialIndex);
 		}
@@ -248,14 +254,17 @@ namespace RVK {
 	}
 
 	void MeshModel::AssimpBuilder::LoadMap(const aiMaterial* fbxMaterial, aiTextureType textureType, int materialIndex) {
-		u32 textureCount = fbxMaterial->GetTextureCount(textureType);
-		if (!textureCount) {
-			return;
-		}
-
 		Material& material = materials[materialIndex];
 		Material::PBRMaterial& pbrMaterial = material.m_PBRMaterial;
 		Material::MaterialTextures& tmpTextures = material.m_materialTextures;
+		
+		u32 textureCount = fbxMaterial->GetTextureCount(textureType);
+		if (!textureCount) {
+			auto texture = LoadTexture("../models/checker.png", Texture::USE_SRGB);
+			tmpTextures[Material::DIFFUSE_MAP_INDEX] = texture;
+			pbrMaterial.diffuseColor.a = 0.0f;
+			return;
+		}
 
 		aiString aiFilepath;
 		auto getTexture = fbxMaterial->GetTexture(textureType, 0 /* first map*/, &aiFilepath);
@@ -265,7 +274,7 @@ namespace RVK {
 			switch (textureType) {
 				// LoadTexture is inside switch statement for sRGB and UNORM
 			case aiTextureType_DIFFUSE: {
-				auto texture = LoadTexture(filepath, Texture::USE_UNORM);
+				auto texture = LoadTexture(filepath, Texture::USE_SRGB);
 				if (texture) {
 					//textures.push_back(texture);
 					tmpTextures[Material::DIFFUSE_MAP_INDEX] = texture;
@@ -359,7 +368,22 @@ namespace RVK {
 			}
 
 			// Set colour (just use white for now)
-			vertex.color = { 1.0f, 1.0f, 1.0f };
+			//vertex.color = { 1.0f, 1.0f, 1.0f ,1.0f};
+
+			// vertex colors
+			{
+				glm::vec4 vertexColor;
+				u32 materialIndex = aimesh->mMaterialIndex;
+				if (aimesh->HasVertexColors(0)) {
+					aiColor4D& colorFbx = aimesh->mColors[0][i];
+					glm::vec3 linearColor = glm::pow(glm::vec3(colorFbx.r, colorFbx.g, colorFbx.b), glm::vec3(2.2f));
+					vertexColor = glm::vec4(linearColor.r, linearColor.g, linearColor.b, colorFbx.a);
+					vertex.color = vertexColor * materials[materialIndex].m_PBRMaterial.diffuseColor;
+				}
+				else {
+					vertex.color = materials[materialIndex].m_PBRMaterial.diffuseColor;
+				}
+			}
 
 			++vertexIndex;
 		}
@@ -385,7 +409,7 @@ namespace RVK {
 		}
 		if (materialIndex != -1) {
 			mesh.material = materials[materialIndex];
-			mesh.material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(mesh.material.m_materialTextures);
+			mesh.material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(mesh.material, mesh.material.m_materialTextures);
 		}
 
 		VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);
@@ -405,7 +429,7 @@ namespace RVK {
 			}
 
 			// create material descriptor
-			material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(material.m_materialTextures);
+			//material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(material.m_materialTextures);
 		}
 
 		VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);

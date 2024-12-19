@@ -6,7 +6,7 @@
 namespace RVK {
     class MaterialDescriptor {
     public:
-        MaterialDescriptor(Material::MaterialTextures& textures);
+        MaterialDescriptor(Material& material, Material::MaterialTextures& textures);
 
         MaterialDescriptor(MaterialDescriptor const& other);
 

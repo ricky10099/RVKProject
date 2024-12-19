@@ -33,7 +33,7 @@ namespace RVK {
 		globalPool =
 			RVKDescriptorPool::Builder()
 			.SetMaxSets(MAX_FRAMES_IN_FLIGHT * POOL_SIZE)
-			.AddPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT)
+			.AddPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT * 10)
 			.AddPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, MAX_FRAMES_IN_FLIGHT * 1000)
 			.Build();
 
@@ -97,7 +97,9 @@ namespace RVK {
 
 		std::unique_ptr<RVKDescriptorSetLayout> textureDescriptorSetLayout =
 			RVKDescriptorSetLayout::Builder()
-			.AddBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+			.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT)
+
+			.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
 				VK_SHADER_STAGE_FRAGMENT_BIT) // diffuse color map
 			//.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
 			//	VK_SHADER_STAGE_FRAGMENT_BIT) // normal map

@@ -14,7 +14,7 @@
 namespace RVK {
 	struct Vertex {
 		glm::vec3 position{};
-		glm::vec3 color{};
+		glm::vec4 color{};
 		glm::vec3 normal{};
 		glm::vec2 uv{};
 
@@ -96,7 +96,7 @@ namespace RVK {
 		void CreateVertexBuffers(const std::vector<Vertex>& vertices);
 		void CreateIndexBuffers(const std::vector<u32>& indices);
 
-		void BindDescriptors(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, const Mesh& mesh);
+		void BindDescriptors(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, Mesh& mesh);
 		void PushConstantsPbr(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout, const Mesh& mesh);
 	};
 }  // namespace RVK
