@@ -8,3 +8,4 @@ bin-int/
 *.filters
 *.vcxproj
 *.sln
+*.log

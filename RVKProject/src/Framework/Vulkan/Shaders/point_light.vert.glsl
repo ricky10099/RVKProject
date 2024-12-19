@@ -1,4 +1,8 @@
 #version 450
+#pragma shader_stage(vertex)
+#extension GL_KHR_vulkan_glsl: enable
+
+#include "../SharedDefines.h"
 
 const vec2 OFFSETS[6] = vec2[](
   vec2(-1.0, -1.0),
@@ -19,9 +23,9 @@ struct PointLight {
 layout(set = 0, binding = 0) uniform GlobalUbo {
   mat4 projection;
   mat4 view;
-  //mat4 invView;
+  mat4 invView;
   vec4 ambientLightColor; // w is intensity
-  PointLight pointLights[128];
+  PointLight pointLights[MAX_LIGHTS];
   int numLights;
 } ubo;
 

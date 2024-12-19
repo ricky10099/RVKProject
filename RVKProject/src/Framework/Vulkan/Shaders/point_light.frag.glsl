@@ -1,4 +1,8 @@
 #version 450
+#pragma shader_stage(fragment)
+#extension GL_KHR_vulkan_glsl: enable
+
+#include "../SharedDefines.h"
 
 layout (location = 0) in vec2 fragOffset;
 layout (location = 0) out vec4 outColor;
@@ -11,9 +15,9 @@ struct PointLight {
 layout(set = 0, binding = 0) uniform GlobalUbo {
   mat4 projection;
   mat4 view;
-  //mat4 invView;
+  mat4 invView;
   vec4 ambientLightColor; // w is intensity
-  PointLight pointLights[128];
+  PointLight pointLights[MAX_LIGHTS];
   int numLights;
 } ubo;
 

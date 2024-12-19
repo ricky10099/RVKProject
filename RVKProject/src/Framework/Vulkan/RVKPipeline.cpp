@@ -1,6 +1,6 @@
 #include "Framework/Vulkan/RVKPipeline.h"
 #include "Framework/Vulkan/RVKDevice.h"
-#include "Framework/Model.h"
+#include "Framework/MeshModel.h"
 
 namespace RVK {
 	RVKPipeline::RVKPipeline(
@@ -112,7 +112,7 @@ namespace RVK {
 		configInfo.rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
 		configInfo.rasterizationInfo.lineWidth = 1.0f;
 		configInfo.rasterizationInfo.cullMode = VK_CULL_MODE_NONE;
-		configInfo.rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
+		configInfo.rasterizationInfo.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 		configInfo.rasterizationInfo.depthBiasEnable = VK_FALSE;
 		configInfo.rasterizationInfo.depthBiasConstantFactor = 0.0f;  // Optional
 		configInfo.rasterizationInfo.depthBiasClamp = 0.0f;           // Optional
@@ -165,8 +165,8 @@ namespace RVK {
 			static_cast<u32>(configInfo.dynamicStateEnables.size());
 		configInfo.dynamicStateInfo.flags = 0;
 
-		configInfo.bindingDescriptions = Model::Vertex::GetBindingDescriptions();
-		configInfo.attributeDescriptions = Model::Vertex::GetAttributeDescriptions();
+		configInfo.bindingDescriptions = Vertex::GetBindingDescriptions();
+		configInfo.attributeDescriptions = Vertex::GetAttributeDescriptions();
 	}
 
 	void RVKPipeline::EnableAlphaBlending(PipelineConfigInfo& configInfo) {

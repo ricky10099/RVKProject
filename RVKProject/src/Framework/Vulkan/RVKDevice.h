@@ -33,6 +33,7 @@ namespace RVK {
 
 		VkCommandPool GetCommandPool() { return m_commandPool; }
 		VkDevice GetDevice() { return m_device; }
+		VkPhysicalDevice GetPhysicalDevice() { return m_physicalDevice; }
 		VkSurfaceKHR GetSurface() { return m_surface; }
 		VkQueue GetGraphicsQueue() { return m_graphicsQueue; }
 		VkQueue GetPresentQueue() { return m_presentQueue; }

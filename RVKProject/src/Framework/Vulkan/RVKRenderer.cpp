@@ -115,7 +115,7 @@ namespace RVK {
 		renderPassInfo.renderArea.extent = m_rvkSwapChain->GetSwapChainExtent();
 
 		std::array<VkClearValue, 2> clearValues{};
-		clearValues[0].color = { 0.01f, 0.01f, 0.01f, 1.0f };
+		clearValues[0].color = { 0.15f, 1.0f, 0.15f, 1.0f };
 		clearValues[1].depthStencil = { 1.0f, 0 };
 		renderPassInfo.clearValueCount = static_cast<u32>(clearValues.size());
 		renderPassInfo.pClearValues = clearValues.data();
@@ -126,7 +126,7 @@ namespace RVK {
 		viewport.x = 0.0f;
 		viewport.y = static_cast<float>(m_rvkSwapChain->GetSwapChainExtent().height);
 		viewport.width = static_cast<float>(m_rvkSwapChain->GetSwapChainExtent().width);
-		viewport.height = static_cast<float>(m_rvkSwapChain->GetSwapChainExtent().height * -1.0f);
+		viewport.height = static_cast<float>(m_rvkSwapChain->GetSwapChainExtent().height) * -1.0f;
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 		VkRect2D scissor{ {0, 0}, m_rvkSwapChain->GetSwapChainExtent() };

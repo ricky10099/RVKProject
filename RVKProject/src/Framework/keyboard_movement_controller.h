@@ -1,8 +1,9 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
+#include <EnTT/entt.hpp>
 
-#include "Framework/GameObject.h"
+#include "Framework/Entity.h"
 
 namespace RVK {
 	class KeyboardMovementController {
@@ -20,7 +21,7 @@ namespace RVK {
 			int lookDown = GLFW_KEY_DOWN;
 		};
 
-		void MoveInPlaneXZ(GLFWwindow* window, float dt, GameObject& gameObject);
+		void MoveInPlaneXZ(GLFWwindow* window, float dt, Entity& entity);
 
 		KeyMappings keys{};
 		float moveSpeed{ 3.f };
