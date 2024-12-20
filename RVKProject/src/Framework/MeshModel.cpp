@@ -308,16 +308,16 @@ namespace RVK {
 	void MeshModel::AssimpBuilder::LoadNode(aiNode* node, const aiScene* scene) {
 		u32 numMeshes = node->mNumMeshes;
 
-		size_t numMeshesBefore = meshes.size();
+		u32 numMeshesBefore = static_cast<u32>(meshes.size());
 		meshes.resize(numMeshes + meshes.size());
 
 		// Go through each mesh at this node and create it, then add it to our meshList
-		for (size_t i = 0; i < numMeshes; ++i) {
+		for (u32 i = 0; i < numMeshes; ++i) {
 			LoadMesh(scene->mMeshes[node->mMeshes[i]], scene, numMeshesBefore + i);
 		}
 
 		// Go through each node attached to this node and load it, then append their meshes to this mode's mesh list
-		for (size_t i = 0; i < node->mNumChildren; ++i) {
+		for (u32 i = 0; i < node->mNumChildren; ++i) {
 			LoadNode(node->mChildren[i], scene);
 		}
 	}
@@ -341,13 +341,13 @@ namespace RVK {
 		indices.resize(numIndicesBefore + numIndices);
 
 		Mesh& mesh = meshes[meshIndex];
-		mesh.firstVertex = numVerticesBefore;
-		mesh.firstIndex = numIndicesBefore;
+		mesh.firstVertex = static_cast<u32>(numVerticesBefore);
+		mesh.firstIndex = static_cast<u32>(numIndicesBefore);
 		mesh.vertexCount = numVertices;
 		mesh.indexCount = numIndices;
 		//mesh.instanceCount = m_InstanceCount;
 
-		u32 vertexIndex = numVerticesBefore;
+		u32 vertexIndex = static_cast<u32>(numVerticesBefore);
 
 		// Go through each vertex and copy it across to our vertices
 		for (size_t i = 0; i < aimesh->mNumVertices; ++i) {
@@ -388,7 +388,7 @@ namespace RVK {
 			++vertexIndex;
 		}
 
-		u32 index = numIndicesBefore;
+		u32 index = static_cast<u32>(numIndicesBefore);
 		// Iterate over indices through faces and copy across
 		for (size_t i = 0; i < aimesh->mNumFaces; ++i) {
 			// Get a face

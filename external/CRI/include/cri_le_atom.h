@@ -13,29 +13,29 @@
  *	\file		cri_atom.h
  */
 
-/* ���d��`�h�~					*/
+/* 多重定義防止					*/
 /* Prevention of redefinition	*/
 #ifndef CRI_INCL_CRI_ATOM_H
 #define CRI_INCL_CRI_ATOM_H
 
 /***************************************************************************
- *      �C���N���[�h�t�@�C��
+ *      インクルードファイル
  *      Include files
  ***************************************************************************/
 #include "cri_le_xpt.h"
 #include <cri_le_file_system.h>
 
 /***************************************************************************
- *      �萔�}�N��
+ *      定数マクロ
  *      Macro Constants
  ***************************************************************************/
-/* �o�[�W������� */
+/* バージョン情報 */
 /* Version Number */
 #define CRI_ATOM_VER_NAME		"CRI Atom (LE)"
-#define CRI_ATOM_VER_NUM		"2.27.378"
+#define CRI_ATOM_VER_NUM		"2.28.258"
 #define CRI_ATOM_VER_MAJOR		(2)
-#define CRI_ATOM_VER_MINOR		(27)
-#define CRI_ATOM_VER_PATCH		(378)
+#define CRI_ATOM_VER_MINOR		(28)
+#define CRI_ATOM_VER_PATCH		(258)
 #define CRI_ATOM_VER_RELEASE	(0)
 #define CRI_ATOM_VER_REVISION	(0)
 
@@ -64,31 +64,31 @@
  *      CRI Atom Player API
  *=========================================================================*/
 /*JP
- * \brief ���[�v�񐔐���p
+ * \brief ループ回数制御用
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
+ * \par 説明:
  */
-#define CRIATOMPLAYER_NO_LOOP_LIMITATION	(-1)		/*JP<���[�v�񐔐����Ȃ�	*/
-#define CRIATOMPLAYER_IGNORE_LOOP			(-2)		/*JP<���[�v���𖳎�	*/
-#define CRIATOMPLAYER_FORCE_LOOP			(-3)		/*JP<�������[�v�Đ�		*/
+#define CRIATOMPLAYER_NO_LOOP_LIMITATION	(-1)		/*JP<ループ回数制限なし	*/
+#define CRIATOMPLAYER_IGNORE_LOOP			(-2)		/*JP<ループ情報を無視	*/
+#define CRIATOMPLAYER_FORCE_LOOP			(-3)		/*JP<強制ループ再生		*/
 
 /*==========================================================================
  *      CRI Atom AWB API
  *=========================================================================*/
 /*JP
- * \brief �I��������AWB�n���h���̍쐬�ɕK�v�ȃ��[�N�̈�T�C�Y
+ * \brief オンメモリAWBハンドルの作成に必要なワーク領域サイズ
  * \ingroup ATOMLIB_AWB
- * \par ����:
- * �I��������AWB�n���h���̍쐬�ɕK�v�ȃ��[�N�̈�T�C�Y�ł��B<br>
+ * \par 説明:
+ * オンメモリAWBハンドルの作成に必要なワーク領域サイズです。<br>
  * \sa criAtomAwb_LoadFromMemory
  */
 #define CRIATOMAWB_WORKSIZE_FOR_LOADFROMMEMORY	(64)
 
  /*JP
-  * \brief �s���Ȕg�`�f�[�^ID
+  * \brief 不正な波形データID
   * \ingroup ATOMLIB_AWB
-  * \par ����:
-  * ::criAtomAwb_GetIdByIndex �֐��Ɏ��s�����ۂɕԂ�l�ł��B<br>
+  * \par 説明:
+  * ::criAtomAwb_GetIdByIndex 関数に失敗した際に返る値です。<br>
   * \sa criAtomAwb_GetIdByIndex
   */
 #define CRIATOMAWB_ILLEGAL_ID (-1)
@@ -99,19 +99,19 @@
 /*JP
  * \brief Atom D-BAS ID
  * \ingroup ATOMLIB_DBAS
- * \par ����:
- * ::criAtomDbas_Create �֐��Ɏ��s�����ۂɕԂ�l�ł��B <br>
+ * \par 説明:
+ * ::criAtomDbas_Create 関数に失敗した際に返る値です。 <br>
  * \sa criAtomDbas_Create, criAtomDbas_Destroy
  */
 #define CRIATOMDBAS_ILLEGAL_ID	(-1)
 
 /*JP
- * \brief D-BAS�쐬�p�̃f�t�H���g�������ő�r�b�g���[�g�l
+ * \brief D-BAS作成用のデフォルト初期化最大ビットレート値
  * \ingroup ATOMLIB_AWB
- * \par ����:
- * D-BAS�쐬�p�̃f�t�H���g�������p�����[�^�[�l��`�ł��B<br>
- * �e�v���b�g�t�H�[���Œ�`���Ă���f�t�H���g�̍ő�X�g���[���{�����A
- * �X�e���IADX�f�[�^���X�g���[�~���O�Đ�����O��Ōv�Z���Ă��܂��B <br>
+ * \par 説明:
+ * D-BAS作成用のデフォルト初期化パラメーター値定義です。<br>
+ * 各プラットフォームで定義しているデフォルトの最大ストリーム本数分、
+ * ステレオADXデータをストリーミング再生する前提で計算しています。 <br>
  * \sa criAtomDbas_Create, criAtomDbas_CalculateWorkSize, criAtom_CalculateAdxBitrate
  */
 #define CRIATOM_DEFAULT_DBAS_MAX_BPS \
@@ -120,24 +120,24 @@
 								 * CRIATOM_DEFAULT_DBAS_MAX_STREAMS)
 
 /*JP
- * \brief D-BAS�쐬�p�̃f�t�H���g�̃o�b�t�@�[�ۏؐ�
+ * \brief D-BAS作成用のデフォルトのバッファー保証数
  * \ingroup ATOMLIB_DBAS
- * \par ����:
- * D-BAS�쐬�p�̃f�t�H���g�̃o�b�t�@�[�ۏؐ��ł��B
- * ���[�v�擪�A����у��[�v�I�[�ŋɒ[�Ƀf�[�^�����Ȃ��Ȃ鉹���f�[�^�ł����Ă��A
- * �X�g���[�~���O�Đ����r�؂�邱�ƂȂ����S�ɍĐ��p���ł���l��ݒ肵�Ă��܂��B
+ * \par 説明:
+ * D-BAS作成用のデフォルトのバッファー保証数です。
+ * ループ先頭、およびループ終端で極端にデータが少なくなる音声データであっても、
+ * ストリーミング再生が途切れることなく安全に再生継続できる値を設定しています。
  * \sa criAtomDbas_Create, criAtomDbas_CalculateWorkSize
  */
 #define CRIATOMDBAS_DEFAULT_NUM_SECUREMENT_BUFFERS	(4)
 
 /*JP
- * \brief D-BAS�쐬���Ɏw��\�ȃo�b�t�@�[�ۏؐ��̉����l
+ * \brief D-BAS作成時に指定可能なバッファー保証数の下限値
  * \ingroup ATOMLIB_DBAS
- * \par ����:
- * D-BAS�쐬���Ɏw��\�ȃo�b�t�@�[�ۏؐ��̉����l�ł��B
- * �r�؂ꂸ�ɃX�g���[�~���O�Đ����邽�߂ɂ́A
- * �Œ�ł�2�o�b�t�@�[�i�_�u���o�b�t�@�����O�j�K�v�Ȃ��߁A
- * 2�����̒l�ɐݒ肷�鎖�͂ł��܂���B
+ * \par 説明:
+ * D-BAS作成時に指定可能なバッファー保証数の下限値です。
+ * 途切れずにストリーミング再生するためには、
+ * 最低でも2バッファー（ダブルバッファリング）必要なため、
+ * 2未満の値に設定する事はできません。
  * \sa criAtomDbas_Create, criAtomDbas_CalculateWorkSize
  */
 #define CRIATOMDBAS_MINIMUM_NUM_SECUREMENT_BUFFERS	(2)
@@ -147,50 +147,74 @@
 /*       CRI Atom Streaming Cache API                                      */
 /* ========================================================================*/
 /*JP
- * \brief �s���ȃX�g���[�~���O�L���b�V��ID�l
+ * \brief 不正なストリーミングキャッシュID値
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \par ����:
- * ::criAtomStreamingCache_Create �֐��Ɏ��s�����ۂɕԂ�l�ł��B <br>
+ * \par 説明:
+ * ::criAtomStreamingCache_Create 関数に失敗した際に返る値です。 <br>
  * \sa criAtomStreamingCache_Create, criAtomStreamingCache_Destroy
  */
 #define CRIATOM_STREAMING_CACHE_ILLEGAL_ID	(0)
 
 /*JP
- * \brief �X�g���[�~���O�L���b�V���ɃL���b�V������t�@�C�����̃f�t�H���g�l
+ * \brief ストリーミングキャッシュにキャッシュするファイル数のデフォルト値
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \par ����:
- * �X�g���[�~���O�L���b�V���쐬�p�̃f�t�H���g�������p�����[�^�[�l��`�ł��B<br>
- * �L���b�V���\�ȃt�@�C�������w�肵�܂��B<br>
- * �f�t�H���g�l��10�t�@�C�����ł��B<br>
+ * \par 説明:
+ * ストリーミングキャッシュ作成用のデフォルト初期化パラメーター値定義です。<br>
+ * キャッシュ可能なファイル数を指定します。<br>
+ * デフォルト値は10ファイル分です。<br>
  * \sa CriAtomStreamingCacheConfig
  */
 #define CRIATOM_STREAMING_CACHE_DEFAULT_NUM_FILES	(10)
 
 /*JP
- * \brief �X�g���[�~���O�L���b�V���ɃL���b�V������t�@�C���T�C�Y�̃f�t�H���g�l
+ * \brief ストリーミングキャッシュにキャッシュするファイルサイズのデフォルト値
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \par ����:
- * �X�g���[�~���O�L���b�V���쐬�p�̃f�t�H���g�������p�����[�^�[�l��`�ł��B<br>
- * �L���b�V���\�ȃt�@�C���T�C�Y�� byte�P�ʂŎw�肵�܂��B<br>
- * �f�t�H���g�l�� 1 MB �ł��B<br>
+ * \par 説明:
+ * ストリーミングキャッシュ作成用のデフォルト初期化パラメーター値定義です。<br>
+ * キャッシュ可能なファイルサイズを byte単位で指定します。<br>
+ * デフォルト値は 1 MB です。<br>
  * \sa CriAtomStreamingCacheConfig
  */
 #define CRIATOM_STREAMING_CACHE_DEFAULT_CACHE_SIZE	(1 * 1024 * 1024)
 
+/*==========================================================================
+ *      CRI Atom HCA-MX API
+ *=========================================================================*/
+/*JP
+ * \brief HCA-MXの最大ミキサー数
+ * \ingroup ATOMLIB_HCA_MX
+ * \par 説明:
+ * HCA-MXの最大ミキサー数です。
+ * CriAtomHcaMxConfig::num_mixers の値は、この値以下に設定する必要があります。
+ * \sa CriAtomHcaMxConfig
+ */
+#define CRIATOM_HCA_MX_MAX_MIXERS (8)
+
+/*JP
+ * \brief HCA-MXの出力チャンネル数の最大値
+ * \ingroup ATOMLIB_HCA_MX
+ * \par 説明:
+ * HCA-MXの出力チャンネル数の最大値です。
+ * CriAtomHcaMxConfig::output_channels の値は、この値以下に設定する必要があります。
+ * \sa CriAtomHcaMxConfig
+ */
+#define CRIATOM_HCA_MX_MAX_OUTPUT_CHANNELS (8)
+
+
 /***************************************************************************
- *      �����}�N��
+ *      処理マクロ
  *      Macro Functions
  ***************************************************************************/
 /*==========================================================================
  *      CRI Atom API
  *=========================================================================*/
 /*JP
- * \brief CriAtomConfig�ւ̃f�t�H���g�p�����[�^�[���Z�b�g
+ * \brief CriAtomConfigへのデフォルトパラメーターをセット
  * \ingroup ATOMLIB_GLOBAL
- * \param[out]	p_config	�������p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtom_Initialize �֐��ɐݒ肷��R���t�B�O�\���́i ::CriAtomConfig �j�ɁA
- * �f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtom_Initialize 関数に設定するコンフィグ構造体（ ::CriAtomConfig ）に、
+ * デフォルトの値をセットします。<br>
  * \sa
  * CriAtomConfig
 */
@@ -206,34 +230,34 @@
 }
 
 /*JP
- * \brief ���[�U�A���P�[�^�[�̓o�^
+ * \brief ユーザアロケーターの登録
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	p_malloc_func	�������m�ۊ֐�
- * \param[in]	p_free_func		����������֐�
- * \param[in]	p_obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * CRI Atom ���C�u�����Ƀ������A���P�[�^�[�i�������̊m�ہ^����֐��j��o�^���܂��B<br>
- * �{�}�N���ŃA���P�[�^�[��o�^����ƁAAtom���C�u���������[�N�̈��K�v�Ƃ���^�C�~���O�ŁA
- * ���[�U���o�^�����������m�ہ^����������Ăяo����邱�ƂɂȂ�܂��B<br>
- * ���̌��ʁA���[�N�̈��K�v�Ƃ���֐��i ::criAtomPlayer_CreateAdxPlayer �֐����j�ɑ΂��A
- * �ʂɃ��[�N�̈���Z�b�g���鏈�����ȗ����邱�Ƃ��\�ɂȂ�܂��B<br>
- * �i���[�N�̈�� NULL �|�C���^�A���[�N�̈�T�C�Y�� 0 �o�C�g���w�肵���ꍇ�ł��A
- * �A���P�[�^�[����̓��I�������m�ۂɂ�胉�C�u���������Ȃ����삷��悤�ɂȂ�܂��B�j<br>
- * \par ����:
- * �������m�ہ^����֐��̃|�C���^�� NULL ���w�肷�邱�ƂŁA
- * �A���P�[�^�[�̓o�^���������邱�Ƃ��\�ł��B<br>
- * �������A������̃������̈悪�c���Ă����Ԃœo�^����������ƁA
- * �G���[�R�[���o�b�N���Ԃ���A�o�^�̉����Ɏ��s���܂��B<br>
- * �i���������o�^�ς݂̃A���P�[�^�[���Ăяo����邱�ƂɂȂ�܂��B�j<br>
+ * \param[in]	p_malloc_func	メモリ確保関数
+ * \param[in]	p_free_func		メモリ解放関数
+ * \param[in]	p_obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * CRI Atom ライブラリにメモリアロケーター（メモリの確保／解放関数）を登録します。<br>
+ * 本マクロでアロケーターを登録すると、Atomライブラリがワーク領域を必要とするタイミングで、
+ * ユーザが登録したメモリ確保／解放処理が呼び出されることになります。<br>
+ * その結果、ワーク領域を必要とする関数（ ::criAtomPlayer_CreateAdxPlayer 関数等）に対し、
+ * 個別にワーク領域をセットする処理を省略することが可能になります。<br>
+ * （ワーク領域に NULL ポインタ、ワーク領域サイズに 0 バイトを指定した場合でも、
+ * アロケーターからの動的メモリ確保によりライブラリが問題なく動作するようになります。）<br>
+ * \par 注意:
+ * メモリ確保／解放関数のポインタに NULL を指定することで、
+ * アロケーターの登録を解除することも可能です。<br>
+ * ただし、未解放のメモリ領域が残っている状態で登録を解除すると、
+ * エラーコールバックが返され、登録の解除に失敗します。<br>
+ * （引き続き登録済みのアロケーターが呼び出されることになります。）<br>
  * <br>
- * �{�}�N���͓����I�� ::criAtom_SetUserMallocFunction �֐���
- * ::criAtom_SetUserFreeFunction �֐����Ăяo���܂��B<br>
- * �{�֐��Ƃ����� API �𕹗p���Ȃ��悤�����ӂ��������B<br>
- * �i�{�֐��̌Ăяo���ɂ��A��L API �ɃZ�b�g�������e���㏑������܂��B�j<br>
+ * 本マクロは内部的に ::criAtom_SetUserMallocFunction 関数と
+ * ::criAtom_SetUserFreeFunction 関数を呼び出します。<br>
+ * 本関数とこれらの API を併用しないようご注意ください。<br>
+ * （本関数の呼び出しにより、上記 API にセットした内容が上書きされます。）<br>
  * <br>
- * �܂��A�o�^���ꂽ�������A���P�[�^�[�֐��̓}���X���b�h���[�h���ɕ����̃X���b�h����R�[��
- * ����邱�Ƃ�����܂��B�]���āA�������A���P�[�g�������X���b�h�Z�[�t�łȂ��ꍇ�͓Ǝ���
- * �������A���P�[�g������r�����䂷��K�v������܂��B
+ * また、登録されたメモリアロケーター関数はマルスレッドモード時に複数のスレッドからコール
+ * されることがあります。従って、メモリアロケート処理がスレッドセーフでない場合は独自に
+ * メモリアロケート処理を排他制御する必要があります。
  */
 #define criAtom_SetUserAllocator(p_malloc_func, p_free_func, p_obj)	\
 {\
@@ -245,11 +269,11 @@
  *      CRI Atom HCA-MX API
  *=========================================================================*/
 /*JP
- * \brief HCA-MX�������R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * \brief HCA-MX初期化コンフィグ構造体にデフォルト値をセット
  * \ingroup ATOMLIB_HCA_MX
- * \par ����:
- * ::criAtomHcaMx_Initialize �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomHcaMxConfig �j�ɁA�f�t�H���g�l���Z�b�g���܂��B<br>
+ * \par 説明:
+ * ::criAtomHcaMx_Initialize 関数に設定するコンフィグ構造体
+ * （ ::CriAtomHcaMxConfig ）に、デフォルト値をセットします。<br>
  * \sa criAtomHcaMx_Initialize, CriAtomHcaMxConfig
  */
 #define criAtomHcaMx_SetDefaultConfig(p_config)	\
@@ -268,12 +292,12 @@
  *      CRI Atom Player API
  *=========================================================================*/
 /*JP
- * \brief CriAtomStandardPlayerConfig�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomStandardPlayerConfigへのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_PLAYER
- * \param[out]	p_config	�W���v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomPlayer_CreateStandardPlayer �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomStandardPlayerConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	標準プレーヤー作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomPlayer_CreateStandardPlayer 関数に設定するコンフィグ構造体
+ * （ ::CriAtomStandardPlayerConfig ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomStandardPlayerConfig, criAtomPlayer_CreateStandardPlayer
  */
 #define criAtomPlayer_SetDefaultConfigForStandardPlayer(p_config)	\
@@ -287,12 +311,12 @@
 }
 
 /*JP
- * \brief CriAtomAdxPlayerConfig�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomAdxPlayerConfigへのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_PLAYER
- * \param[out]	p_config	ADX�v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomPlayer_CreateAdxPlayer �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomAdxPlayerConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	ADXプレーヤー作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomPlayer_CreateAdxPlayer 関数に設定するコンフィグ構造体
+ * （ ::CriAtomAdxPlayerConfig ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomAdxPlayerConfig, criAtomPlayer_CreateAdxPlayer
  */
 #define criAtomPlayer_SetDefaultConfigForAdxPlayer(p_config)	\
@@ -306,12 +330,12 @@
 }
 
 /*JP
- * \brief CriAtomHcaPlayerConfig�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomHcaPlayerConfigへのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_PLAYER
- * \param[out]	p_config	HCA�v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomPlayer_CreateHcaPlayer �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomHcaPlayerConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	HCAプレーヤー作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomPlayer_CreateHcaPlayer 関数に設定するコンフィグ構造体
+ * （ ::CriAtomHcaPlayerConfig ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomHcaPlayerConfig, criAtomPlayer_CreateHcaPlayer
  */
 #define criAtomPlayer_SetDefaultConfigForHcaPlayer(p_config)	\
@@ -325,12 +349,12 @@
 }
 
 /*JP
- * \brief CriAtomHcaMxPlayerConfig�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomHcaMxPlayerConfigへのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_PLAYER
- * \param[out]	p_config	HCA-MX�v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomPlayer_CreateHcaMxPlayer �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomHcaMxPlayerConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	HCA-MXプレーヤー作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomPlayer_CreateHcaMxPlayer 関数に設定するコンフィグ構造体
+ * （ ::CriAtomHcaMxPlayerConfig ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomHcaMxPlayerConfig, criAtomPlayer_CreateHcaMxPlayer
  */
 #define criAtomPlayer_SetDefaultConfigForHcaMxPlayer(p_config)	\
@@ -341,12 +365,12 @@
 }
 
 /*JP
- * \brief CriAtomWavePlayerConfig�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomWavePlayerConfigへのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_PLAYER
- * \param[out]	p_config	WAVE�v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomPlayer_CreateWavePlayer �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomWavePlayerConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	WAVEプレーヤー作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomPlayer_CreateWavePlayer 関数に設定するコンフィグ構造体
+ * （ ::CriAtomWavePlayerConfig ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomWavePlayerConfig, criAtomPlayer_CreateWavePlayer
  */
 #define criAtomPlayer_SetDefaultConfigForWavePlayer(p_config)	\
@@ -360,12 +384,12 @@
 }
 
 /*JP
- * \brief CriAtomAiffPlayerConfig�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomAiffPlayerConfigへのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_PLAYER
- * \param[out]	p_config	AIFF�v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomPlayer_CreateAiffPlayer �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomAiffPlayerConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	AIFFプレーヤー作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomPlayer_CreateAiffPlayer 関数に設定するコンフィグ構造体
+ * （ ::CriAtomAiffPlayerConfig ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomAiffPlayerConfig, criAtomPlayer_CreateAiffPlayer
  */
 #define criAtomPlayer_SetDefaultConfigForAiffPlayer(p_config)	\
@@ -379,12 +403,12 @@
 }
 
 /*JP
- * \brief CriAtomRawPcmPlayerConfig�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomRawPcmPlayerConfigへのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_PLAYER
- * \param[out]	p_config	RawPCM�v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomPlayer_CreateRawPcmPlayer �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomRawPcmPlayerConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	RawPCMプレーヤー作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomPlayer_CreateRawPcmPlayer 関数に設定するコンフィグ構造体
+ * （ ::CriAtomRawPcmPlayerConfig ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomRawPcmPlayerConfig, criAtomPlayer_CreateRawPcmPlayer
  */
 #define criAtomPlayer_SetDefaultConfigForRawPcmPlayer(p_config)	\
@@ -398,12 +422,12 @@
 }
 
 /*JP
- * \brief CriAtomInstrumentPlayerConfig�փf�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomInstrumentPlayerConfigへデフォルトパラメーターのセット
  * \ingroup ATOMLIB_PLAYER
- * \param[out]	p_config	�C���X�g�D�������g�v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomPlayer_CreateRawPcmPlayer �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomRawPcmPlayerConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	インストゥルメントプレーヤー作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomPlayer_CreateRawPcmPlayer 関数に設定するコンフィグ構造体
+ * （ ::CriAtomRawPcmPlayerConfig ）に、デフォルトの値をセットします。<br>
  * \sa criAtomExVoicePool_AllocateInstrumentVoicePool
  */
 #define criAtomPlayer_SetDefaultConfigForInstrumentPlayer(p_config)	\
@@ -419,12 +443,12 @@
  *      CRI Atom D-BAS API
  *=========================================================================*/
 /*JP
- * \brief CriAtomDbasConfig �ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomDbasConfig へのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_DBAS
- * \param[out]	p_config	D-BAS�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomDbas_Create �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomDbasConfig �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	D-BAS作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomDbas_Create 関数に設定するコンフィグ構造体
+ * （ ::CriAtomDbasConfig ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomDbasConfig, criAtomDbas_Create, criAtomDbas_CalculateWorkSize
  */
 #define criAtomDbas_SetDefaultConfig(p_config)	\
@@ -441,13 +465,13 @@
 /*       CRI Atom Streaming Cache API                                      */
 /* ========================================================================*/
 /*JP
- * \brief CriAtomStreamingCacheConfig�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+ * \brief CriAtomStreamingCacheConfigへのデフォルトパラメーターのセット
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \param[out]	p_config	�X�g���[�~���O�L���b�V���쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomStreamingCache_CalculateWorkSize �֐��A
- * ::criAtomStreamingCache_Create �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomStreamingCacheConfig �j�ɑ΂��A�f�t�H���g�l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	ストリーミングキャッシュ作成用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomStreamingCache_CalculateWorkSize 関数、
+ * ::criAtomStreamingCache_Create 関数に設定するコンフィグ構造体
+ * （ ::CriAtomStreamingCacheConfig ）に対し、デフォルト値をセットします。<br>
  * \sa criAtomStreamingCache_CalculateWorkSize, criAtomStreamingCache_Create
  */
 #define criAtomStreamingCache_SetDefaultConfig(p_config)	\
@@ -462,11 +486,11 @@
 /* ========================================================================*/
 
 /*JP
- * \brief ���x�����[�^�[�@�\�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * \brief レベルメーター機能コンフィグ構造体にデフォルト値をセット
  * \ingroup ATOMLIB_METER
- * \par ����:
- * ::criAtomMeter_AttachLevelMeter �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomLevelMeterConfig �j�ɁA�f�t�H���g�l���Z�b�g���܂��B<br>
+ * \par 説明:
+ * ::criAtomMeter_AttachLevelMeter 関数に設定するコンフィグ構造体
+ * （ ::CriAtomLevelMeterConfig ）に、デフォルト値をセットします。<br>
  * \sa criAtomMeter_AttachLevelMeter, CriAtomLevelMeterConfig
  */
 #define criAtomMeter_SetDefaultConfigForLevelMeter(p_config) \
@@ -476,11 +500,11 @@
 }
 
 /*JP
- * \brief ���E�h�l�X���[�^�[�@�\�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * \brief ラウドネスメーター機能コンフィグ構造体にデフォルト値をセット
  * \ingroup ATOMLIB_ASR
- * \par ����:
- * ::criAtomMeter_AttachLoudnessMeter �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomLoudnessMeterConfig �j�ɁA�f�t�H���g�l���Z�b�g���܂��B<br>
+ * \par 説明:
+ * ::criAtomMeter_AttachLoudnessMeter 関数に設定するコンフィグ構造体
+ * （ ::CriAtomLoudnessMeterConfig ）に、デフォルト値をセットします。<br>
  * \sa criAtomMeter_AttachLoudnessMeter, CriAtomLoudnessMeterConfig
  */
 #define criAtomMeter_SetDefaultConfigForLoudnessMeter(p_config) \
@@ -490,11 +514,11 @@
 }
 
 /*JP
- * \brief �g�D���[�s�[�N���[�^�[�@�\�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * \brief トゥルーピークメーター機能コンフィグ構造体にデフォルト値をセット
  * \ingroup ATOMLIB_ASR
- * \par ����:
- * ::criAtomMeter_AttachTruePeakMeter �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomTruePeakMeterConfig �j�ɁA�f�t�H���g�l���Z�b�g���܂��B<br>
+ * \par 説明:
+ * ::criAtomMeter_AttachTruePeakMeter 関数に設定するコンフィグ構造体
+ * （ ::CriAtomTruePeakMeterConfig ）に、デフォルト値をセットします。<br>
  * \sa criAtomMeter_AttachTruePeakMeter, CriAtomTruePeakMeterConfig
  */
 #define criAtomMeter_SetDefaultConfigForTruePeakMeter(p_config) \
@@ -505,28 +529,28 @@
 }
 
 /***************************************************************************
- *      �f�[�^�^�錾
+ *      データ型宣言
  *      Data Type Declarations
  ***************************************************************************/
 /*==========================================================================
  *      CRI Atom API
  *=========================================================================*/
 /*JP
- * \brief �X���b�h���f��
+ * \brief スレッドモデル
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * CRI Atom���C�u�������ǂ̂悤�ȃX���b�h���f���œ��삷�邩��\���܂��B<br>
- * ���C�u�������������i ::criAtom_Initialize �֐� �j�� ::CriAtomConfig �\���̂ɂ�
- * �w�肵�܂��B
+ * \par 説明:
+ * CRI Atomライブラリがどのようなスレッドモデルで動作するかを表します。<br>
+ * ライブラリ初期化時（ ::criAtom_Initialize 関数 ）に ::CriAtomConfig 構造体にて
+ * 指定します。
  * \sa criAtom_Initialize, CriAtomConfig
  */
 typedef enum CriAtomThreadModelTag {
 	/*JP
-	 * \brief �}���`�X���b�h
-	 * \par ����:
-	 * ���C�u�����͓����ŃX���b�h���쐬���A�}���`�X���b�h�ɂē��삵�܂��B<br>
-	 * �X���b�h�� ::criAtom_Initialize �֐��Ăяo�����ɍ쐬����܂��B<br>
-	 * ���C�u�����̃T�[�o�[�����́A�쐬���ꂽ�X���b�h��Œ���I�Ɏ��s����܂��B<br>
+	 * \brief マルチスレッド
+	 * \par 説明:
+	 * ライブラリは内部でスレッドを作成し、マルチスレッドにて動作します。<br>
+	 * スレッドは ::criAtom_Initialize 関数呼び出し時に作成されます。<br>
+	 * ライブラリのサーバー処理は、作成されたスレッド上で定期的に実行されます。<br>
 	 */
 	CRIATOM_THREAD_MODEL_MULTI = 0,
 
@@ -534,33 +558,33 @@ typedef enum CriAtomThreadModelTag {
 	CRIATOM_THREAD_MODEL_MULTI_WITH_SONICSYNC = 4,
 
 	/*JP
-	 * \brief �}���`�X���b�h�i���[�U�쓮���j
-	 * \par ����:
-	 * ���C�u�����͓����ŃX���b�h���쐬���A�}���`�X���b�h�ɂē��삵�܂��B<br>
-	 * �X���b�h�� ::criAtom_Initialize �֐��Ăяo�����ɍ쐬����܂��B<br>
-	 * �T�[�o�[�������͍̂쐬���ꂽ�X���b�h��Ŏ��s����܂����A
-	 * CRIATOM_THREAD_MODEL_MULTI �Ƃ͈قȂ�A�����I�ɂ͎��s����܂���B<br>
-	 * ���[�U�� ::criAtom_ExecuteMain �֐��Ŗ����I�ɃT�[�o�[�������쓮����K�v������܂��B<br>
-	 * �i  ::criAtom_ExecuteMain �֐������s����ƁA�X���b�h���N�����A�T�[�o�[���������s����܂��B�j<br>
+	 * \brief マルチスレッド（ユーザ駆動式）
+	 * \par 説明:
+	 * ライブラリは内部でスレッドを作成し、マルチスレッドにて動作します。<br>
+	 * スレッドは ::criAtom_Initialize 関数呼び出し時に作成されます。<br>
+	 * サーバー処理自体は作成されたスレッド上で実行されますが、
+	 * CRIATOM_THREAD_MODEL_MULTI とは異なり、自動的には実行されません。<br>
+	 * ユーザは ::criAtom_ExecuteMain 関数で明示的にサーバー処理を駆動する必要があります。<br>
+	 * （  ::criAtom_ExecuteMain 関数を実行すると、スレッドが起動し、サーバー処理が実行されます。）<br>
 	 */
 	CRIATOM_THREAD_MODEL_MULTI_USER_DRIVEN = 3,
 
 	/*JP
-	 * \brief ���[�U�}���`�X���b�h
-	 * \par ����:
-	 * ���C�u���������ł̓X���b�h���쐬���܂��񂪁A���[�U���Ǝ��ɍ쐬�����X���b�h
-	 * ����T�[�o�[�����֐����Ăяo����悤�A�����̔r������͍s���܂��B<br>
-	 * �T�[�o�[������ ::criAtom_ExecuteMain �֐����œ������s����܂��B<br>
+	 * \brief ユーザマルチスレッド
+	 * \par 説明:
+	 * ライブラリ内部ではスレッドを作成しませんが、ユーザが独自に作成したスレッド
+	 * からサーバー処理関数を呼び出せるよう、内部の排他制御は行います。<br>
+	 * サーバー処理は ::criAtom_ExecuteMain 関数内で同期実行されます。<br>
 	 */
 	CRIATOM_THREAD_MODEL_USER_MULTI = 1,
 
 	/*JP
-	 * \brief �V���O���X���b�h
-	 * \par ����:
-	 * ���C�u���������ŃX���b�h���쐬���܂���B�܂��A�����̔r��������s���܂���B<br>
-	 * �T�[�o�[������ ::criAtom_ExecuteMain �֐����œ������s����܂��B<br>
+	 * \brief シングルスレッド
+	 * \par 説明:
+	 * ライブラリ内部でスレッドを作成しません。また、内部の排他制御も行いません。<br>
+	 * サーバー処理は ::criAtom_ExecuteMain 関数内で同期実行されます。<br>
 	 * \attention
-	 * ���̃��f����I�������ꍇ�A�eAPI�ƃT�[�o�[�����֐��Ƃ𓯈�X���b�h����Ăяo���悤�ɂ��Ă��������B<br>
+	 * このモデルを選択した場合、各APIとサーバー処理関数とを同一スレッドから呼び出すようにしてください。<br>
 	 */
 	CRIATOM_THREAD_MODEL_SINGLE = 2,
 
@@ -569,344 +593,344 @@ typedef enum CriAtomThreadModelTag {
 } CriAtomThreadModel;
 
 /*JP
- * \brief ���C�u�����������p�R���t�B�O�\����
+ * \brief ライブラリ初期化用コンフィグ構造体
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * CRI Atom���C�u�����̓���d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtom_Initialize �֐��̈����Ɏw�肵�܂��B<br>
+ * \par 説明:
+ * CRI Atomライブラリの動作仕様を指定するための構造体です。<br>
+ * ::criAtom_Initialize 関数の引数に指定します。<br>
  * <br>
- * CRI Atom���C�u�����́A���������ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA�������\�[�X��
- * �K�v�Ȃ����m�ۂ��܂��B<br>
- * ���C�u�������K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ�����
- * �ω����܂��B
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtom_SetDefaultConfig �}�N���ō\���̂Ƀf�t�H���g
- * �p�����[�^�[���Z�b�g������A ::criAtom_Initialize �֐��ɍ\���̂��w�肵�Ă��������B<br>
+ * CRI Atomライブラリは、初期化時に本構造体で指定された設定に応じて、内部リソースを
+ * 必要なだけ確保します。<br>
+ * ライブラリが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて
+ * 変化します。
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtom_SetDefaultConfig マクロで構造体にデフォルト
+ * パラメーターをセットした後、 ::criAtom_Initialize 関数に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A
- * ::criAtom_SetDefaultConfig �}�N���ŕK���\���̂����������Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、
+ * ::criAtom_SetDefaultConfig マクロで必ず構造体を初期化してください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtom_Initialize, criAtom_SetDefaultConfig
  */
 typedef struct CriAtomConfigTag {
 	/*JP
-		\brief �X���b�h���f��
-		\par ����:
-		CRI Atom���C�u�����̃X���b�h���f�����w�肵�܂��B<br>
+		\brief スレッドモデル
+		\par 説明:
+		CRI Atomライブラリのスレッドモデルを指定します。<br>
 		\sa CriAtomThreadModel
 	*/
 	CriAtomThreadModel thread_model;
 
 	/*JP
-		\brief �T�[�o�[�����̎��s�p�x
-		\par ����:
-		�T�[�o�[���������s����p�x���w�肵�܂��B<br>
-		�ʏ�A�A�v���P�[�V�����̃t���[�����[�g�Ɠ����l���w�肵�܂��B<br>
+		\brief サーバー処理の実行頻度
+		\par 説明:
+		サーバー処理を実行する頻度を指定します。<br>
+		通常、アプリケーションのフレームレートと同じ値を指定します。<br>
 		<br>
-		CRI Atom���C�u�����́A�t�@�C���ǂݍ��݂̊Ǘ���A�����f�[�^�̃f�R�[�h�A�����̏o�́A
-		�X�e�[�^�X�̍X�V���A���C�u���������ōs�������̂قƂ�ǂ�1�̊֐��ł܂Ƃ߂�
-		�s���܂��B<br>
-		CRI�~�h���E�F�A�ł́A�������������C�u�������̏������ꊇ���čs���֐��̂��Ƃ�
-		"�T�[�o�[����"�ƌĂ�ł��܂��B<br>
+		CRI Atomライブラリは、ファイル読み込みの管理や、音声データのデコード、音声の出力、
+		ステータスの更新等、ライブラリ内部で行う処理のほとんどを1つの関数でまとめて
+		行います。<br>
+		CRIミドルウェアでは、こういったライブラリ内の処理を一括して行う関数のことを
+		"サーバー処理"と呼んでいます。<br>
 		<br>
-		�X���b�h���f���� ::CRIATOM_THREAD_MODEL_MULTI �̏ꍇ�A�T�[�o�[������CRI Atom���C�u����
-		���쐬����X���b�h�ŁA����I�Ɏ��s����܂��B<br>
-		�X���b�h���f���� ::CRIATOM_THREAD_MODEL_SINGLE �� ::CRIATOM_THREAD_MODEL_USER_MULTI
-		�̏ꍇ�A�T�[�o�[������ ::criAtom_ExecuteMain �֐����Ŏ��s����܂��B<br>
+		スレッドモデルが ::CRIATOM_THREAD_MODEL_MULTI の場合、サーバー処理はCRI Atomライブラリ
+		が作成するスレッドで、定期的に実行されます。<br>
+		スレッドモデルが ::CRIATOM_THREAD_MODEL_SINGLE や ::CRIATOM_THREAD_MODEL_USER_MULTI
+		の場合、サーバー処理は ::criAtom_ExecuteMain 関数内で実行されます。<br>
 		<br>
-		server_frequency �ɂ́A�T�[�o�[���������s����p�x���w�肵�܂��B<br>
-		�X���b�h���f���� ::CRIATOM_THREAD_MODEL_MULTI �̏ꍇ�ACRI Atom���C�u�����͎w�肳�ꂽ
-		�p�x�ŃT�[�o�[���������s�����悤�A�T�[�o�[�����̌Ăяo���Ԋu�𒲐߂��܂��B<br>
-		�X���b�h���f���� ::CRIATOM_THREAD_MODEL_SINGLE �� ::CRIATOM_THREAD_MODEL_USER_MULTI
-		�̏ꍇ�A���[�U�� ::criAtom_ExecuteMain �֐��� server_frequency �Ŏw�肵���p�x�ȏ�
-		�Ŏ��s����K�v������܂��B<br>
+		server_frequency には、サーバー処理を実行する頻度を指定します。<br>
+		スレッドモデルが ::CRIATOM_THREAD_MODEL_MULTI の場合、CRI Atomライブラリは指定された
+		頻度でサーバー処理が実行されるよう、サーバー処理の呼び出し間隔を調節します。<br>
+		スレッドモデルが ::CRIATOM_THREAD_MODEL_SINGLE や ::CRIATOM_THREAD_MODEL_USER_MULTI
+		の場合、ユーザは ::criAtom_ExecuteMain 関数を server_frequency で指定した頻度以上
+		で実行する必要があります。<br>
 		<br>
-		�A�v���P�[�V�����̃t���[�����[�g�̕ϓ����傫���A�T�[�o�[���������s����p�x�Ƀo���c�L
-		���ł��Ă��܂��ꍇ�ɂ́A�ň��̃t���[�����[�g��z�肵�� server_frequency �̒l���w��
-		���邩�A�܂��̓X���b�h���f���� ::CRIATOM_THREAD_MODEL_MULTI ���w�肵�Ă��������B
-		\par ���l:
-		�T�[�o�[�����̎��s�p�x�𑽂�����ƁA�P�ʃT�[�o�[����������̏����ʁi�f�R�[�h�ʓ��j
-		�����Ȃ��Ȃ�܂��B
-		���̌��ʁA�P�ʃT�[�o�[������̏������ׂ͏������Ȃ�܂��i���ׂ����U����܂��j���A
-		�T�[�o�[�����̎��s�ɔ����I�[�o�[�w�b�h�͑傫���Ȃ�܂��B<br>
-		�i�g�уQ�[���@���ACPU���\�[�X�����Ȃ����ŃT�[�o�[�����̎��s�p�x�𑽂����������ꍇ�A
-		�T�[�o�[�����̎��s�ɔ����I�[�o�[�w�b�h�������ł��Ȃ��Ȃ�\��������܂��B�j<br>
+		アプリケーションのフレームレートの変動が大きく、サーバー処理を実行する頻度にバラツキ
+		ができてしまう場合には、最悪のフレームレートを想定して server_frequency の値を指定
+		するか、またはスレッドモデルに ::CRIATOM_THREAD_MODEL_MULTI を指定してください。
+		\par 備考:
+		サーバー処理の実行頻度を多くすると、単位サーバー処理当たりの処理量（デコード量等）
+		が少なくなります。
+		その結果、単位サーバー当たりの処理負荷は小さくなります（負荷が分散されます）が、
+		サーバー処理の実行に伴うオーバーヘッドは大きくなります。<br>
+		（携帯ゲーム機等、CPUリソースが少ない環境でサーバー処理の実行頻度を多くしすぎた場合、
+		サーバー処理の実行に伴うオーバーヘッドが無視できなくなる可能性があります。）<br>
 		<br>
-		�T�[�o�[�����̎��s�p�x�����Ȃ�����ƁA�P�ʃT�[�o�[����������̏����ʂ������Ȃ�܂��B<br>
-		�T�[�o�[�����̎��s�ɔ����I�[�o�[�w�b�h�͒ጸ����܂����A�P�ʃT�[�o�[����������̕���
-		�������Ȃ邽�߁A�t���[���������̖�肪�������鋰�ꂪ����܂��B<br>
+		サーバー処理の実行頻度を少なくすると、単位サーバー処理当たりの処理量が多くなります。<br>
+		サーバー処理の実行に伴うオーバーヘッドは低減されますが、単位サーバー処理当たりの負荷
+		が高くなるため、フレーム落ち等の問題が発生する恐れがあります。<br>
 		\attention
-		�X���b�h���f���� ::CRIATOM_THREAD_MODEL_SINGLE �� ::CRIATOM_THREAD_MODEL_USER_MULTI
-		���w�肵���ɂ�������炸�A ::criAtom_ExecuteMain �֐��� server_frequency ��
-		�w�肵���l�ȉ��̕p�x�ł������s����Ȃ������ꍇ�A�Đ����̉����r�؂�铙�̖�肪
-		��������\��������܂��̂ŁA�����ӂ��������B<br>
+		スレッドモデルに ::CRIATOM_THREAD_MODEL_SINGLE や ::CRIATOM_THREAD_MODEL_USER_MULTI
+		を指定したにもかかわらず、 ::criAtom_ExecuteMain 関数が server_frequency で
+		指定した値以下の頻度でしか実行されなかった場合、再生中の音が途切れる等の問題が
+		発生する可能性がありますので、ご注意ください。<br>
 		\sa criAtom_ExecuteMain
 	*/
 	CriFloat32 server_frequency;
 
 	/*JP
-		\brief CRI File System �̏������p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		CRI File System�̏������p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�f�t�H���g�p�����[�^�[��CRI File System�����������܂��B
+		\brief CRI File System の初期化パラメーターへのポインタ
+		\par 説明:
+		CRI File Systemの初期化パラメーターへのポインタを指定します。
+		NULLを指定した場合、デフォルトパラメーターでCRI File Systemを初期化します。
 		\sa criAtom_Initialize
 	*/
 	const CriFsConfig *fs_config;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̏������p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		CRI Atom���C�u�����𓮍삳���邽�߂ɕK�v�ȁA
-		�v���b�g�t�H�[���ŗL�̏������p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�f�t�H���g�p�����[�^�[�Ńv���b�g�t�H�[�����ɕK�v�ȏ��������s���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有の初期化パラメーターへのポインタ
+		\par 説明:
+		CRI Atomライブラリを動作させるために必要な、
+		プラットフォーム固有の初期化パラメーターへのポインタを指定します。
+		NULLを指定した場合、デフォルトパラメーターでプラットフォーム毎に必要な初期化を行います。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 		\sa criAtom_Initialize
 	*/
 	void *context;
 
 	/*JP
-		\brief ���C�u�����o�[�W�����ԍ�
-		\par ����:
-		CRI Atom���C�u�����̃o�[�W�����ԍ��ł��B<br>
-		::criAtom_SetDefaultConfig �}�N���ɂ��A�{�w�b�_�[�ɒ�`����Ă���o�[�W�����ԍ����ݒ肳��܂��B<br>
+		\brief ライブラリバージョン番号
+		\par 説明:
+		CRI Atomライブラリのバージョン番号です。<br>
+		::criAtom_SetDefaultConfig マクロにより、本ヘッダーに定義されているバージョン番号が設定されます。<br>
 		\attention
-		�A�v���P�[�V�����ł́A���̒l��ύX���Ȃ��ł��������B<br>
+		アプリケーションでは、この値を変更しないでください。<br>
 	 */
 	CriUint32 version;
 
 	/*JP
-		\brief ���C�u�����o�[�W����������
-		\par ����:
-		CRI Atom���C�u�����̃o�[�W����������ł��B<br>
-		::criAtom_SetDefaultConfig �}�N���ɂ��A�{�w�b�_�[�ɒ�`����Ă���o�[�W���������񂪐ݒ肳��܂��B<br>
+		\brief ライブラリバージョン文字列
+		\par 説明:
+		CRI Atomライブラリのバージョン文字列です。<br>
+		::criAtom_SetDefaultConfig マクロにより、本ヘッダーに定義されているバージョン文字列が設定されます。<br>
 		\attention
-		�A�v���P�[�V�����ł́A���̒l��ύX���Ȃ��ł��������B<br>
+		アプリケーションでは、この値を変更しないでください。<br>
 	 */
 	const CriChar8 *version_string;
 
 	/*JP
-		\brief �ő�v���[���[��
-		\par ����:
-		�A�v���P�[�V�������Ŏg�p����v���[���[�iCriAtomPlayer�j�̐����w�肵�܂��B<br>
-		�A�v���P�[�V�������� ::criAtomPlayer_CreateStandardPlayer �֐����g�p���ăv���[���[���쐬����ꍇ�A
-		�{�p�����[�^�[�Ɏg�p����v���[���[�̐����w�肷��K�v������܂��B<br>
+		\brief 最大プレーヤー数
+		\par 説明:
+		アプリケーション中で使用するプレーヤー（CriAtomPlayer）の数を指定します。<br>
+		アプリケーション中で ::criAtomPlayer_CreateStandardPlayer 関数を使用してプレーヤーを作成する場合、
+		本パラメーターに使用するプレーヤーの数を指定する必要があります。<br>
 		<br>
-		max_players�ɂ́u�����Ɏg�p����v���[���[�̍ő吔�v���w�肵�܂��B<br>
-		�Ⴆ�΁A ::criAtomPlayer_CreateStandardPlayer �֐��� ::criAtomPlayer_Destroy �֐������݂ɑ����Ď��s����P�[�X�ɂ����ẮA
-		�ő哯���ɂ�1�̃v���[���[�����g�p���Ȃ����߁A�֐��̌Ăяo���񐔂Ɋ֌W�Ȃ�max_players��1���w�肷�邱�Ƃ��\�ł��B<br>
-		�t�ɁA�����ʂŃv���[���[��10�g�p����ꍇ�ɂ́A���̑��̏�ʂŃv���[���[��S���g�p���Ȃ��ꍇ�ł����Ă��A
-		max_players��10���w�肷��K�v������܂��B<br>
+		max_playersには「同時に使用するプレーヤーの最大数」を指定します。<br>
+		例えば、 ::criAtomPlayer_CreateStandardPlayer 関数と ::criAtomPlayer_Destroy 関数を交互に続けて実行するケースにおいては、
+		最大同時には1つのプレーヤーしか使用しないため、関数の呼び出し回数に関係なくmax_playersに1を指定することが可能です。<br>
+		逆に、ある場面でプレーヤーを10個使用する場合には、その他の場面でプレーヤーを全く使用しない場合であっても、
+		max_playersに10を指定する必要があります。<br>
 		\sa criAtomPlayer_CreateStandardPlayer, criAtomPlayer_Destroy
 	*/
 	CriSint32 max_players;
 } CriAtomConfig;
 
 /*JP
- * \brief �������m�ۊ֐�
+ * \brief メモリ確保関数
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	obj		���[�U�w��I�u�W�F�N�g
- * \param[in]	size	�v���������T�C�Y�i�o�C�g�P�ʁj
- * \return		void*	�m�ۂ����������̃A�h���X�i���s����NULL�j
- * \par ����:
- * �������m�ۊ֐��o�^�p�̃C���^�[�t�F�[�X�ł��B<br>
- * CRI Atom���C�u���������C�u�������ōs���������m�ۏ������A
- * ���[�U�Ǝ��̃������m�ۏ����ɒu�����������ꍇ�Ɏg�p���܂��B<br>
- * \par ���l:
- * �R�[���o�b�N�֐������s�����ۂɂ́Asize�ɕK�v�Ƃ���郁�����̃T�C�Y���Z�b�g
- * ����Ă��܂��B<br>
- * �R�[���o�b�N�֐�����size���̃��������m�ۂ��A�m�ۂ����������̃A�h���X��
- * �߂�l�Ƃ��ĕԂ��Ă��������B<br>
- * ���A������ obj �ɂ́A::criAtom_SetUserMallocFunction �֐��œo�^�������[�U�w��
- * �I�u�W�F�N�g���n����܂��B<br>
- * �������m�ێ��Ƀ������}�l�[�W���[�����Q�Ƃ���K�v������ꍇ�ɂ́A
- * ���Y�I�u�W�F�N�g�� ::criAtom_SetUserMallocFunction �֐��̈����ɃZ�b�g���Ă����A
- * �{�R�[���o�b�N�֐��̈������o�R���ĎQ�Ƃ��Ă��������B<br>
+ * \param[in]	obj		ユーザ指定オブジェクト
+ * \param[in]	size	要求メモリサイズ（バイト単位）
+ * \return		void*	確保したメモリのアドレス（失敗時はNULL）
+ * \par 説明:
+ * メモリ確保関数登録用のインターフェースです。<br>
+ * CRI Atomライブラリがライブラリ内で行うメモリ確保処理を、
+ * ユーザ独自のメモリ確保処理に置き換えたい場合に使用します。<br>
+ * \par 備考:
+ * コールバック関数が実行される際には、sizeに必要とされるメモリのサイズがセット
+ * されています。<br>
+ * コールバック関数内でsize分のメモリを確保し、確保したメモリのアドレスを
+ * 戻り値として返してください。<br>
+ * 尚、引数の obj には、::criAtom_SetUserMallocFunction 関数で登録したユーザ指定
+ * オブジェクトが渡されます。<br>
+ * メモリ確保時にメモリマネージャー等を参照する必要がある場合には、
+ * 当該オブジェクトを ::criAtom_SetUserMallocFunction 関数の引数にセットしておき、
+ * 本コールバック関数の引数を経由して参照してください。<br>
  * \attention
- * �������̊m�ۂɎ��s�����ꍇ�A�G���[�R�[���o�b�N���Ԃ��ꂽ��A�Ăяo�����̊֐���
- * ���s����\��������܂��̂ł����ӂ��������B
+ * メモリの確保に失敗した場合、エラーコールバックが返されたり、呼び出し元の関数が
+ * 失敗する可能性がありますのでご注意ください。
  * \sa CriAtomFreeFunc, criAtom_SetUserMallocFunction
  */
 typedef void *(CRIAPI *CriAtomMallocFunc)(void *obj, CriUint32 size);
 
 /*JP
- * \brief ����������֐�
+ * \brief メモリ解放関数
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	obj		���[�U�w��I�u�W�F�N�g
- * \param[in]	mem		������郁�����A�h���X
- * \return				�Ȃ�
- * \par ����:
- * ����������֐��o�^�p�̃C���^�[�t�F�[�X�ł��B<br>
- * CRI Atom���C�u�����������C�u�������ōs������������������A
- * ���[�U�Ǝ��̃�������������ɒu�����������ꍇ�Ɏg�p���܂��B<br>
- * \par ���l:
- * �R�[���o�b�N�֐������s�����ۂɂ́Amem�ɉ�����ׂ��������̃A�h���X���Z�b�g
- * ����Ă��܂��B<br>
- * �R�[���o�b�N�֐�����mem�̗̈�̃�������������Ă��������B
- * ���A������ obj �ɂ́A::criAtom_SetUserFreeFunction �֐��œo�^�������[�U�w��
- * �I�u�W�F�N�g���n����܂��B<br>
- * �������m�ێ��Ƀ������}�l�[�W���[�����Q�Ƃ���K�v������ꍇ�ɂ́A
- * ���Y�I�u�W�F�N�g�� ::criAtom_SetUserFreeFunction �֐��̈����ɃZ�b�g���Ă����A
- * �{�R�[���o�b�N�֐��̈������o�R���ĎQ�Ƃ��Ă��������B<br>
+ * \param[in]	obj		ユーザ指定オブジェクト
+ * \param[in]	mem		解放するメモリアドレス
+ * \return				なし
+ * \par 説明:
+ * メモリ解放関数登録用のインターフェースです。<br>
+ * CRI Atomライブラリ内がライブラリ内で行うメモリ解放処理を、
+ * ユーザ独自のメモリ解放処理に置き換えたい場合に使用します。<br>
+ * \par 備考:
+ * コールバック関数が実行される際には、memに解放すべきメモリのアドレスがセット
+ * されています。<br>
+ * コールバック関数内でmemの領域のメモリを解放してください。
+ * 尚、引数の obj には、::criAtom_SetUserFreeFunction 関数で登録したユーザ指定
+ * オブジェクトが渡されます。<br>
+ * メモリ確保時にメモリマネージャー等を参照する必要がある場合には、
+ * 当該オブジェクトを ::criAtom_SetUserFreeFunction 関数の引数にセットしておき、
+ * 本コールバック関数の引数を経由して参照してください。<br>
  * \sa CriAtomMallocFunc, criAtom_SetUserFreeFunction
  */
 typedef void (CRIAPI *CriAtomFreeFunc)(void *obj, void *mem);
 
 /*JP
- * \brief �I�[�f�B�I�t���[���J�n�R�[���o�b�N�֐�
+ * \brief オーディオフレーム開始コールバック関数
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	obj		���[�U�w��I�u�W�F�N�g
- * \return				�Ȃ�
- * \par ����:
- * �I�[�f�B�I�t���[���̊J�n���Ɏ��s�����R�[���o�b�N�֐��ł��B<br>
- * �I�[�f�B�I�t���[���́ACRI Atom���C�u�������ŃT�[�o�[���������s����^�C�~���O�������܂��B<br>
- * �R�[���o�b�N�֐��̓o�^�ɂ� ::criAtom_SetAudioFrameStartCallback �֐����g�p���܂��B<br>
- * �o�^�����R�[���o�b�N�֐��́A�I�[�f�B�I�t���[���̊J�n���i�T�[�o�[�����J�n���O�j�Ɏ��s����܂��B
- * \par ���l:
- * ���C�u�������������ɃX���b�h���f�����}���`�X���b�h�i ::CRIATOM_THREAD_MODEL_MULTI �j
- * �ɐݒ肵���ꍇ�A�{�R�[���o�b�N�֐���CRI Atom���C�u�������ō쐬���ꂽ�X���b�h����
- * �Ăяo����܂��B<br>
- * ���C�u�������������ɃX���b�h���f�������[�U�}���`�X���b�h�i ::CRIATOM_THREAD_MODEL_USER_MULTI �j�A
- * �܂��̓V���O���X���b�h�i ::CRIATOM_THREAD_MODEL_SINGLE �j�ɐݒ肵���ꍇ�A�{�R�[���o�b�N�֐�
- * ::criAtom_ExecuteMain �֐����ŌĂяo����܂��B<br>
+ * \param[in]	obj		ユーザ指定オブジェクト
+ * \return				なし
+ * \par 説明:
+ * オーディオフレームの開始時に実行されるコールバック関数です。<br>
+ * オーディオフレームは、CRI Atomライブラリ内でサーバー処理を実行するタイミングを示します。<br>
+ * コールバック関数の登録には ::criAtom_SetAudioFrameStartCallback 関数を使用します。<br>
+ * 登録したコールバック関数は、オーディオフレームの開始時（サーバー処理開始直前）に実行されます。
+ * \par 備考:
+ * ライブラリ初期化時にスレッドモデルをマルチスレッド（ ::CRIATOM_THREAD_MODEL_MULTI ）
+ * に設定した場合、本コールバック関数はCRI Atomライブラリ内で作成されたスレッドから
+ * 呼び出されます。<br>
+ * ライブラリ初期化時にスレッドモデルをユーザマルチスレッド（ ::CRIATOM_THREAD_MODEL_USER_MULTI ）、
+ * またはシングルスレッド（ ::CRIATOM_THREAD_MODEL_SINGLE ）に設定した場合、本コールバック関数
+ * ::criAtom_ExecuteMain 関数内で呼び出されます。<br>
  * <br>
- * ���A������ obj �ɂ́A::criAtom_SetAudioFrameStartCallback �֐��œo�^�������[�U�w��
- * �I�u�W�F�N�g���n����܂��B<br>
+ * 尚、引数の obj には、::criAtom_SetAudioFrameStartCallback 関数で登録したユーザ指定
+ * オブジェクトが渡されます。<br>
  * \sa criAtom_SetAudioFrameStartCallback
  */
 typedef void (CRIAPI *CriAtomAudioFrameStartCbFunc)(void *obj);
 
 /*JP
- * \brief �I�[�f�B�I�t���[���I���R�[���o�b�N�֐�
+ * \brief オーディオフレーム終了コールバック関数
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	obj		���[�U�w��I�u�W�F�N�g
- * \return				�Ȃ�
- * \par ����:
- * �I�[�f�B�I�t���[���̏I�����Ɏ��s�����R�[���o�b�N�֐��ł��B<br>
- * �I�[�f�B�I�t���[���́ACRI Atom���C�u�������ŃT�[�o�[���������s����^�C�~���O�������܂��B<br>
- * �R�[���o�b�N�֐��̓o�^�ɂ� ::criAtom_SetAudioFrameEndCallback �֐����g�p���܂��B<br>
- * �o�^�����R�[���o�b�N�֐��́A�I�[�f�B�I�t���[���̏I�����i�T�[�o�[�����I������j�Ɏ��s����܂��B<br>
- * \par ���l:
- * ���C�u�������������ɃX���b�h���f�����}���`�X���b�h�i ::CRIATOM_THREAD_MODEL_MULTI �j
- * �ɐݒ肵���ꍇ�A�{�R�[���o�b�N�֐���CRI Atom���C�u�������ō쐬���ꂽ�X���b�h����
- * �Ăяo����܂��B<br>
- * ���C�u�������������ɃX���b�h���f�������[�U�}���`�X���b�h�i ::CRIATOM_THREAD_MODEL_USER_MULTI �j�A
- * �܂��̓V���O���X���b�h�i ::CRIATOM_THREAD_MODEL_SINGLE �j�ɐݒ肵���ꍇ�A�{�R�[���o�b�N�֐�
- * ::criAtom_ExecuteMain �֐����ŌĂяo����܂��B<br>
+ * \param[in]	obj		ユーザ指定オブジェクト
+ * \return				なし
+ * \par 説明:
+ * オーディオフレームの終了時に実行されるコールバック関数です。<br>
+ * オーディオフレームは、CRI Atomライブラリ内でサーバー処理を実行するタイミングを示します。<br>
+ * コールバック関数の登録には ::criAtom_SetAudioFrameEndCallback 関数を使用します。<br>
+ * 登録したコールバック関数は、オーディオフレームの終了時（サーバー処理終了直後）に実行されます。<br>
+ * \par 備考:
+ * ライブラリ初期化時にスレッドモデルをマルチスレッド（ ::CRIATOM_THREAD_MODEL_MULTI ）
+ * に設定した場合、本コールバック関数はCRI Atomライブラリ内で作成されたスレッドから
+ * 呼び出されます。<br>
+ * ライブラリ初期化時にスレッドモデルをユーザマルチスレッド（ ::CRIATOM_THREAD_MODEL_USER_MULTI ）、
+ * またはシングルスレッド（ ::CRIATOM_THREAD_MODEL_SINGLE ）に設定した場合、本コールバック関数
+ * ::criAtom_ExecuteMain 関数内で呼び出されます。<br>
  * <br>
- * ���A������ obj �ɂ́A::criAtom_SetAudioFrameEndCallback �֐��œo�^�������[�U�w��
- * �I�u�W�F�N�g���n����܂��B<br>
+ * 尚、引数の obj には、::criAtom_SetAudioFrameEndCallback 関数で登録したユーザ指定
+ * オブジェクトが渡されます。<br>
  * \sa criAtom_SetAudioFrameEndCallback
  */
 typedef void (CRIAPI *CriAtomAudioFrameEndCbFunc)(void *obj);
 
 /*JP
- * \brief �T�E���h�����_���^�C�v
+ * \brief サウンドレンダラタイプ
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * Atom�v���[���[�A�܂���ASR���������ō쐬����T�E���h�����_���̎�ʂ��w�肷�邽�߂̃f�[�^�^�ł��B<br>
- * Atom�v���[���[��ASR�쐬���ɃR���t�B�O�\���̂̃p�����[�^�[�Ƃ��Ďw�肵�܂��B
+ * \par 説明:
+ * Atomプレーヤー、またはASRがが内部で作成するサウンドレンダラの種別を指定するためのデータ型です。<br>
+ * AtomプレーヤーやASR作成時にコンフィグ構造体のパラメーターとして指定します。
  * \attention
- * ::CRIATOM_SOUND_RENDERER_ANY �� ::criAtomExPlayer_SetSoundRendererType �֐��ɑ΂��Ă̂ݎw��\�ł��B<br>
- * �{�C�X�v�[���쐬���ɂ͎g�p�ł��܂���B<br>
+ * ::CRIATOM_SOUND_RENDERER_ANY は ::criAtomExPlayer_SetSoundRendererType 関数に対してのみ指定可能です。<br>
+ * ボイスプール作成時には使用できません。<br>
  * \sa CriAtomAdxPlayerConfig, criAtomPlayer_CreateAdxPlayer, criAtomExAsrRack_Create
  */
 typedef enum CriAtomSoundRendererTypeTag {
-	CRIATOM_SOUND_RENDERER_NATIVE	= 1,		/*JP<�v���b�g�t�H�[�����C�u�����֏o��	*/
-	CRIATOM_SOUND_RENDERER_ASR		= 2,			/*JP<Atom Sound Renderer�֏o��			*/
+	CRIATOM_SOUND_RENDERER_NATIVE	= 1,		/*JP<プラットフォームライブラリへ出力	*/
+	CRIATOM_SOUND_RENDERER_ASR		= 2,			/*JP<Atom Sound Rendererへ出力			*/
 	CRIATOM_SOUND_RENDERER_EXTENDED = 3,
 	CRIATOM_SOUND_RENDERER_SPATIAL	= 4,
 
-	CRIATOM_SOUND_RENDERER_HW1 = (0 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,		/*JP<�@��ŗL��`1						*/
-	CRIATOM_SOUND_RENDERER_HW2 = (1 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,		/*JP<�@��ŗL��`2						*/
-	CRIATOM_SOUND_RENDERER_HW3 = (2 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,		/*JP<�@��ŗL��`3						*/
-	CRIATOM_SOUND_RENDERER_HW4 = (3 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,		/*JP<�@��ŗL��`4						*/
+	CRIATOM_SOUND_RENDERER_HW1 = (0 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,		/*JP<機種固有定義1						*/
+	CRIATOM_SOUND_RENDERER_HW2 = (1 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,		/*JP<機種固有定義2						*/
+	CRIATOM_SOUND_RENDERER_HW3 = (2 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,		/*JP<機種固有定義3						*/
+	CRIATOM_SOUND_RENDERER_HW4 = (3 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,		/*JP<機種固有定義4						*/
 	CRIATOM_SOUND_RENDERER_FORCED_NATIVE = (15 << 16) | CRIATOM_SOUND_RENDERER_NATIVE,	/*JP<Platform Specific */
 
-	CRIATOM_SOUND_RENDERER_HAPTIC = (0 << 16) | CRIATOM_SOUND_RENDERER_EXTENDED,	/*JP<�U��								*/
-	CRIATOM_SOUND_RENDERER_PSEUDO = (1 << 16) | CRIATOM_SOUND_RENDERER_EXTENDED,	/*JP<����								*/
+	CRIATOM_SOUND_RENDERER_HAPTIC = (0 << 16) | CRIATOM_SOUND_RENDERER_EXTENDED,	/*JP<振動								*/
+	CRIATOM_SOUND_RENDERER_PSEUDO = (1 << 16) | CRIATOM_SOUND_RENDERER_EXTENDED,	/*JP<無音								*/
 
-	/* ASR�̍쐬���̂ݎg�p�\ */
-	CRIATOM_SOUND_RENDERER_SPATIAL_CHANNELS =	(0 << 16) | CRIATOM_SOUND_RENDERER_SPATIAL,	/*JP<�X�y�V�����C�U�t���`�����l���x�[�X�Đ�	 */
-	CRIATOM_SOUND_RENDERER_AMBISONICS		=	(1 << 16) | CRIATOM_SOUND_RENDERER_SPATIAL,	/*JP<Ambisonics�Đ�					*/
-	CRIATOM_SOUND_RENDERER_PASSTHROUGH		=	(2 << 16) | CRIATOM_SOUND_RENDERER_SPATIAL,	/*JP<�p�X�X���[�Đ�				*/
-	CRIATOM_SOUND_RENDERER_OBJECT			=	(3 << 16) | CRIATOM_SOUND_RENDERER_SPATIAL,	/*JP<�I�u�W�F�N�g�x�[�X�Đ�			*/
+	/* ASRの作成時のみ使用可能 */
+	CRIATOM_SOUND_RENDERER_SPATIAL_CHANNELS =	(0 << 16) | CRIATOM_SOUND_RENDERER_SPATIAL,	/*JP<スペシャライザ付きチャンネルベース再生	 */
+	CRIATOM_SOUND_RENDERER_AMBISONICS		=	(1 << 16) | CRIATOM_SOUND_RENDERER_SPATIAL,	/*JP<Ambisonics再生					*/
+	CRIATOM_SOUND_RENDERER_PASSTHROUGH		=	(2 << 16) | CRIATOM_SOUND_RENDERER_SPATIAL,	/*JP<パススルー再生				*/
+	CRIATOM_SOUND_RENDERER_OBJECT			=	(3 << 16) | CRIATOM_SOUND_RENDERER_SPATIAL,	/*JP<オブジェクトベース再生			*/
 
-	CRIATOM_SOUND_RENDERER_ANY = 0,			/*JP<�o�͕����𐧌����Ȃ�				*/
+	CRIATOM_SOUND_RENDERER_ANY = 0,			/*JP<出力方式を制限しない				*/
 
 	/* enum size is 4bytes */
 	CRIATOM_SOUND_RENDERER_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
 } CriAtomSoundRendererType;
 
 /*JP
- * \brief �X�s�[�J�[ID
+ * \brief スピーカーID
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �������o�͂���X�s�[�J�[���w�肷�邽�߂�ID�ł��B<br>
- * ::criAtomPlayer_SetSendLevel �֐��ŗ��p���܂��B
+ * \par 説明:
+ * 音声を出力するスピーカーを指定するためのIDです。<br>
+ * ::criAtomPlayer_SetSendLevel 関数で利用します。
  * \sa criAtomPlayer_SetSendLevel
  */
 typedef enum CriAtomSpeakerIdTag {
-	CRIATOM_SPEAKER_FRONT_LEFT = 0,				/*JP<�t�����g���t�g�X�s�[�J�[			*/
-	CRIATOM_SPEAKER_FRONT_RIGHT = 1,			/*JP<�t�����g���C�g�X�s�[�J�[			*/
-	CRIATOM_SPEAKER_FRONT_CENTER = 2,			/*JP<�t�����g�Z���^�[�X�s�[�J�[			*/
-	CRIATOM_SPEAKER_LOW_FREQUENCY = 3,			/*JP<LFE�i���T�u�E�[�n�[�j				*/
-	CRIATOM_SPEAKER_SURROUND_LEFT = 4,			/*JP<�T���E���h���t�g�X�s�[�J�[			*/
-	CRIATOM_SPEAKER_SURROUND_RIGHT = 5,			/*JP<�T���E���h���C�g�X�s�[�J�[			*/
-	CRIATOM_SPEAKER_SURROUND_BACK_LEFT = 6,		/*JP<�T���E���h�o�b�N���t�g�X�s�[�J�[	*/
-	CRIATOM_SPEAKER_SURROUND_BACK_RIGHT = 7,	/*JP<�T���E���h�o�b�N���C�g�X�s�[�J�[	*/
-	CRIATOM_SPEAKER_TOP_FRONT_LEFT = 8,			/*JP<�g�b�v�t�����g���t�g�X�s�[�J�[		*/
-	CRIATOM_SPEAKER_TOP_FRONT_RIGHT = 9,		/*JP<�g�b�v�t�����g���C�g�X�s�[�J�[		*/
-	CRIATOM_SPEAKER_TOP_BACK_LEFT = 10,			/*JP<�g�b�v�o�b�N���t�g�X�s�[�J�[		*/
-	CRIATOM_SPEAKER_TOP_BACK_RIGHT = 11,		/*JP<�g�b�v�o�b�N���C�g�X�s�[�J�[		*/
+	CRIATOM_SPEAKER_FRONT_LEFT = 0,				/*JP<フロントレフトスピーカー			*/
+	CRIATOM_SPEAKER_FRONT_RIGHT = 1,			/*JP<フロントライトスピーカー			*/
+	CRIATOM_SPEAKER_FRONT_CENTER = 2,			/*JP<フロントセンタースピーカー			*/
+	CRIATOM_SPEAKER_LOW_FREQUENCY = 3,			/*JP<LFE（≒サブウーハー）				*/
+	CRIATOM_SPEAKER_SURROUND_LEFT = 4,			/*JP<サラウンドレフトスピーカー			*/
+	CRIATOM_SPEAKER_SURROUND_RIGHT = 5,			/*JP<サラウンドライトスピーカー			*/
+	CRIATOM_SPEAKER_SURROUND_BACK_LEFT = 6,		/*JP<サラウンドバックレフトスピーカー	*/
+	CRIATOM_SPEAKER_SURROUND_BACK_RIGHT = 7,	/*JP<サラウンドバックライトスピーカー	*/
+	CRIATOM_SPEAKER_TOP_FRONT_LEFT = 8,			/*JP<トップフロントレフトスピーカー		*/
+	CRIATOM_SPEAKER_TOP_FRONT_RIGHT = 9,		/*JP<トップフロントライトスピーカー		*/
+	CRIATOM_SPEAKER_TOP_BACK_LEFT = 10,			/*JP<トップバックレフトスピーカー		*/
+	CRIATOM_SPEAKER_TOP_BACK_RIGHT = 11,		/*JP<トップバックライトスピーカー		*/
 
 	/* enum size is 4bytes */
 	CRIATOM_SPEAKER_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
 } CriAtomSpeakerId;
 
 /*JP
- * \brief �p�t�H�[�}���X���
+ * \brief パフォーマンス情報
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �p�t�H�[�}���X�����擾���邽�߂̍\���̂ł��B<br>
- * ::criAtom_GetPerformanceInfo �֐��ŗ��p���܂��B
+ * \par 説明:
+ * パフォーマンス情報を取得するための構造体です。<br>
+ * ::criAtom_GetPerformanceInfo 関数で利用します。
  * \sa criAtom_GetPerformanceInfo
  */
 typedef struct CriAtomPerformanceInfoTag {
-	CriUint32 server_process_count;		/*JP<�T�[�o�[�������s��									*/
-	CriUint32 last_server_time;			/*JP<�T�[�o�[�������Ԃ̍ŏI�v���l�i�}�C�N���b�P�ʁj		*/
-	CriUint32 max_server_time;			/*JP<�T�[�o�[�������Ԃ̍ő�l�i�}�C�N���b�P�ʁj			*/
-	CriUint32 average_server_time;		/*JP<�T�[�o�[�������Ԃ̕��ϒl�i�}�C�N���b�P�ʁj			*/
-	CriUint32 last_server_interval;		/*JP<�T�[�o�[�������s�Ԋu�̍ŏI�v���l�i�}�C�N���b�P�ʁj	*/
-	CriUint32 max_server_interval;		/*JP<�T�[�o�[�������s�Ԋu�̍ő�l�i�}�C�N���b�P�ʁj		*/
-	CriUint32 average_server_interval;	/*JP<�T�[�o�[�������s�Ԋu�̕��ϒl�i�}�C�N���b�P�ʁj		*/
+	CriUint32 server_process_count;		/*JP<サーバー処理実行回数									*/
+	CriUint32 last_server_time;			/*JP<サーバー処理時間の最終計測値（マイクロ秒単位）		*/
+	CriUint32 max_server_time;			/*JP<サーバー処理時間の最大値（マイクロ秒単位）			*/
+	CriUint32 average_server_time;		/*JP<サーバー処理時間の平均値（マイクロ秒単位）			*/
+	CriUint32 last_server_interval;		/*JP<サーバー処理実行間隔の最終計測値（マイクロ秒単位）	*/
+	CriUint32 max_server_interval;		/*JP<サーバー処理実行間隔の最大値（マイクロ秒単位）		*/
+	CriUint32 average_server_interval;	/*JP<サーバー処理実行間隔の平均値（マイクロ秒単位）		*/
 } CriAtomPerformanceInfo;
 
 /*JP
- * \brief �G���R�[�h�i��
+ * \brief エンコード品質
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * CRI Atom Encoder, CRI Atom Craft�Őݒ肳���G���R�[�h�i���̃f�[�^�^�ł��B<br>
- * �����f�[�^�̃r�b�g���[�g���v�Z����Ƃ��Ɏg�p���܂��B
+ * \par 説明:
+ * CRI Atom Encoder, CRI Atom Craftで設定されるエンコード品質のデータ型です。<br>
+ * 音声データのビットレートを計算するときに使用します。
  * \sa criAtom_CalculateHcaBitrate, criAtom_CalculateHcaMxBitrate
  */
 typedef enum CriAtomEncodeQualityTag {
-	CRIATOM_ENCODE_QUALITY_LOWEST = 0,	/*JP<�Œ�i���ݒ�	*/
-	CRIATOM_ENCODE_QUALITY_LOW,			/*JP<��i���ݒ�		*/
-	CRIATOM_ENCODE_QUALITY_MIDDLE,		/*JP<���i���ݒ�		*/
-	CRIATOM_ENCODE_QUALITY_HIGH,		/*JP<���i���ݒ�		*/
-	CRIATOM_ENCODE_QUALITY_HIGHEST,		/*JP<�ō��i���ݒ�	*/
+	CRIATOM_ENCODE_QUALITY_LOWEST = 0,	/*JP<最低品質設定	*/
+	CRIATOM_ENCODE_QUALITY_LOW,			/*JP<低品質設定		*/
+	CRIATOM_ENCODE_QUALITY_MIDDLE,		/*JP<中品質設定		*/
+	CRIATOM_ENCODE_QUALITY_HIGH,		/*JP<高品質設定		*/
+	CRIATOM_ENCODE_QUALITY_HIGHEST,		/*JP<最高品質設定	*/
 
 	/* enum size is 4bytes */
 	CRIATOM_ENCODE_QUALITY_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
 } CriAtomEncodeQuality;
 
 /*JP
- * \brief �t�H�[�}�b�g���
+ * \brief フォーマット種別
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �����f�[�^�̃t�H�[�}�b�g�������f�[�^�^�ł��B<br>
- * �ȉ��̂����ꂩ�̒l�����p�\�ł��B<br>
+ * \par 説明:
+ * 音声データのフォーマットを示すデータ型です。<br>
+ * 以下のいずれかの値が利用可能です。<br>
  * - ::CRIATOM_FORMAT_ADX
  * - ::CRIATOM_FORMAT_HCA
  * - ::CRIATOM_FORMAT_HCA_MX
@@ -920,45 +944,46 @@ typedef enum CriAtomEncodeQualityTag {
  *
  */
 typedef CriUint32 CriAtomFormat;
-#define CRIATOM_FORMAT_NONE			(0x00000000)		/*JP< �Ȃ�				*/
+#define CRIATOM_FORMAT_NONE			(0x00000000)		/*JP< なし				*/
 #define CRIATOM_FORMAT_ADX			(0x00000001)		/*JP< ADX				*/
 #define CRIATOM_FORMAT_HCA			(0x00000003)		/*JP< HCA				*/
 #define CRIATOM_FORMAT_HCA_MX		(0x00000004)		/*JP< HCA-MX			*/
 #define CRIATOM_FORMAT_WAVE			(0x00000005)		/*JP< Wave				*/
 #define CRIATOM_FORMAT_RAW_PCM		(0x00000006)		/*JP< Raw PCM			*/
 #define CRIATOM_FORMAT_AIFF			(0x00000007)		/*JP< AIFF				*/
-#define CRIATOM_FORMAT_VIBRATION	(0x00000008)		/*JP< �U��				*/
+#define CRIATOM_FORMAT_VIBRATION	(0x00000008)		/*JP< 振動				*/
 #define CRIATOM_FORMAT_AUDIO_BUFFER	(0x00000009)		/*JP< AudioBuffer		*/
-#define CRIATOM_FORMAT_INSTRUMENT	(0x0000000C)		/*JP< �C���X�g�D�������g*/
-#define CRIATOM_FORMAT_INPUT_PORT	(0x00000100)		/*JP< ���̓|�[�g		*/
-#define CRIATOM_FORMAT_MIC_INPUT	(0x00000101)		/*JP< �}�C�N����		*/
-#define CRIATOM_FORMAT_AUX_INPUT	(0x00000102)		/*JP< AUX����			*/
-#define CRIATOM_FORMAT_HW1			(0x00010001)		/*JP< �n�[�h�E�F�A�ŗL	*/
-#define CRIATOM_FORMAT_HW2			(0x00010002)		/*JP< �n�[�h�E�F�A�ŗL	*/
+#define CRIATOM_FORMAT_INSTRUMENT	(0x0000000C)		/*JP< インストゥルメント*/
+#define CRIATOM_FORMAT_INPUT_PORT	(0x00000100)		/*JP< 入力ポート		*/
+#define CRIATOM_FORMAT_MIC_INPUT	(0x00000101)		/*JP< マイク入力		*/
+#define CRIATOM_FORMAT_AUX_INPUT	(0x00000102)		/*JP< AUX入力			*/
+#define CRIATOM_FORMAT_HW1			(0x00010001)		/*JP< ハードウェア固有	*/
+#define CRIATOM_FORMAT_HW2			(0x00010002)		/*JP< ハードウェア固有	*/
+#define CRIATOM_FORMAT_HW3			(0x00010003)		/*JP< ハードウェア固有	*/
 
 /*JP
- * \brief �����f�[�^�t�H�[�}�b�g���
+ * \brief 音声データフォーマット情報
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �����f�[�^�̃t�H�[�}�b�g���ł��B<br>
- * ::criAtomPlayer_GetFormatInfo �֐��Ŏg�p���܂��B<br>
+ * \par 説明:
+ * 音声データのフォーマット情報です。<br>
+ * ::criAtomPlayer_GetFormatInfo 関数で使用します。<br>
  * \sa criAtomPlayer_GetFormatInfo
  */
 typedef struct CriAtomFormatInfoTag {
-	CriAtomFormat format;				/*JP< �t�H�[�}�b�g���		*/
-	CriSint32 sampling_rate;			/*JP< �T���v�����O���g��	*/
-	CriSint64 num_samples;				/*JP< ���T���v����			*/
-	CriSint64 loop_offset;				/*JP< ���[�v�J�n�T���v��	*/
-	CriSint64 loop_length;				/*JP< ���[�v��ԃT���v����	*/
-	CriSint32 num_channels;				/*JP< �`�����l����			*/
-	CriUint32 reserved[1];				/*JP< �\��̈�				*/
+	CriAtomFormat format;				/*JP< フォーマット種別		*/
+	CriSint32 sampling_rate;			/*JP< サンプリング周波数	*/
+	CriSint64 num_samples;				/*JP< 総サンプル数			*/
+	CriSint64 loop_offset;				/*JP< ループ開始サンプル	*/
+	CriSint64 loop_length;				/*JP< ループ区間サンプル数	*/
+	CriSint32 num_channels;				/*JP< チャンネル数			*/
+	CriUint32 reserved[1];				/*JP< 予約領域				*/
 } CriAtomFormatInfo;
 
 /*JP
- * \brief PCM�t�H�[�}�b�g
+ * \brief PCMフォーマット
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * PCM�f�[�^�̌^���ł��B
+ * \par 説明:
+ * PCMデータの型情報です。
  * \sa criAtomPlayer_SetFilterCallback
  */
 typedef enum CriAtomPcmFormatTag {
@@ -970,151 +995,152 @@ typedef enum CriAtomPcmFormatTag {
 } CriAtomPcmFormat;
 
 /*JP
- * \brief �X�g���[�~���O���
+ * \brief ストリーミング情報
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * ::criAtom_GetStreamingInfo �֐��Ŏ擾�������_�ł̃X�g���[�~���O�̏󋵂ł��B<br>
+ * \par 説明:
+ * ::criAtom_GetStreamingInfo 関数で取得した時点でのストリーミングの状況です。<br>
  * \sa criAtom_GetStreamingInfo
  */
 typedef struct CriAtomStreamingInfoTag {
 	/*JP
-		\brief ���݂̃X�g���[�~���O��
-		\par ����:
-		�����擾�������_�ł̃X�g���[�~���O���ł��B<br>
-		�X�g���[�~���O�Đ��̑����ɔ����A���̒l���ω����܂��B<br>
+		\brief 現在のストリーミング数
+		\par 説明:
+		情報を取得した時点でのストリーミング数です。<br>
+		ストリーミング再生の増減に伴い、この値も変化します。<br>
 	*/
 	CriSint32	num_streaming;	/*JP< 				*/
 
 	/*JP
-		\brief ���݂̃X�g���[�~���O���r�b�g���[�g
-		\par ����:
-		�����擾�������_�ł̑S�X�g���[�~���O�Đ��̍��v����r�b�g���[�g�ł��B<br>
-		�X�g���[�~���O�Đ��̑����ɔ����A���̒l���ω����܂��B<br>
-		�P�ʂ� [bps] �ibit / �b�j�ł��B<br>
+		\brief 現在のストリーミング総ビットレート
+		\par 説明:
+		情報を取得した時点での全ストリーミング再生の合計消費ビットレートです。<br>
+		ストリーミング再生の増減に伴い、この値も変化します。<br>
+		単位は [bps] （bit / 秒）です。<br>
 	*/
 	CriFloat32	total_bps;
 
 	/*JP
-		\brief ���݂̍ň��Đ��J�n���C�e���V
-		\par ����:
-		�����擾�������_�ł́A�V�����X�g���[�~���O�Đ��̍Đ��J�n���C�e���V
-		�̗\���ň��l�ł��B<br>
-		�P�ʂ� [�b] �ł��B<br>
-		���̒l�͒x���̍ő�l�ɂ��ė\���������ł���A
-		�V�����X�g���[�~���O�Đ�����ɂ��̒l�̎��ԕ������x������킯�ł͂���܂���B<br>
+		\brief 現在の最悪再生開始レイテンシ
+		\par 説明:
+		情報を取得した時点での、新しいストリーミング再生の再生開始レイテンシ
+		の予測最悪値です。<br>
+		単位は [秒] です。<br>
+		この値は遅延の最大値について予測した情報であり、
+		新しいストリーミング再生が常にこの値の時間分だけ遅延するわけではありません。<br>
 		\attention
-		���ۂɂ́A�V�����X�g���[�~���O�Đ����ǉ����ꂽ��A<br>
-		�X�g���[���f�[�^�̃r�b�g���[�g���ǂݍ��܂�Ă��琳�m�Ȓx�����Ԃ��Čv�Z����܂��B<br>
+		実際には、新しいストリーミング再生が追加された後、<br>
+		ストリームデータのビットレートが読み込まれてから正確な遅延時間が再計算されます。<br>
 	*/
 	CriFloat32	worst_latency;
 } CriAtomStreamingInfo;
 
 /*JP
- * \brief �p�����[�^�[ID
+ * \brief パラメーターID
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * �p�����[�^�[���w�肷�邽�߂�ID�ł��B<br>
+ * \par 説明:
+ * パラメーターを指定するためのIDです。<br>
  */
 typedef enum CriAtomParameterIdTag {
-	CRIATOM_PARAMETER_ID_VOLUME					=  0,	/*JP< �{�����[�� */
-	CRIATOM_PARAMETER_ID_FREQUENCY_RATIO		=  1,	/*JP< ���g���� */
+	CRIATOM_PARAMETER_ID_VOLUME					=  0,	/*JP< ボリューム */
+	CRIATOM_PARAMETER_ID_FREQUENCY_RATIO		=  1,	/*JP< 周波数比 */
 
 	/* enum size is 4bytes */
 	CRIATOM_PARAMETER_ID_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
 } CriAtomParameterId;
 
 /*JP
- * \brief �{�C�X��~���R
+ * \brief ボイス停止理由
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �{�C�X�̒�~���R��\���܂��B
+ * \par 説明:
+ * ボイスの停止理由を表します。
  */
 typedef enum CriAtomVoiceStopReasonTag {
-	CRIATOM_VOICE_STOP_REASON_EXPLAYER_STOP = 0,					/*JP< EX�v���[���[��~		*/
-	CRIATOM_VOICE_STOP_REASON_EXPLAYER_STOPWITHOUTRELEASE,			/*JP< EX�v���[���[��~		*/
-	CRIATOM_VOICE_STOP_REASON_PLAYBACK_STOP,						/*JP< �Đ�ID�w���~	*/
-	CRIATOM_VOICE_STOP_REASON_PLAYBACK_STOPWITHOUTRELEASE,			/*JP< �Đ�ID�w�葦����~	*/
-	CRIATOM_VOICE_STOP_REASON_SOUNDPLAYER_DESTROY,					/*JP< �T�E���h�v���[���[�j��		*/
-	CRIATOM_VOICE_STOP_REASON_FADER_STOP,							/*JP< �t�F�[�_�[��~		*/
-	CRIATOM_VOICE_STOP_REASON_PLAYER_STOP,							/*JP< �v���[���[��~		*/
-	CRIATOM_VOICE_STOP_REASON_AWB_STOP,								/*JP< AWB��~			*/
-	CRIATOM_VOICE_STOP_REASON_STREAMING_CACHE_STOP,					/*JP< �X�g���[�~���O�L���b�V����~			*/
-	CRIATOM_VOICE_STOP_REASON_PLAYER_FORCE_STOP,					/*JP< �v���[���[��~		*/
-	CRIATOM_VOICE_STOP_REASON_PLAYER_DESTROY,						/*JP< �v���[���[�j��		*/
-	CRIATOM_VOICE_STOP_REASON_MTPLAYER_STOP,						/*JP< MT�v���[���[�j��		*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_POOL_DESTROY,					/*JP< �{�C�X�v�[���j��		*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_STEAL_CASE1,					/*JP< �{�C�X�D�����		*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_STEAL_CASE2,					/*JP< �{�C�X�D�����		*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_STEAL_CASE3,					/*JP< �{�C�X�D�����		*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_STEAL_CASE4,					/*JP< �{�C�X�D�����		*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_VIRTUAL_VOICE_BEYOND_LIFE_TIME,	/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_CANT_CALC_3DPOS,					/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_INTERNAL_PLAYBACK_CANCEL,			/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_NO_PLAYER_NO_RETRY,				/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_FAILED_RETRY_BEYOND_LIFE_TIME,	/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_PLAYER_STATUS_PLAYEND,			/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_PLAYER_STATUS_ERROR,				/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_IMPOSSIBLE_RETRY,					/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_PLAYER_STATUS_STOP,				/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_INVALID_SERVER_REQUEST,			/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_SILENT_MODE_STOP,					/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_SOUNDCOMPLEX_STATUS_ERROR,		/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_NO_ELEMENT_CASE1,					/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_NO_ELEMENT_CASE2,					/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_STOP_NOT_PLAYING_ELEMENT,			/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_NOT_ACTIVE_VOICE,					/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_ELEMENT_FREE,							/*JP< �G�������g���		*/
-	CRIATOM_VOICE_STOP_REASON_EXPLAYER_STOP_ERROR_HN,				/*JP< �G���[�v���[���[�̒�~		*/
-	CRIATOM_VOICE_STOP_REASON_ACB_RELEASE,							/*JP< ACB���		*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_ALLOCATE_FAIL,					/*JP< �{�C�X�m�ێ��s		*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_RESET,							/*JP< �{�C�X���Z�b�g		*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_VIRTUALIZE,						/*JP< �{�C�X���o�[�`������		*/
-	CRIATOM_VOICE_STOP_REASON_PLAYBACKSOUND_ALLOCATE_FAIL,			/*JP< �v���C�o�b�N�T�E���h�m�ێ��s		*/
-	CRIATOM_VOICE_STOP_REASON_STOP_ACTION_WITH_BEATSYNC,			/*JP< �r�[�g������~�A�N�V����		*/
-	CRIATOM_VOICE_STOP_REASON_START_CANCEL_WITH_BEATSYNC,			/*JP< �r�[�g�����Đ��L�����Z��		*/
-	CRIATOM_VOICE_STOP_REASON_STOP_ACTION,							/*JP< ��~�A�N�V����		*/
-	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE0,				/*JP< �u���b�N�J��			*/
-	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE1,				/*JP< �u���b�N�J��			*/
-	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE2,				/*JP< �u���b�N�J��			*/
-	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE3,				/*JP< �u���b�N�J��			*/
-	CRIATOM_VOICE_STOP_REASON_CATEGORY_CUE_LIMIT,					/*JP< �J�e�S���L���[���~�b�g		*/
-	CRIATOM_VOICE_STOP_REASON_UNSET_ACB,							/*JP< ACB�������		*/
-	CRIATOM_VOICE_STOP_REASON_SEQUENCE_END,							/*JP< �V�[�P���X�G���h�}�[�J�[		*/
-	CRIATOM_VOICE_STOP_REASON_BLODK_END,							/*JP< �u���b�N�G���h		*/
-	CRIATOM_VOICE_STOP_REASON_SEQUENCE_EXECUTE,						/*JP< �V�[�P���X�T�[�o�[����	*/
-	CRIATOM_VOICE_STOP_REASON_TRACK_MONO,							/*JP< �g���b�N���m���[�h����	*/
-	CRIATOM_VOICE_STOP_REASON_FADER_STOP_IMMEDIATE,					/*JP< �t�F�[�_�[������~	*/
-	CRIATOM_VOICE_STOP_REASON_CUE_LIMIT,							/*JP< �L���[���~�b�g����	*/
-	CRIATOM_VOICE_STOP_REASON_STOP_ACB_____NOUSE,					/*JP< (�p�~)�SACB��~����	*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_OBJECT_ADD_PLAYER,				/*JP< �T�E���h�I�u�W�F�N�g�ւ̃v���[���[�ǉ�����	*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_OBJECT_DELETE_PLAYER,			/*JP< �T�E���h�I�u�W�F�N�g����v���[���[�̍폜����	*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_OBJECT_DELETE_ALL_PLAYER,		/*JP< �T�E���h�I�u�W�F�N�g����v���[���[�̍폜����	*/
-	CRIATOM_VOICE_STOP_REASON_UNREGISTER_ACF,						/*JP< ACF�̃A�����W�X�g����	*/
-	CRIATOM_VOICE_STOP_REASON_EXPLAYER_DESTROY,						/*JP< CriAtomExPlayer�n���h���̔j��	*/
-	CRIATOM_VOICE_STOP_REASON_EXPLAYER_ATTACH_FADER,				/*JP< CriAtomExPlayer�ւ̃t�F�[�_�[�t��	*/
-	CRIATOM_VOICE_STOP_REASON_EXPLAYER_DETACH_FADER,				/*JP< CriAtomExPlayer�ւ̃t�F�[�_�[���O��	*/
-	CRIATOM_VOICE_STOP_REASON_DETACH_AWB,							/*JP< AWB�������	*/
-	CRIATOM_VOICE_STOP_MULTIPLE_PLAYBACK_PROHIBITION_TIME,			/*JP< ���d�Đ��֎~���ԓ��Đ�	*/
-	CRIATOM_VOICE_STOP_REASON_CATEGORY_STOP,						/*JP< �J�e�S����~	*/
-	CRIATOM_VOICE_STOP_REASON_CATEGORY_STOPWITHOUTRELEASE,			/*JP< �J�e�S��������~	*/
-	CRIATOM_VOICE_STOP_REASON_NOTE_OFF,								/*JP< �^�C�����C����~		*/
-	CRIATOM_VOICE_STOP_REASON_REGISTER_ACF,							/*JP< ACF�̓o�^���� */
-	CRIATOM_VOICE_STOP_REASON_STOP_ACTION_WITH_FADE,				/*JP< �t�F�[�h�t����~�A�N�V����		*/
-	CRIATOM_VOICE_STOP_REASON_RESET_TRACK_PARAMETER,				/*JP< �g���b�N�p�����[�^�[�̃��Z�b�g		*/
-	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE4,				/*JP< �u���b�N�J��		*/
-	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE5,				/*JP< �u���b�N�J��		*/
-	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE6,				/*JP< �u���b�N�J��		*/
-	CRIATOM_VOICE_STOP_REASON_NOTE_OFF2,							/*JP< �m�[�g��~		*/
-	CRIATOM_VOICE_STOP_REASON_ALL_NOTE_OFF,							/*JP< �S�m�[�g��~		*/
-	CRIATOM_VOICE_STOP_REASON_ALL_NOTE_OFF_WITHOUTRELEASE,			/*JP< �S�m�[�g��~		*/
-	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_ENVELOPE_LEVEL_ZERO,			/*JP< �T�[�o�[����			*/
-	CRIATOM_VOICE_STOP_REASON_AUX_IN_STOP,							/*JP< �O�����͒�~		*/
-	CRIATOM_VOICE_STOP_REASON_ACB_RELEASE_ASYNC,					/*JP< �񓯊�ACB���		*/
-	CRIATOM_VOICE_STOP_REASON_INGAMEPREVIEW_PREPARE_OVERWRITE_ACF,	/*JP< InGamePreview ACF �X�V�O����	*/
-	CRIATOM_VOICE_STOP_REASON_INGAMEPREVIEW_PREPARE_OVERWRITE_ACB,	/*JP< InGamePreview ACB �X�V�O����	*/
-	CRIATOM_VOICE_STOP_REASON_CUE_LIMIT_RESUME_PREPARE,				/*JP< ���W���[���ł̃L���[���~�b�g����	*/
-	CRIATOM_VOICE_STOP_REASON_MIDI_PLAYER_NOTE_OFF,					/*JP< MidiPlayer �m�[�g�I�t	*/
-	CRIATOM_VOICE_STOP_REASON_VOICE_DROP_IN_OBA,					/*JP< �T�[�o�[�����FOBA �Đ��ł̃{�C�X�h���b�v���� */
+	CRIATOM_VOICE_STOP_REASON_EXPLAYER_STOP = 0,					/*JP< EXプレーヤー停止		*/
+	CRIATOM_VOICE_STOP_REASON_EXPLAYER_STOPWITHOUTRELEASE,			/*JP< EXプレーヤー停止		*/
+	CRIATOM_VOICE_STOP_REASON_PLAYBACK_STOP,						/*JP< 再生ID指定停止	*/
+	CRIATOM_VOICE_STOP_REASON_PLAYBACK_STOPWITHOUTRELEASE,			/*JP< 再生ID指定即時停止	*/
+	CRIATOM_VOICE_STOP_REASON_SOUNDPLAYER_DESTROY,					/*JP< サウンドプレーヤー破棄		*/
+	CRIATOM_VOICE_STOP_REASON_FADER_STOP,							/*JP< フェーダー停止		*/
+	CRIATOM_VOICE_STOP_REASON_PLAYER_STOP,							/*JP< プレーヤー停止		*/
+	CRIATOM_VOICE_STOP_REASON_AWB_STOP,								/*JP< AWB停止			*/
+	CRIATOM_VOICE_STOP_REASON_STREAMING_CACHE_STOP,					/*JP< ストリーミングキャッシュ停止			*/
+	CRIATOM_VOICE_STOP_REASON_PLAYER_FORCE_STOP,					/*JP< プレーヤー停止		*/
+	CRIATOM_VOICE_STOP_REASON_PLAYER_DESTROY,						/*JP< プレーヤー破棄		*/
+	CRIATOM_VOICE_STOP_REASON_MTPLAYER_STOP,						/*JP< MTプレーヤー破棄		*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_POOL_DESTROY,					/*JP< ボイスプール破棄		*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_STEAL_CASE1,					/*JP< ボイス奪い取り		*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_STEAL_CASE2,					/*JP< ボイス奪い取り		*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_STEAL_CASE3,					/*JP< ボイス奪い取り		*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_STEAL_CASE4,					/*JP< ボイス奪い取り		*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_VIRTUAL_VOICE_BEYOND_LIFE_TIME,	/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_CANT_CALC_3DPOS,					/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_INTERNAL_PLAYBACK_CANCEL,			/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_NO_PLAYER_NO_RETRY,				/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_FAILED_RETRY_BEYOND_LIFE_TIME,	/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_PLAYER_STATUS_PLAYEND,			/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_PLAYER_STATUS_ERROR,				/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_IMPOSSIBLE_RETRY,					/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_PLAYER_STATUS_STOP,				/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_INVALID_SERVER_REQUEST,			/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_SILENT_MODE_STOP,					/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_SOUNDCOMPLEX_STATUS_ERROR,		/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_NO_ELEMENT_CASE1,					/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_NO_ELEMENT_CASE2,					/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_STOP_NOT_PLAYING_ELEMENT,			/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_NOT_ACTIVE_VOICE,					/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_ELEMENT_FREE,							/*JP< エレメント解放		*/
+	CRIATOM_VOICE_STOP_REASON_EXPLAYER_STOP_ERROR_HN,				/*JP< エラープレーヤーの停止		*/
+	CRIATOM_VOICE_STOP_REASON_ACB_RELEASE,							/*JP< ACB解放		*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_ALLOCATE_FAIL,					/*JP< ボイス確保失敗		*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_RESET,							/*JP< ボイスリセット		*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_VIRTUALIZE,						/*JP< ボイスリバーチャル化		*/
+	CRIATOM_VOICE_STOP_REASON_PLAYBACKSOUND_ALLOCATE_FAIL,			/*JP< プレイバックサウンド確保失敗		*/
+	CRIATOM_VOICE_STOP_REASON_STOP_ACTION_WITH_BEATSYNC,			/*JP< ビート同期停止アクション		*/
+	CRIATOM_VOICE_STOP_REASON_START_CANCEL_WITH_BEATSYNC,			/*JP< ビート同期再生キャンセル		*/
+	CRIATOM_VOICE_STOP_REASON_STOP_ACTION,							/*JP< 停止アクション		*/
+	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE0,				/*JP< ブロック遷移			*/
+	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE1,				/*JP< ブロック遷移			*/
+	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE2,				/*JP< ブロック遷移			*/
+	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE3,				/*JP< ブロック遷移			*/
+	CRIATOM_VOICE_STOP_REASON_CATEGORY_CUE_LIMIT,					/*JP< カテゴリキューリミット		*/
+	CRIATOM_VOICE_STOP_REASON_UNSET_ACB,							/*JP< ACB内部解放		*/
+	CRIATOM_VOICE_STOP_REASON_SEQUENCE_END,							/*JP< シーケンスエンドマーカー		*/
+	CRIATOM_VOICE_STOP_REASON_BLODK_END,							/*JP< ブロックエンド		*/
+	CRIATOM_VOICE_STOP_REASON_SEQUENCE_EXECUTE,						/*JP< シーケンスサーバー処理	*/
+	CRIATOM_VOICE_STOP_REASON_TRACK_MONO,							/*JP< トラックモノモード処理	*/
+	CRIATOM_VOICE_STOP_REASON_FADER_STOP_IMMEDIATE,					/*JP< フェーダー即時停止	*/
+	CRIATOM_VOICE_STOP_REASON_CUE_LIMIT,							/*JP< キューリミット処理	*/
+	CRIATOM_VOICE_STOP_REASON_STOP_ACB_____NOUSE,					/*JP< (廃止)全ACB停止処理	*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_OBJECT_ADD_PLAYER,				/*JP< サウンドオブジェクトへのプレーヤー追加処理	*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_OBJECT_DELETE_PLAYER,			/*JP< サウンドオブジェクトからプレーヤーの削除処理	*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_OBJECT_DELETE_ALL_PLAYER,		/*JP< サウンドオブジェクトからプレーヤーの削除処理	*/
+	CRIATOM_VOICE_STOP_REASON_UNREGISTER_ACF,						/*JP< ACFのアンレジスト処理	*/
+	CRIATOM_VOICE_STOP_REASON_EXPLAYER_DESTROY,						/*JP< CriAtomExPlayerハンドルの破棄	*/
+	CRIATOM_VOICE_STOP_REASON_EXPLAYER_ATTACH_FADER,				/*JP< CriAtomExPlayerへのフェーダー付加	*/
+	CRIATOM_VOICE_STOP_REASON_EXPLAYER_DETACH_FADER,				/*JP< CriAtomExPlayerへのフェーダー取り外し	*/
+	CRIATOM_VOICE_STOP_REASON_DETACH_AWB,							/*JP< AWB解放処理	*/
+	CRIATOM_VOICE_STOP_MULTIPLE_PLAYBACK_PROHIBITION_TIME,			/*JP< 多重再生禁止時間内再生	*/
+	CRIATOM_VOICE_STOP_REASON_CATEGORY_STOP,						/*JP< カテゴリ停止	*/
+	CRIATOM_VOICE_STOP_REASON_CATEGORY_STOPWITHOUTRELEASE,			/*JP< カテゴリ即時停止	*/
+	CRIATOM_VOICE_STOP_REASON_NOTE_OFF,								/*JP< タイムライン停止		*/
+	CRIATOM_VOICE_STOP_REASON_REGISTER_ACF,							/*JP< ACFの登録処理 */
+	CRIATOM_VOICE_STOP_REASON_STOP_ACTION_WITH_FADE,				/*JP< フェード付き停止アクション		*/
+	CRIATOM_VOICE_STOP_REASON_RESET_TRACK_PARAMETER,				/*JP< トラックパラメーターのリセット		*/
+	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE4,				/*JP< ブロック遷移		*/
+	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE5,				/*JP< ブロック遷移		*/
+	CRIATOM_VOICE_STOP_REASON_BLOCK_TRANSITION_CASE6,				/*JP< ブロック遷移		*/
+	CRIATOM_VOICE_STOP_REASON_NOTE_OFF2,							/*JP< ノート停止		*/
+	CRIATOM_VOICE_STOP_REASON_ALL_NOTE_OFF,							/*JP< 全ノート停止		*/
+	CRIATOM_VOICE_STOP_REASON_ALL_NOTE_OFF_WITHOUTRELEASE,			/*JP< 全ノート停止		*/
+	CRIATOM_VOICE_STOP_REASON_SOUND_SERVER_RESULT_ENVELOPE_LEVEL_ZERO,			/*JP< サーバー処理			*/
+	CRIATOM_VOICE_STOP_REASON_AUX_IN_STOP,							/*JP< 外部入力停止		*/
+	CRIATOM_VOICE_STOP_REASON_ACB_RELEASE_ASYNC,					/*JP< 非同期ACB解放		*/
+	CRIATOM_VOICE_STOP_REASON_INGAMEPREVIEW_PREPARE_OVERWRITE_ACF,	/*JP< InGamePreview ACF 更新前処理	*/
+	CRIATOM_VOICE_STOP_REASON_INGAMEPREVIEW_PREPARE_OVERWRITE_ACB,	/*JP< InGamePreview ACB 更新前処理	*/
+	CRIATOM_VOICE_STOP_REASON_CUE_LIMIT_RESUME_PREPARE,				/*JP< レジュームでのキューリミット処理	*/
+	CRIATOM_VOICE_STOP_REASON_MIDI_PLAYER_NOTE_OFF,					/*JP< MidiPlayer ノートオフ	*/
+	CRIATOM_VOICE_STOP_REASON_VOICE_DROP_IN_OBA,					/*JP< サーバー処理：OBA 再生でのボイスドロップ発生 */
+	CRIATOM_VOICE_STOP_REASON_CANCEL_VOICE_LIMIT,					/*JP< ボイスリミットによるキャンセル */
 
 	/* initial state */
 	CRIATOM_VOICE_STOP_REASON_NONE = 0x7FFFFFFE,
@@ -1123,54 +1149,55 @@ typedef enum CriAtomVoiceStopReasonTag {
 } CriAtomVoiceStopReason;
 
 /*JP
- * \brief �f�o�C�X�X�V�ʒm�R�[���o�b�N
+ * \brief デバイス更新通知コールバック
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	obj				���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �f�o�C�X�̍X�V�ʒm�Ɏg�p�����A�R�[���o�b�N�֐��̌^�ł��B<br>
- * ::criAtom_SetDeviceUpdateCallback �֐��ɖ{�֐��^�̃R�[���o�b�N�֐���o�^���邱�ƂŁA
- * �f�o�C�X���X�V���ꂽ�ۂɃR�[���o�b�N�o�R�Œʒm���󂯎�邱�Ƃ��\�ł��B<br>
+ * \param[in]	obj				ユーザ指定オブジェクト
+ * \par 説明:
+ * デバイスの更新通知に使用される、コールバック関数の型です。<br>
+ * ::criAtom_SetDeviceUpdateCallback 関数に本関数型のコールバック関数を登録することで、
+ * デバイスが更新された際にコールバック経由で通知を受け取ることが可能です。<br>
  * \sa criAtom_SetDeviceUpdateCallback
  */
 typedef void (CRIAPI *CriAtomDeviceUpdateCbFunc)(void *obj);
 
 /*JP
- * \brief �f�o�C�X�^�C�v
+ * \brief デバイスタイプ
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * ���ݍĐ����Ă���f�o�C�X�̎�ނ�\���܂��B<br>
- * ::criAtomExAsrRack_GetDeviceType �֐���ASR���b�N���o�͂��Ă���f�o�C�X�̎�ނ�
- * �擾���邱�Ƃ��ł��܂��B<br>
- * \par ���l:
- * �e�^�C�v����̓I�ɂǂ̃f�o�C�X���w�����̓v���b�g�t�H�[���ɂ���ĈقȂ�܂��B
+ * \par 説明:
+ * 現在再生しているデバイスの種類を表します。<br>
+ * ::criAtomExAsrRack_GetDeviceType 関数でASRラックが出力しているデバイスの種類を
+ * 取得することができます。<br>
+ * \par 備考:
+ * 各タイプが具体的にどのデバイスを指すかはプラットフォームによって異なります。
  * \sa criAtomExAsrRack_GetDeviceType
  */
 typedef enum CriAtomDeviceTypeTag {
 	CRIATOM_DEVICE_TYPE_HDMI = 1,			/*JP< HDMI */
-	CRIATOM_DEVICE_TYPE_HEADPHONE,			/*JP< �w�b�h�z�� */
-	CRIATOM_DEVICE_TYPE_BUILT_IN_SPEAKER,	/*JP< �����X�s�[�J�[ */
-	CRIATOM_DEVICE_TYPE_PAD_SPEAKER,		/*JP< �p�b�h�X�s�[�J�[ */
-	CRIATOM_DEVICE_TYPE_VIBRATION,			/*JP< �U�� */
+	CRIATOM_DEVICE_TYPE_HEADPHONE,			/*JP< ヘッドホン */
+	CRIATOM_DEVICE_TYPE_BUILT_IN_SPEAKER,	/*JP< 内蔵スピーカー */
+	CRIATOM_DEVICE_TYPE_PAD_SPEAKER,		/*JP< パッドスピーカー */
+	CRIATOM_DEVICE_TYPE_VIBRATION,			/*JP< 振動 */
 
-	CRIATOM_DEVICE_TYPE_UNKNOWN = 0,			/*JP< �f�o�C�X�^�C�v�̊m�F���ł��Ȃ� */
-	CRIATOM_DEVICE_TYPE_UNAVAILABLE = -1,		/*JP< �o�̓f�o�C�X�����݂��Ȃ� */
+	CRIATOM_DEVICE_TYPE_UNKNOWN = 0,			/*JP< デバイスタイプの確認ができない */
+	CRIATOM_DEVICE_TYPE_UNAVAILABLE = -1,		/*JP< 出力デバイスが存在しない */
 
 	CRIATOM_DEVICE_TYPE_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
 } CriAtomDeviceType;
 
-/*!
- * \brief �`�����l���R���t�B�O���
- * \par ����:
- * ���͉����̃`�����l���\���������l�ł��B<br>
+/*JP
+ * \brief チャンネルコンフィグ情報
+ * \ingroup ATOMLIB_GLOBAL
+ * \par 説明:
+ * 入力音声のチャンネル構成を示す値です。<br>
  */
 typedef enum CriAtomChannelConfigTag {
-	CRIATOM_CHANNEL_CONFIG_UNKNOWN			= 0x00000000,	/*!< �s��					*/
+	CRIATOM_CHANNEL_CONFIG_UNKNOWN			= 0x00000000,	/*!< 不明					*/
 
-	CRIATOM_CHANNEL_CONFIG_MONO				= 0x00000004,	/*!< ���m����				*/
-	CRIATOM_CHANNEL_CONFIG_STEREO			= 0x00000003,	/*!< �X�e���I				*/
-	CRIATOM_CHANNEL_CONFIG_3_LRC			= 0x00000007,	/*!< 3ch�iL, R, C�j			*/
-	CRIATOM_CHANNEL_CONFIG_3_LRS			= 0x00000103,	/*!< 3ch�iL, R, Cs�j		*/
-	CRIATOM_CHANNEL_CONFIG_QUAD				= 0x00000C03,	/*!< 4ch�iL, R, Ls, Rs�j	*/
+	CRIATOM_CHANNEL_CONFIG_MONO				= 0x00000004,	/*!< モノラル				*/
+	CRIATOM_CHANNEL_CONFIG_STEREO			= 0x00000003,	/*!< ステレオ				*/
+	CRIATOM_CHANNEL_CONFIG_3_LRC			= 0x00000007,	/*!< 3ch（L, R, C）			*/
+	CRIATOM_CHANNEL_CONFIG_3_LRS			= 0x00000103,	/*!< 3ch（L, R, Cs）		*/
+	CRIATOM_CHANNEL_CONFIG_QUAD				= 0x00000C03,	/*!< 4ch（L, R, Ls, Rs）	*/
 	CRIATOM_CHANNEL_CONFIG_5				= 0x00000C07,	/*!< 5ch					*/
 	CRIATOM_CHANNEL_CONFIG_4_1				= 0x00000C0B,	/*!< 4.1ch					*/
 	CRIATOM_CHANNEL_CONFIG_5_1				= 0x00000C0F,	/*!< 5.1ch					*/
@@ -1179,6 +1206,7 @@ typedef enum CriAtomChannelConfigTag {
 	CRIATOM_CHANNEL_CONFIG_5_1_2			= 0x000C0C0F,	/*!< 5.1.2ch				*/
 	CRIATOM_CHANNEL_CONFIG_7_1_2			= 0x000C0C3F,	/*!< 7.1.2ch				*/
 	CRIATOM_CHANNEL_CONFIG_7_1_4			= 0x00033C3F,	/*!< 7.1.4ch				*/
+	CRIATOM_CHANNEL_CONFIG_7_1_4_4			= 0x03C33C3F,	/*!< 7.1.4.4ch				*/
 
 	CRIATOM_CHANNEL_CONFIG_AMBISONICS_1P	= 0x7F000001,	/*!< 1st Order Ambisonics	*/
 	CRIATOM_CHANNEL_CONFIG_AMBISONICS_2P	= 0x7F000002,	/*!< 2nd Order Ambisonics	*/
@@ -1188,9 +1216,9 @@ typedef enum CriAtomChannelConfigTag {
 } CriAtomChannelConfig;
 
 /*!
- * \brief Ambisonnics�t�H�[�}�b�g���
- * \par ����:
- * Ambisonics�����̃`�����l�����я��Ɛ��K�������������l�ł��B<br>
+ * \brief Ambisonnicsフォーマット情報
+ * \par 説明:
+ * Ambisonics音声のチャンネル並び順と正規化方式を示す値です。<br>
  */
 typedef enum CriAtomAmbisonicsFormatTag {
 	CRIATOM_AMBISONICS_FORMAT_FUMA_MAXN = 0,	/*!< FuMa maxN	*/
@@ -1201,14 +1229,14 @@ typedef enum CriAtomAmbisonicsFormatTag {
 } CriAtomAmbisonicsFormat;
 
 /*JP
- * \brief �X�s�[�J�[�}�b�s���O
+ * \brief スピーカーマッピング
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �X�s�[�J�[�\����\���܂��B<br>
+ * \par 説明:
+ * スピーカー構成を表します。<br>
  * \sa CriAtomExAsrConfig CriAtomExAsrRackConfig
  */
 typedef enum CriAtomSpeakerMappingTag {
-	CRIATOM_SPEAKER_MAPPING_AUTO = 0,				/*JP< �����ݒ� */
+	CRIATOM_SPEAKER_MAPPING_AUTO = 0,				/*JP< 自動設定 */
 	CRIATOM_SPEAKER_MAPPING_MONO,					/*JP< 1ch */
 	CRIATOM_SPEAKER_MAPPING_STEREO,					/*JP< 2ch */
 	CRIATOM_SPEAKER_MAPPING_5_1,					/*JP< 5.1ch */
@@ -1216,10 +1244,11 @@ typedef enum CriAtomSpeakerMappingTag {
 	CRIATOM_SPEAKER_MAPPING_5_1_2,					/*JP< 5.1.2ch */
 	CRIATOM_SPEAKER_MAPPING_7_1_2,					/*JP< 7.1.2ch */
 	CRIATOM_SPEAKER_MAPPING_7_1_4,					/*JP< 7.1.4ch */
+	CRIATOM_SPEAKER_MAPPING_7_1_4_4,				/*JP< 7.1.4.4ch */
 	CRIATOM_SPEAKER_MAPPING_AMBISONICS_1P,			/*JP< 1st order Ambisonics */
 	CRIATOM_SPEAKER_MAPPING_AMBISONICS_2P,			/*JP< 2nd order Ambisonics */
 	CRIATOM_SPEAKER_MAPPING_AMBISONICS_3P,			/*JP< 3rd order Ambisonics */
-	CRIATOM_SPEAKER_MAPPING_OBJECT,					/*JP< �I�u�W�F�N�g�x�[�X�Đ� */
+	CRIATOM_SPEAKER_MAPPING_OBJECT,					/*JP< オブジェクトベース再生 */
 	CRIATOM_SPEAKER_MAPPING_CUSTOM,
 	CRIATOM_SPEAKER_MAPPING_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
 } CriAtomSpeakerMapping;
@@ -1227,112 +1256,113 @@ typedef enum CriAtomSpeakerMappingTag {
  *      CRI Atom HCA-MX API
  *=========================================================================*/
 /*JP
- * \brief HCA-MX�������p�R���t�B�O�\����
+ * \brief HCA-MX初期化用コンフィグ構造体
  * \ingroup ATOMLIB_HCA_MX
- * HCA-MX�̓���d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomHcaMx_Initialize �֐��̈����Ɏw�肵�܂��B<br>
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtomHcaMx_SetDefaultConfig �}�N����
- * �\���̂Ƀf�t�H���g�p�����[�^�[���Z�b�g������A ::criAtomHcaMx_Initialize �֐�
- * �ɍ\���̂��w�肵�Ă��������B<br>
+ * HCA-MXの動作仕様を指定するための構造体です。<br>
+ * ::criAtomHcaMx_Initialize 関数の引数に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomHcaMx_SetDefaultConfig マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomHcaMx_Initialize 関数
+ * に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomHcaMx_SetDefaultConfig
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomHcaMx_SetDefaultConfig
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomHcaMx_Initialize, criAtomHcaMx_SetDefaultConfig
  */
 typedef struct CriAtomHcaMxConfigTag {
 	/*JP
-		\brief �T�[�o�[�����̎��s�p�x
-		\par ����:
-		�T�[�o�[���������s����p�x���w�肵�܂��B<br>
+		\brief サーバー処理の実行頻度
+		\par 説明:
+		サーバー処理を実行する頻度を指定します。<br>
 		\attention
-		Atom���C�u�������������Ɏw�肵���l�i ::CriAtomConfig �\���̂�
-		server_frequency �j�ƁA�����l���Z�b�g����K�v������܂��B<br>
+		Atomライブラリ初期化時に指定した値（ ::CriAtomConfig 構造体の
+		server_frequency ）と、同じ値をセットする必要があります。<br>
 		\sa CriAtomConfig
 	*/
 	CriFloat32 server_frequency;
 
 	/*JP
-		\brief �~�L�T��
-		\par ����:
-		HCA-MX�f�R�[�h���ʂ𑗐M����~�L�T�̐����w�肵�܂��B<br>
-		�~�L�T�𕡐��쐬���邱�ƂŁA
-		�~�L�T���ƂɈقȂ�o�X�G�t�F�N�g��K�p���邱�Ƃ��\�ɂȂ�܂��B<br>
+		\brief ミキサー数
+		\par 説明:
+		HCA-MXデコード結果を送信するミキサーの数を指定します。<br>
+		ミキサーを複数作成することで、
+		ミキサーごとに異なるバスエフェクトを適用することが可能になります。<br>
 		\attention
-		HCA-MX�̃f�R�[�h�����A����ђ���Ԃ̏������ׂ́A
-		�~�L�T�̐��ɔ�Ⴕ�ďd���Ȃ�܂��B<br>
+		HCA-MXのデコード処理、および定常状態の処理負荷は、
+		ミキサーの数に比例して重くなります。<br>
 	*/
 	CriSint32 num_mixers;
 
 	/*JP
-		\brief �~�L�T�ɓo�^�\�ȍő�v���[���[��
-		\par ����:
-		�~�L�T���Ƃɓo�^�\��HCA-MX�v���[���[�̐����w�肵�܂��B<br>
+		\brief ミキサーに登録可能な最大プレーヤー数
+		\par 説明:
+		ミキサーごとに登録可能なHCA-MXプレーヤーの数を指定します。<br>
 	*/
 	CriSint32 max_players;
 
 	/*JP
-		\brief ���̓f�[�^�̍ő�`�����l����
-		\par ����:
-		�A�v���P�[�V�������ōĐ�����HCA-MX�f�[�^�̍ő�`�����l�������w�肵�܂��B<br>
-		�Đ�����f�[�^�����m�����̏ꍇ��1���A�X�e���I�̏ꍇ��2���w�肵�Ă��������B<br>
-		\par ���l:
-		HCA-MX���������� max_input_channels �Ɏw�肳�ꂽ���ȉ��̉����f�[�^��
-		�Đ��\�ɂȂ�܂��B<br>
-		�Ⴆ�΁A max_input_channels ��6���w�肵���ꍇ�A5.1ch���������łȂ��A
-		���m����������X�e���I�������Đ��\�ɂȂ�܂��B<br>
-		100�̃f�[�^�̂����A99�����m�����A1���X�e���I�̏ꍇ�ł��A
-		max_input_channels �ɂ�2���w�肷��K�v������܂��B<br>
+		\brief 入力データの最大チャンネル数
+		\par 説明:
+		アプリケーション中で再生するHCA-MXデータの最大チャンネル数を指定します。<br>
+		再生するデータがモノラルの場合は1を、ステレオの場合は2を指定してください。<br>
+		\par 備考:
+		HCA-MX初期化時に max_input_channels に指定された数以下の音声データが
+		再生可能になります。<br>
+		例えば、 max_input_channels に6を指定した場合、5.1ch音声だけでなく、
+		モノラル音声やステレオ音声も再生可能になります。<br>
+		100個のデータのうち、99個がモノラル、1個がステレオの場合でも、
+		max_input_channels には2を指定する必要があります。<br>
 	*/
 	CriSint32 max_input_channels;
 
 	/*JP
-		\brief �ő�T���v�����O���[�g
-		\par ����:
-		HCA-MX�̏o�͂Ɏw��ł���ő�T���v�����O���[�g�ł��B<br>
-		\par ���l:
-		�Ⴆ��::criAtomHcaMx_SetFrequencyRatio �֐��� 2.0f ���w�肷��ꍇ��
-		output_sampling_rate * 2 ���w�肵�Ă��������B<br>
+		\brief 最大サンプリングレート
+		\par 説明:
+		HCA-MXの出力に指定できる最大サンプリングレートです。<br>
+		\par 備考:
+		例えば::criAtomHcaMx_SetFrequencyRatio 関数に 2.0f を指定する場合は
+		output_sampling_rate * 2 を指定してください。<br>
 	*/
 	CriSint32 max_sampling_rate;
 
 	/*JP
-		\brief �o�̓`�����l����
-		\par ����:
-		HCA-MX�f�[�^�̏o�̓`�����l�������w�肵�܂��B<br>
-		�ʏ�A�^�[�Q�b�g�@�ɐڑ����ꂽ�X�s�[�J�[�̐��i�o�̓f�o�C�X��
-		�ő�`�����l�����j���w�肵�܂��B<br>
-		\par ���l:
-		���m���������݂̂��Đ����A�p�����R���g���[�����Ȃ��ꍇ�ɂ́A
-		output_channels ��1�ɂ��邱�ƂŁA�������ׂ������邱�Ƃ��\�ł��B<br>
+		\brief 出力チャンネル数
+		\par 説明:
+		HCA-MXデータの出力チャンネル数を指定します。<br>
+		通常、ターゲット機に接続されたスピーカーの数（出力デバイスの
+		最大チャンネル数）を指定します。<br>
+		出力チャンネル数の最大値は ::CRIATOM_HCA_MX_MAX_OUTPUT_CHANNELS で、最小数は 1 です。<br>
+		\par 備考:
+		モノラル音声のみを再生し、パンをコントロールしない場合には、
+		output_channels を1にすることで、処理負荷を下げることが可能です。<br>
 		\attention
-		output_channels �̐��� max_input_channels �ȉ��̒l�ɐݒ肷�邱�Ƃ�
-		�ł��܂���B<br>
+		output_channels の数を max_input_channels 以下の値に設定することは
+		できません。<br>
 	*/
 	CriSint32 output_channels;
 
 	/*JP
-		\brief �o�̓T���v�����O���[�g
-		\par ����:
-		�Đ�����HCA-MX�f�[�^�̃T���v�����O���[�g���w�肵�܂��B<br>
-		HCA-MX�́A���P�ʂ̃T���v�����O���[�g�ύX���s���܂���B<br>
-		HCA-MX�f�[�^���쐬����ۂɂ́A�K���S�Ẳ����f�[�^�𓯈�̃T���v�����O
-		���[�g�ō쐬���A���̒l�� output_sampling_rate �Ɏw�肵�Ă��������B<br>
+		\brief 出力サンプリングレート
+		\par 説明:
+		再生するHCA-MXデータのサンプリングレートを指定します。<br>
+		HCA-MXは、音単位のサンプリングレート変更を行えません。<br>
+		HCA-MXデータを作成する際には、必ず全ての音声データを同一のサンプリング
+		レートで作成し、その値を output_sampling_rate に指定してください。<br>
 	*/
 	CriSint32 output_sampling_rate;
 
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		HCA-MX�̏o�͐�T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_DEFAULT ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̃T�E���h�����_���ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_ASR ���w�肵���ꍇ�A
-		�����f�[�^��ASR�iAtom Sound Renderer�j�ɓ]������܂��B<br>
-		�iASR�̏o�͐�́AASR���������ɕʓr�w��B�j
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		HCA-MXの出力先サウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_DEFAULT を指定した場合、
+		音声データはデフォルト設定のサウンドレンダラに転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_ASR を指定した場合、
+		音声データはASR（Atom Sound Renderer）に転送されます。<br>
+		（ASRの出力先は、ASR初期化時に別途指定。）
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 } CriAtomHcaMxConfig;
@@ -1342,45 +1372,45 @@ typedef struct CriAtomHcaMxConfigTag {
  *=========================================================================*/
 struct CriAtomAwbTag;
 /*JP
- * \brief AWB�n���h��
+ * \brief AWBハンドル
  * \ingroup ATOMLIB_AWB
- * \par ����:
- * �Đ��f�[�^���܂܂�Ă���AWB�t�@�C����TOC���������n���h���ł��B<br>
- * ::criAtomAwb_LoadToc �֐��Ŏ擾���܂��B<br>
+ * \par 説明:
+ * 再生データが含まれているAWBファイルのTOC情報を示すハンドルです。<br>
+ * ::criAtomAwb_LoadToc 関数で取得します。<br>
  * \sa criAtomAwb_LoadToc
  */
 typedef struct CriAtomAwbTag *CriAtomAwbHn;
 
 /*JP
- * \brief AWB�X�e�[�^�X
+ * \brief AWBステータス
  * \ingroup ATOMLIB_AWB
- * \par ����:
- * AWB�̏�����Ԃ������l�ł��B<br>
- * ::criAtomAwb_GetStatus �֐��Ŏ擾���܂��B<br>
+ * \par 説明:
+ * AWBの準備状態を示す値です。<br>
+ * ::criAtomAwb_GetStatus 関数で取得します。<br>
  * \sa criAtomAwb_GetStatus
  */
 typedef enum CriAtomAwbStatusTag {
-	CRIATOMAWB_STATUS_STOP = 0,		/*JP<��~��		*/
-	CRIATOMAWB_STATUS_LOADING,		/*JP<���[�h��	*/
-	CRIATOMAWB_STATUS_COMPLETE,		/*JP<���[�h����	*/
-	CRIATOMAWB_STATUS_ERROR,		/*JP<���[�h���s	*/
+	CRIATOMAWB_STATUS_STOP = 0,		/*JP<停止中		*/
+	CRIATOMAWB_STATUS_LOADING,		/*JP<ロード中	*/
+	CRIATOMAWB_STATUS_COMPLETE,		/*JP<ロード完了	*/
+	CRIATOMAWB_STATUS_ERROR,		/*JP<ロード失敗	*/
 
 	/* enum size is 4bytes */
 	CRIATOMAWB_STATUS_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
 } CriAtomAwbStatus;
 
 /*JP
- * \brief AWB�̎��
+ * \brief AWBの種別
  * \ingroup ATOMLIB_AWB
- * \par ����:
- * AWB�n���h����TOC���݂̂̃n���h���Ȃ̂��A��������Ƀ��[�h���ꂽAWB�n���h���Ȃ̂��������l�ł��B
- * ::criAtomAwb_GetType �֐��Ŏ擾���܂��B<br>
+ * \par 説明:
+ * AWBハンドルがTOC情報のみのハンドルなのか、メモリ上にロードされたAWBハンドルなのかを示す値です。
+ * ::criAtomAwb_GetType 関数で取得します。<br>
  * \sa criAtomAwb_GetType
  */
 typedef enum CriAtomAwbTypeTag {
-	CRIATOMAWB_TYPE_TOC = 0,	/*JP<TOC���݂̂�AWB�n���h��	*/
-	CRIATOMAWB_TYPE_ONMEMORY,	/*JP<�I��������AWB�n���h��		*/
-	CRIATOMAWB_TYPE_ERROR,		/*JP<������AWB�n���h��			*/
+	CRIATOMAWB_TYPE_TOC = 0,	/*JP<TOC情報のみのAWBハンドル	*/
+	CRIATOMAWB_TYPE_ONMEMORY,	/*JP<オンメモリAWBハンドル		*/
+	CRIATOMAWB_TYPE_ERROR,		/*JP<無効なAWBハンドル			*/
 
 	/* enum size is 4bytes */
 	CRIATOMAWB_TYPE_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
@@ -1390,902 +1420,902 @@ typedef enum CriAtomAwbTypeTag {
  *      CRI Atom Player API
  *=========================================================================*/
 /*JP
- * �W���v���[���[�쐬�p�R���t�B�O�\����
+ * 標準プレーヤー作成用コンフィグ構造体
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * �W���v���[���[�iADX��HCA���Đ��\�ȃv���[���[�j���쐬����ۂɁA
- * ����d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomPlayer_CreateStandardPlayer �֐��̈����Ɏw�肵�܂��B<br>
+ * \par 説明:
+ * 標準プレーヤー（ADXとHCAが再生可能なプレーヤー）を作成する際に、
+ * 動作仕様を指定するための構造体です。<br>
+ * ::criAtomPlayer_CreateStandardPlayer 関数の引数に指定します。<br>
  * <br>
- * �쐬�����v���[���[�́A�n���h���쐬���ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA
- * �������\�[�X��K�v�Ȃ����m�ۂ��܂��B<br>
- * �v���[���[���K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ����ĕω����܂��B
+ * 作成されるプレーヤーは、ハンドル作成時に本構造体で指定された設定に応じて、
+ * 内部リソースを必要なだけ確保します。<br>
+ * プレーヤーが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて変化します。
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomPlayer_SetDefaultConfigForStandardPlayer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomPlayer_SetDefaultConfigForStandardPlayer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomPlayer_CreateStandardPlayer, criAtomPlayer_SetDefaultConfigForStandardPlayer
  */
 typedef struct CriAtomStandardPlayerConfigTag {
 	/*JP
-		\brief �ő�o�̓`�����l����
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃`�����l�������w�肵�܂��B<br>
-		::criAtomPlayer_CreateStandardPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_channels�Ŏw�肵��
-		�`�����l����"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
-		�ő�o�̓`�����l�����Ƃ��Ďw�肷��l�ƁA�쐬���ꂽAtom�v���[���[�ōĐ��\�ȃf�[�^��
-		�֌W���ȉ��Ɏ����܂��B<br>
-		\table "�ő�o�̓`�����l�����ƍĐ��\�ȃf�[�^�̊֌W" align=center border=1 cellspacing=0 cellpadding=4
-		{�ő�o�̓`�����l�����i�w�肷��l�j	| �쐬���ꂽAtom�v���[���[�ōĐ��\�ȃf�[�^	}
-		[1									| ���m����									]
-		[2									| ���m�����A�X�e���I						]
-		[6									| ���m�����A�X�e���I�A5.1ch					]
-		[8									| ���m�����A�X�e���I�A5.1ch�A7.1ch			]
+		\brief 最大出力チャンネル数
+		\par 説明:
+		Atomプレーヤーで再生する音声のチャンネル数を指定します。<br>
+		::criAtomPlayer_CreateStandardPlayer 関数で作成されたAtomプレーヤーは、max_channelsで指定した
+		チャンネル数"以下の"音声データを再生可能です。<br>
+		最大出力チャンネル数として指定する値と、作成されたAtomプレーヤーで再生可能なデータの
+		関係を以下に示します。<br>
+		\table "最大出力チャンネル数と再生可能なデータの関係" align=center border=1 cellspacing=0 cellpadding=4
+		{最大出力チャンネル数（指定する値）	| 作成されたAtomプレーヤーで再生可能なデータ	}
+		[1									| モノラル									]
+		[2									| モノラル、ステレオ						]
+		[6									| モノラル、ステレオ、5.1ch					]
+		[8									| モノラル、ステレオ、5.1ch、7.1ch			]
 		\endtable
 		<br>
-		\par ���l:
-		�T�E���h�o�͎��Ƀn�[�h�E�F�A���\�[�X���g�p����v���b�g�t�H�[���ɂ����ẮA
-		�o�̓`�����l���������������邱�ƂŁA�n�[�h�E�F�A���\�[�X�̏����}���邱�Ƃ�
-		�\�ł��B<br>
+		\par 備考:
+		サウンド出力時にハードウェアリソースを使用するプラットフォームにおいては、
+		出力チャンネル数を小さくすることで、ハードウェアリソースの消費を抑えることが
+		可能です。<br>
 		\attention
-		�w�肳�ꂽ�ő�o�̓`�����l�����𒴂���f�[�^�́A�Đ����邱�Ƃ͂ł��܂���B<br>
-		�Ⴆ�΁A�ő�o�̓`�����l������1�ɐݒ肵���ꍇ�A�쐬���ꂽAtom�v���[���[��
-		�X�e���I�������Đ����邱�Ƃ͂ł��܂���B<br>
-		�i���m�����Ƀ_�E���~�b�N�X����ďo�͂���邱�Ƃ͂���܂���B�j
+		指定された最大出力チャンネル数を超えるデータは、再生することはできません。<br>
+		例えば、最大出力チャンネル数を1に設定した場合、作成されたAtomプレーヤーで
+		ステレオ音声を再生することはできません。<br>
+		（モノラルにダウンミックスされて出力されることはありません。）
 	*/
 	CriSint32 max_channels;
 
 	/*JP
-		\brief �ő�T���v�����O���[�g
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃T���v�����O���[�g���w�肵�܂��B<br>
-		::criAtomPlayer_CreateStandardPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_sampling_rate�Ŏw�肵��
-		�T���v�����O���[�g"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大サンプリングレート
+		\par 説明:
+		Atomプレーヤーで再生する音声のサンプリングレートを指定します。<br>
+		::criAtomPlayer_CreateStandardPlayer 関数で作成されたAtomプレーヤーは、max_sampling_rateで指定した
+		サンプリングレート"以下の"音声データを再生可能です。<br>
 		<br>
-		\par ���l:
-		�ő�T���v�����O���[�g�������邱�ƂŁAAtom�v���[���[�쐬���ɕK�v�ƂȂ郏�[�N������
-		�̃T�C�Y��}���邱�Ƃ��\�ł��B
+		\par 備考:
+		最大サンプリングレートを下げることで、Atomプレーヤー作成時に必要となるワークメモリ
+		のサイズを抑えることが可能です。
 		\attention
-		�w�肳�ꂽ�ő�T���v�����O���[�g�𒴂���f�[�^�́A�Đ����邱�Ƃ͂ł��܂���B<br>
-		�Ⴆ�΁A�ő�T���v�����O���[�g��24000�ɐݒ肵���ꍇ�A�쐬���ꂽAtom�v���[���[��
-		48000Hz�̉������Đ����邱�Ƃ͂ł��܂���B<br>
-		�i�_�E���T���v�����O����ďo�͂���邱�Ƃ͂���܂���B�j
+		指定された最大サンプリングレートを超えるデータは、再生することはできません。<br>
+		例えば、最大サンプリングレートを24000に設定した場合、作成されたAtomプレーヤーで
+		48000Hzの音声を再生することはできません。<br>
+		（ダウンサンプリングされて出力されることはありません。）
 	*/
 	CriSint32 max_sampling_rate;
 
 	/*JP
-		\brief �X�g���[�~���O�Đ����s�����ǂ���
-		\par ����:
-		Atom�v���[���[�ŃX�g���[�~���O�Đ��i�t�@�C������̍Đ��j���s�����ǂ������w�肵�܂��B<br>
-		streaming_flag��CRI_FALSE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��i ::criAtomPlayer_SetData �֐��Ŏw�肵���������A�h���X�̍Đ��j�݂̂��T�|�[�g
-		���܂��B�i�t�@�C������̍Đ��͂ł��܂���B�j<br>
-		streaming_flag��CRI_TRUE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��ɉ����A�t�@�C������̍Đ��i ::criAtomPlayer_SetFile �֐���
-		::criAtomPlayer_SetContentId �֐��Ŏw�肳�ꂽ�t�@�C���̍Đ��j���T�|�[�g���܂��B<br>
-		\par �⑫:
-		streaming_flag��CRI_TRUE�ɂ����ꍇ�AAtom�v���[���[�쐬���Ƀt�@�C���ǂݍ��ݗp�̃��\�[�X
-		���m�ۂ���܂��B<br>
-		���̂��߁Astreaming_flag��CRI_FALSE�̏ꍇ�ɔ�ׁAAtom�v���[���[�̍쐬�ɕK�v�ȃ�������
-		�T�C�Y���傫���Ȃ�܂��B
+		\brief ストリーミング再生を行うかどうか
+		\par 説明:
+		Atomプレーヤーでストリーミング再生（ファイルからの再生）を行うかどうかを指定します。<br>
+		streaming_flagにCRI_FALSEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生（ ::criAtomPlayer_SetData 関数で指定したメモリアドレスの再生）のみをサポート
+		します。（ファイルからの再生はできません。）<br>
+		streaming_flagにCRI_TRUEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生に加え、ファイルからの再生（ ::criAtomPlayer_SetFile 関数や
+		::criAtomPlayer_SetContentId 関数で指定されたファイルの再生）をサポートします。<br>
+		\par 補足:
+		streaming_flagをCRI_TRUEにした場合、Atomプレーヤー作成時にファイル読み込み用のリソース
+		が確保されます。<br>
+		そのため、streaming_flagをCRI_FALSEの場合に比べ、Atomプレーヤーの作成に必要なメモリの
+		サイズが大きくなります。
 	*/
 	CriBool streaming_flag;
 
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		Atom�v���[���[���g�p����T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_DEFAULT ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̃T�E���h�����_���ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�͊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_ASR ���w�肵���ꍇ�A
-		�����f�[�^��ASR�iAtom Sound Renderer�j�ɓ]������܂��B<br>
-		�iASR�̏o�͐�́AASR���������ɕʓr�w��B�j
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		Atomプレーヤーが使用するサウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_DEFAULT を指定した場合、
+		音声データはデフォルト設定のサウンドレンダラに転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データは各プラットフォームのサウンド出力に転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_ASR を指定した場合、
+		音声データはASR（Atom Sound Renderer）に転送されます。<br>
+		（ASRの出力先は、ASR初期化時に別途指定。）
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 
 	/*JP
-		\brief �f�R�[�h�����̃��C�e���V
-		\par ����:
-		�f�R�[�h�����̃��C�e���V���w�肵�܂��B<br>
-		decode_latency �� 0 �ɐݒ肵���ꍇ�A�v���[���[�͉����Đ��J�n����
-		�����f�[�^�̃f�R�[�h���\�Ȍ���x���Ȃ��s���܂��B<br>
-		�i�I���������Đ����� ::criAtomPlayer_Start �֐������s��A
-		�ŏ��̃T�[�o�[�������ōĐ��J�n�ɕK�v�ȗʂ̃f�[�^���f�R�[�h���A
-		�����̏o�͂��J�n���܂��B�j<br>
-		����ɑ΂� decode_latency �� 1 �ȏ�ɐݒ肵���ꍇ�A
-		�Đ��J�n�ɕK�v�ȃf�[�^�̃f�R�[�h���A������̃T�[�o�[�����ɕ������čs���܂��B<br>
-		�i�I���������Đ����ł����Ă� ::criAtomPlayer_Start �֐������s��A
-		decode_latency �Ɏw�肵���񐔃T�[�o�[���������삷��܂ł͉����̏o�͂��J�n����܂���B�j<br>
-		\par ���l:
-		Atom�v���[���[�̓T�E���h�o�b�t�@�[���̃f�[�^�c�ʂ����ɁA
-		�T�[�o�[����������̉����f�[�^�̃f�R�[�h�ʂ����肵�Ă��܂��B<br>
-		�����Đ��J�n�O�̓T�E���h�o�b�t�@�[����̏�Ԃ̂��߁A
-		�����Đ����ɔ�ׂđ����̃f�[�^�i�Đ����� 2 �` 4 �{���x�j���f�R�[�h����܂��B<br>
-		�v���[���[������̉����f�[�^�̃f�R�[�h�������ׂ͏��������߁A
-		�ꉹ�ꉹ�̔����J�n���̏������ׂ����ɂȂ邱�Ƃ͂قƂ�ǂ���܂���B<br>
-		�������A�A�v���P�[�V�������� 1V �ɑ�ʂ̔������N�G�X�g�𓯎��ɔ��s�����ꍇ�A
-		�S�Ẵv���[���[�̏������ׂ̃s�[�N���������A���ׂ��ڂɌ����đ傫���Ȃ�ꍇ������܂��B<br>
-		����������������s���P�[�X�ł́A decode_latency �̒l�𑝂₷���ƂŁA
-		�Ǐ��I�ɏ������ׂ������Ȃ�Ǐ��������邱�Ƃ��\�ł��B<br>
+		\brief デコード処理のレイテンシ
+		\par 説明:
+		デコード処理のレイテンシを指定します。<br>
+		decode_latency を 0 に設定した場合、プレーヤーは音声再生開始時に
+		音声データのデコードを可能な限り遅延なく行います。<br>
+		（オンメモリ再生時は ::criAtomPlayer_Start 関数を実行後、
+		最初のサーバー処理内で再生開始に必要な量のデータをデコードし、
+		音声の出力を開始します。）<br>
+		これに対し decode_latency を 1 以上に設定した場合、
+		再生開始に必要なデータのデコードを、複数回のサーバー処理に分割して行います。<br>
+		（オンメモリ再生時であっても ::criAtomPlayer_Start 関数を実行後、
+		decode_latency に指定した回数サーバー処理が動作するまでは音声の出力が開始されません。）<br>
+		\par 備考:
+		Atomプレーヤーはサウンドバッファー内のデータ残量を元に、
+		サーバー処理当たりの音声データのデコード量を決定しています。<br>
+		音声再生開始前はサウンドバッファーが空の状態のため、
+		音声再生中に比べて多くのデータ（再生中の 2 ～ 4 倍程度）がデコードされます。<br>
+		プレーヤー当たりの音声データのデコード処理負荷は小さいため、
+		一音一音の発音開始時の処理負荷が問題になることはほとんどありません。<br>
+		しかし、アプリケーション中で 1V に大量の発音リクエストを同時に発行した場合、
+		全てのプレーヤーの処理負荷のピークが同期し、負荷が目に見えて大きくなる場合があります。<br>
+		こういった制御を行うケースでは、 decode_latency の値を増やすことで、
+		局所的に処理負荷が高くなる症状を回避することが可能です。<br>
 		<br>
-		decode_latency �̃f�t�H���g�l�́A�قƂ�ǂ̊��� 0 �ɐݒ肳��Ă��܂��B<br>
-		�������A�g�уQ�[���@���A�킸���ȕ��וϓ��ł��A�v���P�[�V�����ɑ傫�ȉe�����y�ڂ����ł́A
-		�f�t�H���g�l�� 1 �ȏ�ɐݒ肳��Ă���\��������܂��B<br>
-		�i���ۂɃZ�b�g�����l�ɂ��Ă� ::criAtomPlayer_SetDefaultConfigForAdxPlayer
-		�}�N���̓K�p���ʂ��m�F���Ă��������B�j<br>
+		decode_latency のデフォルト値は、ほとんどの環境で 0 に設定されています。<br>
+		しかし、携帯ゲーム機等、わずかな負荷変動でもアプリケーションに大きな影響を及ぼす環境では、
+		デフォルト値が 1 以上に設定されている可能性があります。<br>
+		（実際にセットされる値については ::criAtomPlayer_SetDefaultConfigForAdxPlayer
+		マクロの適用結果を確認してください。）<br>
 		<br>
-		���� decode_latency �̒l�� 4 �ȏ�̒l���w�肷�邱�Ƃ͂ł��܂���B<br>
-		�i decode_latency �� 4 �ȏ�̒l���w�肵���ꍇ�ł��A���C�u�������� 3 �ɕύX����܂��B�j<br>
+		現状 decode_latency の値に 4 以上の値を指定することはできません。<br>
+		（ decode_latency に 4 以上の値を指定した場合でも、ライブラリ内で 3 に変更されます。）<br>
 	*/
 	CriSint32 decode_latency;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[�Ńv���[���[���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでプレーヤーを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 } CriAtomStandardPlayerConfig;
 
 /*JP
- * ADX�v���[���[�쐬�p�R���t�B�O�\����
+ * ADXプレーヤー作成用コンフィグ構造体
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * ADX���Đ��\�ȃv���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomPlayer_CreateAdxPlayer �֐��̈����Ɏw�肵�܂��B<br>
+ * \par 説明:
+ * ADXが再生可能なプレーヤーを作成する際に、動作仕様を指定するための構造体です。<br>
+ * ::criAtomPlayer_CreateAdxPlayer 関数の引数に指定します。<br>
  * <br>
- * �쐬�����v���[���[�́A�n���h���쐬���ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA
- * �������\�[�X��K�v�Ȃ����m�ۂ��܂��B<br>
- * �v���[���[���K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ����ĕω����܂��B
+ * 作成されるプレーヤーは、ハンドル作成時に本構造体で指定された設定に応じて、
+ * 内部リソースを必要なだけ確保します。<br>
+ * プレーヤーが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて変化します。
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomPlayer_SetDefaultConfigForAdxPlayer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomPlayer_SetDefaultConfigForAdxPlayer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomPlayer_CreateAdxPlayer, criAtomPlayer_SetDefaultConfigForAdxPlayer
  */
 typedef struct CriAtomAdxPlayerConfigTag {
 	/*JP
-		\brief �ő�o�̓`�����l����
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃`�����l�������w�肵�܂��B<br>
-		::criAtomPlayer_CreateAdxPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_channels�Ŏw�肵��
-		�`�����l����"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
-		�ő�o�̓`�����l�����Ƃ��Ďw�肷��l�ƁA�쐬���ꂽAtom�v���[���[�ōĐ��\�ȃf�[�^��
-		�֌W���ȉ��Ɏ����܂��B<br>
-		\table "�ő�o�̓`�����l�����ƍĐ��\�ȃf�[�^�̊֌W" align=center border=1 cellspacing=0 cellpadding=4
-		{�ő�o�̓`�����l�����i�w�肷��l�j	| �쐬���ꂽAtom�v���[���[�ōĐ��\�ȃf�[�^	}
-		[1									| ���m����									]
-		[2									| ���m�����A�X�e���I						]
-		[6									| ���m�����A�X�e���I�A5.1ch					]
-		[8									| ���m�����A�X�e���I�A5.1ch�A7.1ch			]
+		\brief 最大出力チャンネル数
+		\par 説明:
+		Atomプレーヤーで再生する音声のチャンネル数を指定します。<br>
+		::criAtomPlayer_CreateAdxPlayer 関数で作成されたAtomプレーヤーは、max_channelsで指定した
+		チャンネル数"以下の"音声データを再生可能です。<br>
+		最大出力チャンネル数として指定する値と、作成されたAtomプレーヤーで再生可能なデータの
+		関係を以下に示します。<br>
+		\table "最大出力チャンネル数と再生可能なデータの関係" align=center border=1 cellspacing=0 cellpadding=4
+		{最大出力チャンネル数（指定する値）	| 作成されたAtomプレーヤーで再生可能なデータ	}
+		[1									| モノラル									]
+		[2									| モノラル、ステレオ						]
+		[6									| モノラル、ステレオ、5.1ch					]
+		[8									| モノラル、ステレオ、5.1ch、7.1ch			]
 		\endtable
 		<br>
-		\par ���l:
-		�T�E���h�o�͎��Ƀn�[�h�E�F�A���\�[�X���g�p����v���b�g�t�H�[���ɂ����ẮA
-		�o�̓`�����l���������������邱�ƂŁA�n�[�h�E�F�A���\�[�X�̏����}���邱�Ƃ�
-		�\�ł��B<br>
+		\par 備考:
+		サウンド出力時にハードウェアリソースを使用するプラットフォームにおいては、
+		出力チャンネル数を小さくすることで、ハードウェアリソースの消費を抑えることが
+		可能です。<br>
 		\attention
-		�w�肳�ꂽ�ő�o�̓`�����l�����𒴂���f�[�^�́A�Đ����邱�Ƃ͂ł��܂���B<br>
-		�Ⴆ�΁A�ő�o�̓`�����l������1�ɐݒ肵���ꍇ�A�쐬���ꂽAtom�v���[���[��
-		�X�e���I�������Đ����邱�Ƃ͂ł��܂���B<br>
-		�i���m�����Ƀ_�E���~�b�N�X����ďo�͂���邱�Ƃ͂���܂���B�j
+		指定された最大出力チャンネル数を超えるデータは、再生することはできません。<br>
+		例えば、最大出力チャンネル数を1に設定した場合、作成されたAtomプレーヤーで
+		ステレオ音声を再生することはできません。<br>
+		（モノラルにダウンミックスされて出力されることはありません。）
 	*/
 	CriSint32 max_channels;
 
 	/*JP
-		\brief �ő�T���v�����O���[�g
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃T���v�����O���[�g���w�肵�܂��B<br>
-		::criAtomPlayer_CreateAdxPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_sampling_rate�Ŏw�肵��
-		�T���v�����O���[�g"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大サンプリングレート
+		\par 説明:
+		Atomプレーヤーで再生する音声のサンプリングレートを指定します。<br>
+		::criAtomPlayer_CreateAdxPlayer 関数で作成されたAtomプレーヤーは、max_sampling_rateで指定した
+		サンプリングレート"以下の"音声データを再生可能です。<br>
 		<br>
-		\par ���l:
-		�ő�T���v�����O���[�g�������邱�ƂŁAAtom�v���[���[�쐬���ɕK�v�ƂȂ郏�[�N������
-		�̃T�C�Y��}���邱�Ƃ��\�ł��B
+		\par 備考:
+		最大サンプリングレートを下げることで、Atomプレーヤー作成時に必要となるワークメモリ
+		のサイズを抑えることが可能です。
 		\attention
-		�w�肳�ꂽ�ő�T���v�����O���[�g�𒴂���f�[�^�́A�Đ����邱�Ƃ͂ł��܂���B<br>
-		�Ⴆ�΁A�ő�T���v�����O���[�g��24000�ɐݒ肵���ꍇ�A�쐬���ꂽAtom�v���[���[��
-		48000Hz�̉������Đ����邱�Ƃ͂ł��܂���B<br>
-		�i�_�E���T���v�����O����ďo�͂���邱�Ƃ͂���܂���B�j
+		指定された最大サンプリングレートを超えるデータは、再生することはできません。<br>
+		例えば、最大サンプリングレートを24000に設定した場合、作成されたAtomプレーヤーで
+		48000Hzの音声を再生することはできません。<br>
+		（ダウンサンプリングされて出力されることはありません。）
 	*/
 	CriSint32 max_sampling_rate;
 
 	/*JP
-		\brief �X�g���[�~���O�Đ����s�����ǂ���
-		\par ����:
-		Atom�v���[���[�ŃX�g���[�~���O�Đ��i�t�@�C������̍Đ��j���s�����ǂ������w�肵�܂��B<br>
-		streaming_flag��CRI_FALSE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��i ::criAtomPlayer_SetData �֐��Ŏw�肵���������A�h���X�̍Đ��j�݂̂��T�|�[�g
-		���܂��B�i�t�@�C������̍Đ��͂ł��܂���B�j<br>
-		streaming_flag��CRI_TRUE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��ɉ����A�t�@�C������̍Đ��i ::criAtomPlayer_SetFile �֐���
-		::criAtomPlayer_SetContentId �֐��Ŏw�肳�ꂽ�t�@�C���̍Đ��j���T�|�[�g���܂��B<br>
-		\par �⑫:
-		streaming_flag��CRI_TRUE�ɂ����ꍇ�AAtom�v���[���[�쐬���Ƀt�@�C���ǂݍ��ݗp�̃��\�[�X
-		���m�ۂ���܂��B<br>
-		���̂��߁Astreaming_flag��CRI_FALSE�̏ꍇ�ɔ�ׁAAtom�v���[���[�̍쐬�ɕK�v�ȃ�������
-		�T�C�Y���傫���Ȃ�܂��B
+		\brief ストリーミング再生を行うかどうか
+		\par 説明:
+		Atomプレーヤーでストリーミング再生（ファイルからの再生）を行うかどうかを指定します。<br>
+		streaming_flagにCRI_FALSEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生（ ::criAtomPlayer_SetData 関数で指定したメモリアドレスの再生）のみをサポート
+		します。（ファイルからの再生はできません。）<br>
+		streaming_flagにCRI_TRUEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生に加え、ファイルからの再生（ ::criAtomPlayer_SetFile 関数や
+		::criAtomPlayer_SetContentId 関数で指定されたファイルの再生）をサポートします。<br>
+		\par 補足:
+		streaming_flagをCRI_TRUEにした場合、Atomプレーヤー作成時にファイル読み込み用のリソース
+		が確保されます。<br>
+		そのため、streaming_flagをCRI_FALSEの場合に比べ、Atomプレーヤーの作成に必要なメモリの
+		サイズが大きくなります。
 	*/
 	CriBool streaming_flag;
 
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		Atom�v���[���[���g�p����T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_DEFAULT ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̃T�E���h�����_���ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_ASR ���w�肵���ꍇ�A
-		�����f�[�^��ASR�iAtom Sound Renderer�j�ɓ]������܂��B<br>
-		�iASR�̏o�͐�́AASR���������ɕʓr�w��B�j
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		Atomプレーヤーが使用するサウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_DEFAULT を指定した場合、
+		音声データはデフォルト設定のサウンドレンダラに転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_ASR を指定した場合、
+		音声データはASR（Atom Sound Renderer）に転送されます。<br>
+		（ASRの出力先は、ASR初期化時に別途指定。）
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 
 	/*JP
-		\brief �f�R�[�h�����̃��C�e���V
-		\par ����:
-		�f�R�[�h�����̃��C�e���V���w�肵�܂��B<br>
-		decode_latency �� 0 �ɐݒ肵���ꍇ�A�v���[���[�͉����Đ��J�n����
-		�����f�[�^�̃f�R�[�h���\�Ȍ���x���Ȃ��s���܂��B<br>
-		�i�I���������Đ����� ::criAtomPlayer_Start �֐������s��A
-		�ŏ��̃T�[�o�[�������ōĐ��J�n�ɕK�v�ȗʂ̃f�[�^���f�R�[�h���A
-		�����̏o�͂��J�n���܂��B�j<br>
-		����ɑ΂� decode_latency �� 1 �ȏ�ɐݒ肵���ꍇ�A
-		�Đ��J�n�ɕK�v�ȃf�[�^�̃f�R�[�h���A������̃T�[�o�[�����ɕ������čs���܂��B<br>
-		�i�I���������Đ����ł����Ă� ::criAtomPlayer_Start �֐������s��A
-		decode_latency �Ɏw�肵���񐔃T�[�o�[���������삷��܂ł͉����̏o�͂��J�n����܂���B�j<br>
-		\par ���l:
-		Atom�v���[���[�̓T�E���h�o�b�t�@�[���̃f�[�^�c�ʂ����ɁA
-		�T�[�o�[����������̉����f�[�^�̃f�R�[�h�ʂ����肵�Ă��܂��B<br>
-		�����Đ��J�n�O�̓T�E���h�o�b�t�@�[����̏�Ԃ̂��߁A
-		�����Đ����ɔ�ׂđ����̃f�[�^�i�Đ����� 2 �` 4 �{���x�j���f�R�[�h����܂��B<br>
-		�v���[���[������̉����f�[�^�̃f�R�[�h�������ׂ͏��������߁A
-		�ꉹ�ꉹ�̔����J�n���̏������ׂ����ɂȂ邱�Ƃ͂قƂ�ǂ���܂���B<br>
-		�������A�A�v���P�[�V�������� 1V �ɑ�ʂ̔������N�G�X�g�𓯎��ɔ��s�����ꍇ�A
-		�S�Ẵv���[���[�̏������ׂ̃s�[�N���������A���ׂ��ڂɌ����đ傫���Ȃ�ꍇ������܂��B<br>
-		����������������s���P�[�X�ł́A decode_latency �̒l�𑝂₷���ƂŁA
-		�Ǐ��I�ɏ������ׂ������Ȃ�Ǐ��������邱�Ƃ��\�ł��B<br>
+		\brief デコード処理のレイテンシ
+		\par 説明:
+		デコード処理のレイテンシを指定します。<br>
+		decode_latency を 0 に設定した場合、プレーヤーは音声再生開始時に
+		音声データのデコードを可能な限り遅延なく行います。<br>
+		（オンメモリ再生時は ::criAtomPlayer_Start 関数を実行後、
+		最初のサーバー処理内で再生開始に必要な量のデータをデコードし、
+		音声の出力を開始します。）<br>
+		これに対し decode_latency を 1 以上に設定した場合、
+		再生開始に必要なデータのデコードを、複数回のサーバー処理に分割して行います。<br>
+		（オンメモリ再生時であっても ::criAtomPlayer_Start 関数を実行後、
+		decode_latency に指定した回数サーバー処理が動作するまでは音声の出力が開始されません。）<br>
+		\par 備考:
+		Atomプレーヤーはサウンドバッファー内のデータ残量を元に、
+		サーバー処理当たりの音声データのデコード量を決定しています。<br>
+		音声再生開始前はサウンドバッファーが空の状態のため、
+		音声再生中に比べて多くのデータ（再生中の 2 ～ 4 倍程度）がデコードされます。<br>
+		プレーヤー当たりの音声データのデコード処理負荷は小さいため、
+		一音一音の発音開始時の処理負荷が問題になることはほとんどありません。<br>
+		しかし、アプリケーション中で 1V に大量の発音リクエストを同時に発行した場合、
+		全てのプレーヤーの処理負荷のピークが同期し、負荷が目に見えて大きくなる場合があります。<br>
+		こういった制御を行うケースでは、 decode_latency の値を増やすことで、
+		局所的に処理負荷が高くなる症状を回避することが可能です。<br>
 		<br>
-		decode_latency �̃f�t�H���g�l�́A�قƂ�ǂ̊��� 0 �ɐݒ肳��Ă��܂��B<br>
-		�������A�g�уQ�[���@���A�킸���ȕ��וϓ��ł��A�v���P�[�V�����ɑ傫�ȉe�����y�ڂ����ł́A
-		�f�t�H���g�l�� 1 �ȏ�ɐݒ肳��Ă���\��������܂��B<br>
-		�i���ۂɃZ�b�g�����l�ɂ��Ă� ::criAtomPlayer_SetDefaultConfigForAdxPlayer
-		�}�N���̓K�p���ʂ��m�F���Ă��������B�j<br>
+		decode_latency のデフォルト値は、ほとんどの環境で 0 に設定されています。<br>
+		しかし、携帯ゲーム機等、わずかな負荷変動でもアプリケーションに大きな影響を及ぼす環境では、
+		デフォルト値が 1 以上に設定されている可能性があります。<br>
+		（実際にセットされる値については ::criAtomPlayer_SetDefaultConfigForAdxPlayer
+		マクロの適用結果を確認してください。）<br>
 		<br>
-		���� decode_latency �̒l�� 4 �ȏ�̒l���w�肷�邱�Ƃ͂ł��܂���B<br>
-		�i decode_latency �� 4 �ȏ�̒l���w�肵���ꍇ�ł��A���C�u�������� 3 �ɕύX����܂��B�j<br>
+		現状 decode_latency の値に 4 以上の値を指定することはできません。<br>
+		（ decode_latency に 4 以上の値を指定した場合でも、ライブラリ内で 3 に変更されます。）<br>
 	*/
 	CriSint32 decode_latency;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[�Ńv���[���[���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでプレーヤーを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 } CriAtomAdxPlayerConfig;
 
 /*JP
  * \ingroup ATOMLIB_PLAYER
- * HCA�v���[���[�쐬�p�R���t�B�O�\����
- * \par ����:
- * HCA���Đ��\�ȃv���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomPlayer_CreateHcaPlayer �֐��̈����Ɏw�肵�܂��B<br>
+ * HCAプレーヤー作成用コンフィグ構造体
+ * \par 説明:
+ * HCAが再生可能なプレーヤーを作成する際に、動作仕様を指定するための構造体です。<br>
+ * ::criAtomPlayer_CreateHcaPlayer 関数の引数に指定します。<br>
  * <br>
- * �쐬�����v���[���[�́A�n���h���쐬���ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA
- * �������\�[�X��K�v�Ȃ����m�ۂ��܂��B<br>
- * �v���[���[���K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ����ĕω����܂��B
+ * 作成されるプレーヤーは、ハンドル作成時に本構造体で指定された設定に応じて、
+ * 内部リソースを必要なだけ確保します。<br>
+ * プレーヤーが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて変化します。
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomPlayer_SetDefaultConfigForHcaPlayer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomPlayer_SetDefaultConfigForHcaPlayer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomPlayer_CreateHcaPlayer, criAtomPlayer_SetDefaultConfigForHcaPlayer
  */
 typedef struct CriAtomHcaPlayerConfigTag {
 	/*JP
-		\brief �ő�o�̓`�����l����
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃`�����l�������w�肵�܂��B<br>
-		::criAtomPlayer_CreateHcaPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_channels�Ŏw�肵��
-		�`�����l����"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大出力チャンネル数
+		\par 説明:
+		Atomプレーヤーで再生する音声のチャンネル数を指定します。<br>
+		::criAtomPlayer_CreateHcaPlayer 関数で作成されたAtomプレーヤーは、max_channelsで指定した
+		チャンネル数"以下の"音声データを再生可能です。<br>
 	*/
 	CriSint32 max_channels;
 
 	/*JP
-		\brief �ő�T���v�����O���[�g
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃T���v�����O���[�g���w�肵�܂��B<br>
-		::criAtomPlayer_CreateHcaPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_sampling_rate�Ŏw�肵��
-		�T���v�����O���[�g"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大サンプリングレート
+		\par 説明:
+		Atomプレーヤーで再生する音声のサンプリングレートを指定します。<br>
+		::criAtomPlayer_CreateHcaPlayer 関数で作成されたAtomプレーヤーは、max_sampling_rateで指定した
+		サンプリングレート"以下の"音声データを再生可能です。<br>
 		<br>
-		\par ���l:
-		�ő�T���v�����O���[�g�������邱�ƂŁAAtom�v���[���[�쐬���ɕK�v�ƂȂ郏�[�N������
-		�̃T�C�Y��}���邱�Ƃ��\�ł��B
+		\par 備考:
+		最大サンプリングレートを下げることで、Atomプレーヤー作成時に必要となるワークメモリ
+		のサイズを抑えることが可能です。
 		\attention
-		�w�肳�ꂽ�ő�T���v�����O���[�g�𒴂���f�[�^�́A�Đ����邱�Ƃ͂ł��܂���B<br>
-		�Ⴆ�΁A�ő�T���v�����O���[�g��24000�ɐݒ肵���ꍇ�A�쐬���ꂽAtom�v���[���[��
-		48000Hz�̉������Đ����邱�Ƃ͂ł��܂���B<br>
-		�i�_�E���T���v�����O����ďo�͂���邱�Ƃ͂���܂���B�j
+		指定された最大サンプリングレートを超えるデータは、再生することはできません。<br>
+		例えば、最大サンプリングレートを24000に設定した場合、作成されたAtomプレーヤーで
+		48000Hzの音声を再生することはできません。<br>
+		（ダウンサンプリングされて出力されることはありません。）
 	*/
 	CriSint32 max_sampling_rate;
 
 	/*JP
-		\brief �X�g���[�~���O�Đ����s�����ǂ���
-		\par ����:
-		Atom�v���[���[�ŃX�g���[�~���O�Đ��i�t�@�C������̍Đ��j���s�����ǂ������w�肵�܂��B<br>
-		streaming_flag��CRI_FALSE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��i ::criAtomPlayer_SetData �֐��Ŏw�肵���������A�h���X�̍Đ��j�݂̂��T�|�[�g
-		���܂��B�i�t�@�C������̍Đ��͂ł��܂���B�j<br>
-		streaming_flag��CRI_TRUE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��ɉ����A�t�@�C������̍Đ��i ::criAtomPlayer_SetFile �֐���
-		::criAtomPlayer_SetContentId �֐��Ŏw�肳�ꂽ�t�@�C���̍Đ��j���T�|�[�g���܂��B<br>
-		\par �⑫:
-		streaming_flag��CRI_TRUE�ɂ����ꍇ�AAtom�v���[���[�쐬���Ƀt�@�C���ǂݍ��ݗp�̃��\�[�X
-		���m�ۂ���܂��B<br>
-		���̂��߁Astreaming_flag��CRI_FALSE�̏ꍇ�ɔ�ׁAAtom�v���[���[�̍쐬�ɕK�v�ȃ�������
-		�T�C�Y���傫���Ȃ�܂��B
+		\brief ストリーミング再生を行うかどうか
+		\par 説明:
+		Atomプレーヤーでストリーミング再生（ファイルからの再生）を行うかどうかを指定します。<br>
+		streaming_flagにCRI_FALSEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生（ ::criAtomPlayer_SetData 関数で指定したメモリアドレスの再生）のみをサポート
+		します。（ファイルからの再生はできません。）<br>
+		streaming_flagにCRI_TRUEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生に加え、ファイルからの再生（ ::criAtomPlayer_SetFile 関数や
+		::criAtomPlayer_SetContentId 関数で指定されたファイルの再生）をサポートします。<br>
+		\par 補足:
+		streaming_flagをCRI_TRUEにした場合、Atomプレーヤー作成時にファイル読み込み用のリソース
+		が確保されます。<br>
+		そのため、streaming_flagをCRI_FALSEの場合に比べ、Atomプレーヤーの作成に必要なメモリの
+		サイズが大きくなります。
 	*/
 	CriBool streaming_flag;
 
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		Atom�v���[���[���g�p����T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_DEFAULT ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̃T�E���h�����_���ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_ASR ���w�肵���ꍇ�A
-		�����f�[�^��ASR�iAtom Sound Renderer�j�ɓ]������܂��B<br>
-		�iASR�̏o�͐�́AASR���������ɕʓr�w��B�j
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		Atomプレーヤーが使用するサウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_DEFAULT を指定した場合、
+		音声データはデフォルト設定のサウンドレンダラに転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_ASR を指定した場合、
+		音声データはASR（Atom Sound Renderer）に転送されます。<br>
+		（ASRの出力先は、ASR初期化時に別途指定。）
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 
 	/*JP
-		\brief �f�R�[�h�����̃��C�e���V
-		\par ����:
-		�f�R�[�h�����̃��C�e���V���w�肵�܂��B<br>
-		decode_latency �� 0 �ɐݒ肵���ꍇ�A�v���[���[�͉����Đ��J�n����
-		�����f�[�^�̃f�R�[�h���\�Ȍ���x���Ȃ��s���܂��B<br>
-		�i�I���������Đ����� ::criAtomPlayer_Start �֐������s��A
-		�ŏ��̃T�[�o�[�������ōĐ��J�n�ɕK�v�ȗʂ̃f�[�^���f�R�[�h���A
-		�����̏o�͂��J�n���܂��B�j<br>
-		����ɑ΂� decode_latency �� 1 �ȏ�ɐݒ肵���ꍇ�A
-		�Đ��J�n�ɕK�v�ȃf�[�^�̃f�R�[�h���A������̃T�[�o�[�����ɕ������čs���܂��B<br>
-		�i�I���������Đ����ł����Ă� ::criAtomPlayer_Start �֐������s��A
-		decode_latency �Ɏw�肵���񐔃T�[�o�[���������삷��܂ł͉����̏o�͂��J�n����܂���B�j<br>
-		\par ���l:
-		Atom�v���[���[�̓T�E���h�o�b�t�@�[���̃f�[�^�c�ʂ����ɁA
-		�T�[�o�[����������̉����f�[�^�̃f�R�[�h�ʂ����肵�Ă��܂��B<br>
-		�����Đ��J�n�O�̓T�E���h�o�b�t�@�[����̏�Ԃ̂��߁A
-		�����Đ����ɔ�ׂđ����̃f�[�^�i�Đ����� 2 �` 4 �{���x�j���f�R�[�h����܂��B<br>
-		�v���[���[������̉����f�[�^�̃f�R�[�h�������ׂ͏��������߁A
-		�ꉹ�ꉹ�̔����J�n���̏������ׂ����ɂȂ邱�Ƃ͂قƂ�ǂ���܂���B<br>
-		�������A�A�v���P�[�V�������� 1V �ɑ�ʂ̔������N�G�X�g�𓯎��ɔ��s�����ꍇ�A
-		�S�Ẵv���[���[�̏������ׂ̃s�[�N���������A���ׂ��ڂɌ����đ傫���Ȃ�ꍇ������܂��B<br>
-		����������������s���P�[�X�ł́A decode_latency �̒l�𑝂₷���ƂŁA
-		�Ǐ��I�ɏ������ׂ������Ȃ�Ǐ��������邱�Ƃ��\�ł��B<br>
+		\brief デコード処理のレイテンシ
+		\par 説明:
+		デコード処理のレイテンシを指定します。<br>
+		decode_latency を 0 に設定した場合、プレーヤーは音声再生開始時に
+		音声データのデコードを可能な限り遅延なく行います。<br>
+		（オンメモリ再生時は ::criAtomPlayer_Start 関数を実行後、
+		最初のサーバー処理内で再生開始に必要な量のデータをデコードし、
+		音声の出力を開始します。）<br>
+		これに対し decode_latency を 1 以上に設定した場合、
+		再生開始に必要なデータのデコードを、複数回のサーバー処理に分割して行います。<br>
+		（オンメモリ再生時であっても ::criAtomPlayer_Start 関数を実行後、
+		decode_latency に指定した回数サーバー処理が動作するまでは音声の出力が開始されません。）<br>
+		\par 備考:
+		Atomプレーヤーはサウンドバッファー内のデータ残量を元に、
+		サーバー処理当たりの音声データのデコード量を決定しています。<br>
+		音声再生開始前はサウンドバッファーが空の状態のため、
+		音声再生中に比べて多くのデータ（再生中の 2 ～ 4 倍程度）がデコードされます。<br>
+		プレーヤー当たりの音声データのデコード処理負荷は小さいため、
+		一音一音の発音開始時の処理負荷が問題になることはほとんどありません。<br>
+		しかし、アプリケーション中で 1V に大量の発音リクエストを同時に発行した場合、
+		全てのプレーヤーの処理負荷のピークが同期し、負荷が目に見えて大きくなる場合があります。<br>
+		こういった制御を行うケースでは、 decode_latency の値を増やすことで、
+		局所的に処理負荷が高くなる症状を回避することが可能です。<br>
 		<br>
-		decode_latency �̃f�t�H���g�l�́A�قƂ�ǂ̊��� 0 �ɐݒ肳��Ă��܂��B<br>
-		�������A�g�уQ�[���@���A�킸���ȕ��וϓ��ł��A�v���P�[�V�����ɑ傫�ȉe�����y�ڂ����ł́A
-		�f�t�H���g�l�� 1 �ȏ�ɐݒ肳��Ă���\��������܂��B<br>
-		�i���ۂɃZ�b�g�����l�ɂ��Ă� ::criAtomPlayer_SetDefaultConfigForAdxPlayer
-		�}�N���̓K�p���ʂ��m�F���Ă��������B�j<br>
+		decode_latency のデフォルト値は、ほとんどの環境で 0 に設定されています。<br>
+		しかし、携帯ゲーム機等、わずかな負荷変動でもアプリケーションに大きな影響を及ぼす環境では、
+		デフォルト値が 1 以上に設定されている可能性があります。<br>
+		（実際にセットされる値については ::criAtomPlayer_SetDefaultConfigForAdxPlayer
+		マクロの適用結果を確認してください。）<br>
 		<br>
-		���� decode_latency �̒l�� 4 �ȏ�̒l���w�肷�邱�Ƃ͂ł��܂���B<br>
-		�i decode_latency �� 4 �ȏ�̒l���w�肵���ꍇ�ł��A���C�u�������� 3 �ɕύX����܂��B�j<br>
+		現状 decode_latency の値に 4 以上の値を指定することはできません。<br>
+		（ decode_latency に 4 以上の値を指定した場合でも、ライブラリ内で 3 に変更されます。）<br>
 	*/
 	CriSint32 decode_latency;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[�Ńv���[���[���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでプレーヤーを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 } CriAtomHcaPlayerConfig;
 
 /*JP
  * \ingroup ATOMLIB_PLAYER
- * HCA-MX�v���[���[�쐬�p�R���t�B�O�\����
- * \par ����:
- * HCA-MX���Đ��\�ȃv���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomPlayer_CreateHcaMxPlayer �֐��̈����Ɏw�肵�܂��B<br>
+ * HCA-MXプレーヤー作成用コンフィグ構造体
+ * \par 説明:
+ * HCA-MXが再生可能なプレーヤーを作成する際に、動作仕様を指定するための構造体です。<br>
+ * ::criAtomPlayer_CreateHcaMxPlayer 関数の引数に指定します。<br>
  * <br>
- * �쐬�����v���[���[�́A�n���h���쐬���ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA
- * �������\�[�X��K�v�Ȃ����m�ۂ��܂��B<br>
- * �v���[���[���K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ����ĕω����܂��B
+ * 作成されるプレーヤーは、ハンドル作成時に本構造体で指定された設定に応じて、
+ * 内部リソースを必要なだけ確保します。<br>
+ * プレーヤーが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて変化します。
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomPlayer_SetDefaultConfigForHcaMxPlayer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomPlayer_SetDefaultConfigForHcaMxPlayer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomPlayer_CreateHcaMxPlayer, criAtomPlayer_SetDefaultConfigForHcaMxPlayer
  */
 typedef struct CriAtomHcaMxPlayerConfigTag {
 	/*JP
-		\brief �ő�o�̓`�����l����
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃`�����l�������w�肵�܂��B<br>
-		::criAtomPlayer_CreateHcaMxPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_channels�Ŏw�肵��
-		�`�����l����"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大出力チャンネル数
+		\par 説明:
+		Atomプレーヤーで再生する音声のチャンネル数を指定します。<br>
+		::criAtomPlayer_CreateHcaMxPlayer 関数で作成されたAtomプレーヤーは、max_channelsで指定した
+		チャンネル数"以下の"音声データを再生可能です。<br>
 	*/
 	CriSint32 max_channels;
 
 	/*JP
-		\brief �ő�T���v�����O���[�g
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃T���v�����O���[�g���w�肵�܂��B<br>
-		::criAtomPlayer_CreateHcaMxPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_sampling_rate�Ŏw�肵��
-		�T���v�����O���[�g�ƈ�v���鉹���f�[�^�݂̂��Đ��\�ł��B<br>
+		\brief 最大サンプリングレート
+		\par 説明:
+		Atomプレーヤーで再生する音声のサンプリングレートを指定します。<br>
+		::criAtomPlayer_CreateHcaMxPlayer 関数で作成されたAtomプレーヤーは、max_sampling_rateで指定した
+		サンプリングレートと一致する音声データのみを再生可能です。<br>
 		<br>
-		\par ���l:
-		�ő�T���v�����O���[�g�������邱�ƂŁAAtom�v���[���[�쐬���ɕK�v�ƂȂ郏�[�N������
-		�̃T�C�Y��}���邱�Ƃ��\�ł��B
+		\par 備考:
+		最大サンプリングレートを下げることで、Atomプレーヤー作成時に必要となるワークメモリ
+		のサイズを抑えることが可能です。
 		\attention
-		�w�肳�ꂽ�ő�T���v�����O���[�g�Ɉ�v���Ȃ��f�[�^�́A�Đ����邱�Ƃ͂ł��܂���B<br>
-		�Ⴆ�΁A�ő�T���v�����O���[�g��48000�ɐݒ肵���ꍇ�A�쐬���ꂽAtom�v���[���[��
-		48000Hz�ȊO�̉������Đ����邱�Ƃ͂ł��܂���B<br>
-		�i���[�g�ϊ�����ďo�͂���邱�Ƃ͂���܂���B�j
+		指定された最大サンプリングレートに一致しないデータは、再生することはできません。<br>
+		例えば、最大サンプリングレートを48000に設定した場合、作成されたAtomプレーヤーで
+		48000Hz以外の音声を再生することはできません。<br>
+		（レート変換されて出力されることはありません。）
 	*/
 	CriSint32 max_sampling_rate;
 
 	/*JP
-		\brief �X�g���[�~���O�Đ����s�����ǂ���
-		\par ����:
-		Atom�v���[���[�ŃX�g���[�~���O�Đ��i�t�@�C������̍Đ��j���s�����ǂ������w�肵�܂��B<br>
-		streaming_flag��CRI_FALSE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��i ::criAtomPlayer_SetData �֐��Ŏw�肵���������A�h���X�̍Đ��j�݂̂��T�|�[�g
-		���܂��B�i�t�@�C������̍Đ��͂ł��܂���B�j<br>
-		streaming_flag��CRI_TRUE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��ɉ����A�t�@�C������̍Đ��i ::criAtomPlayer_SetFile �֐���
-		::criAtomPlayer_SetContentId �֐��Ŏw�肳�ꂽ�t�@�C���̍Đ��j���T�|�[�g���܂��B<br>
-		\par �⑫:
-		streaming_flag��CRI_TRUE�ɂ����ꍇ�AAtom�v���[���[�쐬���Ƀt�@�C���ǂݍ��ݗp�̃��\�[�X
-		���m�ۂ���܂��B<br>
-		���̂��߁Astreaming_flag��CRI_FALSE�̏ꍇ�ɔ�ׁAAtom�v���[���[�̍쐬�ɕK�v�ȃ�������
-		�T�C�Y���傫���Ȃ�܂��B
+		\brief ストリーミング再生を行うかどうか
+		\par 説明:
+		Atomプレーヤーでストリーミング再生（ファイルからの再生）を行うかどうかを指定します。<br>
+		streaming_flagにCRI_FALSEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生（ ::criAtomPlayer_SetData 関数で指定したメモリアドレスの再生）のみをサポート
+		します。（ファイルからの再生はできません。）<br>
+		streaming_flagにCRI_TRUEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生に加え、ファイルからの再生（ ::criAtomPlayer_SetFile 関数や
+		::criAtomPlayer_SetContentId 関数で指定されたファイルの再生）をサポートします。<br>
+		\par 補足:
+		streaming_flagをCRI_TRUEにした場合、Atomプレーヤー作成時にファイル読み込み用のリソース
+		が確保されます。<br>
+		そのため、streaming_flagをCRI_FALSEの場合に比べ、Atomプレーヤーの作成に必要なメモリの
+		サイズが大きくなります。
 	*/
 	CriBool streaming_flag;
 } CriAtomHcaMxPlayerConfig;
 
 /*JP
  * \ingroup ATOMLIB_PLAYER
- * WAVE�v���[���[�쐬�p�R���t�B�O�\����
- * \par ����:
- * WAVE���Đ��\�ȃv���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomPlayer_CreateWavePlayer �֐��̈����Ɏw�肵�܂��B<br>
+ * WAVEプレーヤー作成用コンフィグ構造体
+ * \par 説明:
+ * WAVEが再生可能なプレーヤーを作成する際に、動作仕様を指定するための構造体です。<br>
+ * ::criAtomPlayer_CreateWavePlayer 関数の引数に指定します。<br>
  * <br>
- * �쐬�����v���[���[�́A�n���h���쐬���ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA
- * �������\�[�X��K�v�Ȃ����m�ۂ��܂��B<br>
- * �v���[���[���K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ����ĕω����܂��B
+ * 作成されるプレーヤーは、ハンドル作成時に本構造体で指定された設定に応じて、
+ * 内部リソースを必要なだけ確保します。<br>
+ * プレーヤーが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて変化します。
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomPlayer_SetDefaultConfigForWavePlayer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomPlayer_SetDefaultConfigForWavePlayer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomPlayer_CreateWavePlayer, criAtomPlayer_SetDefaultConfigForWavePlayer
  */
 typedef struct CriAtomWavePlayerConfigTag {
 	/*JP
-		\brief �ő�o�̓`�����l����
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃`�����l�������w�肵�܂��B<br>
-		::criAtomPlayer_CreateWavePlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_channels�Ŏw�肵��
-		�`�����l����"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大出力チャンネル数
+		\par 説明:
+		Atomプレーヤーで再生する音声のチャンネル数を指定します。<br>
+		::criAtomPlayer_CreateWavePlayer 関数で作成されたAtomプレーヤーは、max_channelsで指定した
+		チャンネル数"以下の"音声データを再生可能です。<br>
 	*/
 	CriSint32 max_channels;
 
 	/*JP
-		\brief �ő�T���v�����O���[�g
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃T���v�����O���[�g���w�肵�܂��B<br>
-		::criAtomPlayer_CreateWavePlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_sampling_rate�Ŏw�肵��
-		�T���v�����O���[�g"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大サンプリングレート
+		\par 説明:
+		Atomプレーヤーで再生する音声のサンプリングレートを指定します。<br>
+		::criAtomPlayer_CreateWavePlayer 関数で作成されたAtomプレーヤーは、max_sampling_rateで指定した
+		サンプリングレート"以下の"音声データを再生可能です。<br>
 		<br>
-		\par ���l:
-		�ő�T���v�����O���[�g�������邱�ƂŁAAtom�v���[���[�쐬���ɕK�v�ƂȂ郏�[�N������
-		�̃T�C�Y��}���邱�Ƃ��\�ł��B
+		\par 備考:
+		最大サンプリングレートを下げることで、Atomプレーヤー作成時に必要となるワークメモリ
+		のサイズを抑えることが可能です。
 		\attention
-		�w�肳�ꂽ�ő�T���v�����O���[�g�𒴂���f�[�^�́A�Đ����邱�Ƃ͂ł��܂���B<br>
-		�Ⴆ�΁A�ő�T���v�����O���[�g��24000�ɐݒ肵���ꍇ�A�쐬���ꂽAtom�v���[���[��
-		48000Hz�̉������Đ����邱�Ƃ͂ł��܂���B<br>
-		�i�_�E���T���v�����O����ďo�͂���邱�Ƃ͂���܂���B�j
+		指定された最大サンプリングレートを超えるデータは、再生することはできません。<br>
+		例えば、最大サンプリングレートを24000に設定した場合、作成されたAtomプレーヤーで
+		48000Hzの音声を再生することはできません。<br>
+		（ダウンサンプリングされて出力されることはありません。）
 	*/
 	CriSint32 max_sampling_rate;
 
 	/*JP
-		\brief �X�g���[�~���O�Đ����s�����ǂ���
-		\par ����:
-		Atom�v���[���[�ŃX�g���[�~���O�Đ��i�t�@�C������̍Đ��j���s�����ǂ������w�肵�܂��B<br>
-		streaming_flag��CRI_FALSE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��i ::criAtomPlayer_SetData �֐��Ŏw�肵���������A�h���X�̍Đ��j�݂̂��T�|�[�g
-		���܂��B�i�t�@�C������̍Đ��͂ł��܂���B�j<br>
-		streaming_flag��CRI_TRUE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��ɉ����A�t�@�C������̍Đ��i ::criAtomPlayer_SetFile �֐���
-		::criAtomPlayer_SetContentId �֐��Ŏw�肳�ꂽ�t�@�C���̍Đ��j���T�|�[�g���܂��B<br>
-		\par �⑫:
-		streaming_flag��CRI_TRUE�ɂ����ꍇ�AAtom�v���[���[�쐬���Ƀt�@�C���ǂݍ��ݗp�̃��\�[�X
-		���m�ۂ���܂��B<br>
-		���̂��߁Astreaming_flag��CRI_FALSE�̏ꍇ�ɔ�ׁAAtom�v���[���[�̍쐬�ɕK�v�ȃ�������
-		�T�C�Y���傫���Ȃ�܂��B
+		\brief ストリーミング再生を行うかどうか
+		\par 説明:
+		Atomプレーヤーでストリーミング再生（ファイルからの再生）を行うかどうかを指定します。<br>
+		streaming_flagにCRI_FALSEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生（ ::criAtomPlayer_SetData 関数で指定したメモリアドレスの再生）のみをサポート
+		します。（ファイルからの再生はできません。）<br>
+		streaming_flagにCRI_TRUEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生に加え、ファイルからの再生（ ::criAtomPlayer_SetFile 関数や
+		::criAtomPlayer_SetContentId 関数で指定されたファイルの再生）をサポートします。<br>
+		\par 補足:
+		streaming_flagをCRI_TRUEにした場合、Atomプレーヤー作成時にファイル読み込み用のリソース
+		が確保されます。<br>
+		そのため、streaming_flagをCRI_FALSEの場合に比べ、Atomプレーヤーの作成に必要なメモリの
+		サイズが大きくなります。
 	*/
 	CriBool streaming_flag;
 
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		Atom�v���[���[���g�p����T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_DEFAULT ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̃T�E���h�����_���ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_ASR ���w�肵���ꍇ�A
-		�����f�[�^��ASR�iAtom Sound Renderer�j�ɓ]������܂��B<br>
-		�iASR�̏o�͐�́AASR���������ɕʓr�w��B�j
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		Atomプレーヤーが使用するサウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_DEFAULT を指定した場合、
+		音声データはデフォルト設定のサウンドレンダラに転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_ASR を指定した場合、
+		音声データはASR（Atom Sound Renderer）に転送されます。<br>
+		（ASRの出力先は、ASR初期化時に別途指定。）
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 
 	/*JP
-		\brief �f�R�[�h�����̃��C�e���V
-		\par ����:
-		�f�R�[�h�����̃��C�e���V���w�肵�܂��B<br>
-		decode_latency �� 0 �ɐݒ肵���ꍇ�A�v���[���[�͉����Đ��J�n����
-		�����f�[�^�̃f�R�[�h���\�Ȍ���x���Ȃ��s���܂��B<br>
-		�i�I���������Đ����� ::criAtomPlayer_Start �֐������s��A
-		�ŏ��̃T�[�o�[�������ōĐ��J�n�ɕK�v�ȗʂ̃f�[�^���f�R�[�h���A
-		�����̏o�͂��J�n���܂��B�j<br>
-		����ɑ΂� decode_latency �� 1 �ȏ�ɐݒ肵���ꍇ�A
-		�Đ��J�n�ɕK�v�ȃf�[�^�̃f�R�[�h���A������̃T�[�o�[�����ɕ������čs���܂��B<br>
-		�i�I���������Đ����ł����Ă� ::criAtomPlayer_Start �֐������s��A
-		decode_latency �Ɏw�肵���񐔃T�[�o�[���������삷��܂ł͉����̏o�͂��J�n����܂���B�j<br>
-		\par ���l:
-		Atom�v���[���[�̓T�E���h�o�b�t�@�[���̃f�[�^�c�ʂ����ɁA
-		�T�[�o�[����������̉����f�[�^�̃f�R�[�h�ʂ����肵�Ă��܂��B<br>
-		�����Đ��J�n�O�̓T�E���h�o�b�t�@�[����̏�Ԃ̂��߁A
-		�����Đ����ɔ�ׂđ����̃f�[�^�i�Đ����� 2 �` 4 �{���x�j���f�R�[�h����܂��B<br>
-		�v���[���[������̉����f�[�^�̃f�R�[�h�������ׂ͏��������߁A
-		�ꉹ�ꉹ�̔����J�n���̏������ׂ����ɂȂ邱�Ƃ͂قƂ�ǂ���܂���B<br>
-		�������A�A�v���P�[�V�������� 1V �ɑ�ʂ̔������N�G�X�g�𓯎��ɔ��s�����ꍇ�A
-		�S�Ẵv���[���[�̏������ׂ̃s�[�N���������A���ׂ��ڂɌ����đ傫���Ȃ�ꍇ������܂��B<br>
-		����������������s���P�[�X�ł́A decode_latency �̒l�𑝂₷���ƂŁA
-		�Ǐ��I�ɏ������ׂ������Ȃ�Ǐ��������邱�Ƃ��\�ł��B<br>
+		\brief デコード処理のレイテンシ
+		\par 説明:
+		デコード処理のレイテンシを指定します。<br>
+		decode_latency を 0 に設定した場合、プレーヤーは音声再生開始時に
+		音声データのデコードを可能な限り遅延なく行います。<br>
+		（オンメモリ再生時は ::criAtomPlayer_Start 関数を実行後、
+		最初のサーバー処理内で再生開始に必要な量のデータをデコードし、
+		音声の出力を開始します。）<br>
+		これに対し decode_latency を 1 以上に設定した場合、
+		再生開始に必要なデータのデコードを、複数回のサーバー処理に分割して行います。<br>
+		（オンメモリ再生時であっても ::criAtomPlayer_Start 関数を実行後、
+		decode_latency に指定した回数サーバー処理が動作するまでは音声の出力が開始されません。）<br>
+		\par 備考:
+		Atomプレーヤーはサウンドバッファー内のデータ残量を元に、
+		サーバー処理当たりの音声データのデコード量を決定しています。<br>
+		音声再生開始前はサウンドバッファーが空の状態のため、
+		音声再生中に比べて多くのデータ（再生中の 2 ～ 4 倍程度）がデコードされます。<br>
+		プレーヤー当たりの音声データのデコード処理負荷は小さいため、
+		一音一音の発音開始時の処理負荷が問題になることはほとんどありません。<br>
+		しかし、アプリケーション中で 1V に大量の発音リクエストを同時に発行した場合、
+		全てのプレーヤーの処理負荷のピークが同期し、負荷が目に見えて大きくなる場合があります。<br>
+		こういった制御を行うケースでは、 decode_latency の値を増やすことで、
+		局所的に処理負荷が高くなる症状を回避することが可能です。<br>
 		<br>
-		decode_latency �̃f�t�H���g�l�́A�قƂ�ǂ̊��� 0 �ɐݒ肳��Ă��܂��B<br>
-		�������A�g�уQ�[���@���A�킸���ȕ��וϓ��ł��A�v���P�[�V�����ɑ傫�ȉe�����y�ڂ����ł́A
-		�f�t�H���g�l�� 1 �ȏ�ɐݒ肳��Ă���\��������܂��B<br>
-		�i���ۂɃZ�b�g�����l�ɂ��Ă� ::criAtomPlayer_SetDefaultConfigForAdxPlayer
-		�}�N���̓K�p���ʂ��m�F���Ă��������B�j<br>
+		decode_latency のデフォルト値は、ほとんどの環境で 0 に設定されています。<br>
+		しかし、携帯ゲーム機等、わずかな負荷変動でもアプリケーションに大きな影響を及ぼす環境では、
+		デフォルト値が 1 以上に設定されている可能性があります。<br>
+		（実際にセットされる値については ::criAtomPlayer_SetDefaultConfigForAdxPlayer
+		マクロの適用結果を確認してください。）<br>
 		<br>
-		���� decode_latency �̒l�� 4 �ȏ�̒l���w�肷�邱�Ƃ͂ł��܂���B<br>
-		�i decode_latency �� 4 �ȏ�̒l���w�肵���ꍇ�ł��A���C�u�������� 3 �ɕύX����܂��B�j<br>
+		現状 decode_latency の値に 4 以上の値を指定することはできません。<br>
+		（ decode_latency に 4 以上の値を指定した場合でも、ライブラリ内で 3 に変更されます。）<br>
 	*/
 	CriSint32 decode_latency;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[�Ńv���[���[���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでプレーヤーを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 } CriAtomWavePlayerConfig;
 
 /*JP
  * \ingroup ATOMLIB_PLAYER
- * AIFF�v���[���[�쐬�p�R���t�B�O�\����
- * \par ����:
- * AIFF���Đ��\�ȃv���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomPlayer_CreateAiffPlayer �֐��̈����Ɏw�肵�܂��B<br>
+ * AIFFプレーヤー作成用コンフィグ構造体
+ * \par 説明:
+ * AIFFが再生可能なプレーヤーを作成する際に、動作仕様を指定するための構造体です。<br>
+ * ::criAtomPlayer_CreateAiffPlayer 関数の引数に指定します。<br>
  * <br>
- * �쐬�����v���[���[�́A�n���h���쐬���ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA
- * �������\�[�X��K�v�Ȃ����m�ۂ��܂��B<br>
- * �v���[���[���K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ����ĕω����܂��B
+ * 作成されるプレーヤーは、ハンドル作成時に本構造体で指定された設定に応じて、
+ * 内部リソースを必要なだけ確保します。<br>
+ * プレーヤーが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて変化します。
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomPlayer_SetDefaultConfigForAiffPlayer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomPlayer_SetDefaultConfigForAiffPlayer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomPlayer_CreateAiffPlayer, criAtomPlayer_SetDefaultConfigForAiffPlayer
  */
 typedef struct CriAtomAiffPlayerConfigTag {
 	/*JP
-		\brief �ő�o�̓`�����l����
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃`�����l�������w�肵�܂��B<br>
-		::criAtomPlayer_CreateAiffPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_channels�Ŏw�肵��
-		�`�����l����"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大出力チャンネル数
+		\par 説明:
+		Atomプレーヤーで再生する音声のチャンネル数を指定します。<br>
+		::criAtomPlayer_CreateAiffPlayer 関数で作成されたAtomプレーヤーは、max_channelsで指定した
+		チャンネル数"以下の"音声データを再生可能です。<br>
 	*/
 	CriSint32 max_channels;
 
 	/*JP
-		\brief �ő�T���v�����O���[�g
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃T���v�����O���[�g���w�肵�܂��B<br>
-		::criAtomPlayer_CreateAiffPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_sampling_rate�Ŏw�肵��
-		�T���v�����O���[�g"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 最大サンプリングレート
+		\par 説明:
+		Atomプレーヤーで再生する音声のサンプリングレートを指定します。<br>
+		::criAtomPlayer_CreateAiffPlayer 関数で作成されたAtomプレーヤーは、max_sampling_rateで指定した
+		サンプリングレート"以下の"音声データを再生可能です。<br>
 		<br>
-		\par ���l:
-		�ő�T���v�����O���[�g�������邱�ƂŁAAtom�v���[���[�쐬���ɕK�v�ƂȂ郏�[�N������
-		�̃T�C�Y��}���邱�Ƃ��\�ł��B
+		\par 備考:
+		最大サンプリングレートを下げることで、Atomプレーヤー作成時に必要となるワークメモリ
+		のサイズを抑えることが可能です。
 		\attention
-		�w�肳�ꂽ�ő�T���v�����O���[�g�𒴂���f�[�^�́A�Đ����邱�Ƃ͂ł��܂���B<br>
-		�Ⴆ�΁A�ő�T���v�����O���[�g��24000�ɐݒ肵���ꍇ�A�쐬���ꂽAtom�v���[���[��
-		48000Hz�̉������Đ����邱�Ƃ͂ł��܂���B<br>
-		�i�_�E���T���v�����O����ďo�͂���邱�Ƃ͂���܂���B�j
+		指定された最大サンプリングレートを超えるデータは、再生することはできません。<br>
+		例えば、最大サンプリングレートを24000に設定した場合、作成されたAtomプレーヤーで
+		48000Hzの音声を再生することはできません。<br>
+		（ダウンサンプリングされて出力されることはありません。）
 	*/
 	CriSint32 max_sampling_rate;
 
 	/*JP
-		\brief �X�g���[�~���O�Đ����s�����ǂ���
-		\par ����:
-		Atom�v���[���[�ŃX�g���[�~���O�Đ��i�t�@�C������̍Đ��j���s�����ǂ������w�肵�܂��B<br>
-		streaming_flag��CRI_FALSE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��i ::criAtomPlayer_SetData �֐��Ŏw�肵���������A�h���X�̍Đ��j�݂̂��T�|�[�g
-		���܂��B�i�t�@�C������̍Đ��͂ł��܂���B�j<br>
-		streaming_flag��CRI_TRUE���w�肵���ꍇ�A�쐬���ꂽAtom�v���[���[�̓I���������̃f�[�^
-		�Đ��ɉ����A�t�@�C������̍Đ��i ::criAtomPlayer_SetFile �֐���
-		::criAtomPlayer_SetContentId �֐��Ŏw�肳�ꂽ�t�@�C���̍Đ��j���T�|�[�g���܂��B<br>
-		\par �⑫:
-		streaming_flag��CRI_TRUE�ɂ����ꍇ�AAtom�v���[���[�쐬���Ƀt�@�C���ǂݍ��ݗp�̃��\�[�X
-		���m�ۂ���܂��B<br>
-		���̂��߁Astreaming_flag��CRI_FALSE�̏ꍇ�ɔ�ׁAAtom�v���[���[�̍쐬�ɕK�v�ȃ�������
-		�T�C�Y���傫���Ȃ�܂��B
+		\brief ストリーミング再生を行うかどうか
+		\par 説明:
+		Atomプレーヤーでストリーミング再生（ファイルからの再生）を行うかどうかを指定します。<br>
+		streaming_flagにCRI_FALSEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生（ ::criAtomPlayer_SetData 関数で指定したメモリアドレスの再生）のみをサポート
+		します。（ファイルからの再生はできません。）<br>
+		streaming_flagにCRI_TRUEを指定した場合、作成されたAtomプレーヤーはオンメモリのデータ
+		再生に加え、ファイルからの再生（ ::criAtomPlayer_SetFile 関数や
+		::criAtomPlayer_SetContentId 関数で指定されたファイルの再生）をサポートします。<br>
+		\par 補足:
+		streaming_flagをCRI_TRUEにした場合、Atomプレーヤー作成時にファイル読み込み用のリソース
+		が確保されます。<br>
+		そのため、streaming_flagをCRI_FALSEの場合に比べ、Atomプレーヤーの作成に必要なメモリの
+		サイズが大きくなります。
 	*/
 	CriBool streaming_flag;
 
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		Atom�v���[���[���g�p����T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_DEFAULT ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̃T�E���h�����_���ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_ASR ���w�肵���ꍇ�A
-		�����f�[�^��ASR�iAtom Sound Renderer�j�ɓ]������܂��B<br>
-		�iASR�̏o�͐�́AASR���������ɕʓr�w��B�j
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		Atomプレーヤーが使用するサウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_DEFAULT を指定した場合、
+		音声データはデフォルト設定のサウンドレンダラに転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_ASR を指定した場合、
+		音声データはASR（Atom Sound Renderer）に転送されます。<br>
+		（ASRの出力先は、ASR初期化時に別途指定。）
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 
 	/*JP
-		\brief �f�R�[�h�����̃��C�e���V
-		\par ����:
-		�f�R�[�h�����̃��C�e���V���w�肵�܂��B<br>
-		decode_latency �� 0 �ɐݒ肵���ꍇ�A�v���[���[�͉����Đ��J�n����
-		�����f�[�^�̃f�R�[�h���\�Ȍ���x���Ȃ��s���܂��B<br>
-		�i�I���������Đ����� ::criAtomPlayer_Start �֐������s��A
-		�ŏ��̃T�[�o�[�������ōĐ��J�n�ɕK�v�ȗʂ̃f�[�^���f�R�[�h���A
-		�����̏o�͂��J�n���܂��B�j<br>
-		����ɑ΂� decode_latency �� 1 �ȏ�ɐݒ肵���ꍇ�A
-		�Đ��J�n�ɕK�v�ȃf�[�^�̃f�R�[�h���A������̃T�[�o�[�����ɕ������čs���܂��B<br>
-		�i�I���������Đ����ł����Ă� ::criAtomPlayer_Start �֐������s��A
-		decode_latency �Ɏw�肵���񐔃T�[�o�[���������삷��܂ł͉����̏o�͂��J�n����܂���B�j<br>
-		\par ���l:
-		Atom�v���[���[�̓T�E���h�o�b�t�@�[���̃f�[�^�c�ʂ����ɁA
-		�T�[�o�[����������̉����f�[�^�̃f�R�[�h�ʂ����肵�Ă��܂��B<br>
-		�����Đ��J�n�O�̓T�E���h�o�b�t�@�[����̏�Ԃ̂��߁A
-		�����Đ����ɔ�ׂđ����̃f�[�^�i�Đ����� 2 �` 4 �{���x�j���f�R�[�h����܂��B<br>
-		�v���[���[������̉����f�[�^�̃f�R�[�h�������ׂ͏��������߁A
-		�ꉹ�ꉹ�̔����J�n���̏������ׂ����ɂȂ邱�Ƃ͂قƂ�ǂ���܂���B<br>
-		�������A�A�v���P�[�V�������� 1V �ɑ�ʂ̔������N�G�X�g�𓯎��ɔ��s�����ꍇ�A
-		�S�Ẵv���[���[�̏������ׂ̃s�[�N���������A���ׂ��ڂɌ����đ傫���Ȃ�ꍇ������܂��B<br>
-		����������������s���P�[�X�ł́A decode_latency �̒l�𑝂₷���ƂŁA
-		�Ǐ��I�ɏ������ׂ������Ȃ�Ǐ��������邱�Ƃ��\�ł��B<br>
+		\brief デコード処理のレイテンシ
+		\par 説明:
+		デコード処理のレイテンシを指定します。<br>
+		decode_latency を 0 に設定した場合、プレーヤーは音声再生開始時に
+		音声データのデコードを可能な限り遅延なく行います。<br>
+		（オンメモリ再生時は ::criAtomPlayer_Start 関数を実行後、
+		最初のサーバー処理内で再生開始に必要な量のデータをデコードし、
+		音声の出力を開始します。）<br>
+		これに対し decode_latency を 1 以上に設定した場合、
+		再生開始に必要なデータのデコードを、複数回のサーバー処理に分割して行います。<br>
+		（オンメモリ再生時であっても ::criAtomPlayer_Start 関数を実行後、
+		decode_latency に指定した回数サーバー処理が動作するまでは音声の出力が開始されません。）<br>
+		\par 備考:
+		Atomプレーヤーはサウンドバッファー内のデータ残量を元に、
+		サーバー処理当たりの音声データのデコード量を決定しています。<br>
+		音声再生開始前はサウンドバッファーが空の状態のため、
+		音声再生中に比べて多くのデータ（再生中の 2 ～ 4 倍程度）がデコードされます。<br>
+		プレーヤー当たりの音声データのデコード処理負荷は小さいため、
+		一音一音の発音開始時の処理負荷が問題になることはほとんどありません。<br>
+		しかし、アプリケーション中で 1V に大量の発音リクエストを同時に発行した場合、
+		全てのプレーヤーの処理負荷のピークが同期し、負荷が目に見えて大きくなる場合があります。<br>
+		こういった制御を行うケースでは、 decode_latency の値を増やすことで、
+		局所的に処理負荷が高くなる症状を回避することが可能です。<br>
 		<br>
-		decode_latency �̃f�t�H���g�l�́A�قƂ�ǂ̊��� 0 �ɐݒ肳��Ă��܂��B<br>
-		�������A�g�уQ�[���@���A�킸���ȕ��וϓ��ł��A�v���P�[�V�����ɑ傫�ȉe�����y�ڂ����ł́A
-		�f�t�H���g�l�� 1 �ȏ�ɐݒ肳��Ă���\��������܂��B<br>
-		�i���ۂɃZ�b�g�����l�ɂ��Ă� ::criAtomPlayer_SetDefaultConfigForAdxPlayer
-		�}�N���̓K�p���ʂ��m�F���Ă��������B�j<br>
+		decode_latency のデフォルト値は、ほとんどの環境で 0 に設定されています。<br>
+		しかし、携帯ゲーム機等、わずかな負荷変動でもアプリケーションに大きな影響を及ぼす環境では、
+		デフォルト値が 1 以上に設定されている可能性があります。<br>
+		（実際にセットされる値については ::criAtomPlayer_SetDefaultConfigForAdxPlayer
+		マクロの適用結果を確認してください。）<br>
 		<br>
-		���� decode_latency �̒l�� 4 �ȏ�̒l���w�肷�邱�Ƃ͂ł��܂���B<br>
-		�i decode_latency �� 4 �ȏ�̒l���w�肵���ꍇ�ł��A���C�u�������� 3 �ɕύX����܂��B�j<br>
+		現状 decode_latency の値に 4 以上の値を指定することはできません。<br>
+		（ decode_latency に 4 以上の値を指定した場合でも、ライブラリ内で 3 に変更されます。）<br>
 	*/
 	CriSint32 decode_latency;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[�Ńv���[���[���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでプレーヤーを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 } CriAtomAiffPlayerConfig;
 
 /*JP
  * \ingroup ATOMLIB_PLAYER
- * RawPCM�v���[���[�쐬�p�R���t�B�O�\����
- * \par ����:
- * RawPCM���Đ��\�ȃv���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomPlayer_CreateRawPcmPlayer �֐��̈����Ɏw�肵�܂��B<br>
+ * RawPCMプレーヤー作成用コンフィグ構造体
+ * \par 説明:
+ * RawPCMが再生可能なプレーヤーを作成する際に、動作仕様を指定するための構造体です。<br>
+ * ::criAtomPlayer_CreateRawPcmPlayer 関数の引数に指定します。<br>
  * <br>
- * �쐬�����v���[���[�́A�n���h���쐬���ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA
- * �������\�[�X��K�v�Ȃ����m�ۂ��܂��B<br>
- * �v���[���[���K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ����ĕω����܂��B
+ * 作成されるプレーヤーは、ハンドル作成時に本構造体で指定された設定に応じて、
+ * 内部リソースを必要なだけ確保します。<br>
+ * プレーヤーが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて変化します。
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomPlayer_SetDefaultConfigForRawPcmPlayer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomPlayer_SetDefaultConfigForRawPcmPlayer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomPlayer_CreateRawPcmPlayer, criAtomPlayer_SetDefaultConfigForRawPcmPlayer
  */
 typedef struct CriAtomRawPcmPlayerConfigTag {
 	/*JP
-		\brief PCM�t�H�[�}�b�g
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹����PCM�t�H�[�}�b�g���w�肵�܂��B<br>
+		\brief PCMフォーマット
+		\par 説明:
+		Atomプレーヤーで再生する音声のPCMフォーマットを指定します。<br>
 		\attention
-		�w�肳�ꂽ�t�H�[�}�b�g�ȊO��RawPCM�t�H�[�}�b�g�̃f�[�^�͍Đ��ł��܂���B<br>
-		�Đ��f�[�^���ǂ�ȃt�H�[�}�b�g�ł����Ă��A�����Ŏw�肳�ꂽ�t�H�[�}�b�g�Ƃ��čĐ�����܂��B<br>
+		指定されたフォーマット以外のRawPCMフォーマットのデータは再生できません。<br>
+		再生データがどんなフォーマットであっても、ここで指定されたフォーマットとして再生されます。<br>
 	*/
 	CriAtomPcmFormat pcm_format;
 
 	/*JP
-		\brief �o�̓`�����l����
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃`�����l�������w�肵�܂��B<br>
-		::criAtomPlayer_CreateRawPcmPlayer �֐��ō쐬���ꂽAtom�v���[���[�́A
-		max_channels�Ŏw�肵���`�����l����"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief 出力チャンネル数
+		\par 説明:
+		Atomプレーヤーで再生する音声のチャンネル数を指定します。<br>
+		::criAtomPlayer_CreateRawPcmPlayer 関数で作成されたAtomプレーヤーは、
+		max_channelsで指定したチャンネル数"以下の"音声データを再生可能です。<br>
 		\attention
-		�w�肳�ꂽ�`�����l�����ȊO��RawPCM�t�H�[�}�b�g�̃f�[�^�͍Đ��ł��܂���B<br>
-		�Đ��f�[�^���ǂ�ȃt�H�[�}�b�g�ł����Ă��A�����Ŏw�肳�ꂽ�`�����l�����Ƃ��čĐ�����܂��B<br>
+		指定されたチャンネル数以外のRawPCMフォーマットのデータは再生できません。<br>
+		再生データがどんなフォーマットであっても、ここで指定されたチャンネル数として再生されます。<br>
 	*/
 	CriSint32 max_channels;
 
 	/*JP
-		\brief �T���v�����O���[�g
-		\par ����:
-		Atom�v���[���[�ōĐ����鉹���̃T���v�����O���[�g���w�肵�܂��B<br>
-		::criAtomPlayer_CreateRawPcmPlayer �֐��ō쐬���ꂽAtom�v���[���[�́Amax_sampling_rate�Ŏw�肵��
-		�T���v�����O���[�g"�ȉ���"�����f�[�^���Đ��\�ł��B<br>
+		\brief サンプリングレート
+		\par 説明:
+		Atomプレーヤーで再生する音声のサンプリングレートを指定します。<br>
+		::criAtomPlayer_CreateRawPcmPlayer 関数で作成されたAtomプレーヤーは、max_sampling_rateで指定した
+		サンプリングレート"以下の"音声データを再生可能です。<br>
 		<br>
-		\par ���l:
-		�ő�T���v�����O���[�g�������邱�ƂŁAAtom�v���[���[�쐬���ɕK�v�ƂȂ郏�[�N������
-		�̃T�C�Y��}���邱�Ƃ��\�ł��B
+		\par 備考:
+		最大サンプリングレートを下げることで、Atomプレーヤー作成時に必要となるワークメモリ
+		のサイズを抑えることが可能です。
 		\attention
-		�w�肳�ꂽ�T���v�����O���[�g�ƈႤ�f�[�^�͍Đ��ł��܂���B<br>
-		�Đ��f�[�^���ǂ�ȃt�H�[�}�b�g�ł����Ă��A�����Ŏw�肳�ꂽ�T���v�����O���[�g�Ƃ��čĐ�����܂��B<br>
+		指定されたサンプリングレートと違うデータは再生できません。<br>
+		再生データがどんなフォーマットであっても、ここで指定されたサンプリングレートとして再生されます。<br>
 	*/
 	CriSint32 max_sampling_rate;
 
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		Atom�v���[���[���g�p����T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_DEFAULT ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̃T�E���h�����_���ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_ASR ���w�肵���ꍇ�A
-		�����f�[�^��ASR�iAtom Sound Renderer�j�ɓ]������܂��B<br>
-		�iASR�̏o�͐�́AASR���������ɕʓr�w��B�j
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		Atomプレーヤーが使用するサウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_DEFAULT を指定した場合、
+		音声データはデフォルト設定のサウンドレンダラに転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_ASR を指定した場合、
+		音声データはASR（Atom Sound Renderer）に転送されます。<br>
+		（ASRの出力先は、ASR初期化時に別途指定。）
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 
 	/*JP
-		\brief �f�R�[�h�����̃��C�e���V
-		\par ����:
-		�f�R�[�h�����̃��C�e���V���w�肵�܂��B<br>
-		decode_latency �� 0 �ɐݒ肵���ꍇ�A�v���[���[�͉����Đ��J�n����
-		�����f�[�^�̃f�R�[�h���\�Ȍ���x���Ȃ��s���܂��B<br>
-		�i�I���������Đ����� ::criAtomPlayer_Start �֐������s��A
-		�ŏ��̃T�[�o�[�������ōĐ��J�n�ɕK�v�ȗʂ̃f�[�^���f�R�[�h���A
-		�����̏o�͂��J�n���܂��B�j<br>
-		����ɑ΂� decode_latency �� 1 �ȏ�ɐݒ肵���ꍇ�A
-		�Đ��J�n�ɕK�v�ȃf�[�^�̃f�R�[�h���A������̃T�[�o�[�����ɕ������čs���܂��B<br>
-		�i�I���������Đ����ł����Ă� ::criAtomPlayer_Start �֐������s��A
-		decode_latency �Ɏw�肵���񐔃T�[�o�[���������삷��܂ł͉����̏o�͂��J�n����܂���B�j<br>
-		\par ���l:
-		Atom�v���[���[�̓T�E���h�o�b�t�@�[���̃f�[�^�c�ʂ����ɁA
-		�T�[�o�[����������̉����f�[�^�̃f�R�[�h�ʂ����肵�Ă��܂��B<br>
-		�����Đ��J�n�O�̓T�E���h�o�b�t�@�[����̏�Ԃ̂��߁A
-		�����Đ����ɔ�ׂđ����̃f�[�^�i�Đ����� 2 �` 4 �{���x�j���f�R�[�h����܂��B<br>
-		�v���[���[������̉����f�[�^�̃f�R�[�h�������ׂ͏��������߁A
-		�ꉹ�ꉹ�̔����J�n���̏������ׂ����ɂȂ邱�Ƃ͂قƂ�ǂ���܂���B<br>
-		�������A�A�v���P�[�V�������� 1V �ɑ�ʂ̔������N�G�X�g�𓯎��ɔ��s�����ꍇ�A
-		�S�Ẵv���[���[�̏������ׂ̃s�[�N���������A���ׂ��ڂɌ����đ傫���Ȃ�ꍇ������܂��B<br>
-		����������������s���P�[�X�ł́A decode_latency �̒l�𑝂₷���ƂŁA
-		�Ǐ��I�ɏ������ׂ������Ȃ�Ǐ��������邱�Ƃ��\�ł��B<br>
+		\brief デコード処理のレイテンシ
+		\par 説明:
+		デコード処理のレイテンシを指定します。<br>
+		decode_latency を 0 に設定した場合、プレーヤーは音声再生開始時に
+		音声データのデコードを可能な限り遅延なく行います。<br>
+		（オンメモリ再生時は ::criAtomPlayer_Start 関数を実行後、
+		最初のサーバー処理内で再生開始に必要な量のデータをデコードし、
+		音声の出力を開始します。）<br>
+		これに対し decode_latency を 1 以上に設定した場合、
+		再生開始に必要なデータのデコードを、複数回のサーバー処理に分割して行います。<br>
+		（オンメモリ再生時であっても ::criAtomPlayer_Start 関数を実行後、
+		decode_latency に指定した回数サーバー処理が動作するまでは音声の出力が開始されません。）<br>
+		\par 備考:
+		Atomプレーヤーはサウンドバッファー内のデータ残量を元に、
+		サーバー処理当たりの音声データのデコード量を決定しています。<br>
+		音声再生開始前はサウンドバッファーが空の状態のため、
+		音声再生中に比べて多くのデータ（再生中の 2 ～ 4 倍程度）がデコードされます。<br>
+		プレーヤー当たりの音声データのデコード処理負荷は小さいため、
+		一音一音の発音開始時の処理負荷が問題になることはほとんどありません。<br>
+		しかし、アプリケーション中で 1V に大量の発音リクエストを同時に発行した場合、
+		全てのプレーヤーの処理負荷のピークが同期し、負荷が目に見えて大きくなる場合があります。<br>
+		こういった制御を行うケースでは、 decode_latency の値を増やすことで、
+		局所的に処理負荷が高くなる症状を回避することが可能です。<br>
 		<br>
-		decode_latency �̃f�t�H���g�l�́A�قƂ�ǂ̊��� 0 �ɐݒ肳��Ă��܂��B<br>
-		�������A�g�уQ�[���@���A�킸���ȕ��וϓ��ł��A�v���P�[�V�����ɑ傫�ȉe�����y�ڂ����ł́A
-		�f�t�H���g�l�� 1 �ȏ�ɐݒ肳��Ă���\��������܂��B<br>
-		�i���ۂɃZ�b�g�����l�ɂ��Ă� ::criAtomPlayer_SetDefaultConfigForRawPcmPlayer
-		�}�N���̓K�p���ʂ��m�F���Ă��������B�j<br>
+		decode_latency のデフォルト値は、ほとんどの環境で 0 に設定されています。<br>
+		しかし、携帯ゲーム機等、わずかな負荷変動でもアプリケーションに大きな影響を及ぼす環境では、
+		デフォルト値が 1 以上に設定されている可能性があります。<br>
+		（実際にセットされる値については ::criAtomPlayer_SetDefaultConfigForRawPcmPlayer
+		マクロの適用結果を確認してください。）<br>
 		<br>
-		���� decode_latency �̒l�� 4 �ȏ�̒l���w�肷�邱�Ƃ͂ł��܂���B<br>
-		�i decode_latency �� 4 �ȏ�̒l���w�肵���ꍇ�ł��A���C�u�������� 3 �ɕύX����܂��B�j<br>
+		現状 decode_latency の値に 4 以上の値を指定することはできません。<br>
+		（ decode_latency に 4 以上の値を指定した場合でも、ライブラリ内で 3 に変更されます。）<br>
 	*/
 	CriSint32 decode_latency;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[�Ńv���[���[���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでプレーヤーを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 } CriAtomRawPcmPlayerConfig;
 
 /*JP
  * \ingroup ATOMLIB_PLAYER
- * �C���X�g�D�������g�v���[���[�쐬�p�R���t�B�O�\����
- * \par ����:
- * �C���X�g�D�������g���Đ��\�ȃv���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̍\���̂ł��B<br>
+ * インストゥルメントプレーヤー作成用コンフィグ構造体
+ * \par 説明:
+ * インストゥルメントが再生可能なプレーヤーを作成する際に、動作仕様を指定するための構造体です。<br>
  * <br>
- * �쐬�����v���[���[�́A�n���h���쐬���ɖ{�\���̂Ŏw�肳�ꂽ�ݒ�ɉ����āA
- * �������\�[�X��K�v�Ȃ����m�ۂ��܂��B<br>
- * �v���[���[���K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�{�\���̂Ŏw�肳�ꂽ�p�����[�^�[�ɉ����ĕω����܂��B
+ * 作成されるプレーヤーは、ハンドル作成時に本構造体で指定された設定に応じて、
+ * 内部リソースを必要なだけ確保します。<br>
+ * プレーヤーが必要とするワーク領域のサイズは、本構造体で指定されたパラメーターに応じて変化します。
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomPlayer_SetDefaultConfigForInstrumentPlayer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomPlayer_SetDefaultConfigForInstrumentPlayer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  */
 typedef struct CriAtomInstrumentPlayerConfigTag {
-	const CriChar8				*interface_name;			/*JP< �C���^�[�t�F�[�X��					*/
-	const CriChar8				*instrument_name;			/*JP< �C���X�g�D�������g��					*/
-	CriSint32					max_channels;				/*JP< �ő�`�����l����						*/
-	CriSint32					max_sampling_rate;			/*JP< �ő�T���v�����O���[�g				*/
-	CriAtomSoundRendererType	sound_renderer_type;		/*JP< �o�͐�̃T�E���h�����_���^�C�v		*/
+	const CriChar8				*interface_name;			/*JP< インターフェース名					*/
+	const CriChar8				*instrument_name;			/*JP< インストゥルメント名					*/
+	CriSint32					max_channels;				/*JP< 最大チャンネル数						*/
+	CriSint32					max_sampling_rate;			/*JP< 最大サンプリングレート				*/
+	CriAtomSoundRendererType	sound_renderer_type;		/*JP< 出力先のサウンドレンダラタイプ		*/
 } CriAtomInstrumentPlayerConfig;
 
 /*JP
- * \brief �Đ��X�e�[�^�X
+ * \brief 再生ステータス
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * Atom�v���[���[�̍Đ���Ԃ������l�ł��B<br>
- * ::criAtomPlayer_GetStatus �֐��Ŏ擾�\�ł��B
+ * \par 説明:
+ * Atomプレーヤーの再生状態を示す値です。<br>
+ * ::criAtomPlayer_GetStatus 関数で取得可能です。
  * <br>
- * �Đ���Ԃ́A�ʏ�ȉ��̏����őJ�ڂ��܂��B<br>
+ * 再生状態は、通常以下の順序で遷移します。<br>
  * -# CRIATOMPLAYER_STATUS_STOP
  * -# CRIATOMPLAYER_STATUS_PREP
  * -# CRIATOMPLAYER_STATUS_PLAYING
  * -# CRIATOMPLAYER_STATUS_PLAYEND
  *
- * Atom�v���[���[�쐬����̏�Ԃ́A��~��ԁi CRIATOMPLAYER_STATUS_STOP �j�ł��B<br>
- * ::criAtomPlayer_SetData �֐����Ńf�[�^���Z�b�g���A ::criAtomPlayer_Start �֐���
- * ���s����ƁA�Đ�������ԁi CRIATOMPLAYER_STATUS_PREP �j�ɑJ�ڂ��A�Đ��������n�߂܂��B<br>
- * �f�[�^���[����������A�Đ������������ƁA�X�e�[�^�X�͍Đ����i CRIATOMPLAYER_STATUS_PLAYING �j
- * �ɕς��A�����̏o�͂��J�n����܂��B<br>
- * �Z�b�g���ꂽ�f�[�^��S�čĐ����I�������_�ŁA�X�e�[�^�X�͍Đ�����
- * �i CRIATOMPLAYER_STATUS_PLAYEND �j�ɕς��܂��B
- * \par ���l
- * �Đ����� ::criAtomPlayer_Stop �֐������s�����ꍇ�A��L�̗���Ɋ֌W�Ȃ��A
- * �ŏI�I�ɃX�e�[�^�X�� CRIATOMPLAYER_STATUS_STOP �ɖ߂�܂��B<br>
- * �i ::criAtomPlayer_Stop �֐��̌Ăяo���^�C�~���O�ɂ���ẮA CRIATOMPLAYER_STATUS_STOP
- * �ɑJ�ڂ���܂łɎ��Ԃ�������ꍇ������܂��B�j<br>
- * �܂��A�Đ����ɕs���ȃf�[�^��ǂݍ��񂾏ꍇ��A�t�@�C���A�N�Z�X�Ɏ��s�����ꍇ���A
- * ��L�̗���Ɋ֌W�Ȃ��A�X�e�[�^�X�� CRIATOMPLAYER_STATUS_ERROR �ɑJ�ڂ��܂��B
+ * Atomプレーヤー作成直後の状態は、停止状態（ CRIATOMPLAYER_STATUS_STOP ）です。<br>
+ * ::criAtomPlayer_SetData 関数等でデータをセットし、 ::criAtomPlayer_Start 関数を
+ * 実行すると、再生準備状態（ CRIATOMPLAYER_STATUS_PREP ）に遷移し、再生準備を始めます。<br>
+ * データが充分供給され、再生準備が整うと、ステータスは再生中（ CRIATOMPLAYER_STATUS_PLAYING ）
+ * に変わり、音声の出力が開始されます。<br>
+ * セットされたデータを全て再生し終えた時点で、ステータスは再生完了
+ * （ CRIATOMPLAYER_STATUS_PLAYEND ）に変わります。
+ * \par 備考
+ * 再生中に ::criAtomPlayer_Stop 関数を実行した場合、上記の流れに関係なく、
+ * 最終的にステータスは CRIATOMPLAYER_STATUS_STOP に戻ります。<br>
+ * （ ::criAtomPlayer_Stop 関数の呼び出しタイミングによっては、 CRIATOMPLAYER_STATUS_STOP
+ * に遷移するまでに時間がかかる場合があります。）<br>
+ * また、再生中に不正なデータを読み込んだ場合や、ファイルアクセスに失敗した場合も、
+ * 上記の流れに関係なく、ステータスは CRIATOMPLAYER_STATUS_ERROR に遷移します。
  * \attention
- * �X�e�[�^�X�� CRIATOMPLAYER_STATUS_PREP �� CRIATOMPLAYER_STATUS_PLAYING �̃^�C�~���O�ł́A
- * �f�[�^�̃Z�b�g�i ::criAtomPlayer_SetData �֐��j��A�Đ��̊J�n�i ::criAtomPlayer_Start �֐��j
- * �͍s���܂���B<br>
- * ���ݍĐ�����Atom�v���[���[���~���ĕʂ̃f�[�^���Đ��������ꍇ�́A��U ::criAtomPlayer_Stop
- * �֐��ōĐ����~�����A�X�e�[�^�X�� CRIATOMPLAYER_STATUS_STOP �ɑJ�ڂ��Ă��玟�̃f�[�^��
- * �Z�b�g�^�Đ�����K�v������܂��B
+ * ステータスが CRIATOMPLAYER_STATUS_PREP や CRIATOMPLAYER_STATUS_PLAYING のタイミングでは、
+ * データのセット（ ::criAtomPlayer_SetData 関数）や、再生の開始（ ::criAtomPlayer_Start 関数）
+ * は行えません。<br>
+ * 現在再生中のAtomプレーヤーを停止して別のデータを再生したい場合は、一旦 ::criAtomPlayer_Stop
+ * 関数で再生を停止させ、ステータスが CRIATOMPLAYER_STATUS_STOP に遷移してから次のデータを
+ * セット／再生する必要があります。
  * \sa criAtomPlayer_GetStatus, criAtomPlayer_SetData, criAtomPlayer_Start, criAtomPlayer_Stop
  */
 typedef enum CriAtomPlayerStatusTag {
-	CRIATOMPLAYER_STATUS_STOP = 0,		/*JP< ��~��		*/
-	CRIATOMPLAYER_STATUS_PREP = 1,		/*JP< �Đ�������	*/
-	CRIATOMPLAYER_STATUS_PLAYING = 2,	/*JP< �Đ���		*/
-	CRIATOMPLAYER_STATUS_PLAYEND = 3,	/*JP< �Đ�����		*/
-	CRIATOMPLAYER_STATUS_ERROR = 4,		/*JP< �G���[������	*/
+	CRIATOMPLAYER_STATUS_STOP = 0,		/*JP< 停止中		*/
+	CRIATOMPLAYER_STATUS_PREP = 1,		/*JP< 再生準備中	*/
+	CRIATOMPLAYER_STATUS_PLAYING = 2,	/*JP< 再生中		*/
+	CRIATOMPLAYER_STATUS_PLAYEND = 3,	/*JP< 再生完了		*/
+	CRIATOMPLAYER_STATUS_ERROR = 4,		/*JP< エラーが発生	*/
 
 	/* enum size is 4bytes */
 	CRIATOMPLAYER_STATUS_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
@@ -2293,178 +2323,178 @@ typedef enum CriAtomPlayerStatusTag {
 
 struct CriAtomPlayerTag;
 /*JP
- * \brief Atom�v���[���[�n���h��
+ * \brief Atomプレーヤーハンドル
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * CriAtomPlayerHn �́A�����Đ��p�ɍ��ꂽ�v���[���[�𑀍삷�邽�߂̃n���h���ł��B<br>
- * ::criAtomPlayer_CreateAdxPlayer �֐����ŉ����Đ��p�̃v���[���[���쐬����ƁA
- * �֐��̓v���[���[����p�ɁA����"Atom�v���[���[�n���h��"��Ԃ��܂��B
+ * \par 説明:
+ * CriAtomPlayerHn は、音声再生用に作られたプレーヤーを操作するためのハンドルです。<br>
+ * ::criAtomPlayer_CreateAdxPlayer 関数等で音声再生用のプレーヤーを作成すると、
+ * 関数はプレーヤー操作用に、この"Atomプレーヤーハンドル"を返します。
  * <br>
- * Atom�v���[���[�Ƃ́A�R�[�f�b�N�Ɉˑ����Ȃ��Đ�����̂��߂̃C���^�[�t�F�[�X��񋟂���A
- * ���ۉ����ꂽ�v���[���[�I�u�W�F�N�g�ł��B<br>
- * Atom�v���[���[�̍쐬���@�͍Đ����鉹���R�[�f�b�N�ɂ��قȂ�܂����A
- * �쐬���ꂽ�v���[���[�̐���ɂ��ẮAAtom�v���[���[�p��API�����ʂŗ��p�\�ł��B
+ * Atomプレーヤーとは、コーデックに依存しない再生制御のためのインターフェースを提供する、
+ * 抽象化されたプレーヤーオブジェクトです。<br>
+ * Atomプレーヤーの作成方法は再生する音声コーデックにより異なりますが、
+ * 作成されたプレーヤーの制御については、Atomプレーヤー用のAPIが共通で利用可能です。
  * <br>
- * �f�[�^�̃Z�b�g��Đ��̊J�n�A�X�e�[�^�X�̎擾���A�v���[���[�ɑ΂��čs������́A
- * �S��Atom�v���[���[�n���h������Ď��s����܂��B<br>
+ * データのセットや再生の開始、ステータスの取得等、プレーヤーに対して行う操作は、
+ * 全てAtomプレーヤーハンドルを介して実行されます。<br>
  * \sa criAtomPlayer_CreateAdxPlayer
  */
 typedef struct CriAtomPlayerTag *CriAtomPlayerHn;
 
 /*JP
- * \brief �f�[�^�v���R�[���o�b�N�֐�
+ * \brief データ要求コールバック関数
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * \param[in]	obj		���[�U�w��I�u�W�F�N�g
- * \param[in]	player	Atom�v���[���[�n���h��
- * \return				�Ȃ�
- * \par ����:
- * ���ɍĐ�����f�[�^���w�肷�邽�߂̃R�[���o�b�N�֐��ł��B<br>
- * �����̉����f�[�^���V�[�����X�ɘA�����čĐ�����ۂɎg�p���܂��B<br>
+ * \par 説明:
+ * \param[in]	obj		ユーザ指定オブジェクト
+ * \param[in]	player	Atomプレーヤーハンドル
+ * \return				なし
+ * \par 説明:
+ * 次に再生するデータを指定するためのコールバック関数です。<br>
+ * 複数の音声データをシームレスに連結して再生する際に使用します。<br>
  * <br>
- * �R�[���o�b�N�֐��̓o�^�ɂ� ::criAtomPlayer_SetDataRequestCallback �֐����g�p���܂��B<br>
- * �o�^�����R�[���o�b�N�֐��́AAtom�v���[���[���A���Đ��p�̃f�[�^��v������^�C�~���O��
- * ���s����܂��B<br>
- * �i�O��̃f�[�^��ǂݍ��ݏI���āA���ɍĐ����ׂ��f�[�^��v������^�C�~���O��
- * �R�[���o�b�N�֐������s����܂��B�j
- * �{�֐����� ::criAtomPlayer_SetData �֐�����p����Atom�v���[���[�Ƀf�[�^���Z�b�g����ƁA
- * �Z�b�g���ꂽ�f�[�^�͌��ݍĐ����̃f�[�^�ɑ����ăV�[�����X�ɘA������čĐ�����܂��B<br>
- * �܂��A�{�֐����� ::criAtomPlayer_SetPreviousDataAgain �֐������s���邱�ƂŁA
- * ����f�[�^���J��Ԃ��Đ��������邱�Ƃ��\�ł��B
- * \par ���l:
- * �{�֐����Ńf�[�^���w�肵�Ȃ������ꍇ�A���݂̃f�[�^���Đ����I�������_�ŁA
- * Atom�v���[���[�̃X�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYEND �ɑJ�ڂ��܂��B<br>
+ * コールバック関数の登録には ::criAtomPlayer_SetDataRequestCallback 関数を使用します。<br>
+ * 登録したコールバック関数は、Atomプレーヤーが連結再生用のデータを要求するタイミングで
+ * 実行されます。<br>
+ * （前回のデータを読み込み終えて、次に再生すべきデータを要求するタイミングで
+ * コールバック関数が実行されます。）
+ * 本関数内で ::criAtomPlayer_SetData 関数等を用いてAtomプレーヤーにデータをセットすると、
+ * セットされたデータは現在再生中のデータに続いてシームレスに連結されて再生されます。<br>
+ * また、本関数内で ::criAtomPlayer_SetPreviousDataAgain 関数を実行することで、
+ * 同一データを繰り返し再生し続けることも可能です。
+ * \par 備考:
+ * 本関数内でデータを指定しなかった場合、現在のデータを再生し終えた時点で、
+ * Atomプレーヤーのステータスが CRIATOMPLAYER_STATUS_PLAYEND に遷移します。<br>
  * <br>
- * �^�C�~���O���̖��ɂ��A�f�[�^���w�肷�邱�Ƃ��ł��Ȃ����A�X�e�[�^�X��
- * CRIATOMPLAYER_STATUS_PLAYEND �ɑJ�ڂ��������Ȃ��ꍇ�ɂ́A�R�[���o�b�N�֐�����
- * ::criAtomPlayer_DeferCallback �֐������s���Ă��������B<br>
- * ::criAtomPlayer_DeferCallback �֐������s���邱�ƂŁA��1V��ɍēx�f�[�^�v��
- * �R�[���o�b�N�֐����Ăяo����܂��B�i�R�[���o�b�N���������g���C�\�B�j<br>
- * �������A ::criAtomPlayer_DeferCallback �֐������s�����ꍇ�A�Đ����r�؂��
- * �i�A���ӏ��Ɉ�莞�Ԗ���������j�\��������܂��B<br>
+ * タイミング等の問題により、データを指定することができないが、ステータスを
+ * CRIATOMPLAYER_STATUS_PLAYEND に遷移させたくない場合には、コールバック関数内で
+ * ::criAtomPlayer_DeferCallback 関数を実行してください。<br>
+ * ::criAtomPlayer_DeferCallback 関数を実行することで、約1V後に再度データ要求
+ * コールバック関数が呼び出されます。（コールバック処理をリトライ可能。）<br>
+ * ただし、 ::criAtomPlayer_DeferCallback 関数を実行した場合、再生が途切れる
+ * （連結箇所に一定時間無音が入る）可能性があります。<br>
  * \attention
- * �{�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖�肪�������܂��̂ŁA
- * �����ӂ��������B<br>
+ * 本コールバック関数内で長時間処理をブロックすると、音切れ等の問題が発生しますので、
+ * ご注意ください。<br>
  * \sa criAtomPlayer_SetDataRequestCallback, criAtomPlayer_SetData,
  * criAtomPlayer_SetPreviousDataAgain, criAtomPlayer_DeferCallback
  */
 typedef void (CRIAPI *CriAtomPlayerDataRequestCbFunc)(void *obj, CriAtomPlayerHn player);
 
 /*JP
- * \brief �X�e�[�^�X�ύX�R�[���o�b�N�֐�
+ * \brief ステータス変更コールバック関数
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * \param[in]	obj		���[�U�w��I�u�W�F�N�g
- * \param[in]	player	Atom�v���[���[�n���h��
- * \return				�Ȃ�
- * \par ����:
- * Atom�v���[���[�̃X�e�[�^�X���ύX�����^�C�~���O�Ŏ��s�����R�[���o�b�N�֐��ł��B<br>
+ * \par 説明:
+ * \param[in]	obj		ユーザ指定オブジェクト
+ * \param[in]	player	Atomプレーヤーハンドル
+ * \return				なし
+ * \par 説明:
+ * Atomプレーヤーのステータスが変更されるタイミングで実行されるコールバック関数です。<br>
  * <br>
- * �R�[���o�b�N�֐��̓o�^�ɂ� ::criAtomPlayer_SetStatusChangeCallback �֐����g�p���܂��B<br>
- * �o�^�����R�[���o�b�N�֐��́AAtom�v���[���[�̃X�e�[�^�X���X�V�����^�C�~���O��
- * ���s����܂��B<br>
- * �ύX���ꂽ�X�e�[�^�X�ɂ��ẮA�����œn�����Atom�v���[���[�n���h���iplayer�j�ɑ΂��A
- * ::criAtomPlayer_GetStatus �֐������s���邱�ƂŎ擾�\�ł��B
- * \par ���l:
- * �����ɂ́A�X�e�[�^�X�J�ځ`�R�[���o�b�N�֐����s�܂ł̊Ԃɑ��̏��������荞�݂œ��삷��
- * �]�n�����邽�߁A�X�e�[�^�X�J�ڂƃR�[���o�b�N�֐����s�̃^�C�~���O���Y����\��������܂��B<br>
+ * コールバック関数の登録には ::criAtomPlayer_SetStatusChangeCallback 関数を使用します。<br>
+ * 登録したコールバック関数は、Atomプレーヤーのステータスが更新されるタイミングで
+ * 実行されます。<br>
+ * 変更されたステータスについては、引数で渡されるAtomプレーヤーハンドル（player）に対し、
+ * ::criAtomPlayer_GetStatus 関数を実行することで取得可能です。
+ * \par 備考:
+ * 厳密には、ステータス遷移～コールバック関数実行までの間に他の処理が割り込みで動作する
+ * 余地があるため、ステータス遷移とコールバック関数実行のタイミングがズレる可能性があります。<br>
  * \attention
- * �{�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖�肪�������܂��̂ŁA
- * �����ӂ��������B<br>
+ * 本コールバック関数内で長時間処理をブロックすると、音切れ等の問題が発生しますので、
+ * ご注意ください。<br>
  * \sa criAtomPlayer_SetStatusChangeCallback, criAtomPlayer_GetStatus
  */
 typedef void (CRIAPI *CriAtomPlayerStatusChangeCbFunc)(void *obj, CriAtomPlayerHn player);
 
 /*JP
- * \brief �p�����[�^�[�ύX�R�[���o�b�N�֐�
+ * \brief パラメーター変更コールバック関数
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * \param[in]	obj				���[�U�w��I�u�W�F�N�g
- * \param[in]	player			Atom�v���[���[�n���h��
- * \param[in]	id				�p�����[�^�[ID
- * \param[in]	value			�p�����[�^�[�l
- * \return				�Ȃ�
- * \par ����:
- * Atom�v���[���[�̃p�����[�^�[���ύX�����^�C�~���O�Ŏ��s�����R�[���o�b�N�֐��ł��B<br>
+ * \par 説明:
+ * \param[in]	obj				ユーザ指定オブジェクト
+ * \param[in]	player			Atomプレーヤーハンドル
+ * \param[in]	id				パラメーターID
+ * \param[in]	value			パラメーター値
+ * \return				なし
+ * \par 説明:
+ * Atomプレーヤーのパラメーターが変更されるタイミングで実行されるコールバック関数です。<br>
  * <br>
- * �R�[���o�b�N�֐��̓o�^�ɂ� ::criAtomPlayer_SetParameterChangeCallback �֐����g�p���܂��B<br>
- * �o�^�����R�[���o�b�N�֐��́AAtom�v���[���[�̃p�����[�^�[���X�V�����^�C�~���O�Ŏ��s����܂��B<br>
+ * コールバック関数の登録には ::criAtomPlayer_SetParameterChangeCallback 関数を使用します。<br>
+ * 登録したコールバック関数は、Atomプレーヤーのパラメーターが更新されるタイミングで実行されます。<br>
  * \attention
- * �{�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖�肪�������܂��̂ŁA
- * �����ӂ��������B<br>
+ * 本コールバック関数内で長時間処理をブロックすると、音切れ等の問題が発生しますので、
+ * ご注意ください。<br>
  * \sa criAtomPlayer_SetParameterChangeCallback
  */
 typedef void (CRIAPI *CriAtomPlayerParameterChangeCbFunc)(void *obj,
 	CriAtomPlayerHn player, CriAtomParameterId id, CriFloat32 value);
 
 /*JP
- * \brief �g�`�t�B���^�[�R�[���o�b�N�֐�
+ * \brief 波形フィルターコールバック関数
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * \param[in]		obj				���[�U�w��I�u�W�F�N�g
- * \param[in]		format			PCM�̌`��
- * \param[in]		num_channels	�`�����l����
- * \param[in]		num_samples		�T���v����
- * \param[in,out]	data			PCM�f�[�^�̃`�����l���z��
- * \return						�Ȃ�
- * \par ����:
- * �f�R�[�h���ʂ� PCM �f�[�^���󂯎��R�[���o�b�N�֐��ł��B<br>
+ * \par 説明:
+ * \param[in]		obj				ユーザ指定オブジェクト
+ * \param[in]		format			PCMの形式
+ * \param[in]		num_channels	チャンネル数
+ * \param[in]		num_samples		サンプル数
+ * \param[in,out]	data			PCMデータのチャンネル配列
+ * \return						なし
+ * \par 説明:
+ * デコード結果の PCM データを受け取るコールバック関数です。<br>
  * <br>
- * �R�[���o�b�N�֐��̓o�^�ɂ� ::criAtomPlayer_SetFilterCallback �֐����g�p���܂��B<br>
- * �R�[���o�b�N�֐���o�^����ƁA Atom �v���[���[�������f�[�^���f�R�[�h����x�ɁA
- * �R�[���o�b�N�֐������s�����悤�ɂȂ�܂��B<br>
+ * コールバック関数の登録には ::criAtomPlayer_SetFilterCallback 関数を使用します。<br>
+ * コールバック関数を登録すると、 Atom プレーヤーが音声データをデコードする度に、
+ * コールバック関数が実行されるようになります。<br>
  * <br>
- * �t�B���^�[�R�[���o�b�N�֐��ɂ́A PCM �f�[�^�̃t�H�[�}�b�g��`�����l�����A
- * �Q�Ɖ\�ȃT���v�����A PCM �f�[�^���i�[�����̈�̃A�h���X���Ԃ���܂��B<br>
- * �R�[���o�b�N���ł� PCM �f�[�^�̒l�𒼐ڎQ�Ɖ\�ɂȂ�̂ŁA
- * �Đ����̉����̐U�����`�F�b�N����Ƃ������p�r�ɗ��p�\�ł��B<br>
+ * フィルターコールバック関数には、 PCM データのフォーマットやチャンネル数、
+ * 参照可能なサンプル数、 PCM データを格納した領域のアドレスが返されます。<br>
+ * コールバック内では PCM データの値を直接参照可能になるので、
+ * 再生中の音声の振幅をチェックするといった用途に利用可能です。<br>
  * <br>
- * �܂��A�R�[���o�b�N�֐����� PCM �f�[�^�����H����ƁA�Đ����ɔ��f����邽�߁A
- * PCM �f�[�^�ɑ΂��ă��[�U�Ǝ��̃G�t�F�N�g�������邱�Ƃ��\�ł��B<br>
- * �i�������A�^�C���X�g���b�`�����̂悤�ȃf�[�^�ʂ�����������H���s�����Ƃ͂ł��܂���B�j<br>
- * \par ���l:
- * PCM �f�[�^�̓`�����l���P�ʂŕ�������Ă��܂��B<br>
- * �i�C���^�[���[�u����Ă��܂���B�j<br>
- * �� 6 �����i data �z��j�ɂ́A�e�`�����l���� PCM �f�[�^�z��̐擪�A�h���X���i�[����Ă��܂��B<br>
- * �i�񎟌��z��̐擪�A�h���X�ł͂Ȃ��A�`�����l�����Ƃ� PCM �f�[�^�z��̐擪�A�h���X���i�[����
- * �ꎟ���̃|�C���^�z��ł��B�j<br>
+ * また、コールバック関数内で PCM データを加工すると、再生音に反映されるため、
+ * PCM データに対してユーザ独自のエフェクトをかけることも可能です。<br>
+ * （ただし、タイムストレッチ処理のようなデータ量が増減する加工を行うことはできません。）<br>
+ * \par 備考:
+ * PCM データはチャンネル単位で分離されています。<br>
+ * （インターリーブされていません。）<br>
+ * 第 6 引数（ data 配列）には、各チャンネルの PCM データ配列の先頭アドレスが格納されています。<br>
+ * （二次元配列の先頭アドレスではなく、チャンネルごとの PCM データ配列の先頭アドレスを格納した
+ * 一次元のポインタ配列です。）<br>
  * <br>
- * �v���b�g�t�H�[���ɂ���āA PCM �f�[�^�̃t�H�[�}�b�g�͈قȂ�܂��B<br>
- * ���s���̃f�[�^�t�H�[�}�b�g�ɂ��ẮA�� 3 �����i format �j�Ŕ��ʉ\�ł��B<br>
- * PCM �f�[�^�̃t�H�[�}�b�g�� 16 bit �����^�̏ꍇ�A format �� CRIATOM_PCM_FORMAT_SINT16 �ƂȂ�A
- * PCM �f�[�^�̃t�H�[�}�b�g�� 32 bit ���������_���^�̏ꍇ�A format �� CRIATOM_PCM_FORMAT_FLOAT32 �ƂȂ�܂��B<br>
- * ���ꂼ��̃P�[�X�� PCM �f�[�^�̒l��͈قȂ�܂��̂ł����ӂ��������B<br>
- * - CRIATOM_PCM_FORMAT_SINT16 ���� -32768 �` +32767
- * - CRIATOM_PCM_FORMAT_FLOAT32 ���� -1.0f �` +1.0f
+ * プラットフォームによって、 PCM データのフォーマットは異なります。<br>
+ * 実行環境のデータフォーマットについては、第 3 引数（ format ）で判別可能です。<br>
+ * PCM データのフォーマットが 16 bit 整数型の場合、 format は CRIATOM_PCM_FORMAT_SINT16 となり、
+ * PCM データのフォーマットが 32 bit 浮動小数点数型の場合、 format は CRIATOM_PCM_FORMAT_FLOAT32 となります。<br>
+ * それぞれのケースで PCM データの値域は異なりますのでご注意ください。<br>
+ * - CRIATOM_PCM_FORMAT_SINT16 時は -32768 ～ +32767
+ * - CRIATOM_PCM_FORMAT_FLOAT32 時は -1.0f ～ +1.0f
  *
- * �i�f�R�[�h���_�ł̓N���b�s���O���s���Ă��Ȃ����߁A CRIATOM_PCM_FORMAT_FLOAT32
- * ���͏�L�͈͂��킸���ɒ������l���o��\��������܂��B�j<br>
+ * （デコード時点ではクリッピングが行われていないため、 CRIATOM_PCM_FORMAT_FLOAT32
+ * 時は上記範囲をわずかに超えた値が出る可能性があります。）<br>
  * \attention
- * �R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖�肪��������\��������܂��B<br>
+ * コールバック関数内で長時間処理をブロックすると、音切れ等の問題が発生する可能性があります。<br>
  * \sa criAtomPlayer_SetFilterCallback
  */
 typedef void (CRIAPI *CriAtomPlayerFilterCbFunc)(void *obj, CriAtomPcmFormat format,
 	CriSint32 num_channels, CriSint32 num_samples, void *data[]);
 
 /*JP
- * \brief ���[�h�v���R�[���o�b�N�֐�
+ * \brief ロード要求コールバック関数
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * \param[in]	obj		���[�U�w��I�u�W�F�N�g
- * \param[in]	binder	�t�@�C�����[�h��o�C���_�[
- * \param[in]	path	�t�@�C���p�X
- * \param[in]	offset	���[�h�J�n�ʒu
- * \param[in]	length	���[�h�v���T�C�Y
- * \return				�Ȃ�
- * \par ����:
- * Atom�v���[���[�̃t�@�C�����[�h��Ԃ��Ď����邽�߂́A�f�o�b�O�p�̃R�[���o�b�N�֐��ł��B<br>
- * �R�[���o�b�N�֐��̓o�^�ɂ� ::criAtomPlayer_SetLoadRequestCallback �֐����g�p���܂��B<br>
+ * \par 説明:
+ * \param[in]	obj		ユーザ指定オブジェクト
+ * \param[in]	binder	ファイルロード先バインダー
+ * \param[in]	path	ファイルパス
+ * \param[in]	offset	ロード開始位置
+ * \param[in]	length	ロード要求サイズ
+ * \return				なし
+ * \par 説明:
+ * Atomプレーヤーのファイルロード状態を監視するための、デバッグ用のコールバック関数です。<br>
+ * コールバック関数の登録には ::criAtomPlayer_SetLoadRequestCallback 関数を使用します。<br>
  * <br>
- * �o�^�����R�[���o�b�N�֐��́AAtom�v���[���[�������f�[�^�̃��[�h�v���𔭍s����^�C�~���O�Ŏ��s����܂��B<br>
- * \par ���l:
+ * 登録したコールバック関数は、Atomプレーヤーが音声データのロード要求を発行するタイミングで実行されます。<br>
+ * \par 備考:
  * \attention
- * �{�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖�肪�������܂��̂ŁA
- * �����ӂ��������B<br>
+ * 本コールバック関数内で長時間処理をブロックすると、音切れ等の問題が発生しますので、
+ * ご注意ください。<br>
  * \sa criAtomPlayer_SetLoadRequestCallback
  */
 typedef void (CRIAPI *CriAtomPlayerLoadRequestCbFunc)(void *obj,
@@ -2476,94 +2506,94 @@ typedef void (CRIAPI *CriAtomPlayerLoadRequestCbFunc)(void *obj,
 /*JP
  * \brief Atom D-BAS ID
  * \ingroup ATOMLIB_DBAS
- * \par ����:
- * CriAtomDbasId �́AD-BAS�Ǘ��p��ID�ł��B<br>
- * ::criAtomDbas_Create �֐���D-BAS���쐬����Ǝ擾�ł��܂��B
+ * \par 説明:
+ * CriAtomDbasId は、D-BAS管理用のIDです。<br>
+ * ::criAtomDbas_Create 関数でD-BASを作成すると取得できます。
  * <br>
- * �A�v���P�[�V����������D-BAS ID�𗘗p����̂́AD-BAS�̔j�����݂̂ł��B
+ * アプリケーションがこのD-BAS IDを利用するのは、D-BASの破棄時のみです。
  * \sa criAtomDbas_Create, criAtomDbas_Destroy
  */
 typedef CriSint32 CriAtomDbasId;
 
 /*JP
- * \brief D-BAS�쐬�p�����[�^�[�\����
+ * \brief D-BAS作成パラメーター構造体
  * \ingroup ATOMLIB_DBAS
- * \par ����:
- * ::criAtomDbas_Create �֐��̈����Ɏw�肷��AD-BAS�̍쐬�p�����[�^�[�\���̂ł��B<br>
+ * \par 説明:
+ * ::criAtomDbas_Create 関数の引数に指定する、D-BASの作成パラメーター構造体です。<br>
  * <br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomDbas_SetDefaultConfig
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomDbas_SetDefaultConfig
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomDbas_Create, criAtomDbas_CalculateWorkSize, criAtomDbas_SetDefaultConfig
  */
 typedef struct CriAtomDbasConfigTag {
 	/*JP
-		\brief D-BAS ���ʎq
-		\par ����:
-		�A�v���P�[�V��������D-BAS���쐬����ۂɎw�肷�鎯�ʎq�ł��B<br>
-		�A�v���P�[�V���������ǂ�D-BAS���g���������I�Ɏw�肷��ۂɎg�p���܂��B<br>
+		\brief D-BAS 識別子
+		\par 説明:
+		アプリケーション側がD-BASを作成する際に指定する識別子です。<br>
+		アプリケーション側がどのD-BASを使うか明示的に指定する際に使用します。<br>
 	*/
-	CriUint32 identifier;				/*JP< D-BAS ���ʎq	*/
+	CriUint32 identifier;				/*JP< D-BAS 識別子	*/
 	/*JP
-		\brief �ő�X�g���[�~���O��
-		\par ����:
-		D-BAS�ŊǗ�����u�ԍő�X�g���[�~���O�{�����w�肵�܂��B<br>
-		�I�[�f�B�I�����łȂ��ASofdec2�ōĐ����郀�[�r�[�f�[�^�̃X�g���[�~���O�{������������K�v������܂��B<br>
-		�Ⴆ�΁A�V�[��A�ł̓I�[�f�B�I�f�[�^���Q�{�A
-		�V�[��B�ł̓I�[�f�B�I�f�[�^���P�{�ƃ��[�r�[�f�[�^���Q�{�A�X�g���[�~���O�Đ�����Ƃ��܂��B<br>
-		���̏ꍇ�A�u�ԍő�X�g���[�~���O�{���̓V�[��B�̂R�{��ݒ肵�Ă��������B<br>
-		�܂�A�A�v���P�[�V�����S�̂�ʂ��āA�ň���Ԃ̃X�g���[�~���O�{����z�肵���l��ݒ肵�Ă��������B
+		\brief 最大ストリーミング数
+		\par 説明:
+		D-BASで管理する瞬間最大ストリーミング本数を指定します。<br>
+		オーディオだけでなく、Sofdec2で再生するムービーデータのストリーミング本数も加味する必要があります。<br>
+		例えば、シーンAではオーディオデータを２本、
+		シーンBではオーディオデータを１本とムービーデータを２本、ストリーミング再生するとします。<br>
+		この場合、瞬間最大ストリーミング本数はシーンBの３本を設定してください。<br>
+		つまり、アプリケーション全体を通して、最悪状態のストリーミング本数を想定した値を設定してください。
 	*/
 	CriSint32 max_streams;
 	/*JP
-		\brief �ő�r�b�g���[�g
-		\par ����:
-		�X�g���[�~���O�S�̂ɂ�����u�ԍő�r�b�g���[�g���w�肵�܂��B<br>
-		���̒l�ɂ́A�A�v���P�[�V�����S�̂�ʂ��āA
-		�X�g���[�~���O�Đ�����f�[�^�̏���r�b�g���[�g�̃s�[�N�l��ݒ肵�Ă��������B<br>
-		�I�[�f�B�I�����łȂ��ASofdec2�ōĐ����郀�[�r�[�f�[�^�̏���r�b�g���[�g����������K�v������܂��B<br>
-		�Ⴆ�΁A�V�[��A�ł̓I�[�f�B�I�f�[�^���S�{�A�V�[��B�ł̓��[�r�[�f�[�^���P�{�A�X�g���[�~���O�Đ�����Ƃ��܂��B<br>
-		���̎��A�I�[�f�B�I�f�[�^�S�{���̏���r�b�g���[�g�������[�r�[�f�[�^�P�{�̏���r�b�g���[�g���傫���ꍇ�A<br>
-		���[�r�[�f�[�^�̏���r�b�g���[�g��ݒ肵�Ă��������B<br>
-		�܂�A�A�v���P�[�V�����S�̂�ʂ��āA�ň���Ԃ̏���r�b�g���[�g��z�肵���l��ݒ肵�Ă��������B
+		\brief 最大ビットレート
+		\par 説明:
+		ストリーミング全体における瞬間最大ビットレートを指定します。<br>
+		この値には、アプリケーション全体を通して、
+		ストリーミング再生するデータの消費ビットレートのピーク値を設定してください。<br>
+		オーディオだけでなく、Sofdec2で再生するムービーデータの消費ビットレートも加味する必要があります。<br>
+		例えば、シーンAではオーディオデータを４本、シーンBではムービーデータを１本、ストリーミング再生するとします。<br>
+		この時、オーディオデータ４本分の消費ビットレートよりもムービーデータ１本の消費ビットレートが大きい場合、<br>
+		ムービーデータの消費ビットレートを設定してください。<br>
+		つまり、アプリケーション全体を通して、最悪状態の消費ビットレートを想定した値を設定してください。
 	*/
 	CriSint32 max_bps;
 	/*JP
-		\brief CRI Mana���ōĐ�����ő�X�g���[�~���O��
-		\par ����:
-		CRI Mana���ōĐ�����u�ԍő�X�g���[�~���O�{�����w�肵�܂��B<br>
-		D-BAS�̃������g�p�ʂ̌v�Z�ł́Amax_streams ���炱�̒l���������X�g���[�~���O�{�����A<br>
-		CRI Atom�̍ő�X�g���[�~���O�{���Ƃ��Ĉ����܂��B<br>
-		CRI Mana���ŃX�g���[�~���O�Đ����s��Ȃ��ꍇ�� 0 �ɐݒ肵�Ă��������B<br>
+		\brief CRI Mana側で再生する最大ストリーミング数
+		\par 説明:
+		CRI Mana側で再生する瞬間最大ストリーミング本数を指定します。<br>
+		D-BASのメモリ使用量の計算では、max_streams からこの値を減じたストリーミング本数を、<br>
+		CRI Atomの最大ストリーミング本数として扱います。<br>
+		CRI Mana側でストリーミング再生を行わない場合は 0 に設定してください。<br>
 	*/
 	CriSint32 max_mana_streams;
 	/*JP
-		\brief CRI Mana���ōĐ�����ő�r�b�g���[�g
-		\par ����:
-		CRI Mana���ōĐ�����u�ԍő�r�b�g���[�g���w�肵�܂��B<br>
-		D-BAS�̃������g�p�ʂ̌v�Z�ł́Amax_bps ���炱�̒l���������r�b�g���[�g���A<br>
-		CRI Atom�̍ő�r�b�g���[�g�Ƃ��Ĉ����܂��B<br>
-		CRI Mana���ŃX�g���[�~���O�Đ����s��Ȃ��ꍇ�� 0 �ɐݒ肵�Ă��������B<br>
+		\brief CRI Mana側で再生する最大ビットレート
+		\par 説明:
+		CRI Mana側で再生する瞬間最大ビットレートを指定します。<br>
+		D-BASのメモリ使用量の計算では、max_bps からこの値を減じたビットレートを、<br>
+		CRI Atomの最大ビットレートとして扱います。<br>
+		CRI Mana側でストリーミング再生を行わない場合は 0 に設定してください。<br>
 	*/
 	CriSint32 max_mana_bps;
 	/*JP
-		\brief �P�X�g���[���Ɋ��蓖�Ă�Œ�ۏ؃o�b�t�@�[��
-		\par ����:
-		�P�X�g���[���Ɋ��蓖�Ă�Œ�ۏ؃o�b�t�@�[�����w�肵�܂��B�P�ʂ�[��]�ł��B<br>
-		ADX�����ł̓o�b�t�@�[���u���b�N�P�ʂŊǗ����Ă��邽�߁A
-		�t�@�C���I�[�⃋�[�v�擪���̔��[�ȃf�[�^�T�C�Y�ɑ΂��Ă��A
-		�o�b�t�@�[�u���b�N���P�����蓖�Ă܂��B<br>
-		�����V���b�g�̃X�g���[�~���O�Đ��ł́A
-		�_�u���o�b�t�@�����O�Ńf�[�^��ǂނ����̒P���ȏ����ł����Ă��A
-		�X�g���[�����r�؂�鎖�͂���܂���B<br>
-		����A���[�v�t���f�[�^�̏ꍇ�ł́A���[�v�I�[�̂킸���ȃf�[�^�ɂP�u���b�N�A
-		���[�v�擪�̂킸���ȃf�[�^�ɂ��P�u���b�N���g���Ă��܂��ƁA<br>
-		�o�b�t�@�����O�ς݂̃f�[�^���ɒ[�ɏ��Ȃ��ɂ�������炸�A
-		���̃f�[�^��ǂݍ��ރo�b�t�@�[���󂩂Ȃ����߃X�g���[�����r�؂�Ă��܂��܂��B<br>
-		�{�p�����[�^�[�́AD-BAS���m�ۂ���X�g���[�~���O�o�b�t�@�[�T�C�Y�ɉe����^���܂��B<br>
-		�����r�؂�Ȃ������\���Ɋm�F�ł��Ă���΁A
-		�{�p�����[�^�[�̉����l�� ::CRIATOMDBAS_MINIMUM_NUM_SECUREMENT_BUFFERS �ł��B<br>
+		\brief １ストリームに割り当てる最低保証バッファー数
+		\par 説明:
+		１ストリームに割り当てる最低保証バッファー数を指定します。単位は[個]です。<br>
+		ADX内部ではバッファーをブロック単位で管理しているため、
+		ファイル終端やループ先頭等の半端なデータサイズに対しても、
+		バッファーブロックを１つ分割り当てます。<br>
+		ワンショットのストリーミング再生では、
+		ダブルバッファリングでデータを読むだけの単純な処理であっても、
+		ストリームが途切れる事はありません。<br>
+		一方、ループ付きデータの場合では、ループ終端のわずかなデータに１ブロック、
+		ループ先頭のわずかなデータにも１ブロックを使ってしまうと、<br>
+		バッファリング済みのデータが極端に少ないにもかかわらず、
+		次のデータを読み込むバッファーが空かないためストリームが途切れてしまいます。<br>
+		本パラメーターは、D-BASが確保するストリーミングバッファーサイズに影響を与えます。<br>
+		音が途切れない事を十分に確認できていれば、
+		本パラメーターの下限値は ::CRIATOMDBAS_MINIMUM_NUM_SECUREMENT_BUFFERS です。<br>
 	*/
 	CriSint32 num_securement_buffers;
 } CriAtomDbasConfig;
@@ -2572,49 +2602,49 @@ typedef struct CriAtomDbasConfigTag {
 /*       CRI Atom Streaming Cache API                                      */
 /* ========================================================================*/
 /*JP
- * \brief �X�g���[�~���O�L���b�V��ID
+ * \brief ストリーミングキャッシュID
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \par ����:
- * CriAtomStreamingCacheId �́A�X�g���[�~���O�L���b�V���Ǘ��pID�ł��B<br>
- * ::criAtomStreamingCache_Create �֐��ŃX�g���[�~���O�L���b�V�����쐬����Ǝ擾�ł��܂��B<br>
+ * \par 説明:
+ * CriAtomStreamingCacheId は、ストリーミングキャッシュ管理用IDです。<br>
+ * ::criAtomStreamingCache_Create 関数でストリーミングキャッシュを作成すると取得できます。<br>
  * \sa criAtomStreamingCache_Create
  */
 typedef CriUintPtr CriAtomStreamingCacheId;
 
 /*JP
- * \brief �X�g���[�~���O�L���b�V���쐬�p�R���t�B�O�\����
+ * \brief ストリーミングキャッシュ作成用コンフィグ構造体
  * \ingroup ATOMLIB_PLAYER
- * \par ����:
- * �v���[���[�ɃX�g���[�~���O�L���b�V�����쐬����ۂɁA
- * �L���b�V���\�ȃt�@�C���T�C�Y����o�^���邽�߂̍\���̂ł��B<br>
- * ::criAtomStreamingCache_CalculateWorkSize �֐��A
- * ::criAtomStreamingCache_Create �֐��̈����Ɏw�肵�܂��B<br>
+ * \par 説明:
+ * プレーヤーにストリーミングキャッシュを作成する際に、
+ * キャッシュ可能なファイルサイズ等を登録するための構造体です。<br>
+ * ::criAtomStreamingCache_CalculateWorkSize 関数、
+ * ::criAtomStreamingCache_Create 関数の引数に指定します。<br>
  * <br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomStreamingCache_CalculateWorkSize, criAtomStreamingCache_Create
  */
 typedef struct CriAtomStreamingCacheConfigTag {
 	/*JP
-		\brief �L���b�V������t�@�C���̍ő�p�X��
-		\par ����:
-		�X�g���[�~���O�L���b�V���ŃL���b�V������t�@�C���̍ő�p�X�����w�肵�܂��B<br>
+		\brief キャッシュするファイルの最大パス長
+		\par 説明:
+		ストリーミングキャッシュでキャッシュするファイルの最大パス長を指定します。<br>
 	*/
 	CriSint32 max_path;
 	/*JP
-		\brief �L���b�V���\�ȃt�@�C���̍ő吔
-		\par ����:
-		�X�g���[�~���O�L���b�V���ŃL���b�V������t�@�C�������w�肵�܂��B<br>
+		\brief キャッシュ可能なファイルの最大数
+		\par 説明:
+		ストリーミングキャッシュでキャッシュするファイル数を指定します。<br>
 	*/
 	CriSint32 max_files;
 	/*JP
-		\brief �L���b�V���\�ȃt�@�C���T�C�Y
-		\par ����:
-		�X�g���[�~���O�L���b�V���ŃL���b�V���\�ȃt�@�C���T�C�Y���w�肵�܂��B<br>
-		���̃p�����[�^�[�Ŏw�肵���ȏ�̃t�@�C�����L���b�V�����邱�Ƃ͂ł��܂���B<br>
-		�܂��A�X�g���[�~���O�L���b�V���̕K�v���[�N�T�C�Y�́A
-		���̃p�����[�^�[�Ŏw�肵���T�C�Y�ȏ�̃T�C�Y��v������܂��B<br>
+		\brief キャッシュ可能なファイルサイズ
+		\par 説明:
+		ストリーミングキャッシュでキャッシュ可能なファイルサイズを指定します。<br>
+		このパラメーターで指定した以上のファイルをキャッシュすることはできません。<br>
+		また、ストリーミングキャッシュの必要ワークサイズは、
+		このパラメーターで指定したサイズ以上のサイズを要求されます。<br>
 	*/
 	CriSint32 cache_size;
 } CriAtomStreamingCacheConfig;
@@ -2624,21 +2654,21 @@ typedef struct CriAtomStreamingCacheConfigTag {
 /* ========================================================================*/
 
 /*JP
- * \brief �s�b�`�V�t�^�A�^�b�`�p�p�����[�^�[�\����
+ * \brief ピッチシフターアタッチ用パラメーター構造体
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * �s�b�`�V�t�^DSP���A�^�b�`����ۂɎw�肷��p�����[�^�[�ł��B<br>
- * ::criAtomExVoicePool_AttachDspPitchShifter �֐���
- * ::CriAtomExDspPitchShifterConfig �\���̂̃����o�Ƃ��Ďw�肵�܂��B<br>
+ * \par 説明:
+ * ピッチシフターDSPをアタッチする際に指定するパラメーターです。<br>
+ * ::criAtomExVoicePool_AttachDspPitchShifter 関数に
+ * ::CriAtomExDspPitchShifterConfig 構造体のメンバとして指定します。<br>
  * \sa criAtomExVoicePool_AttachDspPitchShifter
  */
 typedef struct CriAtomDspPitchShifterConfigTag {
 	/*JP
-		\brief �s�b�`�V�t�g���[�h
-		\par ����:
-		�s�b�`�V�t�g�̏������@�i�A���S���Y���j���w�肵�܂��B<br>
-		�����ɂ���Đݒ��ύX����Ɖ��������シ�邱�Ƃ�����܂��B<br>
-		���L�͎w��\�Ȓl�ƑΉ����郂�[�h���ł��B<br>
+		\brief ピッチシフトモード
+		\par 説明:
+		ピッチシフトの処理方法（アルゴリズム）を指定します。<br>
+		音声によって設定を変更すると音質が向上することがあります。<br>
+		下記は指定可能な値と対応するモード名です。<br>
 		0: Music<br>
 		1: Vocal<br>
 		2: SoundEffect<br>
@@ -2647,64 +2677,64 @@ typedef struct CriAtomDspPitchShifterConfigTag {
 	CriSint32 mode;
 
 	/*JP
-		\brief �E�C���h�E�T�C�Y
-		\par ����:
-		�s�b�`�V�t�g�̏����P�ʂł��B<br>
-		�����ɂ���Đݒ��ύX����Ɖ��������シ�邱�Ƃ�����܂��B<br>
-		128,256,512,1024,2048�̂����ꂩ���ݒ�\�ł��B<br>
+		\brief ウインドウサイズ
+		\par 説明:
+		ピッチシフトの処理単位です。<br>
+		音声によって設定を変更すると音質が向上することがあります。<br>
+		128,256,512,1024,2048のいずれかが設定可能です。<br>
 	*/
 	CriSint32 window_size;
 
 	/*JP
-		\brief �I�[�o�[���b�v��
-		\par ����:
-		�s�b�`�V�t�g�̌��ʂ̃I�[�o�[���b�v�񐔂ł��B<br>
-		�����ݒ肷��قǕi�������サ�܂����A�������ׂƂ̃g���[�h�I�t�ł��B<br>
-		1,2,4,8�̂����ꂩ���ݒ�\�ł��B<br>
+		\brief オーバーラップ回数
+		\par 説明:
+		ピッチシフトの結果のオーバーラップ回数です。<br>
+		多く設定するほど品質が向上しますが、処理負荷とのトレードオフです。<br>
+		1,2,4,8のいずれかが設定可能です。<br>
 	*/
 	CriSint32 overlap_times;
 } CriAtomDspPitchShifterConfig;
 
 /*JP
- * \brief �s�b�`�V�t�^�p�p�����[�^�[
+ * \brief ピッチシフター用パラメーター
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * �s�b�`�V�t�^DSP�Ɏw�肷��p�����[�^�[�ł��B<br>
- * ::criAtomExPlayer_SetDspParameter �֐��� param_id �Ɏw�肵�܂��B
+ * \par 説明:
+ * ピッチシフターDSPに指定するパラメーターです。<br>
+ * ::criAtomExPlayer_SetDspParameter 関数の param_id に指定します。
  * \sa criAtomExPlayer_SetDspParameter
  */
 typedef enum CriAtomDspPitchShifterParameterIdTag {
 	/*JP
-		\brief �s�b�`
-		\par ����:
-		�s�b�`�V�t�^�̃s�b�`�V�t�g�ʂł��B<br>
-		�P�ʂ̓Z���g�ł��B<br>
-		�ݒ�\�Ȓl�͈̔͂� -2400 �` 2400 �܂łł��B<br>
-		\par ���l:
-		�����Ɣ�ׂ� 1200 �� 2�{�A-1200 �� 1/2�{ �̃s�b�`�V�t�g�ɂȂ�܂��B<br>
+		\brief ピッチ
+		\par 説明:
+		ピッチシフターのピッチシフト量です。<br>
+		単位はセントです。<br>
+		設定可能な値の範囲は -2400 ～ 2400 までです。<br>
+		\par 備考:
+		原音と比べて 1200 で 2倍、-1200 で 1/2倍 のピッチシフトになります。<br>
 	*/
 	CRIATOMDSP_PITCHSHIFTER_PARAM_PITCH		= 0,
 
 	/*JP
-		\brief �t�H���}���g
-		\par ����:
-		�s�b�`�V�t�^�̃t�H���}���g�V�t�g�ʂł��B<br>
-		�P�ʂ̓Z���g�ł��B<br>
-		�ݒ�\�Ȓl�͈̔͂� -2400 �` 2400 �܂łł��B<br>
-		\par ���l:
-		�����Ɣ�ׂ� 1200 �� 2�{�A-1200 �� 1/2�{ �̃t�H���}���g�V�t�g�ɂȂ�܂��B<br>
+		\brief フォルマント
+		\par 説明:
+		ピッチシフターのフォルマントシフト量です。<br>
+		単位はセントです。<br>
+		設定可能な値の範囲は -2400 ～ 2400 までです。<br>
+		\par 備考:
+		原音と比べて 1200 で 2倍、-1200 で 1/2倍 のフォルマントシフトになります。<br>
 		\attention
-		�t�H���}���g�V�t�g���L���ɂȂ�̂̓s�b�`�V�t�g���[�h�� Vocal �� Speech ��<br>
-		�ꍇ�݂̂ł��B<br>
+		フォルマントシフトが有効になるのはピッチシフトモードが Vocal か Speech の<br>
+		場合のみです。<br>
 	*/
 	CRIATOMDSP_PITCHSHIFTER_PARAM_FORMANT	= 1,
 
 	/*JP
-		\brief �s�b�`�V�t�g���[�h
-		\par ����:
-		�s�b�`�V�t�g�̏������@�i�A���S���Y���j���w�肵�܂��B<br>
-		�����ɂ���Đݒ��ύX����Ɖ��������シ�邱�Ƃ�����܂��B<br>
-		���L�͎w��\�Ȓl�ƑΉ����郂�[�h���ł��B<br>
+		\brief ピッチシフトモード
+		\par 説明:
+		ピッチシフトの処理方法（アルゴリズム）を指定します。<br>
+		音声によって設定を変更すると音質が向上することがあります。<br>
+		下記は指定可能な値と対応するモード名です。<br>
 		0: Music<br>
 		1: Vocal<br>
 		2: SoundEffect<br>
@@ -2714,12 +2744,12 @@ typedef enum CriAtomDspPitchShifterParameterIdTag {
 } CriAtomDspPitchShifterParameterId;
 
 /*JP
- * \brief �^�C���X�g���b�`�p�p�����[�^�[�\����
+ * \brief タイムストレッチ用パラメーター構造体
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * �^�C���X�g���b�`DSP���A�^�b�`����ۂɎw�肷��p�����[�^�[�ł��B<br>
- * ::criAtomExVoicePool_AttachDspTimeStretch �֐���
- * ::CriAtomExDspTimeStretchConfig �\���̂̃����o�Ƃ��Ďw�肵�܂��B<br>
+ * \par 説明:
+ * タイムストレッチDSPをアタッチする際に指定するパラメーターです。<br>
+ * ::criAtomExVoicePool_AttachDspTimeStretch 関数に
+ * ::CriAtomExDspTimeStretchConfig 構造体のメンバとして指定します。<br>
  * \sa criAtomExVoicePool_AttachDspTimeStretch
  */
 typedef struct CriAtomDspTimeStretchConfigTag {
@@ -2727,128 +2757,128 @@ typedef struct CriAtomDspTimeStretchConfigTag {
 } CriAtomDspTimeStretchConfig;
 
 /*JP
- * \brief �^�C���X�g���b�`�p�p�����[�^�[
+ * \brief タイムストレッチ用パラメーター
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * �^�C���X�g���b�`DSP�Ɏw�肷��p�����[�^�[�ł��B<br>
- * ::criAtomExPlayer_SetDspParameter �֐��� param_id �Ɏw�肵�܂��B
+ * \par 説明:
+ * タイムストレッチDSPに指定するパラメーターです。<br>
+ * ::criAtomExPlayer_SetDspParameter 関数の param_id に指定します。
  * \sa criAtomExPlayer_SetDspParameter
  */
 typedef enum CriAtomDspTimeStretchParameterIdTag {
 	/*JP
-		\brief �X�g���b�`�䗦
-		\par ����:
-		�Đ����Ԃ̔{���ł��B<br>
-		���f�[�^�̍Đ������� ratio ���|�����l���X�g���b�`���ʂ̍Đ����ԂƂȂ�܂��B<br>
-		�ݒ�\�Ȓl�͈̔͂� 0.5f �` 2.0f �܂łł��B<br>
+		\brief ストレッチ比率
+		\par 説明:
+		再生時間の倍率です。<br>
+		元データの再生時刻に ratio を掛けた値がストレッチ結果の再生時間となります。<br>
+		設定可能な値の範囲は 0.5f ～ 2.0f までです。<br>
 		\attention
-		�ݒ肷��l�͍Đ����x�ł͂Ȃ��u�Đ����ԁv�ɑ΂���{���ł��B<br>
-		�X�g���b�`�̊������Đ����x�Ŏw�肷��ꍇ�A�Đ����x�̔{���̋t����ݒ肵�Ă��������B<br>
+		設定する値は再生速度ではなく「再生時間」に対する倍率です。<br>
+		ストレッチの割合を再生速度で指定する場合、再生速度の倍率の逆数を設定してください。<br>
 	*/
 	CRIATOMDSP_TIMESTRETCH_PARAM_RATIO		= 0,
 
 	/*JP
-		\brief �t���[������
-		\par ����:
-		�^�C���X�g���b�`����ۂ̃t���[������(�P��:�~���b)�ł��B<br>
-		�Đ����鉹�̎�ނɂ���Ē������邱�Ƃŕi�������コ�����܂��B<br>
-		�ݒ�\�Ȓl�͈̔͂� 10 �` 60 �܂łł��B<br>
-		\par ���l:
-		�{�C�X������ 20msec �ӂ�A���y�� 50msec �ӂ�ŗǍD�ȕi���ɂȂ�܂��B<br>
+		\brief フレーム時間
+		\par 説明:
+		タイムストレッチする際のフレーム時間(単位:ミリ秒)です。<br>
+		再生する音の種類によって調整することで品質を向上させられます。<br>
+		設定可能な値の範囲は 10 ～ 60 までです。<br>
+		\par 備考:
+		ボイス音声は 20msec 辺り、音楽は 50msec 辺りで良好な品質になります。<br>
 	*/
 	CRIATOMDSP_TIMESTRETCH_PARAM_FRAME_TIME	= 1,
 
 	/*JP
-		\brief �����i��
-		\par ����:
-		�^�C���X�g���b�`�����̕i���ł��B<br>
-		�����قǕi�����オ��܂����ACPU���ׂƂ̃g���[�h�I�t�ł��B<br>
-		�ݒ�\�Ȓl�͈̔͂� 0 �` 10 �܂łł��B<br>
-		\par ���l:
-		�l�̐��͒�߂ł��\���ŁA���y���^�C���X�g���b�`����ꍇ�́A
-		�����ݒ肷��قǗǍD�ɂȂ�܂��B<br>
+		\brief 処理品質
+		\par 説明:
+		タイムストレッチ処理の品質です。<br>
+		高いほど品質が上がりますが、CPU負荷とのトレードオフです。<br>
+		設定可能な値の範囲は 0 ～ 10 までです。<br>
+		\par 備考:
+		人の声は低めでも十分で、音楽をタイムストレッチする場合は、
+		高く設定するほど良好になります。<br>
 	*/
 	CRIATOMDSP_TIMESTRETCH_PARAM_QUALITY	= 2
 } CriAtomDspTimeStretchParameterId;
 
 /*JP
- * \brief �X�y�N�g�����A�i���C�U�쐬�p�p�����[�^�[�\����
+ * \brief スペクトラムアナライザ作成用パラメーター構造体
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * �X�y�N�g�����A�i���C�U���A�^�b�`����ۂɎw�肷��p�����[�^�[�ł��B<br>
- * ::criAtomDspSpectra_Create �֐��̈����Ɏg�p���܂��B<br>
+ * \par 説明:
+ * スペクトラムアナライザをアタッチする際に指定するパラメーターです。<br>
+ * ::criAtomDspSpectra_Create 関数の引数に使用します。<br>
  * \sa criAtomDspSpectra_Create
  */
 typedef struct CriAtomDspSpectraConfigTag {
 	/*JP
-		\brief �ш敪����
-		\par ����:
-		���g�����������̑ш�ɕ������Čv�����邩���w�肵�܂��B<br>
-		::criAtomDspSpectra_GetLevels �֐��̖߂�l�i CriFloat32 �z��j�́A
-		�{�p�����[�^�[�Ŏw�肵�����Ɠ��������ɂȂ�܂��B<br>
+		\brief 帯域分割数
+		\par 説明:
+		周波数軸をいくつの帯域に分割して計測するかを指定します。<br>
+		::criAtomDspSpectra_GetLevels 関数の戻り値（ CriFloat32 配列）は、
+		本パラメーターで指定した数と同じ長さになります。<br>
 	*/
 	CriUint32 num_bands;
 } CriAtomDspSpectraConfig;
 
-/* �X�y�N�g�����A�i���C�U�n���h�� */
+/* スペクトラムアナライザハンドル */
 struct CriAtomDspSpectraObj;
 typedef struct CriAtomDspSpectraObj *CriAtomDspSpectraHn;
 
 /*JP
- * \brief �G�t�F�N�g�C���^�[�t�F�[�X�\���̂̕s���S�^
- * \par ����:
- * �G�t�F�N�g�C���^�[�t�F�[�X�o�^�֐��̈����^�ł��B<br>
- * CriAtomDspAfxConfig�\���̂̃����o�[�Ƃ��Ďw�肵�܂��B
+ * \brief エフェクトインターフェース構造体の不完全型
+ * \par 説明:
+ * エフェクトインターフェース登録関数の引数型です。<br>
+ * CriAtomDspAfxConfig構造体のメンバーとして指定します。
  * \sa criAtomExVoicePool_AttachDspAfx
  */
 typedef const struct CriAfxInterfaceWithVersionTag* CriAtomAfxInterfaceWithVersionPtr;
 
 /*JP
- * \brief �C���T�[�V����DSP��AFX�p�p�����[�^�[�\����
+ * \brief インサーションDSPのAFX用パラメーター構造体
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * AFX�`���̃C���T�[�V����DSP���A�^�b�`����ۂɎw�肷��p�����[�^�[�ł��B<br>
- * ::criAtomExVoicePool_AttachDspAfx �֐���
- * ::CriAtomExDspAfxConfig �\���̂̃����o�Ƃ��Ďw�肵�܂��B<br>
+ * \par 説明:
+ * AFX形式のインサーションDSPをアタッチする際に指定するパラメーターです。<br>
+ * ::criAtomExVoicePool_AttachDspAfx 関数に
+ * ::CriAtomExDspAfxConfig 構造体のメンバとして指定します。<br>
  * \sa criAtomExVoicePool_AttachDspAfx
  */
 typedef struct CriAtomDspAfxConfigTag {
 	/*!
-	* \brief �R���t�B�O�p�����[�^��
-	* \par ����:
-	* �R���t�B�O�p�����[�^�����w�肵�܂��B
+	* \brief コンフィグパラメーター数
+	* \par 説明:
+	* コンフィグパラメーター数を指定します。
 	*/
 	CriUint32		num_config_parameters;
 
 	/*!
-	* \brief �R���t�B�O�p�����[�^�z��
-	* \par ����:
-	* �G�t�F�N�g�C���X�^���X���������Ɏg�p����p�����[�^�̔z���ݒ肵�܂��B<br>
-	* �{�p�����[�^�́A�C���X�^���X�������ɕK�v�ƂȂ�ǉ��̃p�����[�^���ł���A���쎞�p�����[�^�Ƃ͈قȂ�܂��B <br>
-	* �Ⴆ�΁A�f�B���C�G�t�F�N�g�̃R���t�B�O�p�����[�^�ł���ő�x�����Ԃ́A <br>
-	* �C���X�^���X�������ɗp�ӂ���x���o�b�t�@�T�C�Y���m�肳����ׂɗp�ӂ���Ă���A���쎞�͎g�p���܂���B
+	* \brief コンフィグパラメーター配列
+	* \par 説明:
+	* エフェクトインスタンス初期化時に使用するパラメーターの配列を設定します。<br>
+	* 本パラメーターは、インスタンス生成時に必要となる追加のパラメーター情報であり、動作時パラメーターとは異なります。 <br>
+	* 例えば、ディレイエフェクトのコンフィグパラメーターである最大遅延時間は、 <br>
+	* インスタンス生成時に用意する遅延バッファサイズを確定させる為に用意されており、動作時は使用しません。
 	*/
 	const CriFloat32	*config_parameters;
 
 	/*!
-	* \brief ���쎞�p�����[�^��
-	* \par ����:
-	* ���쎞�p�����[�^�����w�肵�܂��B
+	* \brief 動作時パラメーター数
+	* \par 説明:
+	* 動作時パラメーター数を指定します。
 	*/
 	CriUint32		num_parameters;
 
 	/*!
-	* \brief �f�t�H���g�p�����[�^�z��
-	* \par ����:
-	* �G�t�F�N�g�̓��쎞�p�����[�^�̃f�t�H���g�l�z���ݒ肵�܂��B<br>
-	* �{�C�X�v�[���ɃG�t�F�N�g���A�^�b�`��������A�G�t�F�N�g�̃p�����[�^�[�������������ꍇ�A�����Ŏw�肵���p�����[�^�ɂȂ�܂��B <br>
+	* \brief デフォルトパラメーター配列
+	* \par 説明:
+	* エフェクトの動作時パラメーターのデフォルト値配列を設定します。<br>
+	* ボイスプールにエフェクトをアタッチした時や、エフェクトのパラメーターを初期化した場合、ここで指定したパラメーターになります。 <br>
 	*/
 	const CriFloat32	*default_parameters;
 
 	/*JP
-	\brief Afx�`���G�t�F�N�g�̃C���^�t�F�[�X
-	\par ����:
-	�A�^�b�`����Afx�`���̃G�t�F�N�g�C���^�t�F�[�X��ݒ肵�܂��B
+	\brief Afx形式エフェクトのインタフェース
+	\par 説明:
+	アタッチするAfx形式のエフェクトインタフェースを設定します。
 	*/
 	CriAtomAfxInterfaceWithVersionPtr afx_if;
 } CriAtomDspAfxConfig;
@@ -2858,217 +2888,217 @@ typedef struct CriAtomDspAfxConfigTag {
 /* ========================================================================*/
 
 /*JP
- * \brief ���x�����[�^�[�@�\�ǉ��p�R���t�B�O�\����
+ * \brief レベルメーター機能追加用コンフィグ構造体
  * \ingroup ATOMLIB_METER
- * \par ����:
- * ���x�����[�^�[�@�\��ǉ����邽�߂̍\���̂ł��B<br>
- * ::criAtomMeter_AttachLevelMeter �֐��̈����Ɏw�肵�܂��B<br>
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtomMeter_SetDefaultConfigForLevelMeter �}�N����
- * �\���̂Ƀf�t�H���g�p�����[�^�[���Z�b�g������A ::criAtomMeter_AttachLevelMeter �֐�
- * �ɍ\���̂��w�肵�Ă��������B<br>
+ * \par 説明:
+ * レベルメーター機能を追加するための構造体です。<br>
+ * ::criAtomMeter_AttachLevelMeter 関数の引数に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomMeter_SetDefaultConfigForLevelMeter マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomMeter_AttachLevelMeter 関数
+ * に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomMeter_SetDefaultConfigForLevelMeter
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomMeter_SetDefaultConfigForLevelMeter
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomMeter_AttachLevelMeter
  */
 typedef struct {
 	/*JP
-		\brief ����Ԋu�i�~���b�P�ʁj
-		\par ����:
-		���茋�ʂ��X�V����Ԋu�ł��B<br>
+		\brief 測定間隔（ミリ秒単位）
+		\par 説明:
+		測定結果を更新する間隔です。<br>
 	*/
 	CriSint32 interval;
 
 	/*JP
-		\brief �s�[�N�z�[���h���ԁi�~���b�P�ʁj
-		\par ����:
-		�s�[�N�l�����傫���l�ōX�V���ꂽ�Ƃ��A������Ȃ��悤�Ƀz�[���h���鎞�Ԃł��B<br>
+		\brief ピークホールド時間（ミリ秒単位）
+		\par 説明:
+		ピーク値がより大きい値で更新されたとき、下がらないようにホールドする時間です。<br>
 	*/
 	CriSint32 hold_time;
 } CriAtomLevelMeterConfig;
 
 /*JP
- * \brief ���x�����
+ * \brief レベル情報
  * \ingroup ATOMLIB_METER
- * \par ����:
- * ���x�������擾���邽�߂̍\���̂ł��B<br>
- * ::criAtomMeter_GetLevelInfo �֐��ŗ��p���܂��B
- * \par ���l:
- * �e���x���l�̒P�ʂ�dB�ł��B<br>
+ * \par 説明:
+ * レベル情報を取得するための構造体です。<br>
+ * ::criAtomMeter_GetLevelInfo 関数で利用します。
+ * \par 備考:
+ * 各レベル値の単位はdBです。<br>
  * \sa criAtomMeter_GetLevelInfo
  */
 typedef struct CriAtomLevelInfoTag {
 	/*JP
-		\brief �L���`�����l����
-		\par ����:
-		���茋�ʂ��L���ȃ`�����l�����ł��B<br>
+		\brief 有効チャンネル数
+		\par 説明:
+		測定結果が有効なチャンネル数です。<br>
 	*/
 	CriSint32 num_channels;
 
 	/*JP
-		\brief RMS���x��
-		\par ����:
-		����Ԋu�Ԃ̉����U����RMS�i��敽�ϕ������j���v�Z�����l�ł��B<br>
-		�������x���Ƃ��Ĉ����܂��B
+		\brief RMSレベル
+		\par 説明:
+		測定間隔間の音声振幅のRMS（二乗平均平方根）を計算した値です。<br>
+		音圧レベルとして扱われます。
 	*/
 	CriFloat32 rms_levels[16];
 
 	/*JP
-		\brief �s�[�N���x��
-		\par ����:
-		����Ԋu�Ԃ̉����U���̍ő�l�ł��B<br>
+		\brief ピークレベル
+		\par 説明:
+		測定間隔間の音声振幅の最大値です。<br>
 	*/
 	CriFloat32 peak_levels[16];
 
 	/*JP
-		\brief �s�[�N�z�[���h���x��
-		\par ����:
-		�z�[���h���Ă���s�[�N���x���l�ł��B<br>
+		\brief ピークホールドレベル
+		\par 説明:
+		ホールドしているピークレベル値です。<br>
 	*/
 	CriFloat32 peak_hold_levels[16];
 } CriAtomLevelInfo;
 
 /*JP
- * \brief ���E�h�l�X���[�^�[�@�\�ǉ��p�R���t�B�O�\����
+ * \brief ラウドネスメーター機能追加用コンフィグ構造体
  * \ingroup ATOMLIB_METER
- * ���E�h�l�X���[�^�[�@�\��ǉ����邽�߂̍\���̂ł��B<br>
- * ::criAtomMeter_AttachLoudnessMeter �֐��̈����Ɏw�肵�܂��B<br>
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtomMeter_SetDefaultConfigForLoudnessMeter �}�N����
- * �\���̂Ƀf�t�H���g�p�����[�^�[���Z�b�g������A ::criAtomMeter_AttachLoudnessMeter �֐�
- * �ɍ\���̂��w�肵�Ă��������B<br>
+ * ラウドネスメーター機能を追加するための構造体です。<br>
+ * ::criAtomMeter_AttachLoudnessMeter 関数の引数に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomMeter_SetDefaultConfigForLoudnessMeter マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomMeter_AttachLoudnessMeter 関数
+ * に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomMeter_SetDefaultConfigForLoudnessMeter
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomMeter_SetDefaultConfigForLoudnessMeter
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomMeter_AttachLoudnessMeter
  */
 typedef struct {
 	/*JP
-		\brief �V���[�g�^�[�����莞��
-		\par ����:
-		�Z���̕��σ��E�h�l�X�̑��莞�ԁi�b�P�ʁj�ł��B<br>
-		�W����3�b�ł��B<br>
+		\brief ショートターム測定時間
+		\par 説明:
+		短期の平均ラウドネスの測定時間（秒単位）です。<br>
+		標準は3秒です。<br>
 	*/
 	CriSint32 short_term_time;
 
 	/*JP
-		\brief �C���e�O���[�e�b�h���莞��
-		\par ����:
-		�����̕��σ��E�h�l�X�̑��莞�ԁi�b�P�ʁj�ł��B<br>
-		�C���e�O���[�e�b�h�l�̓R���e���c�P�ʂ̕��σ��E�h�l�X�ł��B<br>
+		\brief インテグレーテッド測定時間
+		\par 説明:
+		長期の平均ラウドネスの測定時間（秒単位）です。<br>
+		インテグレーテッド値はコンテンツ単位の平均ラウドネスです。<br>
 	*/
 	CriSint32 integrated_time;
 } CriAtomLoudnessMeterConfig;
 
 /*JP
- * \brief ���E�h�l�X���
+ * \brief ラウドネス情報
  * \ingroup ATOMLIB_METER
- * \par ����:
- * ���E�h�l�X�����擾���邽�߂̍\���̂ł��B<br>
- * ::criAtomMeter_GetLoudnessInfo �֐��ŗ��p���܂��B
- * \par ���l:
- * �e���x���l�̒P�ʂ�LKFS�ł��B<br>
+ * \par 説明:
+ * ラウドネス情報を取得するための構造体です。<br>
+ * ::criAtomMeter_GetLoudnessInfo 関数で利用します。
+ * \par 備考:
+ * 各レベル値の単位はLKFSです。<br>
  * \sa criAtomMeter_GetLoudnessInfo
  */
 typedef struct CriAtomLoudnessInfoTag {
 	/*JP
-		\brief ����J�E���g
-		\par ����:
-		���肵���񐔂ł��B<br>
-		0.1�b��1�񑪒肳��܂��B<br>
+		\brief 測定カウント
+		\par 説明:
+		測定した回数です。<br>
+		0.1秒に1回測定されます。<br>
 	*/
 	CriSint32		count;
 	/*JP
-		\brief ���[�����^���[�l
-		\par ����:
-		�u�Ԃ̃��E�h�l�X���x���ł��B<br>
+		\brief モーメンタリー値
+		\par 説明:
+		瞬間のラウドネスレベルです。<br>
 	*/
 	CriFloat32		momentary;
 	/*JP
-		\brief �V���[�g�^�[���l
-		\par ����:
-		�Z���̃��E�h�l�X���σ��x���ł��B<br>
+		\brief ショートターム値
+		\par 説明:
+		短期のラウドネス平均レベルです。<br>
 	*/
 	CriFloat32		short_term;
 	/*JP
-		\brief �C���e�O���[�e�b�h�l
-		\par ����:
-		�����̃��E�h�l�X���σ��x���ł��B<br>
+		\brief インテグレーテッド値
+		\par 説明:
+		長期のラウドネス平均レベルです。<br>
 	*/
 	CriFloat32		integrated;
 } CriAtomLoudnessInfo;
 
 /*JP
- * \brief �g�D���[�s�[�N���[�^�[�@�\�ǉ��p�R���t�B�O�\����
+ * \brief トゥルーピークメーター機能追加用コンフィグ構造体
  * \ingroup ATOMLIB_METER
- * �g�D���[�s�[�N���[�^�[�@�\��ǉ����邽�߂̍\���̂ł��B<br>
- * ::criAtomMeter_AttachTruePeakMeter �֐��̈����Ɏw�肵�܂��B<br>
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtomMeter_SetDefaultConfigForTruePeakMeter �}�N����
- * �\���̂Ƀf�t�H���g�p�����[�^�[���Z�b�g������A ::criAtomMeter_AttachTruePeakMeter �֐�
- * �ɍ\���̂��w�肵�Ă��������B<br>
+ * トゥルーピークメーター機能を追加するための構造体です。<br>
+ * ::criAtomMeter_AttachTruePeakMeter 関数の引数に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomMeter_SetDefaultConfigForTruePeakMeter マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomMeter_AttachTruePeakMeter 関数
+ * に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomMeter_SetDefaultConfigForTruePeakMeter
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomMeter_SetDefaultConfigForTruePeakMeter
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomMeter_AttachTruePeakMeter
  */
 typedef struct {
 	/*JP
-		\brief �N���b�s���O
-		\par ����:
-		�g�`�̃T���v���𑪒�O�ɃN���b�v����t���O�ł��B<br>
-		�g�`�̃T���v���𑪒�O�ɃN���b�v����t���O�ł��B<br>
+		\brief クリッピング
+		\par 説明:
+		波形のサンプルを測定前にクリップするフラグです。<br>
+		波形のサンプルを測定前にクリップするフラグです。<br>
 	*/
 	CriBool sample_clipping;
 
 	/*JP
-		\brief ����Ԋu�i�~���b�P�ʁj
-		\par ����:
-		���茋�ʂ��X�V����Ԋu�ł��B<br>
+		\brief 測定間隔（ミリ秒単位）
+		\par 説明:
+		測定結果を更新する間隔です。<br>
 	*/
 	CriSint32 interval;
 
 	/*JP
-		\brief �z�[���h���ԁi�~���b�P�ʁj
-		\par ����:
-		�s�[�N�l�����傫���l�ōX�V���ꂽ�Ƃ��A������Ȃ��悤�Ƀz�[���h���鎞�Ԃł��B<br>
+		\brief ホールド時間（ミリ秒単位）
+		\par 説明:
+		ピーク値がより大きい値で更新されたとき、下がらないようにホールドする時間です。<br>
 	*/
 	CriSint32 hold_time;
 } CriAtomTruePeakMeterConfig;
 
 /*JP
- * \brief �g�D���[�s�[�N���
+ * \brief トゥルーピーク情報
  * \ingroup ATOMLIB_METER
- * \par ����:
- * �g�D���[�s�[�N�����擾���邽�߂̍\���̂ł��B<br>
- * ::criAtomMeter_GetTruePeakInfo �֐��ŗ��p���܂��B
- * \par ���l:
- * �e���x���l�̒P�ʂ�dB�ł��B<br>
+ * \par 説明:
+ * トゥルーピーク情報を取得するための構造体です。<br>
+ * ::criAtomMeter_GetTruePeakInfo 関数で利用します。
+ * \par 備考:
+ * 各レベル値の単位はdBです。<br>
  * \sa criAtomMeter_GetTruePeakInfo
  */
 typedef struct CriAtomTruePeakInfoTag {
 	/*JP
-		\brief �L���`�����l����
-		\par ����:
-		���茋�ʂ��L���ȃ`�����l�����ł��B<br>
+		\brief 有効チャンネル数
+		\par 説明:
+		測定結果が有効なチャンネル数です。<br>
 	*/
 	CriSint32		num_channels;
 
 	/*JP
-		\brief �g�D���[�s�[�N���x��
-		\par ����:
-		�g�D���[�s�[�N���[�^�[�̑��茋�ʂł��B<br>
+		\brief トゥルーピークレベル
+		\par 説明:
+		トゥルーピークメーターの測定結果です。<br>
 	*/
 	CriFloat32		levels[16];
 
 	/*JP
-		\brief �s�[�N�z�[���h���x��
-		\par ����:
-		�z�[���h���Ă���s�[�N���x���ł��B<br>
+		\brief ピークホールドレベル
+		\par 説明:
+		ホールドしているピークレベルです。<br>
 	*/
 	CriFloat32		hold_levels[16];
 } CriAtomTruePeakInfo;
@@ -3077,20 +3107,20 @@ typedef struct CriAtomTruePeakInfoTag {
  *      CRI Atom Instrument API
  *=========================================================================*/
 /*JP
- * \brief �o�[�W�������t���C���^�[�t�F�[�X�^
- * \par ����:
- * �C���X�g�D�������g�C���^�[�t�F�[�X�o�^�֐��̈����^�ł��B
+ * \brief バージョン情報付きインターフェース型
+ * \par 説明:
+ * インストゥルメントインターフェース登録関数の引数型です。
  * \sa  criAtomInstrument_RegisterInstrumentInterface, criAtomInstrument_UnregisterInstrumentInterface
  */
 typedef const struct CriAinstInterfaceWithVersionTag* CriAtomAinstInterfaceWithVersionPtr;
 
 /***************************************************************************
- *      �ϐ��錾
+ *      変数宣言
  *      Prototype Variables
  ***************************************************************************/
 
 /***************************************************************************
- *      �֐��錾
+ *      関数宣言
  *      Prototype Functions
  ***************************************************************************/
 #ifdef __cplusplus
@@ -3101,100 +3131,100 @@ extern "C" {
  *      CRI Atom API
  *=========================================================================*/
 /*JP
- * \brief ���C�u�����̃o�[�W�����ԍ���r���h����Ԃ��܂��B
+ * \brief ライブラリのバージョン番号やビルド情報を返します。
  * \ingroup ATOMLIB_GLOBAL
- * \return	const CriChar8*	���C�u������񕶎���
- * \par ����:
- * ���C�u�����̃o�[�W�����A�r���h���������A�v���b�g�t�H�[���̏�񂪕\������܂��B
+ * \return	const CriChar8*	ライブラリ情報文字列
+ * \par 説明:
+ * ライブラリのバージョン、ビルドした日時、プラットフォームの情報が表示されます。
  */
 const CriChar8* CRIAPI criAtom_GetVersionString(void);
 
 /*JP
- * \brief ���C�u�����������p���[�N�̈�T�C�Y�̌v�Z
+ * \brief ライブラリ初期化用ワーク領域サイズの計算
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	config		�������p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * CRI Atom���C�u�������g�p���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	config		初期化用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * CRI Atomライブラリを使用するために必要な、ワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * CRI Atom���C�u�������K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A���C�u�����������p�R���t�B�O
- * �\���́i ::CriAtomConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * CRI Atomライブラリが必要とするワーク領域のサイズは、ライブラリ初期化用コンフィグ
+ * 構造体（ ::CriAtomConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtom_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtom_SetDefaultConfig 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \sa CriAtomConfig, criAtom_Initialize
  */
 CriSint32 CRIAPI criAtom_CalculateWorkSize(const CriAtomConfig *config);
 
 /*JP
- * \brief ���C�u�����̏�����
+ * \brief ライブラリの初期化
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	config		�������p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \par ����:
- * CRI Atom���C�u���������������܂��B<br>
- * ���C�u�����̋@�\�𗘗p����ɂ́A�K�����̊֐������s����K�v������܂��B<br>
- * �i���C�u�����̋@�\�́A�{�֐������s��A ::criAtom_Finalize �֐������s����܂ł̊ԁA
- * ���p�\�ł��B�j<br>
+ * \param[in]	config		初期化用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \par 説明:
+ * CRI Atomライブラリを初期化します。<br>
+ * ライブラリの機能を利用するには、必ずこの関数を実行する必要があります。<br>
+ * （ライブラリの機能は、本関数を実行後、 ::criAtom_Finalize 関数を実行するまでの間、
+ * 利用可能です。）<br>
  * <br>
- * ���C�u����������������ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
+ * ライブラリを初期化する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
  * <br>
- * User Allocator������p����ꍇ�A���[�U��CRI Atom���C�u�����Ƀ������m�ۊ֐���o�^���Ă����܂��B<br>
- * work��NULL�Awork_size��0���w�肵�Ė{�֐����Ăяo�����ƂŁA
- * ���C�u�����͓o�^�ς݂̃������m�ۊ֐����g�p���ĕK�v�ȃ������������I�Ɋm�ۂ��܂��B<br>
- * ���[�U�����[�N�̈��p�ӂ���K�v�͂���܂���B<br>
- * ���������Ɋm�ۂ��ꂽ�������́A�I���������i ::criAtom_Finalize �֐����s���j�ɉ������܂��B<br>
+ * User Allocator方式を用いる場合、ユーザはCRI Atomライブラリにメモリ確保関数を登録しておきます。<br>
+ * workにNULL、work_sizeに0を指定して本関数を呼び出すことで、
+ * ライブラリは登録済みのメモリ確保関数を使用して必要なメモリを自動的に確保します。<br>
+ * ユーザがワーク領域を用意する必要はありません。<br>
+ * 初期化時に確保されたメモリは、終了処理時（ ::criAtom_Finalize 関数実行時）に解放されます。<br>
  * <br>
- * Fixed Memory������p����ꍇ�A���[�N�̈�Ƃ��ĕʓr�m�ۍς݂̃������̈��{�֐���
- * �ݒ肷��K�v������܂��B<br>
- * ���[�N�̈�̃T�C�Y�� ::criAtom_CalculateWorkSize �֐��Ŏ擾�\�ł��B<br>
- * �����������̑O�� ::criAtom_CalculateWorkSize �֐��Ŏ擾�����T�C�Y���̃�������\��
- * �m�ۂ��Ă����A�{�֐��ɐݒ肵�Ă��������B<br>
- * ���AFixed Memory������p�����ꍇ�A���[�N�̈�̓��C�u�����̏I�������i ::criAtom_Finalize �֐��j
- * ���s���܂ł̊ԁA���C�u�������ŗ��p���ꑱ���܂��B<br>
- * ���C�u�����̏I���������s���O�ɁA���[�N�̈�̃�������������Ȃ��ł��������B<br>
- * \par ��:
- * �yUser Allocator�����ɂ�郉�C�u�����̏������z<br>
- * User Allocator������p����ꍇ�A���C�u�����̏������^�I���̎菇�͈ȉ��̈ȉ��̒ʂ�ł��B<br>
- * 	-# �������������s�O�ɁA ::criAtom_SetUserMallocFunction �֐���
- * ::criAtom_SetUserFreeFunction �֐���p���ă������m�ہ^����֐���o�^����B<br>
- * 	-# �������p�R���t�B�O�\���̂Ƀp�����[�^�[���Z�b�g����B<br>
- * 	-# ::criAtom_Initialize �֐��ŏ������������s���B<br>
- * �iwork�ɂ�NULL�Awork_size�ɂ�0���w�肷��B�j<br>
- * 	-# �A�v���P�[�V�����I������ ::criAtom_Finalize �֐��ŏI���������s���B<br>
+ * Fixed Memory方式を用いる場合、ワーク領域として別途確保済みのメモリ領域を本関数に
+ * 設定する必要があります。<br>
+ * ワーク領域のサイズは ::criAtom_CalculateWorkSize 関数で取得可能です。<br>
+ * 初期化処理の前に ::criAtom_CalculateWorkSize 関数で取得したサイズ分のメモリを予め
+ * 確保しておき、本関数に設定してください。<br>
+ * 尚、Fixed Memory方式を用いた場合、ワーク領域はライブラリの終了処理（ ::criAtom_Finalize 関数）
+ * を行うまでの間、ライブラリ内で利用され続けます。<br>
+ * ライブラリの終了処理を行う前に、ワーク領域のメモリを解放しないでください。<br>
+ * \par 例:
+ * 【User Allocator方式によるライブラリの初期化】<br>
+ * User Allocator方式を用いる場合、ライブラリの初期化／終了の手順は以下の通りです。<br>
+ * 	-# 初期化処理実行前に、 ::criAtom_SetUserMallocFunction 関数と
+ * ::criAtom_SetUserFreeFunction 関数を用いてメモリ確保／解放関数を登録する。<br>
+ * 	-# 初期化用コンフィグ構造体にパラメーターをセットする。<br>
+ * 	-# ::criAtom_Initialize 関数で初期化処理を行う。<br>
+ * （workにはNULL、work_sizeには0を指定する。）<br>
+ * 	-# アプリケーション終了時に ::criAtom_Finalize 関数で終了処理を行う。<br>
  *
- * <br>��̓I�ȃR�[�h�͈ȉ��̂Ƃ���ł��B<br>
+ * <br>具体的なコードは以下のとおりです。<br>
  * \code
- * // �Ǝ��̃������m�ۊ֐�
+ * // 独自のメモリ確保関数
  * void *user_malloc(void *obj, CriUint32 size)
  * {
  * 	void *mem;
  *
- * 	// �������̊m��
+ * 	// メモリの確保
  * 	mem = malloc(size);
  *
  * 	return (mem);
  * }
  *
- * // �Ǝ��̃���������֐���p��
+ * // 独自のメモリ解放関数を用意
  * void user_free(void *obj, void *mem)
  * {
- * 	// �������̉��
+ * 	// メモリの解放
  * 	free(mem);
  *
  * 	return;
@@ -3202,233 +3232,233 @@ CriSint32 CRIAPI criAtom_CalculateWorkSize(const CriAtomConfig *config);
  *
  * main()
  * {
- * 	CriAtomConfig config;	// ���C�u�����������p�R���t�B�O�\����
+ * 	CriAtomConfig config;	// ライブラリ初期化用コンフィグ構造体
  * 		:
- * 	// �Ǝ��̃������m�ۊ֐���o�^
+ * 	// 独自のメモリ確保関数を登録
  * 	criAtom_SetUserMallocFunction(user_malloc, NULL);
  *
- * 	// �Ǝ��̃���������֐���o�^
+ * 	// 独自のメモリ解放関数を登録
  * 	criAtom_SetUserFreeFunction(user_free, NULL);
  *
- * 	// ���C�u�����������p�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * 	// ライブラリ初期化用コンフィグ構造体にデフォルト値をセット
  * 	criAtom_SetDefaultConfig(&config);
  *
- * 	// ���C�u�����̏�����
- * 	// ���[�N�̈�ɂ�NULL��0���w�肷��B
- * 	// ���K�v�ȃ������́A�o�^�����������m�ۊ֐����g���Ċm�ۂ����B
+ * 	// ライブラリの初期化
+ * 	// ワーク領域にはNULLと0を指定する。
+ * 	// →必要なメモリは、登録したメモリ確保関数を使って確保される。
  * 	criAtom_Initialize(&config, NULL, 0);
  * 		:
- * 	// �A�v���P�[�V�����̃��C������
+ * 	// アプリケーションのメイン処理
  * 		:
- * 	// �A�v���P�[�V�������I������ۂɏI���������s��
- * 	// �����������Ɋm�ۂ��ꂽ�������́A�o�^��������������֐����g���ĉ�������B
+ * 	// アプリケーションを終了する際に終了処理を行う
+ * 	// →初期化時に確保されたメモリは、登録したメモリ解放関数を使って解放される。
  * 	criAtom_Finalize();
  * 		:
  * }
  * \endcode
  * <br>
- * �yFixed Memory�����ɂ�郉�C�u�����̏������z<br>
- * Fixed Memory������p����ꍇ�A���C�u�����̏������^�I���̎菇�͈ȉ��̒ʂ�ł��B<br>
- * 	-# �������p�R���t�B�O�\���̂Ƀp�����[�^�[���Z�b�g����B<br>
- * 	-# ���C�u�����̏������ɕK�v�ȃ��[�N�̈�̃T�C�Y���A ::criAtom_CalculateWorkSize
- * �֐����g���Čv�Z����B<br>
- * 	-# ���[�N�̈�T�C�Y���̃��������m�ۂ���B<br>
- * 	-# ::criAtom_Initialize �֐��ŏ������������s���B<br>
- * �iwork�ɂ͊m�ۂ����������̃A�h���X���Awork_size�ɂ̓��[�N�̈�̃T�C�Y���w�肷��B�j<br>
- * 	-# �A�v���P�[�V�����I������ ::criAtom_Finalize �֐��ŏI���������s���B<br>
- * 	-# ���[�N�̈�̃��������������B<br>
+ * 【Fixed Memory方式によるライブラリの初期化】<br>
+ * Fixed Memory方式を用いる場合、ライブラリの初期化／終了の手順は以下の通りです。<br>
+ * 	-# 初期化用コンフィグ構造体にパラメーターをセットする。<br>
+ * 	-# ライブラリの初期化に必要なワーク領域のサイズを、 ::criAtom_CalculateWorkSize
+ * 関数を使って計算する。<br>
+ * 	-# ワーク領域サイズ分のメモリを確保する。<br>
+ * 	-# ::criAtom_Initialize 関数で初期化処理を行う。<br>
+ * （workには確保したメモリのアドレスを、work_sizeにはワーク領域のサイズを指定する。）<br>
+ * 	-# アプリケーション終了時に ::criAtom_Finalize 関数で終了処理を行う。<br>
+ * 	-# ワーク領域のメモリを解放する。<br>
  *
- * <br>��̓I�ȃR�[�h�͈ȉ��̂Ƃ���ł��B<br>
+ * <br>具体的なコードは以下のとおりです。<br>
  * \code
  * main()
  * {
- * 	CriAtomConfig config;	// ���C�u�����������p�R���t�B�O�\����
- * 	void *work;				// ���[�N�̈�A�h���X
- * 	CriSint32 work_size;	// ���[�N�̈�T�C�Y
+ * 	CriAtomConfig config;	// ライブラリ初期化用コンフィグ構造体
+ * 	void *work;				// ワーク領域アドレス
+ * 	CriSint32 work_size;	// ワーク領域サイズ
  * 		:
- * 	// ���C�u�����������p�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * 	// ライブラリ初期化用コンフィグ構造体にデフォルト値をセット
  * 	criAtom_SetDefaultConfig(&config);
  *
- * 	// ���C�u�����̏������ɕK�v�ȃ��[�N�̈�̃T�C�Y���v�Z
+ * 	// ライブラリの初期化に必要なワーク領域のサイズを計算
  * 	work_size = criAtom_CalculateWorkSize(&config);
  *
- * 	// ���[�N�̈�p�Ƀ��������m��
+ * 	// ワーク領域用にメモリを確保
  * 	work = malloc((size_t)work_size);
  *
- * 	// ���C�u�����̏�����
- * 	// ���m�ۍς݂̃��[�N�̈���w�肷��B
+ * 	// ライブラリの初期化
+ * 	// →確保済みのワーク領域を指定する。
  * 	criAtom_Initialize(&config, NULL, 0);
  * 		:
- * 	// �A�v���P�[�V�����̃��C������
- * 	// �����̊ԁA�m�ۂ����������͕ێ���������B
+ * 	// アプリケーションのメイン処理
+ * 	// →この間、確保したメモリは保持し続ける。
  * 		:
- * 	// �A�v���P�[�V�������I������ۂɏI���������s��
+ * 	// アプリケーションを終了する際に終了処理を行う
  * 	criAtom_Finalize();
  *
- * 	// �K�v�Ȃ��Ȃ������[�N�̈���������
+ * 	// 必要なくなったワーク領域を解放する
  * 	free(work);
  * 		:
  * }
  * \endcode
- * \par ���l:
- * ���C�u�������K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�������p�R���t�B�O�\���̂̓��e�ɉ�����
- * �ω����܂��B<br>
- * �܂��A�K�v�ȃ��[�N�̈�̃T�C�Y�́A�v���b�g�t�H�[���ɂ���Ă��قȂ�܂��B
+ * \par 備考:
+ * ライブラリが必要とするワーク領域のサイズは、初期化用コンフィグ構造体の内容に応じて
+ * 変化します。<br>
+ * また、必要なワーク領域のサイズは、プラットフォームによっても異なります。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ����A�X�g���[���Đ��̗L���Ɋ֌W�Ȃ��ACRI Atom���C�u�����̏������O�ɕK��
- * CRI File System���C�u���������������Ă����K�v������܂��B<br>
- * CRI File System���C�u�����̏��������s���Ă��Ȃ��ꍇ�́A
- * CRI Atom���C�u����������CRI File System���C�u���������������܂��B<br>
- * ���̍ۂ̏������p�����[�^�[��criFs_SetDefaultConfig�����}�N���Őݒ肳���l�ł��B
+ * 現状、ストリーム再生の有無に関係なく、CRI Atomライブラリの初期化前に必ず
+ * CRI File Systemライブラリを初期化しておく必要があります。<br>
+ * CRI File Systemライブラリの初期化が行われていない場合は、
+ * CRI Atomライブラリ内部でCRI File Systemライブラリを初期化します。<br>
+ * その際の初期化パラメーターはcriFs_SetDefaultConfig処理マクロで設定される値です。
  * <br>
- * �{�֐������s��A�K���΂ɂȂ� ::criAtom_Finalize �֐������s���Ă��������B<br>
- * �܂��A ::criAtom_Finalize �֐������s����܂ł́A�{�֐����ēx���s���邱�Ƃ͂ł��܂���B<br>
+ * 本関数を実行後、必ず対になる ::criAtom_Finalize 関数を実行してください。<br>
+ * また、 ::criAtom_Finalize 関数を実行するまでは、本関数を再度実行することはできません。<br>
  * \sa CriAtomConfig, criAtom_Finalize, criAtom_SetUserMallocFunction,
  * criAtom_SetUserFreeFunction, criAtom_CalculateWorkSize
  */
 void CRIAPI criAtom_Initialize(const CriAtomConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ���C�u�����̏I��
+ * \brief ライブラリの終了
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * CRI Atom���C�u�������I�����܂��B<br>
+ * \par 説明:
+ * CRI Atomライブラリを終了します。<br>
  * \attention
- * ::criAtom_Initialize �֐����s�O�ɖ{�֐������s���邱�Ƃ͂ł��܂���B<br>
+ * ::criAtom_Initialize 関数実行前に本関数を実行することはできません。<br>
  * \sa criAtom_Initialize
  */
 void CRIAPI criAtom_Finalize(void);
 
 /*JP
- * \brief ���C�u������������Ԃ̎擾
+ * \brief ライブラリ初期化状態の取得
  * \ingroup ATOMLIB_GLOBAL
- * \return	CriBool		�����������ǂ���
- * \retval	CRI_FALSE	�����������
- * \retval	CRI_TRUE	�������ς�
- * \par ����:
- * CRI Atom���C�u���������ɏ���������Ă��邩�ǂ������`�F�b�N���܂��B<br>
+ * \return	CriBool		初期化中かどうか
+ * \retval	CRI_FALSE	未初期化状態
+ * \retval	CRI_TRUE	初期化済み
+ * \par 説明:
+ * CRI Atomライブラリが既に初期化されているかどうかをチェックします。<br>
  * \sa criAtom_Initialize, criAtom_Finalize
  */
 CriBool CRIAPI criAtom_IsInitialized(void);
 
 /*JP
- * \brief �I�[�f�B�I�o�͂��L�����ǂ����̃`�F�b�N
+ * \brief オーディオ出力が有効かどうかのチェック
  * \ingroup ATOMLIB_GLOBAL
- * \return	CriBool		�I�[�f�B�I�o�͂��L�����ǂ���
- * \retval	CRI_TRUE	�L��
- * \retval	CRI_FALSE	����
- * \par ����:
- * �I�[�f�B�I�o�͂��L�����ǂ������`�F�b�N���܂��B<br>
- * CRI Atom���C�u�������������A�T�E���h�f�o�C�X�����p�\�ł������ꍇ�A
- * �{�֐���CRI_TRUE��Ԃ��܂��B<br>
- * CRI Atom���C�u�������������ɁA�T�E���h�f�o�C�X�����p�s�\�ł������ꍇ�A
- * �{�֐���CRI_FALSE��Ԃ��܂��B<br>
- * \par �⑫:
- * �T�E���h�f�o�C�X�������ȏꍇ�ł��AAtom���C�u�����͉������o�͂����ɓ��삵�܂��B<br>
- * �i�����f�[�^����ʂ��^�C�}�����Ɍv�Z���A�\�Ȍ��艹���o�͂��L���ȏꍇ�Ɠ����̓�����G�~�����[�g���܂��B�j<br>
- * ���̂��߁A�����o�̓f�o�C�X���g�p�ł��Ȃ��P�[�X�ł����Ă��A
- * �A�v���P�[�V��������Atom���C�u������API�Ăяo�����������K�v�͂���܂���B<br>
- * �iPC�����A���[�U���T�E���h�f�o�C�X�𖳌������Ă���P�[�X�ɑ΂��ʒm���s�������ꍇ�ɁA
- * �{�֐����g�p���Ă��������B�j<br>
+ * \return	CriBool		オーディオ出力が有効かどうか
+ * \retval	CRI_TRUE	有効
+ * \retval	CRI_FALSE	無効
+ * \par 説明:
+ * オーディオ出力が有効化どうかをチェックします。<br>
+ * CRI Atomライブラリ初期化時、サウンドデバイスが利用可能であった場合、
+ * 本関数はCRI_TRUEを返します。<br>
+ * CRI Atomライブラリ初期化時に、サウンドデバイスが利用不可能であった場合、
+ * 本関数はCRI_FALSEを返します。<br>
+ * \par 補足:
+ * サウンドデバイスが無効な場合でも、Atomライブラリは音声を出力せずに動作します。<br>
+ * （音声データ消費量をタイマーを元に計算し、可能な限り音声出力が有効な場合と同等の動作をエミュレートします。）<br>
+ * そのため、音声出力デバイスが使用できないケースであっても、
+ * アプリケーション側でAtomライブラリのAPI呼び出しを回避する必要はありません。<br>
+ * （PC環境等、ユーザがサウンドデバイスを無効化しているケースに対し通知を行いたい場合に、
+ * 本関数を使用してください。）<br>
  * \attention
- * �{�֐��́A�uAtom���C�u�������������_�ŃI�[�f�B�I�f�o�C�X�����p�\���������ǂ����v��Ԃ��܂��B<br>
- * ���C�u������������Ƀ��[�U���T�E���h�f�o�C�X�𔲂���������P�[�X�ɂ��ẮA�{�֐��ł͌��m�ł��܂���B<br>
- * �i�e�@��ŗL��API���g�p����K�v������܂��B�j<br>
+ * 本関数は、「Atomライブラリ初期化時点でオーディオデバイスが利用可能だったかどうか」を返します。<br>
+ * ライブラリ初期化後にユーザがサウンドデバイスを抜き差しするケースについては、本関数では検知できません。<br>
+ * （各機種固有のAPIを使用する必要があります。）<br>
  * <br>
- * �I�[�f�B�I�o�͂������ȏ�Ԃ�Atom���C�u��������������A
- * ���[�U���I�[�f�B�I�f�o�C�X��L���������Ƃ��Ă��AAtom���C�u�����͉����o�͂��s���܂���B<br>
- * �i�I�[�f�B�I�f�o�C�X���ڑ����ꂽ���Ƃ�Atom���C�u�����������Ō��o���邱�Ƃ͂���܂���B�j<br>
- * �A�v���P�[�V�������s���ɃI�[�f�B�I�f�o�C�X��L�����������ꍇ�ɂ́A
- * Atom���C�u�����̏�������������蒼���K�v������܂��B<br>
+ * オーディオ出力が無効な状態でAtomライブラリを初期化後、
+ * ユーザがオーディオデバイスを有効化したとしても、Atomライブラリは音声出力を行いません。<br>
+ * （オーディオデバイスが接続されたことをAtomライブラリが自動で検出することはありません。）<br>
+ * アプリケーション実行中にオーディオデバイスを有効化したい場合には、
+ * Atomライブラリの初期化処理をやり直す必要があります。<br>
  * \sa criAtom_Initialize
  */
 CriBool CRIAPI criAtom_IsAudioOutputActive(void);
 
 /*JP
- * \brief �}���`�X���b�h�p�T�[�o�[�����̎��s
+ * \brief マルチスレッド用サーバー処理の実行
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * CRI Atom���C�u�����̓�����Ԃ��X�V���܂��B<br>
- * �A�v���P�[�V�����́A���̊֐������I�Ɏ��s����K�v������܂��B<br>
+ * \par 説明:
+ * CRI Atomライブラリの内部状態を更新します。<br>
+ * アプリケーションは、この関数を定期的に実行する必要があります。<br>
  * <br>
- * �T�[�o�[���������s���ׂ��񐔂́A���C�u�������������̃p�����[�^�[�Ɉˑ����܂��B<br>
- * ���C�u�������������ɃX���b�h���f���� ::CRIATOM_THREAD_MODEL_MULTI �ɐݒ肵���ꍇ�A
- * �{�֐��̌Ăяo���p�x�͏��Ȃ��Ă����͔������܂���B<br>
- * �Ȃ��Ȃ�A���A���^�C������v������鏈���͑S��CRI Atom���C�u��������
- * ����I�Ɏ������s����邽�߂ł��B<br>
- * �i�Œ�ł����b1����x���s����Ă���΁A���؂ꓙ�̖�肪�������邱�Ƃ͂���܂���B�j<br>
- * ���C�u�������������ɃX���b�h���f���� ::CRIATOM_THREAD_MODEL_SINGLE ��
- * ::CRIATOM_THREAD_MODEL_USER_MULTI �ɐݒ肵���ꍇ�A�t�@�C���̓ǂݍ��݊Ǘ���A
- * �f�[�^�̃f�R�[�h�A�����̏o�͓��A�����Đ��ɕK�v�ȏ����̂قڑS�Ă��{�֐����Ŏ��s����܂��B<br>
- * �܂��A�����Đ������ɓ������āACRI File System���C�u�����̃t�@�C���A�N�Z�X�ƃf�[�^�W�J���������s���܂��B<br>
- * ���̂��߁A�ȉ��̏ꍇ�͉��؂�Ȃǂ̖�肪��������\��������̂Œ��ӂ��Ă��������B<br>
- * �E���C�u�������������Ɏw�肵���T�[�o�[�����̎��s�p�x
- * �i ::CriAtomConfig �\���̂�server_frequency �j�������p�x�Ŗ{�֐������s�����ꍇ<br>
- * �E�傫���f�[�^�̓ǂݍ��݁A���k�t�@�C���̓ǂݍ��ݓ����s���ꍇ<br>
- * \par ���l:
- * ���C�u�������������ɃX���b�h���f���� ::CRIATOM_THREAD_MODEL_MULTI �ɐݒ肵���ꍇ�ł��A
- * �{�֐������s����K�v������܂��B<br>
- * �i�X���b�h���f���� ::CRIATOM_THREAD_MODEL_MULTI �ɐݒ肵���ꍇ�A�X�e�[�^�X�X�V���A�����ꕔ��
- * �����݂̂��s�����߁A�{�֐����Œ����ԏ������u���b�N����邱�Ƃ͂���܂���B�j
+ * サーバー処理を実行すべき回数は、ライブラリ初期化時のパラメーターに依存します。<br>
+ * ライブラリ初期化時にスレッドモデルを ::CRIATOM_THREAD_MODEL_MULTI に設定した場合、
+ * 本関数の呼び出し頻度は少なくても問題は発生しません。<br>
+ * なぜなら、リアルタイム性を要求される処理は全てCRI Atomライブラリ内で
+ * 定期的に自動実行されるためです。<br>
+ * （最低でも毎秒1回程度実行されていれば、音切れ等の問題が発生することはありません。）<br>
+ * ライブラリ初期化時にスレッドモデルを ::CRIATOM_THREAD_MODEL_SINGLE や
+ * ::CRIATOM_THREAD_MODEL_USER_MULTI に設定した場合、ファイルの読み込み管理や、
+ * データのデコード、音声の出力等、音声再生に必要な処理のほぼ全てが本関数内で実行されます。<br>
+ * また、音声再生処理に同期して、CRI File Systemライブラリのファイルアクセスとデータ展開処理を実行します。<br>
+ * そのため、以下の場合は音切れなどの問題が発生する可能性があるので注意してください。<br>
+ * ・ライブラリ初期化時に指定したサーバー処理の実行頻度
+ * （ ::CriAtomConfig 構造体のserver_frequency ）を下回る頻度で本関数を実行した場合<br>
+ * ・大きいデータの読み込み、圧縮ファイルの読み込み等を行う場合<br>
+ * \par 備考:
+ * ライブラリ初期化時にスレッドモデルを ::CRIATOM_THREAD_MODEL_MULTI に設定した場合でも、
+ * 本関数を実行する必要があります。<br>
+ * （スレッドモデルを ::CRIATOM_THREAD_MODEL_MULTI に設定した場合、ステータス更新等、ごく一部の
+ * 処理のみを行うため、本関数内で長時間処理がブロックされることはありません。）
  * <br>
- * CRI File System���C�u�����̃T�[�o�[�����́ACRI Atom���C�u���������Ŏ��s����܂��B<br>
- * ���̂��߁A�{�֐������s���Ă���ꍇ�A�A�v���P�[�V�������ŕʓrCRI File System���C�u����
- * �̃T�[�o�[�������Ăяo���K�v�͂���܂���B<br>
+ * CRI File Systemライブラリのサーバー処理は、CRI Atomライブラリ内部で実行されます。<br>
+ * そのため、本関数を実行している場合、アプリケーション側で別途CRI File Systemライブラリ
+ * のサーバー処理を呼び出す必要はありません。<br>
  * \sa criAtom_ExecuteAudioProcess
  */
 void CRIAPI criAtom_ExecuteMain(void);
 
 /*JP
- * \brief ���[�U�[�}���`�X���b�h�p�T�[�o�[�����̎��s
+ * \brief ユーザーマルチスレッド用サーバー処理の実行
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * CRI Atom���C�u�����݂̂��X�V���܂��B<br>
- * �X���b�h���f����::CRIATOM_THREAD_MODEL_USER_MULTI�̏ꍇ�A
- * �A�v���P�[�V�����́A���̊֐������I�Ɏ��s����K�v������܂��B<br>
+ * \par 説明:
+ * CRI Atomライブラリのみを更新します。<br>
+ * スレッドモデルが::CRIATOM_THREAD_MODEL_USER_MULTIの場合、
+ * アプリケーションは、この関数を定期的に実行する必要があります。<br>
  *
  * <br>
- * �t�@�C���̓ǂݍ��݊Ǘ���A�f�[�^�̃f�R�[�h�A�����̏o�͓��A
- * �����Đ��ɕK�v�ȏ����̂قڑS�Ă��{�֐����Ŏ��s����܂��B<br>
- * ���̂��߁A���C�u�������������Ɏw�肵���T�[�o�[�����̎��s�p�x�i ::CriAtomConfig �\���̂�
- * server_frequency �j�������p�x�Ŗ{�֐������s�����ꍇ�A���؂ꓙ�̖�肪��������\��
- * ������܂��B<br>
- * �܂��A�{�֐���::criAtom_ExecuteMain �֐��ƈقȂ�ACRI File System���C�u�����̃T�[�o�[���������s���܂���B<br>
- * �A�v���P�[�V�������K�v�ȃT�[�o�[�����𐳂��������Ŏ��s���Ă��������B<br>
- * \par ���l:
- * ::CRIATOM_THREAD_MODEL_SINGLE �ɐݒ肵���ꍇ�A�T�[�o�[�����̔r�����䂪�s���Ȃ��̂ŁA
- * �����̃X���b�h����Ăяo���Ȃ��悤�ɂ��Ă��������B<br>
+ * ファイルの読み込み管理や、データのデコード、音声の出力等、
+ * 音声再生に必要な処理のほぼ全てが本関数内で実行されます。<br>
+ * そのため、ライブラリ初期化時に指定したサーバー処理の実行頻度（ ::CriAtomConfig 構造体の
+ * server_frequency ）を下回る頻度で本関数を実行した場合、音切れ等の問題が発生する可能性
+ * があります。<br>
+ * また、本関数は::criAtom_ExecuteMain 関数と異なり、CRI File Systemライブラリのサーバー処理を実行しません。<br>
+ * アプリケーションが必要なサーバー処理を正しい順序で実行してください。<br>
+ * \par 備考:
+ * ::CRIATOM_THREAD_MODEL_SINGLE に設定した場合、サーバー処理の排他制御が行われないので、
+ * 複数のスレッドから呼び出さないようにしてください。<br>
  * \sa criAtom_ExecuteMain
  */
 void CRIAPI criAtom_ExecuteAudioProcess(void);
 
 /*JP
- * \brief �������m�ۊ֐��̓o�^
+ * \brief メモリ確保関数の登録
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	func		�������m�ۊ֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * CRI Atom���C�u�����Ƀ������m�ۊ֐���o�^���܂��B<br>
- * CRI Atom���C�u�����������C�u�������ōs���������m�ۏ������A
- * ���[�U�Ǝ��̃������m�ۏ����ɒu�����������ꍇ�Ɏg�p���܂��B<br>
+ * \param[in]	func		メモリ確保関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * CRI Atomライブラリにメモリ確保関数を登録します。<br>
+ * CRI Atomライブラリ内がライブラリ内で行うメモリ確保処理を、
+ * ユーザ独自のメモリ確保処理に置き換えたい場合に使用します。<br>
  * <br>
- * �{�֐��̎g�p�菇�͈ȉ��̂Ƃ���ł��B<br>
- * (1) ::CriAtomMallocFunc �C���^�[�t�F�[�X�ɕ������������m�ۊ֐���p�ӂ���B<br>
- * (2) ::criAtom_SetUserMallocFunction �֐����g�p���ACRI Atom���C�u�����ɑ΂���
- * �������m�ۊ֐���o�^����B<br>
+ * 本関数の使用手順は以下のとおりです。<br>
+ * (1) ::CriAtomMallocFunc インターフェースに副ったメモリ確保関数を用意する。<br>
+ * (2) ::criAtom_SetUserMallocFunction 関数を使用し、CRI Atomライブラリに対して
+ * メモリ確保関数を登録する。<br>
  * <br>
- * ��̓I�ȃR�[�h�̗�͈ȉ��̂Ƃ���ł��B
- * \par ��:
+ * 具体的なコードの例は以下のとおりです。
+ * \par 例:
  * \code
- * // �Ǝ��̃������m�ۊ֐���p��
+ * // 独自のメモリ確保関数を用意
  * void *user_malloc(void *obj, CriUint32 size)
  * {
  * 	void *mem;
  *
- * 	// �������̊m��
+ * 	// メモリの確保
  * 	mem = malloc(size);
  *
  * 	return (mem);
@@ -3437,45 +3467,45 @@ void CRIAPI criAtom_ExecuteAudioProcess(void);
  * main()
  * {
  * 		:
- * 	// �������m�ۊ֐��̓o�^
+ * 	// メモリ確保関数の登録
  * 	criAtom_SetUserMallocFunction(user_malloc, NULL);
  * 		:
  * }
  * \endcode
- * \par ���l:
- * ������ obj �Ɏw�肵���l�́A ::CriAtomMallocFunc �Ɉ����Ƃ��ēn����܂��B<br>
- * �������m�ێ��Ƀ������}�l�[�W���[�����Q�Ƃ���K�v������ꍇ�ɂ́A
- * ���Y�I�u�W�F�N�g��{�֐��̈����ɃZ�b�g���Ă����A�R�[���o�b�N�֐��ň������o�R
- * ���ĎQ�Ƃ��Ă��������B<br>
+ * \par 備考:
+ * 引数の obj に指定した値は、 ::CriAtomMallocFunc に引数として渡されます。<br>
+ * メモリ確保時にメモリマネージャー等を参照する必要がある場合には、
+ * 当該オブジェクトを本関数の引数にセットしておき、コールバック関数で引数を経由
+ * して参照してください。<br>
  * \attention
- * �������m�ۊ֐���o�^����ۂɂ́A���킹�ă���������֐��i ::CriAtomFreeFunc �j��
- * �o�^����K�v������܂��B
+ * メモリ確保関数を登録する際には、合わせてメモリ解放関数（ ::CriAtomFreeFunc ）を
+ * 登録する必要があります。
  * \sa CriAtomMallocFunc, criAtom_SetUserFreeFunction
  */
 void CRIAPI criAtom_SetUserMallocFunction(CriAtomMallocFunc func, void *obj);
 
 /*JP
- * \brief ����������֐��̓o�^
+ * \brief メモリ解放関数の登録
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	func		����������֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * CRI Atom���C�u�����Ƀ���������֐���o�^���܂��B<br>
- * CRI Atom���C�u�����������C�u�������ōs������������������A
- * ���[�U�Ǝ��̃�������������ɒu�����������ꍇ�Ɏg�p���܂��B<br>
+ * \param[in]	func		メモリ解放関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * CRI Atomライブラリにメモリ解放関数を登録します。<br>
+ * CRI Atomライブラリ内がライブラリ内で行うメモリ解放処理を、
+ * ユーザ独自のメモリ解放処理に置き換えたい場合に使用します。<br>
  * <br>
- * �{�֐��̎g�p�菇�͈ȉ��̂Ƃ���ł��B<br>
- * (1) ::CriAtomFreeFunc �C���^�[�t�F�[�X�ɕ���������������֐���p�ӂ���B<br>
- * (2) ::criAtom_SetUserFreeFunction �֐����g�p���ACRI Atom���C�u�����ɑ΂���
- * ����������֐���o�^����B<br>
+ * 本関数の使用手順は以下のとおりです。<br>
+ * (1) ::CriAtomFreeFunc インターフェースに副ったメモリ解放関数を用意する。<br>
+ * (2) ::criAtom_SetUserFreeFunction 関数を使用し、CRI Atomライブラリに対して
+ * メモリ解放関数を登録する。<br>
  * <br>
- * ��̓I�ȃR�[�h�̗�͈ȉ��̂Ƃ���ł��B
- * \par ��:
+ * 具体的なコードの例は以下のとおりです。
+ * \par 例:
  * \code
- * // �Ǝ��̃���������֐���p��
+ * // 独自のメモリ解放関数を用意
  * void user_free(void *obj, void *mem)
  * {
- * 	// �������̉��
+ * 	// メモリの解放
  * 	free(mem);
  *
  * 	return;
@@ -3484,150 +3514,150 @@ void CRIAPI criAtom_SetUserMallocFunction(CriAtomMallocFunc func, void *obj);
  * main()
  * {
  * 		:
- * 	// ����������֐��̓o�^
+ * 	// メモリ解放関数の登録
  * 	criAtom_SetUserFreeFunction(user_free, NULL);
  * 		:
  * }
  * \endcode
- * \par ���l:
- * ������ obj �Ɏw�肵���l�́A ::CriAtomFreeFunc �Ɉ����Ƃ��ēn����܂��B<br>
- * �������m�ێ��Ƀ������}�l�[�W���[�����Q�Ƃ���K�v������ꍇ�ɂ́A
- * ���Y�I�u�W�F�N�g��{�֐��̈����ɃZ�b�g���Ă����A�R�[���o�b�N�֐��ň������o�R
- * ���ĎQ�Ƃ��Ă��������B<br>
+ * \par 備考:
+ * 引数の obj に指定した値は、 ::CriAtomFreeFunc に引数として渡されます。<br>
+ * メモリ確保時にメモリマネージャー等を参照する必要がある場合には、
+ * 当該オブジェクトを本関数の引数にセットしておき、コールバック関数で引数を経由
+ * して参照してください。<br>
  * \attention
- * ����������֐���o�^����ۂɂ́A���킹�ă������m�ۊ֐��i ::CriAtomMallocFunc �j��
- * �o�^����K�v������܂��B
+ * メモリ解放関数を登録する際には、合わせてメモリ確保関数（ ::CriAtomMallocFunc ）を
+ * 登録する必要があります。
  * \sa CriAtomFreeFunc, criAtom_SetUserMallocFunction
  */
 void CRIAPI criAtom_SetUserFreeFunction(CriAtomFreeFunc func, void *obj);
 
 /*JP
- * \brief �I�[�f�B�I�t���[���J�n�R�[���o�b�N�֐��̓o�^
+ * \brief オーディオフレーム開始コールバック関数の登録
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	func		�I�[�f�B�I�t���[���J�n�R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * CRI Atom���C�u�����ɃI�[�f�B�I�t���[���J�n�R�[���o�b�N��o�^���܂��B<br>
- * �I�[�f�B�I�t���[���́ACRI Atom���C�u�������ŃT�[�o�[���������s����^�C�~���O�������܂��B<br>
- * �{�֐��œo�^�����R�[���o�b�N�֐��́A�I�[�f�B�I�t���[���̊J�n���i�T�[�o�[�����J�n���O�j��
- * ���s����܂��B
- * \par ���l:
- * ���C�u�������������ɃX���b�h���f�����}���`�X���b�h�i ::CRIATOM_THREAD_MODEL_MULTI �j
- * �ɐݒ肵���ꍇ�A�R�[���o�b�N�֐���CRI Atom���C�u�������ō쐬���ꂽ�X���b�h����
- * �Ăяo����܂��B<br>
- * ���C�u�������������ɃX���b�h���f�������[�U�}���`�X���b�h�i ::CRIATOM_THREAD_MODEL_USER_MULTI �j�A
- * �܂��̓V���O���X���b�h�i ::CRIATOM_THREAD_MODEL_SINGLE �j�ɐݒ肵���ꍇ�A�R�[���o�b�N�֐�
- * ::criAtom_ExecuteMain �֐����ŌĂяo����܂��B<br>
+ * \param[in]	func		オーディオフレーム開始コールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * CRI Atomライブラリにオーディオフレーム開始コールバックを登録します。<br>
+ * オーディオフレームは、CRI Atomライブラリ内でサーバー処理を実行するタイミングを示します。<br>
+ * 本関数で登録したコールバック関数は、オーディオフレームの開始時（サーバー処理開始直前）に
+ * 実行されます。
+ * \par 備考:
+ * ライブラリ初期化時にスレッドモデルをマルチスレッド（ ::CRIATOM_THREAD_MODEL_MULTI ）
+ * に設定した場合、コールバック関数はCRI Atomライブラリ内で作成されたスレッドから
+ * 呼び出されます。<br>
+ * ライブラリ初期化時にスレッドモデルをユーザマルチスレッド（ ::CRIATOM_THREAD_MODEL_USER_MULTI ）、
+ * またはシングルスレッド（ ::CRIATOM_THREAD_MODEL_SINGLE ）に設定した場合、コールバック関数
+ * ::criAtom_ExecuteMain 関数内で呼び出されます。<br>
  * <br>
- * ������ obj �Ɏw�肵���l�́A ::CriAtomAudioFrameStartCbFunc �Ɉ����Ƃ��ēn����܂��B<br>
+ * 引数の obj に指定した値は、 ::CriAtomAudioFrameStartCbFunc に引数として渡されます。<br>
  * \attention
- * �R�[���o�b�N�֐���1�����o�^�ł��܂���B<br>
- * �o�^����𕡐���s�����ꍇ�A���ɓo�^�ς݂̃R�[���o�b�N�֐����A
- * �ォ��o�^�����R�[���o�b�N�֐��ɂ��㏑������Ă��܂��܂��B<br>
+ * コールバック関数は1つしか登録できません。<br>
+ * 登録操作を複数回行った場合、既に登録済みのコールバック関数が、
+ * 後から登録したコールバック関数により上書きされてしまいます。<br>
  * <br>
- * func��NULL���w�肷�邱�Ƃœo�^�ς݊֐��̓o�^�������s���܂��B<br>
+ * funcにNULLを指定することで登録済み関数の登録解除が行えます。<br>
  */
 void CRIAPI criAtom_SetAudioFrameStartCallback(
 	CriAtomAudioFrameStartCbFunc func, void *obj);
 
 /*JP
- * \brief �I�[�f�B�I�t���[���I���R�[���o�b�N�֐��̓o�^
+ * \brief オーディオフレーム終了コールバック関数の登録
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	func		�I�[�f�B�I�t���[���I���R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * CRI Atom���C�u�����ɃI�[�f�B�I�t���[���I���R�[���o�b�N��o�^���܂��B<br>
- * �I�[�f�B�I�t���[���́ACRI Atom���C�u�������ŃT�[�o�[���������s����^�C�~���O�������܂��B<br>
- * �{�֐��œo�^�����R�[���o�b�N�֐��́A�I�[�f�B�I�t���[���̏I�����i�T�[�o�[�����I������j��
- * ���s����܂��B
- * \par ���l:
- * ���C�u�������������ɃX���b�h���f�����}���`�X���b�h�i ::CRIATOM_THREAD_MODEL_MULTI �j
- * �ɐݒ肵���ꍇ�A�R�[���o�b�N�֐���CRI Atom���C�u�������ō쐬���ꂽ�X���b�h����
- * �Ăяo����܂��B<br>
- * ���C�u�������������ɃX���b�h���f�������[�U�}���`�X���b�h�i ::CRIATOM_THREAD_MODEL_USER_MULTI �j�A
- * �܂��̓V���O���X���b�h�i ::CRIATOM_THREAD_MODEL_SINGLE �j�ɐݒ肵���ꍇ�A�R�[���o�b�N�֐�
- * ::criAtom_ExecuteMain �֐����ŌĂяo����܂��B<br>
+ * \param[in]	func		オーディオフレーム終了コールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * CRI Atomライブラリにオーディオフレーム終了コールバックを登録します。<br>
+ * オーディオフレームは、CRI Atomライブラリ内でサーバー処理を実行するタイミングを示します。<br>
+ * 本関数で登録したコールバック関数は、オーディオフレームの終了時（サーバー処理終了直後）に
+ * 実行されます。
+ * \par 備考:
+ * ライブラリ初期化時にスレッドモデルをマルチスレッド（ ::CRIATOM_THREAD_MODEL_MULTI ）
+ * に設定した場合、コールバック関数はCRI Atomライブラリ内で作成されたスレッドから
+ * 呼び出されます。<br>
+ * ライブラリ初期化時にスレッドモデルをユーザマルチスレッド（ ::CRIATOM_THREAD_MODEL_USER_MULTI ）、
+ * またはシングルスレッド（ ::CRIATOM_THREAD_MODEL_SINGLE ）に設定した場合、コールバック関数
+ * ::criAtom_ExecuteMain 関数内で呼び出されます。<br>
  * <br>
- * ������ obj �Ɏw�肵���l�́A ::CriAtomAudioFrameEndCbFunc �Ɉ����Ƃ��ēn����܂��B<br>
+ * 引数の obj に指定した値は、 ::CriAtomAudioFrameEndCbFunc に引数として渡されます。<br>
  * \attention
- * �R�[���o�b�N�֐���1�����o�^�ł��܂���B<br>
- * �o�^����𕡐���s�����ꍇ�A���ɓo�^�ς݂̃R�[���o�b�N�֐����A
- * �ォ��o�^�����R�[���o�b�N�֐��ɂ��㏑������Ă��܂��܂��B<br>
+ * コールバック関数は1つしか登録できません。<br>
+ * 登録操作を複数回行った場合、既に登録済みのコールバック関数が、
+ * 後から登録したコールバック関数により上書きされてしまいます。<br>
  * <br>
- * func��NULL���w�肷�邱�Ƃœo�^�ς݊֐��̓o�^�������s���܂��B<br>
+ * funcにNULLを指定することで登録済み関数の登録解除が行えます。<br>
  */
 void CRIAPI criAtom_SetAudioFrameEndCallback(
 	CriAtomAudioFrameEndCbFunc func, void *obj);
 
 /*JP
- * \brief �f�o�C�X�X�V�ʒm�̓o�^
+ * \brief デバイス更新通知の登録
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	func	�f�o�C�X�X�V�ʒm�R�[���o�b�N�֐�
- * \param[in]	obj		���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �f�o�C�X�̍X�V�ʒm���󂯎�邽�߂̃R�[���o�b�N��ݒ肵�܂��B<br>
+ * \param[in]	func	デバイス更新通知コールバック関数
+ * \param[in]	obj		ユーザ指定オブジェクト
+ * \par 説明:
+ * デバイスの更新通知を受け取るためのコールバックを設定します。<br>
  * <br>
- * �{�֐������s����ƁA�f�o�C�X���X�V���ꂽ�ہA�� 1 �����i func �j
- * �ŃZ�b�g���ꂽ�R�[���o�b�N�֐����Ăяo����܂��B<br>
- * \par ���l:
- * �� 2 �����i obj �j�ɃZ�b�g�����l�́A�R�[���o�b�N�֐��̈����Ƃ��ēn����܂��B<br>
+ * 本関数を実行すると、デバイスが更新された際、第 1 引数（ func ）
+ * でセットされたコールバック関数が呼び出されます。<br>
+ * \par 備考:
+ * 第 2 引数（ obj ）にセットした値は、コールバック関数の引数として渡されます。<br>
  */
 void CRIAPI criAtom_SetDeviceUpdateCallback(
 	CriAtomDeviceUpdateCbFunc func, void *obj);
 
 /*JP
- * \brief �T�[�o�[�����̊��荞�݂�h�~
+ * \brief サーバー処理の割り込みを防止
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �T�[�o�[�����̊��荞�݂�h�~���܂��B<br>
- * �{�֐����s��A::criAtom_Unlock �֐����s�܂ł̊ԁA�T�[�o�[�����̓����h�~���܂��B<br>
- * ������API�𓯈�I�[�f�B�I�t���[�����Ŋm���Ɏ��s�������ꍇ�ɂ́A�{�֐��ŃT�[�o�[������
- * ���荞�݂�h�~���A�����̊֐������s���Ă��������B
- * \par ��:
+ * \par 説明:
+ * サーバー処理の割り込みを防止します。<br>
+ * 本関数実行後、::criAtom_Unlock 関数実行までの間、サーバー処理の動作を防止します。<br>
+ * 複数のAPIを同一オーディオフレーム内で確実に実行したい場合には、本関数でサーバー処理の
+ * 割り込みを防止し、それらの関数を実行してください。
+ * \par 例:
  * \code
- * 	�F
- * // �T�[�o�[�����̊��荞�݂�h�~
+ * 	：
+ * // サーバー処理の割り込みを防止
  * criAtom_Lock();
  *
- * // �����̉����𓯎��ɍĐ��J�n
+ * // 複数の音声を同時に再生開始
  * criAtomPlayer_Start(player1);
  * criAtomPlayer_Start(player2);
  * criAtomPlayer_Start(player3);
  * criAtomPlayer_Start(player4);
  *
- * // �T�[�o�[�����̊��荞�ݖh�~������
+ * // サーバー処理の割り込み防止を解除
  * criAtom_Unlock();
- * 	�F
+ * 	：
  * \endcode
  * \attention
- * ��L�̗�̂悤�ɁA�����̃v���[���[�œ����ɍĐ����X�^�[�g����ꍇ�ł��A
- * �X�g���[���Đ����͓����ɔ������J�n�����Ƃ͌���܂���B<br>
- * �i�o�b�t�@�����O�ɔ����Đ��x�������邽�߁B�j<br>
+ * 上記の例のように、複数のプレーヤーで同時に再生をスタートする場合でも、
+ * ストリーム再生時は同時に発音が開始されるとは限りません。<br>
+ * （バッファリングに伴う再生遅延があるため。）<br>
  * <br>
- * �{�֐����s��A������::criAtom_Unlock �֐����Ă΂Ȃ��ꍇ�A�����Đ����r�؂�鋰�ꂪ����܂��B<br>
- * �T�[�o�[�����̊��荞�݂�h�~�����Ԃ́A�ŏ����ɗ}����K�v������܂��B
+ * 本関数実行後、長時間::criAtom_Unlock 関数を呼ばない場合、音声再生が途切れる恐れがあります。<br>
+ * サーバー処理の割り込みを防止する区間は、最小限に抑える必要があります。
  * \sa criAtom_Unlock
  */
 void CRIAPI criAtom_Lock(void);
 
 /*JP
- * \brief �T�[�o�[�����̊��荞�ݖh�~������
+ * \brief サーバー処理の割り込み防止を解除
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * ::criAtom_Lock �֐��ɂ��A�T�[�o�[�����̊��荞�ݖh�~���������܂��B
+ * \par 説明:
+ * ::criAtom_Lock 関数による、サーバー処理の割り込み防止を解除します。
  * \sa criAtom_Lock
  */
 void CRIAPI criAtom_Unlock(void);
 
 /*JP
- * \brief �`�����l���R���t�B�O�̃f�t�H���g�l�ύX
+ * \brief チャンネルコンフィグのデフォルト値変更
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]   num_channels        �`�����l����
- * \param[in]   channel_config      �`�����l���R���t�B�O
- * \par ����:
- * �����f�[�^�̊e�`�����l���Əo�̓X�s�[�J�[�̑Ή��t����ύX���܂��B<br>
- * Atom���C�u�����́A�f�t�H���g��Ԃł͉����f�[�^���ȉ��̃`�����l���\���ł���Ƒz�肵�ē��삵�܂��B<br>
- * |�`�����l����	| �z�肳���`�����l���\��				|
+ * \param[in]   num_channels        チャンネル数
+ * \param[in]   channel_config      チャンネルコンフィグ
+ * \par 説明:
+ * 音声データの各チャンネルと出力スピーカーの対応付けを変更します。<br>
+ * Atomライブラリは、デフォルト状態では音声データが以下のチャンネル構成であると想定して動作します。<br>
+ * |チャンネル数	| 想定されるチャンネル構成				|
  * |---				|---									|
  * |1				| CRIATOM_CHANNEL_CONFIG_MONO			|
  * |2				| CRIATOM_CHANNEL_CONFIG_STEREO			|
@@ -3641,94 +3671,94 @@ void CRIAPI criAtom_Unlock(void);
  * |10				| CRIATOM_CHANNEL_CONFIG_7_1_2			|
  * |12				| CRIATOM_CHANNEL_CONFIG_7_1_4			|
  * |16				| CRIATOM_CHANNEL_CONFIG_AMBISONICS_3P	|
- * �Đ����鉹���f�[�^�̃`�����l���\������L�ƈقȂ�ꍇ�ɂ́A�{�֐����g�p���ă`�����l���\����ύX����K�v������܂��B<br>
- * �Ⴆ�΁A8ch�̉�����5.1.2ch�Ƃ��Ĉ����悤�w������ꍇ�A�ȉ��̂悤�ȃR�[�h�Ń`�����l���\����ύX����K�v������܂��B
+ * 再生する音声データのチャンネル構成が上記と異なる場合には、本関数を使用してチャンネル構成を変更する必要があります。<br>
+ * 例えば、8chの音声を5.1.2chとして扱うよう指示する場合、以下のようなコードでチャンネル構成を変更する必要があります。
  * \code
- * 	// 8ch�̉�����5.1.2ch�����Ƃ��Ĉ����悤�w��
+ * 	// 8chの音声を5.1.2ch音声として扱うよう指示
  * 	criAtom_ChangeDefaultChannelConfig(8, CRIATOM_CHANNEL_CONFIG_5_1_2);
  * \endcode
  * \attention
- * �\���ύX�̉e���́A�������inum_channels�j�Ŏw�肵���`�����l���̉����f�[�^�ɂ̂݉e�����܂��B<br>
- * ���̂��߁A�قȂ�`�����l�����̉����f�[�^�����݂���ꍇ�A�e�`�����l�����ɑ΂��Ă��ꂼ��`�����l���\���̕ύX���s���K�v������܂��B<br>
- * �Ⴆ�΁A4ch������8ch�����̗����ɂ��ă`�����l���\����ύX�������ꍇ�Anum_channels��4�̃P�[�X��8�̃P�[�X��2�p�^�[���̃`�����l���\�����w�肷��K�v������܂��B
+ * 構成変更の影響は、第一引数（num_channels）で指定したチャンネルの音声データにのみ影響します。<br>
+ * そのため、異なるチャンネル数の音声データが混在する場合、各チャンネル数に対してそれぞれチャンネル構成の変更を行う必要があります。<br>
+ * 例えば、4ch音声と8ch音声の両方についてチャンネル構成を変更したい場合、num_channelsが4のケースと8のケースの2パターンのチャンネル構成を指定する必要があります。
  * \code
- * 	// 4ch�����̃`�����l���\����ύX
+ * 	// 4ch音声のチャンネル構成を変更
  * 	criAtom_ChangeDefaultChannelConfig(4, CRIATOM_CHANNEL_CONFIG_AMBISONICS_1P);
  * 	
- * 	// 8ch�����̃`�����l���\����ύX
+ * 	// 8ch音声のチャンネル構成を変更
  * 	criAtom_ChangeDefaultChannelConfig(8, CRIATOM_CHANNEL_CONFIG_5_1_2);
  * \endcode
- * �Đ����̉������f�t�H���g�l���Q�Ƃ���^�C�~���O�̓��[�U�[�̑���Ɉˑ����܂��B<br>
- * ���̂��߁A�Đ����Ƀf�t�H���g�l��ύX�����ꍇ�A�Ӑ}�����^�C�~���O�ŕύX�����f�����Ƃ͌���܂���B<br>
- * �{�֐����g�p����ꍇ�A���������Ȃǉ������Đ�����O�Ɏ��s���Ă��������B<br>
+ * 再生中の音声がデフォルト値を参照するタイミングはユーザーの操作に依存します。<br>
+ * そのため、再生中にデフォルト値を変更した場合、意図したタイミングで変更が反映されるとは限りません。<br>
+ * 本関数を使用する場合、初期化時など音声を再生する前に実行してください。<br>
  */
 void CRIAPI criAtom_ChangeDefaultChannelConfig(
     CriSint32 num_channels, CriAtomChannelConfig channel_config);
 
 /*JP
- * \brief �`�����l�������̃f�t�H���g�l�ύX
+ * \brief チャンネル順序のデフォルト値変更
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]   num_channels        �`�����l����
- * \param[in]   channel_order       �`�����l������
- * \par ����:
- * �w�肵���`�����l�����̉����f�[�^�ɂ��āA�`�����l���̓ǂݍ��ݏ�����ύX���܂��B<br>
- * Atom���C�u�����́A�f�t�H���g��Ԃł͉����f�[�^���ȉ��̃`�����l�������ŃC���^�[���[�u����Ă���Ƒz�肵�ē��삵�܂��B<br>
- * |�`�����l���ԍ�	| �z�肳���`�����l��		|
+ * \param[in]   num_channels        チャンネル数
+ * \param[in]   channel_order       チャンネル順序
+ * \par 説明:
+ * 指定したチャンネル数の音声データについて、チャンネルの読み込み順序を変更します。<br>
+ * Atomライブラリは、デフォルト状態では音声データが以下のチャンネル順序でインターリーブされていると想定して動作します。<br>
+ * |チャンネル番号	| 想定されるチャンネル		|
  * |---				|---						|
- * |0				| ���t�g					|
- * |1				| ���C�g					|
- * |2				| �Z���^�[					|
+ * |0				| レフト					|
+ * |1				| ライト					|
+ * |2				| センター					|
  * |3				| LFE						|
- * |4				| �T���E���h���t�g			|
- * |5				| �T���E���h���C�g			|
- * |6				| �T���E���h�o�b�N���t�g	|
- * |7				| �T���E���h�o�b�N���C�g	|
- * |8				| �g�b�v�t�����g���t�g		|
- * |9				| �g�b�v�t�����g���C�g		|
- * |10				| �g�b�v�o�b�N���t�g		|
- * |11				| �g�b�v�o�b�N���C�g		|
- * �Đ����鉹���f�[�^�̕��я�����L�ƈقȂ�ꍇ�ɂ́A�{�֐����g�p���ă`�����l���̓ǂݍ��ݏ�����ύX����K�v������܂��B<br>
- * �Ⴆ�΁A���͉����̃T���E���h�o�b�N�������T���E���h�������O�ɂ���7.1ch�̉����f�[�^
- * �i4�A5�`�����l���ڂ�6�A7�`�����l���ڂƂ�����ւ���������f�[�^�j���g�p����ꍇ�A
- * �ȉ��̂悤�ȃR�[�h�Ń`�����l�����я����w�肷��K�v������܂��B
+ * |4				| サラウンドレフト			|
+ * |5				| サラウンドライト			|
+ * |6				| サラウンドバックレフト	|
+ * |7				| サラウンドバックライト	|
+ * |8				| トップフロントレフト		|
+ * |9				| トップフロントライト		|
+ * |10				| トップバックレフト		|
+ * |11				| トップバックライト		|
+ * 再生する音声データの並び順が上記と異なる場合には、本関数を使用してチャンネルの読み込み順序を変更する必要があります。<br>
+ * 例えば、入力音声のサラウンドバック成分がサラウンド成分より前にある7.1chの音声データ
+ * （4、5チャンネル目と6、7チャンネル目とが入れ替わった音声データ）を使用する場合、
+ * 以下のようなコードでチャンネル並び順を指定する必要があります。
  * \code
- * 	// 8ch�����ɂ��āA�T���E���h�����ƃT���E���h�o�b�N������
- * 	// ���C�u�����̑z��Ƌt���ɃC���^�[���[�u����Ă��邱�Ƃ𖾎�
+ * 	// 8ch音声について、サラウンド成分とサラウンドバック成分が
+ * 	// ライブラリの想定と逆順にインターリーブされていることを明示
  * 	CriSint32 channel_order[] = { 0, 1, 2, 3, 6, 7, 4, 5 };
  * 	criAtom_ChangeDefaultChannelOrder(8, channel_order);
  * \endcode
- * \par �⑫:
- * ���m���������̓Z���^�[�`�����l���Ɖ��߂���܂��B<br>
- * �������A�f�t�H���g��Ԃł̓��t�g�X�s�[�J�[�ƃ��C�g�X�s�[�J�[���g�p�����A������t�@���g���Z���^�[�ŏo�͂���܂��B<br>
- * �i���m�����������Z���^�[�X�s�[�J�[����o�͂���ɂ́A�p���X�s�[�J�[�^�C�v��ύX����K�v������܂��B�j<br>
+ * \par 補足:
+ * モノラル音声はセンターチャンネルと解釈されます。<br>
+ * ただし、デフォルト状態ではレフトスピーカーとライトスピーカーを使用した、いわゆるファントムセンターで出力されます。<br>
+ * （モノラル音声をセンタースピーカーから出力するには、パンスピーカータイプを変更する必要があります。）<br>
  * <br>
- * 5.1.2ch�̉����f�[�^�́A�f�t�H���g�ňȉ��̃`�����l�������Ɖ��߂���܂��B<br>
- * |�`�����l���ԍ�	| �z�肳���`�����l��		|
+ * 5.1.2chの音声データは、デフォルトで以下のチャンネル順序と解釈されます。<br>
+ * |チャンネル番号	| 想定されるチャンネル		|
  * |---				|---						|
- * |0				| ���t�g					|
- * |1				| ���C�g					|
- * |2				| �Z���^�[					|
+ * |0				| レフト					|
+ * |1				| ライト					|
+ * |2				| センター					|
  * |3				| LFE						|
- * |4				| �T���E���h���t�g			|
- * |5				| �T���E���h���C�g			|
- * |6				| �g�b�v���t�g				|
- * |7				| �g�b�v�g���C�g			|
+ * |4				| サラウンドレフト			|
+ * |5				| サラウンドライト			|
+ * |6				| トップレフト				|
+ * |7				| トップトライト			|
  * \attention
- * �����ύX�̉e���́A�������inum_channels�j�Ŏw�肵���`�����l���̉����f�[�^�ɂ̂݉e�����܂��B<br>
- * ���̂��߁A�قȂ�`�����l�����̉����f�[�^�����݂���ꍇ�A�e�`�����l�����ɑ΂��Ă��ꂼ��`�����l�������̕ύX���s���K�v������܂��B<br>
- * �Ⴆ�΁A7.1ch������7.1.4ch�����̗����ɂ��ă`�����l��������ύX�������ꍇ�Anum_channels��8�̃P�[�X��12�̃P�[�X��2�p�^�[���̃`�����l���������w�肷��K�v������܂��B
+ * 順序変更の影響は、第一引数（num_channels）で指定したチャンネルの音声データにのみ影響します。<br>
+ * そのため、異なるチャンネル数の音声データが混在する場合、各チャンネル数に対してそれぞれチャンネル順序の変更を行う必要があります。<br>
+ * 例えば、7.1ch音声と7.1.4ch音声の両方についてチャンネル順序を変更したい場合、num_channelsが8のケースと12のケースの2パターンのチャンネル順序を指定する必要があります。
  * \code
- * 	// 8ch�����̃`�����l��������ύX
- * 	CriSint32 channel_order_for_8ch[8] = { �c };
+ * 	// 8ch音声のチャンネル順序を変更
+ * 	CriSint32 channel_order_for_8ch[8] = { … };
  * 	criAtom_ChangeDefaultChannelOrder(8, channel_order_for_8ch);
  * 	
- * 	// 12ch�����̃`�����l��������ύX
- * 	CriSint32 channel_order_for_12ch[12] = { �c };
+ * 	// 12ch音声のチャンネル順序を変更
+ * 	CriSint32 channel_order_for_12ch[12] = { … };
  * 	criAtom_ChangeDefaultChannelOrder(12, channel_order_for_12ch);
  * \endcode
- * �Đ����̉������f�t�H���g�l���Q�Ƃ���^�C�~���O�̓��[�U�[�̑���Ɉˑ����܂��B<br>
- * ���̂��߁A�Đ����Ƀf�t�H���g�l��ύX�����ꍇ�A�Ӑ}�����^�C�~���O�ŕύX�����f�����Ƃ͌���܂���B<br>
- * �{�֐����g�p����ꍇ�A���������Ȃǉ������Đ�����O�Ɏ��s���Ă��������B<br>
+ * 再生中の音声がデフォルト値を参照するタイミングはユーザーの操作に依存します。<br>
+ * そのため、再生中にデフォルト値を変更した場合、意図したタイミングで変更が反映されるとは限りません。<br>
+ * 本関数を使用する場合、初期化時など音声を再生する前に実行してください。<br>
  */
 void CRIAPI criAtom_ChangeDefaultChannelOrder(
     CriSint32 num_channels, const CriSint32 *channel_order);
@@ -3736,51 +3766,51 @@ void CRIAPI criAtom_ChangeDefaultChannelOrder(
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtom_ChangeDefaultChannelConfig �֐��̎g�p���������Ă��������B
+ * 削除予定の非推奨APIです。
+ * ::criAtom_ChangeDefaultChannelConfig 関数の使用を検討してください。
  */
 void CRIAPI criAtom_SetChannelMapping(CriSint32 nch, CriUint32 type);
 
 /*JP
- * \brief Ambisonics�����̃t�H�[�}�b�g�w��
+ * \brief Ambisonics音声のフォーマット指定
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	format				�t�H�[�}�b�g
- * \par ����:
- * Ambisonics�����f�[�^�̃`�����l�����я��Ɛ��K���������w�肵�܂��B<br>
- * �f�t�H���g�̃t�H�[�}�b�g�� CRIATOM_AMBISONICS_ACN_SN3D �ł��B
+ * \param[in]	format				フォーマット
+ * \par 説明:
+ * Ambisonics音声データのチャンネル並び順と正規化方式を指定します。<br>
+ * デフォルトのフォーマットは CRIATOM_AMBISONICS_ACN_SN3D です。
  */
 void CRIAPI criAtom_SetAmbisonicsInputFormat(CriAtomAmbisonicsFormat format);
 
 /*JP
- * \brief �p�t�H�[�}���X���j�^�[�@�\�̒ǉ�
+ * \brief パフォーマンスモニター機能の追加
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �p�t�H�[�}���X�v���@�\��ǉ����A�p�t�H�[�}���X�v���������J�n���܂��B<br>
- * �{�֐������s��A ::criAtom_GetPerformanceInfo �֐������s���邱�ƂŁA
- * �T�[�o�[�����̕��ׂ�A�T�[�o�[�����̎��s�Ԋu���A���C�u�����̃p�t�H�[�}���X����
- * �擾���邱�Ƃ��\�ł��B
+ * \par 説明:
+ * パフォーマンス計測機能を追加し、パフォーマンス計測処理を開始します。<br>
+ * 本関数を実行後、 ::criAtom_GetPerformanceInfo 関数を実行することで、
+ * サーバー処理の負荷や、サーバー処理の実行間隔等、ライブラリのパフォーマンス情報を
+ * 取得することが可能です。
  * \sa criAtom_GetPerformanceInfo, criAtom_DetachPerformanceMonitor
- * \par ��:
+ * \par 例:
  * \code
- * 	// �p�t�H�[�}���X���擾�p�\����
+ * 	// パフォーマンス情報取得用構造体
  * 	CriAtomPerformanceInfo info;
  *
- * 	// ���C�u�����̏�����
- * 	criAtom_Initialize(�c);
+ * 	// ライブラリの初期化
+ * 	criAtom_Initialize(…);
  *
- * 	// �p�t�H�[�}���X���j�^�[�@�\�̒ǉ�
+ * 	// パフォーマンスモニター機能の追加
  * 	criAtom_AttachPerformanceMonitor();
  *
- * 	// �p�t�H�[�}���X���j�^�[�̃��Z�b�g
+ * 	// パフォーマンスモニターのリセット
  * 	criAtom_ResetPerformanceMonitor();
  *
- * 	// �p�t�H�[�}���X�v�����
- * 	�c
+ * 	// パフォーマンス計測区間
+ * 	…
  *
- * 	// �p�t�H�[�}���X���̎擾
+ * 	// パフォーマンス情報の取得
  * 	criAtom_GetPerformanceInfo(&info);
  *
- * 	// �v�����ʂ̕\��
+ * 	// 計測結果の表示
  * 	printf(
  * 		"Max CPU Load            : %d (us)\n"	\
  * 		"Average CPU Load        : %d (us)\n"	\
@@ -3794,131 +3824,132 @@ void CRIAPI criAtom_SetAmbisonicsInputFormat(CriAtomAmbisonicsFormat format);
 void CRIAPI criAtom_AttachPerformanceMonitor(void);
 
 /*JP
- * \brief �p�t�H�[�}���X���j�^�[�@�\�̍폜
+ * \brief パフォーマンスモニター機能の削除
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �p�t�H�[�}���X�v���������I�����A�p�t�H�[�}���X�v���@�\���폜���܂��B
+ * \par 説明:
+ * パフォーマンス計測処理を終了し、パフォーマンス計測機能を削除します。
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。
  */
 void CRIAPI criAtom_DetachPerformanceMonitor(void);
 
 /*JP
- * \brief �p�t�H�[�}���X���j�^�[�̃��Z�b�g
+ * \brief パフォーマンスモニターのリセット
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * ���݂܂ł̌v�����ʂ�j�����܂��B<br>
- * �p�t�H�[�}���X���j�^�[�́A ::criAtom_AttachPerformanceMonitor �֐����s����
- * ����p�t�H�[�}���X���̎擾���J�n���A�v�����ʂ�ݐς��܂��B<br>
- * ���ꂩ��v�������Ԃɑ΂��A�ȑO�̌v�����ʂ��ȍ~�̌v�����ʂɊ܂߂����Ȃ��ꍇ�ɂ́A
- * �{�֐������s���A�ݐς��ꂽ�v�����ʂ���U�j������K�v������܂��B
+ * \par 説明:
+ * 現在までの計測結果を破棄します。<br>
+ * パフォーマンスモニターは、 ::criAtom_AttachPerformanceMonitor 関数実行直後
+ * からパフォーマンス情報の取得を開始し、計測結果を累積します。<br>
+ * これから計測する区間に対し、以前の計測結果を以降の計測結果に含めたくない場合には、
+ * 本関数を実行し、累積された計測結果を一旦破棄する必要があります。
  */
 void CRIAPI criAtom_ResetPerformanceMonitor(void);
 
 /*JP
- * \brief �p�t�H�[�}���X���̎擾
+ * \brief パフォーマンス情報の取得
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * �p�t�H�[�}���X�����擾���܂��B<br>
- * �{�֐��́A ::criAtom_AttachPerformanceMonitor �֐����s�ォ��
- * ::criAtom_DetachPerformanceMonitor �֐������s����܂ł̊ԁA���p�\�ł��B<br>
+ * \param[out]	info	パフォーマンス情報
+ * \par 説明:
+ * パフォーマンス情報を取得します。<br>
+ * 本関数は、 ::criAtom_AttachPerformanceMonitor 関数実行後から
+ * ::criAtom_DetachPerformanceMonitor 関数を実行するまでの間、利用可能です。<br>
  * \sa criAtom_AttachPerformanceMonitor, criAtom_DetachPerformanceMonitor
  */
 void CRIAPI criAtom_GetPerformanceInfo(CriAtomPerformanceInfo *info);
 
 /*JP
- * \brief ADX�f�[�^�̃r�b�g���[�g�v�Z
+ * \brief ADXデータのビットレート計算
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	num_channels	�f�[�^�̃`�����l����
- * \param[in]	sampling_rate	�f�[�^�̃T���v�����O���[�g
- * \return		CriSint32		�r�b�g���[�g[bps]
- * \par ����:
- * ADX�f�[�^�̃r�b�g���[�g���v�Z���܂��B<br>
- * �v�Z�Ɏ��s����Ɩ{�֐���-1��Ԃ��܂��B<br>
- * �v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
+ * \param[in]	num_channels	データのチャンネル数
+ * \param[in]	sampling_rate	データのサンプリングレート
+ * \return		CriSint32		ビットレート[bps]
+ * \par 説明:
+ * ADXデータのビットレートを計算します。<br>
+ * 計算に失敗すると本関数は-1を返します。<br>
+ * 計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
  */
 CriSint32 CRIAPI criAtom_CalculateAdxBitrate(
 	CriSint32 num_channels, CriSint32 sampling_rate);
 
 /*JP
- * \brief HCA�f�[�^�̃r�b�g���[�g�v�Z
+ * \brief HCAデータのビットレート計算
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	num_channels	�f�[�^�̃`�����l����
- * \param[in]	sampling_rate	�f�[�^�̃T���v�����O���[�g
- * \param[in]	quality			�f�[�^�̃G���R�[�h�i��
- * \return		CriSint32		�r�b�g���[�g[bps]
- * \par ����:
- * HCA�f�[�^�̃r�b�g���[�g���v�Z���܂��B<br>
- * �v�Z�Ɏ��s����Ɩ{�֐���-1��Ԃ��܂��B<br>
- * �v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * quality�ɂ�CRI Atom Craft�܂���CRI Atom Encoder�Őݒ肵���G���R�[�h�i�����w�肵�܂��B
+ * \param[in]	num_channels	データのチャンネル数
+ * \param[in]	sampling_rate	データのサンプリングレート
+ * \param[in]	quality			データのエンコード品質
+ * \return		CriSint32		ビットレート[bps]
+ * \par 説明:
+ * HCAデータのビットレートを計算します。<br>
+ * 計算に失敗すると本関数は-1を返します。<br>
+ * 計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * qualityにはCRI Atom CraftまたはCRI Atom Encoderで設定したエンコード品質を指定します。
  */
 CriSint32 CRIAPI criAtom_CalculateHcaBitrate(
 	CriSint32 num_channels, CriSint32 sampling_rate, CriAtomEncodeQuality quality);
 
 /*JP
- * \brief HCA-MX�f�[�^�̃r�b�g���[�g�v�Z
+ * \brief HCA-MXデータのビットレート計算
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	num_channels	�f�[�^�̃`�����l����
- * \param[in]	sampling_rate	�f�[�^�̃T���v�����O���[�g
- * \param[in]	quality			�f�[�^�̃G���R�[�h�i��
- * \return		CriSint32		�r�b�g���[�g[bps]
- * \par ����:
- * HCA-MX�f�[�^�̃r�b�g���[�g���v�Z���܂��B<br>
- * �v�Z�Ɏ��s����Ɩ{�֐���-1��Ԃ��܂��B<br>
- * �v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * quality�ɂ�CRI Atom Craft�܂���CRI Atom Encoder�Őݒ肵���G���R�[�h�i�����w�肵�܂��B
+ * \param[in]	num_channels	データのチャンネル数
+ * \param[in]	sampling_rate	データのサンプリングレート
+ * \param[in]	quality			データのエンコード品質
+ * \return		CriSint32		ビットレート[bps]
+ * \par 説明:
+ * HCA-MXデータのビットレートを計算します。<br>
+ * 計算に失敗すると本関数は-1を返します。<br>
+ * 計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * qualityにはCRI Atom CraftまたはCRI Atom Encoderで設定したエンコード品質を指定します。
  */
 CriSint32 CRIAPI criAtom_CalculateHcaMxBitrate(
 	CriSint32 num_channels, CriSint32 sampling_rate, CriAtomEncodeQuality quality);
 
 /*JP
- * \brief �X�g���[�~���O���̎擾
+ * \brief ストリーミング情報の取得
  * \ingroup ATOMLIB_GLOBAL
- * \param[out]	streaming_info	�X�g���[�~���O���ۑ���̃|�C���^
- * \retval		CRI_TRUE	�l���擾�ł���
- * \retval		CRI_FALSE	�l���擾�ł��Ȃ�����
- * \par ����:
- * CRI Atom���C�u�����̃X�g���[�~���O�Ǘ����W���[������X�g���[�~���O�����擾���܂��B<br>
- * �{�֐��́A�Ăяo���ꂽ���_�̃X�g���[�~���O���� streaming_info �ɕۑ����܂��B<br>
+ * \param[out]	streaming_info	ストリーミング情報保存先のポインタ
+ * \retval		CRI_TRUE	値を取得できた
+ * \retval		CRI_FALSE	値を取得できなかった
+ * \par 説明:
+ * CRI Atomライブラリのストリーミング管理モジュールからストリーミング情報を取得します。<br>
+ * 本関数は、呼び出された時点のストリーミング情報を streaming_info に保存します。<br>
  * \attention
- * Atom�T�[�o�[���̏����ƈꕔ�r�����䂵�Ă��邽�߁A
- * �D��x�t�]�ɂ��Atom�T�[�o�[���~�߂Ă��܂�Ȃ��悤�ɒ��ӂ��Ă��������B<br>
- * �ꕔ�̃v���b�g�t�H�[���ł́A�X�g���[�~���O�����擾�ł��܂���B<br>
- * �{�֐��̖߂�l���m�F���Ă��������B<br>
- * �G���[�������ŃX�g���[�~���O�����擾�ł��Ȃ������ꍇ�ɂ��ẮA<br>
- * �G���[�R�[���o�b�N���������Ă��Ȃ������m�F���Ă��������B
+ * Atomサーバー内の処理と一部排他制御しているため、
+ * 優先度逆転によりAtomサーバーを止めてしまわないように注意してください。<br>
+ * 一部のプラットフォームでは、ストリーミング情報を取得できません。<br>
+ * 本関数の戻り値を確認してください。<br>
+ * エラーが原因でストリーミング情報を取得できなかった場合については、<br>
+ * エラーコールバックが発生していないかを確認してください。
  * \sa CriAtomStreamingInfo
  */
 CriBool CRIAPI criAtom_GetStreamingInfo(CriAtomStreamingInfo* streaming_info);
 
 /*JP
- * \brief �t�@�C��I/O�̋󂫎��Ԃ��g�����X�g���[�~���O�ǂݍ��݂��s�����ǂ���
+ * \brief ファイルI/Oの空き時間を使ったストリーミング読み込みを行うかどうか
  * \ingroup ATOMLIB_GLOBAL
- * \param[in]	flag	CRI_TRUE=�t�@�C��I/O�̋󂫎��Ԃ��g���ēǂݍ���
- * \retval		CRI_TRUE	����ɏ���������
- * \retval		CRI_FALSE	�G���[������
- * \par ����:
- * CRI Atom���C�u�����̃X�g���[�~���O�Ǘ����W���[���ɑ΂��āA<br>
- * �t�@�C��I/O�̋󂫎��Ԃ��g���ăX�g���[�~���O�ǂݍ��݂��s�����ǂ�����ݒ肵�܂��B<br>
- * CRI_TRUE��ݒ肷��ƁACRI Atom���C�u�����̃X�g���[�~���O�Ǘ����W���[����
- * �t�@�C��I/O�̋󂫎��Ԃ��g���āA�󂫃o�b�t�@�[�ɑ΂��ăf�[�^��]���ɓǂݍ��݂܂��B<br>
- * CRI_FALSE��ݒ肷��ƁACRI Atom���C�u�����̃X�g���[�~���O�Ǘ����W���[����
- * �t�@�C��I/O�̋󂫎��Ԃ��g��Ȃ��Ȃ�A�]���ȃX�g���[�~���O�ǂݍ��݂��s��Ȃ��Ȃ�܂��B<br>
- * �f�t�H���g�ł�CRI_TRUE��ݒ肵����Ԃł��B<br>
- * \par ���l�F
- * �t�@�C��I/O�̋󂫎��Ԃ��g���A�󂫃o�b�t�@�[�ɑ΂��ăf�[�^��]���ɓǂݍ���ł������ƂŁA
- * �V�[�N�̔����p�x�����炷�����ł��A�����I�ȃt�@�C��I/O�̌��������サ�܂��B<br>
- * ����A�ʏ�t�@�C���̃��[�h�����́A�X�g���[�~���O�̓ǂݍ��݂����D��x���Ⴂ���߁A
- * �󂫃o�b�t�@�[���傫������ƒʏ�t�@�C���̃��[�h������啝�ɒx�������Ă��܂��܂��B<br>
+ * \param[in]	flag	CRI_TRUE=ファイルI/Oの空き時間を使って読み込む
+ * \retval		CRI_TRUE	正常に処理が完了
+ * \retval		CRI_FALSE	エラーが発生
+ * \par 説明:
+ * CRI Atomライブラリのストリーミング管理モジュールに対して、<br>
+ * ファイルI/Oの空き時間を使ってストリーミング読み込みを行うかどうかを設定します。<br>
+ * CRI_TRUEを設定すると、CRI Atomライブラリのストリーミング管理モジュールは
+ * ファイルI/Oの空き時間を使って、空きバッファーに対してデータを余分に読み込みます。<br>
+ * CRI_FALSEを設定すると、CRI Atomライブラリのストリーミング管理モジュールは
+ * ファイルI/Oの空き時間を使わなくなり、余分なストリーミング読み込みを行わなくなります。<br>
+ * デフォルトではCRI_TRUEを設定した状態です。<br>
+ * \par 備考：
+ * ファイルI/Oの空き時間を使い、空きバッファーに対してデータを余分に読み込んでおくことで、
+ * シークの発生頻度を減らす事ができ、総合的なファイルI/Oの効率が向上します。<br>
+ * 一方、通常ファイルのロード処理は、ストリーミングの読み込みよりも優先度が低いため、
+ * 空きバッファーが大きすぎると通常ファイルのロード処理を大幅に遅延させてしまいます。<br>
  * \attention
- * Atom�T�[�o�[���̏����ƈꕔ�r�����䂵�Ă��邽�߁A
- * �D��x�t�]�ɂ��Atom�T�[�o�[���~�߂Ă��܂�Ȃ��悤�ɒ��ӂ��Ă��������B
+ * Atomサーバー内の処理と一部排他制御しているため、
+ * 優先度逆転によりAtomサーバーを止めてしまわないように注意してください。
  */
 CriBool CRIAPI criAtom_SetFreeTimeBufferingFlagForDefaultDevice(CriBool flag);
 
@@ -3927,165 +3958,165 @@ CriBool CRIAPI criAtom_SetFreeTimeBufferingFlagForDefaultDevice(CriBool flag);
  *      CRI Atom HCA-MX API
  *=========================================================================*/
 /*JP
- * \brief HCA-MX�������p���[�N�̈�T�C�Y�̌v�Z
+ * \brief HCA-MX初期化用ワーク領域サイズの計算
  * \ingroup ATOMLIB_HCA_MX
- * \param[in]	config		HCA-MX�������p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * HCA-MX�̏������ɕK�v�ȃ��[�N�̈�̃T�C�Y���擾���܂��B<br>
- * ::criAtom_SetUserAllocator �}�N���ɂ��A���P�[�^�[�o�^���s�킸��
- * ::criAtomHcaMx_Initialize �֐���HCA-MX�̏��������s���ꍇ�A
- * �{�֐��Ōv�Z�����T�C�Y���̃����������[�N�̈�Ƃ��ēn���K�v������܂��B<br>
+ * \param[in]	config		HCA-MX初期化用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * HCA-MXの初期化に必要なワーク領域のサイズを取得します。<br>
+ * ::criAtom_SetUserAllocator マクロによるアロケーター登録を行わずに
+ * ::criAtomHcaMx_Initialize 関数でHCA-MXの初期化を行う場合、
+ * 本関数で計算したサイズ分のメモリをワーク領域として渡す必要があります。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * HCA-MX�̏������ɕK�v�ȃ��[�N�������̃T�C�Y�́AHCA-MX�������p�R���t�B�O
- * �\���́i ::CriAtomHcaMxConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * HCA-MXの初期化に必要なワークメモリのサイズは、HCA-MX初期化用コンフィグ
+ * 構造体（ ::CriAtomHcaMxConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomHcaMx_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomHcaMx_SetDefaultConfig 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \sa criAtom_SetUserAllocator, criAtomHcaMx_Initialize
  */
 CriSint32 CRIAPI criAtomHcaMx_CalculateWorkSize(const CriAtomHcaMxConfig *config);
 
 /*JP
- * \brief ���[�N�̈�T�C�Y�v�Z�p�R���t�B�O�\���̂̐ݒ�
+ * \brief ワーク領域サイズ計算用コンフィグ構造体の設定
  * \ingroup ATOMLIB_HCA_MX
- * \param[in]	config		HCA-MX�������p�R���t�B�O�\����
- * \par ����:
- * ���[�N�̈�T�C�Y�̌v�Z�p�ɁAHCA-MX�������p�R���t�B�O�\����
- * �i ::CriAtomHcaMxConfig �\���́j�����o�^���܂��B<br>
+ * \param[in]	config		HCA-MX初期化用コンフィグ構造体
+ * \par 説明:
+ * ワーク領域サイズの計算用に、HCA-MX初期化用コンフィグ構造体
+ * （ ::CriAtomHcaMxConfig 構造体）を仮登録します。<br>
  * <br>
- * HCA-MX�v���[���[�̍쐬�ɕK�v�ȃ��[�N�̈�̃T�C�Y�́A
- * HCA-MX���������i ::criAtomHcaMx_Initialize �֐����s���j
- * �ɐݒ肷��\���̂̃p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�ʏ�̓v���[���[�̍쐬�ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z����O�ɁA
- * HCA-MX������������K�v������܂��B<br>
- * �{�֐����g�p����HCA-MX�������p�R���t�B�O�\���̂�o�^�����ꍇ�A
+ * HCA-MXプレーヤーの作成に必要なワーク領域のサイズは、
+ * HCA-MX初期化時（ ::criAtomHcaMx_Initialize 関数実行時）
+ * に設定する構造体のパラメーターによって変化します。<br>
+ * そのため、通常はプレーヤーの作成に必要なワーク領域サイズを計算する前に、
+ * HCA-MXを初期化する必要があります。<br>
+ * 本関数を使用してHCA-MX初期化用コンフィグ構造体を登録した場合、
  * ::criAtomPlayer_CalculateWorkSizeForHcaMxPlayer
- * �֐��������������Ȃ��Ɏg�p�\�ƂȂ�܂��B<br>
- * \par ���l:
- * �����i config �j�� NULL ���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomPlayer_SetDefaultConfigForHcaMxPlayer
- * �K�p���Ɠ����p�����[�^�[�j�Ń��[�N�̈�T�C�Y���v�Z���܂��B<br>
+ * 関数が初期化処理なしに使用可能となります。<br>
+ * \par 備考:
+ * 引数（ config ）に NULL を指定した場合、デフォルト設定
+ * （ ::criAtomPlayer_SetDefaultConfigForHcaMxPlayer
+ * 適用時と同じパラメーター）でワーク領域サイズを計算します。<br>
  * <br>
- * ����A�{�֐��ň�U�R���t�B�O�\���̂�ݒ肷��ƁA
- * �ݒ�O�̏�ԁi����������Ԃł̃��[�N�̈�T�C�Y�v�Z���G���[�Ƃ��铮��j
- * �ɖ߂����Ƃ��ł��Ȃ��Ȃ�܂��B<br>
- * �i�֐����ēx���s���ăp�����[�^�[���㏑�����邱�Ƃ͉\�ł��B�j<br>
+ * 現状、本関数で一旦コンフィグ構造体を設定すると、
+ * 設定前の状態（未初期化状態でのワーク領域サイズ計算をエラーとする動作）
+ * に戻すことができなくなります。<br>
+ * （関数を再度実行してパラメーターを上書きすることは可能です。）<br>
  * \attention
- * �{�֐��œo�^�����������p�R���t�B�O�\���̂́A
- * HCA-MX����������Ԃł̃��[�N�̈�T�C�Y�v�Z�ɂ����g�p����܂���B<br>
- * HCA-MX��������ɂ͖{�֐��ɐݒ肵���p�����[�^�[�ł͂Ȃ��A
- * ���������Ɏw�肳�ꂽ�p�����[�^�[�����[�N�̈�T�C�Y�̌v�Z�Ɏg�p����܂��B<br>
- * �i�{�֐��œo�^����\���̂̃p�����[�^�[�ƁA
- * HCA-MX���������Ɏg�p����\���̂̃p�����[�^�[���قȂ�ꍇ�A
- * ���[�N�̈�T�C�Y���s�����A�n���h���̍쐬�Ɏ��s���鋰�ꂪ����܂��B�j<br>
- * \par ��:
+ * 本関数で登録した初期化用コンフィグ構造体は、
+ * HCA-MX未初期化状態でのワーク領域サイズ計算にしか使用されません。<br>
+ * HCA-MX初期化後には本関数に設定したパラメーターではなく、
+ * 初期化時に指定されたパラメーターがワーク領域サイズの計算に使用されます。<br>
+ * （本関数で登録する構造体のパラメーターと、
+ * HCA-MX初期化時に使用する構造体のパラメーターが異なる場合、
+ * ワーク領域サイズが不足し、ハンドルの作成に失敗する恐れがあります。）<br>
+ * \par 例:
  * \code
  * 	CriAtomHcaMxConfig hca_mx_config;
  *
- * 	// ���[�N�̈�v�Z�p��HCA-MX�������ݒ�����o�^
+ * 	// ワーク領域計算用にHCA-MX初期化設定を仮登録
  * 	criAtomHcaMx_SetDefaultConfig(&hca_mx_config);
  * 	criAtomHcaMx_SetConfigForWorkSizeCalculation(&hca_mx_config);
  *
- * 	// HCA-MX�v���[���[�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * 	// HCA-MXプレーヤー作成用ワーク領域サイズの計算
  * 	hca_mx_vp_work_size = criAtomPlayer_CalculateWorkSizeForHcaMxPlayer(NULL);
- * 		�F
+ * 		：
  * \endcode
  * \sa criAtomPlayer_CalculateWorkSizeForHcaMxPlayer, criAtomPlayer_SetDefaultConfigForHcaMxPlayer
  */
 void CRIAPI criAtomHcaMx_SetConfigForWorkSizeCalculation(const CriAtomHcaMxConfig *config);
 
 /*JP
- * \brief HCA-MX�̏�����
+ * \brief HCA-MXの初期化
  * \ingroup ATOMLIB_HCA_MX
- * \param[in]	config	HCA-MX�������p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \par ����:
- * HCA-MX�̏��������s���܂��B<br>
- * �{�֐������s���邱�ƂŁAHCA-MX�f�[�^�̏o�͋@�\���N������܂��B<br>
- * \par ���l:
- * HCA-MX�̏������ɕK�v�ȃ��[�N�������̃T�C�Y�́AHCA-MX�������p�R���t�B�O
- * �\���́i ::CriAtomHcaMxConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * \param[in]	config	HCA-MX初期化用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \par 説明:
+ * HCA-MXの初期化を行います。<br>
+ * 本関数を実行することで、HCA-MXデータの出力機能が起動されます。<br>
+ * \par 備考:
+ * HCA-MXの初期化に必要なワークメモリのサイズは、HCA-MX初期化用コンフィグ
+ * 構造体（ ::CriAtomHcaMxConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomHcaMx_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j�ŏ������������s���܂��B<br>
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomHcaMx_SetDefaultConfig 適用時と同じパラメーター）で初期化処理を行います。<br>
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。
  * <br>
- * �{�֐������s��A�K���΂ɂȂ� ::criAtomHcaMx_Finalize �֐������s���Ă��������B<br>
- * �܂��A ::criAtomHcaMx_Finalize �֐������s����܂ł́A�{�֐����ēx���s���Ȃ��ł��������B<br>
+ * 本関数を実行後、必ず対になる ::criAtomHcaMx_Finalize 関数を実行してください。<br>
+ * また、 ::criAtomHcaMx_Finalize 関数を実行するまでは、本関数を再度実行しないでください。<br>
  * \sa criAtom_SetUserAllocator, criAtomHcaMx_CalculateWorkSize
  */
 void CRIAPI criAtomHcaMx_Initialize(
 	const CriAtomHcaMxConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief HCA-MX�̏I��
+ * \brief HCA-MXの終了
  * \ingroup ATOMLIB_HCA_MX
- * \par ����:
- * HCA-MX�̏I���������s���܂��B<br>
- * �{�֐������s���邱�ƂŁAHCA-MX�f�[�^�̏o�͂���~����܂��B<br>
- * ::criAtom_SetUserAllocator �}�N�����g�p���ăA���P�[�^�[��o�^�ς݂̏ꍇ�A
- * HCA-MX���������Ɋm�ۂ��ꂽ�������̈悪�������܂��B<br>
- * �iHCA-MX���������Ƀ��[�N�̈��n�����ꍇ�A�{�֐����s��ł����
- * ���[�N�̈������\�ł��B�j<br>
+ * \par 説明:
+ * HCA-MXの終了処理を行います。<br>
+ * 本関数を実行することで、HCA-MXデータの出力が停止されます。<br>
+ * ::criAtom_SetUserAllocator マクロを使用してアロケーターを登録済みの場合、
+ * HCA-MX初期化時に確保されたメモリ領域が解放されます。<br>
+ * （HCA-MX初期化時にワーク領域を渡した場合、本関数実行後であれば
+ * ワーク領域を解放可能です。）<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。
  * \sa criAtom_SetUserAllocator, criAtomHcaMx_Initialize
  */
 void CRIAPI criAtomHcaMx_Finalize(void);
 
 /*JP
- * \brief �~�L�T�̃o�X�Z���h���x���ݒ�
+ * \brief ミキサーのバスセンドレベル設定
  * \ingroup ATOMLIB_HCA_MX
- * \param[in]	mixer_id	�~�L�TID
- * \param[in]	bus_name	�o�X��
- * \param[in]	level		�Z���h���x���l�i0.0f�`1.0f�j
- * \par ����:
- * �~�L�T�̃o�X�Z���h���x����ݒ肵�܂��B<br>
- * �f�t�H���g��Ԃł́AHCA-MX�̃f�R�[�h���ʂ̓~�L�T�Ɋi�[���ꂽ��A
- * �o�X0��1.0f�̃��x���ő��M����܂��B<br>
- * �{�֐����g�p���邱�ƂŁA�f�R�[�h���ʂ𑼂̃o�X�ւ��Z���h���邱�Ƃ��\�ɂȂ�܂��B<br>
- * �i�~�L�T���ƂɈقȂ�o�X�G�t�F�N�g��K�p�\�ɂȂ�܂��B�j<br>
+ * \param[in]	mixer_id	ミキサーID
+ * \param[in]	bus_name	バス名
+ * \param[in]	level		センドレベル値（0.0f～1.0f）
+ * \par 説明:
+ * ミキサーのバスセンドレベルを設定します。<br>
+ * デフォルト状態では、HCA-MXのデコード結果はミキサーに格納された後、
+ * バス0へ1.0fのレベルで送信されます。<br>
+ * 本関数を使用することで、デコード結果を他のバスへもセンドすることが可能になります。<br>
+ * （ミキサーごとに異なるバスエフェクトを適用可能になります。）<br>
  */
 void CRIAPI criAtomHcaMx_SetBusSendLevelByName(
 	CriSint32 mixer_id, const CriChar8* bus_name, CriFloat32 level);
 
 /*JP
- * \brief �~�L�T�̏o�͎��g��������̐ݒ�
+ * \brief ミキサーの出力周波数調整比の設定
  * \ingroup ATOMLIB_HCA_MX
- * \param[in]	mixer_id	�~�L�TID
- * \param[in]	ratio		�Z���h���x���l�i0.25f�`4.0f�j
- * \par ����:
- * �~�L�T�̏o�͎��g���������ݒ肵�܂��B<br>
- * ���g��������́A�����f�[�^�̎��g���ƍĐ����g���̔䗦�ŁA�Đ����x�̔{���Ɠ����ł��B<br>
- * ���g���䂪1.0f�𒴂���ꍇ�A�����f�[�^�͌�����荂���ɍĐ�����A
- * 1.0f�����̏ꍇ�́A�����f�[�^�͌������ᑬ�ōĐ�����܂��B<br>
- * �{�֐����g�p���邱�ƂŁA�Ώۂ̃~�L�T���g�p����S�Ẵv���[���[�̍Đ����x��
- * �ύX���邱�Ƃ��ł��܂��i�X�̃v���[���[�̍Đ����x�͕ύX�ł��܂���j�B<br>
+ * \param[in]	mixer_id	ミキサーID
+ * \param[in]	ratio		センドレベル値（0.25f～4.0f）
+ * \par 説明:
+ * ミキサーの出力周波数調整比を設定します。<br>
+ * 周波数調整比は、音声データの周波数と再生周波数の比率で、再生速度の倍率と等価です。<br>
+ * 周波数比が1.0fを超える場合、音声データは原音より高速に再生され、
+ * 1.0f未満の場合は、音声データは原音より低速で再生されます。<br>
+ * 本関数を使用することで、対象のミキサーを使用する全てのプレーヤーの再生速度を
+ * 変更することができます（個々のプレーヤーの再生速度は変更できません）。<br>
  */
 void CRIAPI criAtomHcaMx_SetFrequencyRatio(CriSint32 mixer_id, CriFloat32 ratio);
 
@@ -4093,209 +4124,191 @@ void CRIAPI criAtomHcaMx_SetFrequencyRatio(CriSint32 mixer_id, CriFloat32 ratio)
  *      CRI Atom AWB API
  *=========================================================================*/
 /*JP
- * \brief AWB�t�@�C����TOC��񃍁[�h�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief AWBファイルのTOC情報ロード用ワーク領域サイズの計算
  * \ingroup ATOMLIB_AWB
- * \param[in]	num			AWB�t�@�C���Ɋ܂܂��R���e���c��
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * AWB�t�@�C����TOC�������[�h���邽�߂ɏ\���ȃ��[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	num			AWBファイルに含まれるコンテンツ数
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * AWBファイルのTOC情報をロードするために十分なワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * \sa criAtomAwb_LoadToc, criAtomAwb_LoadTocAsync
  */
 CriSint32 CRIAPI criAtomAwb_CalculateWorkSizeForLoadToc(CriSint32 num);
 
 /*JP
- * \brief AWB�t�@�C����TOC��񃍁[�h�i�����Łj
+ * \brief AWBファイルのTOC情報ロード（同期版）
  * \ingroup ATOMLIB_AWB
- * \param[in]	binder		�o�C���_�[�n���h��
- * \param[in]	path		AWB�t�@�C����
- * \param[in]	work		AWB�t�@�C����TOC��񃍁[�h�p���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomAwbHn AWB�n���h��
- * \par ����:
- * �����Đ��̉����Ƃ��Ďg�p����AWB�t�@�C����TOC�������[�h���܂��B<br>
- * ���[�h�����܂Ŗ{�֐��͕��A���܂���̂ŁA�V�[���̐؂�ւ���A
- * ���וϓ������e�ł���^�C�~���O�Ŏ��s���Ă��������B<br>
- * ���[�h�ɐ�������ƁA�߂�l�ɗL����AWB�n���h�����Ԃ�܂��̂ŁA
- * ::criAtomPlayer_SetWaveId �֐��Ɏw�肵�Ďg�p���Ă��������B<br>
- * �g���I�����AWB�n���h���́A::criAtomAwb_Release �֐��ŉ�����Ă��������B<br>
- * TOC���̃��[�h�Ɏ��s�����ꍇ��NULL���Ԃ�܂��B<br>
- * \par ���l:
- * ��O������NULL�A��l������0���w�肵�Ď��s����ƁA
- * �K�v�ȃ��[�N�̈���֐������œ��I�Ɋm�ۂ��܂��B
- * ���I�Ɋm�ۂ����̈�́A::criAtomAwb_Release �֐��ŉ������܂��B
- * \attention
- * AWB�n���h���͓����I�Ƀo�C���_�[�i CriFsBinderHn �j�A����у��[�_�[�i CriFsLoaderHn �j
- * ���m�ۂ��܂��B<br>
- * AWB�t�@�C����TOC�������[�h����ꍇ�AAWB�n���h�������̃o�C���_�[�A����у��[�_�[��
- * �m�ۂł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
+ * \param[in]	binder		バインダーハンドル
+ * \param[in]	path		AWBファイル名
+ * \param[in]	work		AWBファイルのTOC情報ロード用ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomAwbHn AWBハンドル
+ * \par 説明:
+ * 音声再生の音源として使用するAWBファイルのTOC情報をロードします。<br>
+ * ロード完了まで本関数は復帰しませんので、シーンの切り替えや、
+ * 負荷変動が許容できるタイミングで実行してください。<br>
+ * ロードに成功すると、戻り値に有効なAWBハンドルが返りますので、
+ * ::criAtomPlayer_SetWaveId 関数に指定して使用してください。<br>
+ * 使い終わったAWBハンドルは、::criAtomAwb_Release 関数で解放してください。<br>
+ * TOC情報のロードに失敗した場合はNULLが返ります。<br>
+ * \par 備考:
+ * 第三引数にNULL、第四引数に0を指定して実行すると、
+ * 必要なワーク領域を関数内部で動的に確保します。
+ * 動的に確保した領域は、::criAtomAwb_Release 関数で解放されます。
  * \sa criAtomPlayer_SetWaveId, criAtomAwb_Release, criAtomAwb_LoadTocById
  */
 CriAtomAwbHn CRIAPI criAtomAwb_LoadToc(
 	CriFsBinderHn binder, const CriChar8 *path, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ID�w��ɂ��AWB�t�@�C����TOC��񃍁[�h�i�����Łj
+ * \brief ID指定によるAWBファイルのTOC情報ロード（同期版）
  * \ingroup ATOMLIB_AWB
- * \param[in]	binder		�o�C���_�[�n���h��
- * \param[in]	id			AWB�t�@�C�����i�[����Ă���CPK�R���e���cID
- * \param[in]	work		AWB�t�@�C����TOC��񃍁[�h�p���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomAwbHn AWB�n���h��
- * \par ����:
- * ::criAtomAwb_LoadToc �֐��Ƃقړ��l�̋@�\�����֐��ł��B
- * ::criAtomAwb_LoadToc �֐��ƈقȂ�_�́A
- * �p�X�w��ł͂Ȃ�CPK���̃R���e���cID�w���AWB�t�@�C����TOC�������[�h����_�ł��B<br>
+ * \param[in]	binder		バインダーハンドル
+ * \param[in]	id			AWBファイルが格納されているCPKコンテンツID
+ * \param[in]	work		AWBファイルのTOC情報ロード用ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomAwbHn AWBハンドル
+ * \par 説明:
+ * ::criAtomAwb_LoadToc 関数とほぼ同様の機能を持つ関数です。
+ * ::criAtomAwb_LoadToc 関数と異なる点は、
+ * パス指定ではなくCPK内のコンテンツID指定でAWBファイルのTOC情報をロードする点です。<br>
  * \sa criAtomPlayer_SetWaveId, criAtomAwb_Release, criAtomAwb_LoadToc
  */
 CriAtomAwbHn CRIAPI criAtomAwb_LoadTocById(
 	CriFsBinderHn binder, CriUint16 id, void *work, CriSint32 work_size);
 
 /*JP
- * \brief AWB�t�@�C����TOC��񃍁[�h�i�񓯊��Łj
+ * \brief AWBファイルのTOC情報ロード（非同期版）
  * \ingroup ATOMLIB_AWB
- * \param[in]	binder		�o�C���_�[�n���h��
- * \param[in]	path		AWB�t�@�C����
- * \param[in]	work		AWB�t�@�C����TOC��񃍁[�h�p���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomAwbHn AWB�n���h��
- * \par ����:
- * �����Đ��̉����Ƃ��Ďg�p����AWB�t�@�C����TOC�������[�h���܂��B<br>
- * �{�֐��̓��[�h�v���𔭍s����񓯊��֐��Ȃ̂ŁA
- * ���[�h�̊������A�v���P�[�V�������ő҂K�v������܂��B<br>
- * ::criAtomAwb_GetStatus �֐���AWB�n���h���̃X�e�[�^�X�����I�Ɏ擾���A
- * ���[�h�̊������m�F���Ă��������B<br>
- * ���[�h�̊�����҂��Ă���Ԃ�AWB�n���h���̃X�e�[�^�X�X�V�̂��߂ɁA
- * ����I��::criAtom_ExecuteMain �֐������s����K�v������܂��B<br>
- * ���[�h�v���̔��s�ɐ�������Ɩ߂�l�ɗL����AWB�n���h�����Ԃ�܂��B<br>
- * ���[�h������������������́A::criAtomPlayer_SetWaveId �֐��Ɏw�肵�Ďg�p���Ă��������B<br>
- * �g���I�����AWB�n���h���́A::criAtomAwb_Release �֐��ŉ�����Ă��������B<br>
- * TOC���̃��[�h�v���̔��s�Ɏ��s�����ꍇ��NULL���Ԃ�܂��B<br>
- * \par ���l:
- * ��O������NULL�A��l������0���w�肵�Ď��s����ƁA
- * �K�v�ȃ��[�N�̈���֐������œ��I�Ɋm�ۂ��܂��B
- * ���I�Ɋm�ۂ����̈�́A::criAtomAwb_Release �֐��ŉ������܂��B<br>
- * �{�֐��Ŏ擾����AWB�n���h���̃X�e�[�^�X���G���[��ԁi::CRIATOMAWB_STATUS_ERROR�j�ɂȂ����ꍇ���A
- * ::criAtomAwb_Release �֐��ŉ�����Ă��������B
- * \attention
- * AWB�n���h���͓����I�Ƀo�C���_�[�i CriFsBinderHn �j�A����у��[�_�[�i CriFsLoaderHn �j
- * ���m�ۂ��܂��B<br>
- * AWB�t�@�C����TOC�������[�h����ꍇ�AAWB�n���h�������̃o�C���_�[�A����у��[�_�[��
- * �m�ۂł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
+ * \param[in]	binder		バインダーハンドル
+ * \param[in]	path		AWBファイル名
+ * \param[in]	work		AWBファイルのTOC情報ロード用ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomAwbHn AWBハンドル
+ * \par 説明:
+ * 音声再生の音源として使用するAWBファイルのTOC情報をロードします。<br>
+ * 本関数はロード要求を発行する非同期関数なので、
+ * ロードの完了をアプリケーション側で待つ必要があります。<br>
+ * ::criAtomAwb_GetStatus 関数でAWBハンドルのステータスを定期的に取得し、
+ * ロードの完了を確認してください。<br>
+ * ロードの完了を待っている間はAWBハンドルのステータス更新のために、
+ * 定期的に::criAtom_ExecuteMain 関数を実行する必要があります。<br>
+ * ロード要求の発行に成功すると戻り値に有効なAWBハンドルが返ります。<br>
+ * ロードが正しく完了した後は、::criAtomPlayer_SetWaveId 関数に指定して使用してください。<br>
+ * 使い終わったAWBハンドルは、::criAtomAwb_Release 関数で解放してください。<br>
+ * TOC情報のロード要求の発行に失敗した場合はNULLが返ります。<br>
+ * \par 備考:
+ * 第三引数にNULL、第四引数に0を指定して実行すると、
+ * 必要なワーク領域を関数内部で動的に確保します。
+ * 動的に確保した領域は、::criAtomAwb_Release 関数で解放されます。<br>
+ * 本関数で取得したAWBハンドルのステータスがエラー状態（::CRIATOMAWB_STATUS_ERROR）になった場合も、
+ * ::criAtomAwb_Release 関数で解放してください。
  * \sa criAtomPlayer_SetWaveId, criAtomAwb_Release, criAtomAwb_GetStatus, criAtomAwb_LoadTocAsyncById
  */
 CriAtomAwbHn CRIAPI criAtomAwb_LoadTocAsync(
 	CriFsBinderHn binder, const CriChar8 *path, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ID�w��ɂ��AWB�t�@�C����TOC��񃍁[�h�i�񓯊��Łj
+ * \brief ID指定によるAWBファイルのTOC情報ロード（非同期版）
  * \ingroup ATOMLIB_AWB
- * \param[in]	binder		�o�C���_�[�n���h��
- * \param[in]	id			AWB�t�@�C�����i�[����Ă���CPK�R���e���cID
- * \param[in]	work		AWB�t�@�C����TOC��񃍁[�h�p���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomAwbHn AWB�n���h��
- * \par ����:
- * ::criAtomAwb_LoadTocAsync �֐��Ƃقړ��l�̋@�\�����֐��ł��B
- * ::criAtomAwb_LoadTocAsync �֐��ƈقȂ�_�́A
- * �p�X�w��ł͂Ȃ�CPK���̃R���e���cID�w���AWB�t�@�C����TOC�������[�h����_�ł��B<br>
+ * \param[in]	binder		バインダーハンドル
+ * \param[in]	id			AWBファイルが格納されているCPKコンテンツID
+ * \param[in]	work		AWBファイルのTOC情報ロード用ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomAwbHn AWBハンドル
+ * \par 説明:
+ * ::criAtomAwb_LoadTocAsync 関数とほぼ同様の機能を持つ関数です。
+ * ::criAtomAwb_LoadTocAsync 関数と異なる点は、
+ * パス指定ではなくCPK内のコンテンツID指定でAWBファイルのTOC情報をロードする点です。<br>
  * \sa criAtomPlayer_SetWaveId, criAtomAwb_Release, criAtomAwb_GetStatus, criAtomAwb_LoadTocAsync
  */
 CriAtomAwbHn CRIAPI criAtomAwb_LoadTocAsyncById(
 	CriFsBinderHn binder, CriUint16 id, void *work, CriSint32 work_size);
 
 /*JP
- * \brief �I��������AWB�n���h���̍쐬
+ * \brief オンメモリAWBハンドルの作成
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb_mem			AWB�t�@�C����ǂݍ��񂾃������̈�ւ̃|�C���^
- * \param[in]	awb_mem_size	AWB�t�@�C���T�C�Y
- * \param[in]	work			�I��������AWB�p���[�N�̈�ւ̃|�C���^
- * \param[in]	work_size		�I��������AWB�p���[�N�̈�T�C�Y
- * \return		CriAtomAwbHn �I��������AWB�n���h��
- * \par ����:
- * ��������ɓǂݍ��܂ꂽAWB�t�@�C���C���[�W����A�I��������AWB�n���h�����쐬���܂��B<br>
- * �����I��������AWB�t�@�C���C���[�W���畡���̃I��������AWB�n���h�����쐬���邱�Ƃ��ł��܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
+ * \param[in]	awb_mem			AWBファイルを読み込んだメモリ領域へのポインタ
+ * \param[in]	awb_mem_size	AWBファイルサイズ
+ * \param[in]	work			オンメモリAWB用ワーク領域へのポインタ
+ * \param[in]	work_size		オンメモリAWB用ワーク領域サイズ
+ * \return		CriAtomAwbHn オンメモリAWBハンドル
+ * \par 説明:
+ * メモリ上に読み込まれたAWBファイルイメージから、オンメモリAWBハンドルを作成します。<br>
+ * 同じオンメモリAWBファイルイメージから複数のオンメモリAWBハンドルを作成することができます。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
  * <br>
- * User Allocator������p����ꍇ�A���[�U�����[�N�̈��p�ӂ���K�v�͂���܂���B<br>
- * work��NULL�Awork_size��0���w�肷�邾���ŁA�K�v�ȃ�������o�^�ς݂̃������m�ۊ֐�����m�ۂ��܂��B<br>
- * �I��������AWB�n���h���쐬���ɓ��I�Ɋm�ۂ��ꂽ�������́A<br>
- * �I��������AWB�j�����i ::criAtomAwb_Release �֐����s���j�ɉ������܂��B<br>
- * Fixed Memor������p����ꍇ�́A::CRIATOMAWB_WORKSIZE_FOR_LOADFROMMEMORY �֐����g����
- * �K�v�ȃ��[�N�̈�T�C�Y�����߂Ă��������B<br>
- * ���[�N�̈�Ƃ͈قȂ�Aawb_mem �͕K�����[�U�̐ӔC�ŊǗ�����K�v������_�ɂ͒��ӂ��Ă��������B<br>
+ * User Allocator方式を用いる場合、ユーザがワーク領域を用意する必要はありません。<br>
+ * workにNULL、work_sizeに0を指定するだけで、必要なメモリを登録済みのメモリ確保関数から確保します。<br>
+ * オンメモリAWBハンドル作成時に動的に確保されたメモリは、<br>
+ * オンメモリAWB破棄時（ ::criAtomAwb_Release 関数実行時）に解放されます。<br>
+ * Fixed Memor方式を用いる場合は、::CRIATOMAWB_WORKSIZE_FOR_LOADFROMMEMORY 関数を使って
+ * 必要なワーク領域サイズを求めてください。<br>
+ * ワーク領域とは異なり、awb_mem は必ずユーザの責任で管理する必要がある点には注意してください。<br>
  * <br>
- * \attention
- * �{�֐�����������ƁA awb_mem�œn���ꂽ�������̈���I��������AWB�f�[�^�p�ɏ��������܂��B<br>
- * ���̂��߁A�����X���b�h����::CRIATOMAWB_WORKSIZE_FOR_LOADFROMMEMORY �֐����Ăяo���Ă���ꍇ�́A<br>
- * �r�������ɂ��X���b�h�̎��s��������ւ��ꍇ������܂��B<br>
- * �Ȃ��Aawb_mem �Ŏw���������̈�� ::criAtomAwb_Release �֐����s��Ɏ蓮�ŉ�����Ă��������B
- * <br>
- * AWB�n���h���͓����I�Ƀo�C���_�[�i CriFsBinderHn �j���m�ۂ��܂��B<br>
- * AWB�t�@�C����TOC�������[�h����ꍇ�AAWB�n���h�������̃o�C���_�[���m�ۂł���ݒ��
- * Atom���C�u�����i�܂���CRI File System���C�u�����j������������K�v������܂��B<br>
+ * AWBハンドルは内部的にバインダー（ CriFsBinderHn ）を確保します。<br>
+ * AWBファイルのTOC情報をロードする場合、AWBハンドル数分のバインダーが確保できる設定で
+ * Atomライブラリ（またはCRI File Systemライブラリ）を初期化する必要があります。<br>
  * \sa CRIATOMAWB_WORKSIZE_FOR_LOADFROMMEMORY,criAtomAwb_Release
  */
 CriAtomAwbHn CRIAPI criAtomAwb_LoadFromMemory(
 	void *awb_mem, CriSint32 awb_mem_size, void *work, CriSint32 work_size);
 
 /*JP
- * \brief AWB�n���h���̎�ʂ������l���擾
+ * \brief AWBハンドルの種別を示す値を取得
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb				���擾���AWB�n���h��
- * \return		CriAtomAwbType 	AWB�n���h���̎�ʂ������l
- * \par ����:
- * AWB�n���h����TOC���݂̂ł��邩�A�I��������AWB�n���h���Ȃ̂��������l���擾���܂��B
- * �{�֐������s�����ꍇ��::CRIATOMAWB_TYPE_ERROR��Ԃ��܂��B<br>
+ * \param[in]	awb				情報取得先のAWBハンドル
+ * \return		CriAtomAwbType 	AWBハンドルの種別を示す値
+ * \par 説明:
+ * AWBハンドルがTOC情報のみであるか、オンメモリAWBハンドルなのかを示す値を取得します。
+ * 本関数が失敗した場合は::CRIATOMAWB_TYPE_ERRORを返します。<br>
  * \sa criAtomAwb_GetWaveDataInfo, criAtomPlayer_SetData,
  */
 CriAtomAwbType CRIAPI criAtomAwb_GetType(CriAtomAwbHn awb);
 
 /*JP
- * \brief AWB��TOC��񂩂�g�`�f�[�^�̃t�@�C�������擾
+ * \brief AWBのTOC情報から波形データのファイル情報を取得
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb			���擾���AWB�n���h��
- * \param[in]	id			�g�`�f�[�^ID
- * \param[out]	offset		�g�`�f�[�^�̃I�t�Z�b�g�iByte�j
- * \param[out]	size		�g�`�f�[�^�̃T�C�Y�iByte�j
- * \return		�Ȃ�
- * \par ����:
- * AWB�n���h������id�Ŏw�肵���g�`�f�[�^�̃t�@�C���I�t�Z�b�g�ƃT�C�Y���擾���܂��B<br>
- * �擾�����I�t�Z�b�g�ƃT�C�Y�́AAWB�t�@�C������g�`�f�[�^�𒼐ړǂݍ��ޏꍇ�Ɏg�p���܂��B<br>
+ * \param[in]	awb			情報取得先のAWBハンドル
+ * \param[in]	id			波形データID
+ * \param[out]	offset		波形データのオフセット（Byte）
+ * \param[out]	size		波形データのサイズ（Byte）
+ * \return		なし
+ * \par 説明:
+ * AWBハンドルからidで指定した波形データのファイルオフセットとサイズを取得します。<br>
+ * 取得したオフセットとサイズは、AWBファイルから波形データを直接読み込む場合に使用します。<br>
  * \attention
- * �{�֐������s����O�ɁAAWB�n���h���̎�ʂ�::criAtomAwb_GetType �֐��Ŋm�F���Ă��������B<br>
- * AWB�n���h���̎�ʂ�::CRIATOMAWB_TYPE_TOC�ƈقȂ�ꍇ�A�܂��͕s����AWB�n���h���������ꍇ�A�{�֐��͎��s���A�G���[�R�[���o�b�N���������܂��B<br>
- * �{�֐������s�����ꍇ�A�o�͒l�ł���offset��size�̒l�͕s��ł��B<br>
+ * 本関数を実行する前に、AWBハンドルの種別を::criAtomAwb_GetType 関数で確認してください。<br>
+ * AWBハンドルの種別が::CRIATOMAWB_TYPE_TOCと異なる場合、または不正なAWBハンドルだった場合、本関数は失敗し、エラーコールバックが発生します。<br>
+ * 本関数が失敗した場合、出力値であるoffsetとsizeの値は不定です。<br>
  * \sa criAtomAwb_GetType, criAtomAwb_GetWaveDataInfo, criAtomPlayer_SetData,criAtomAwb_GetType
  */
 CriBool CRIAPI criAtomAwb_GetWaveFileInfo(
 	CriAtomAwbHn awb, CriSint32 id, CriSint64 *offset, CriUint32 *size);
 
 /*JP
- * \brief �I��������AWB����g�`�f�[�^�̏����擾
+ * \brief オンメモリAWBから波形データの情報を取得
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb				���擾���AWB�n���h��
- * \param[in]	id				�g�`�f�[�^ID
- * \param[out]	wave_data_start	�g�`�f�[�^�̐擪�|�C���^�iByte�j
- * \param[out]	size			�g�`�f�[�^�̃T�C�Y�iByte�j
- * \return		�Ȃ�
- * \par ����:
- * �I��������AWB����id�Ŏw�肵���g�`�f�[�^�̐擪�|�C���^�ƃT�C�Y���擾���܂��B<br>
- * �I��������AWB����g�`�f�[�^���Đ�����ꍇ�A�ʏ��::criAtomPlayer_SetWaveId �֐��ŏ\���Ȃ̂ŁA��������Q�Ƃ��Ă��������B<br>
+ * \param[in]	awb				情報取得先のAWBハンドル
+ * \param[in]	id				波形データID
+ * \param[out]	wave_data_start	波形データの先頭ポインタ（Byte）
+ * \param[out]	size			波形データのサイズ（Byte）
+ * \return		なし
+ * \par 説明:
+ * オンメモリAWBからidで指定した波形データの先頭ポインタとサイズを取得します。<br>
+ * オンメモリAWBから波形データを再生する場合、通常は::criAtomPlayer_SetWaveId 関数で十分なので、そちらも参照してください。<br>
  * \attention
- * �{�֐������s����O�ɁAAWB�n���h���̎�ʂ�::criAtomAwb_GetType �֐��Ŋm�F���Ă��������B<br>
- * AWB�n���h���̎�ʂ��قȂ�ꍇ�A�܂��͕s����AWB�n���h���������ꍇ�A�{�֐��͎��s���A�G���[�R�[���o�b�N���������܂��B<br>
- * �{�֐������s�����ꍇ�A�o�͒l�ł���wave_data_start��size�̒l�͕s��ł��B<br>
+ * 本関数を実行する前に、AWBハンドルの種別を::criAtomAwb_GetType 関数で確認してください。<br>
+ * AWBハンドルの種別が異なる場合、または不正なAWBハンドルだった場合、本関数は失敗し、エラーコールバックが発生します。<br>
+ * 本関数が失敗した場合、出力値であるwave_data_startとsizeの値は不定です。<br>
  *
  * \sa criAtomAwb_GetType, criAtomAwb_GetWaveFileInfo, criAtomPlayer_SetData,criAtomPlayer_SetWaveId
  *
@@ -4303,86 +4316,86 @@ CriBool CRIAPI criAtomAwb_GetWaveFileInfo(
 void CRIAPI criAtomAwb_GetWaveDataInfo(CriAtomAwbHn awb, CriSint32 id, void **wave_data_start, CriUint32 *size);
 
 /*JP
- * \brief AWB�n���h�������AWB�t�@�C���Ɋ܂܂��R���e���c�����擾
+ * \brief AWBハンドルを介してAWBファイルに含まれるコンテンツ数を取得
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb				���擾���AWB�n���h��
- * \return		�R���e���c�t�@�C�����i0�`65535�j
- * \par ����:
- * AWB�n���h�������AWB�t�@�C���Ɋ܂܂�Ă���R���e���c���i�g�`�f�[�^���j���擾���܂��B<br>
- * �R���e���c�t�@�C�����̒l�̗L���͈͂�1�`65535�ł��B<br>
- * �G���[�����������ꍇ�� 0 ��Ԃ��܂��B<br>
+ * \param[in]	awb				情報取得先のAWBハンドル
+ * \return		コンテンツファイル数（0～65535）
+ * \par 説明:
+ * AWBハンドルを介してAWBファイルに含まれているコンテンツ数（波形データ数）を取得します。<br>
+ * コンテンツファイル数の値の有効範囲は1～65535です。<br>
+ * エラーが発生した場合は 0 を返します。<br>
  * \sa criAtomAwb_LoadToc, criAtomAwb_LoadFromMemory
  */
 CriUint16 CRIAPI criAtomAwb_GetNumContents(CriAtomAwbHn awb);
 
 /*JP
- * \brief AWB�n���h���̉��
+ * \brief AWBハンドルの解放
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb	AWB�n���h��
- * \return		�Ȃ�
- * \par ����:
- * AWB�n���h����������܂��B<br>
- * �g���I�����AWB�n���h���́A�{�֐��ŉ�����Ă��������B<br>
- * �������AWB�n���h���͖����ȃn���h���ɂȂ�̂ŁA�g�p���Ȃ��ł��������B<br>
+ * \param[in]	awb	AWBハンドル
+ * \return		なし
+ * \par 説明:
+ * AWBハンドルを解放します。<br>
+ * 使い終わったAWBハンドルは、本関数で解放してください。<br>
+ * 解放したAWBハンドルは無効なハンドルになるので、使用しないでください。<br>
  * \attention
- * �{�֐������s����ƁA�w�肵��AWB�f�[�^���Q�Ƃ��Ă���Atom�v���[���[�����݂��Ȃ����A
- * ���C�u�������Ō����������s���܂��B<br>
- * ���̂��߁A�{�֐����s���ɑ��X���b�h��Atom�v���[���[�̍쐬�^�j�����s���ƁA
- * �A�N�Z�X�ᔽ��f�b�h���b�N���̏d��ȕs���U�����鋰�ꂪ����܂��B<br>
- * �{�֐����s����Atom�v���[���[�̍쐬�^�j���𑼃X���b�h�ōs���K�v������ꍇ�A
- * �{�֐��� ::criAtom_Lock �֐��Ń��b�N���Ă�����s���Ă��������B<br>
+ * 本関数を実行すると、指定したAWBデータを参照しているAtomプレーヤーが存在しないか、
+ * ライブラリ内で検索処理が行われます。<br>
+ * そのため、本関数実行中に他スレッドでAtomプレーヤーの作成／破棄を行うと、
+ * アクセス違反やデッドロック等の重大な不具合を誘発する恐れがあります。<br>
+ * 本関数実行時にAtomプレーヤーの作成／破棄を他スレッドで行う必要がある場合、
+ * 本関数を ::criAtom_Lock 関数でロックしてから実行してください。<br>
  * <br>
- * AtomEx�v���[���[���g�p����AWB�t�@�C�����Đ�����ꍇ�A
- * �Đ����ɖ{�֐���AWB�n���h����j�����Ă͂����܂���B<br>
- * �K��AtomEx�v���[���[���~�����Ă���{�֐������s���Ă��������B<br>
+ * AtomExプレーヤーを使用してAWBファイルを再生する場合、
+ * 再生中に本関数でAWBハンドルを破棄してはいけません。<br>
+ * 必ずAtomExプレーヤーを停止させてから本関数を実行してください。<br>
  * \sa criAtomAwb_LoadToc, criAtomAwb_LoadTocAsync, criAtomAwb_GetStatus
  */
 void CRIAPI criAtomAwb_Release(CriAtomAwbHn awb);
 
 /*JP
- * \brief AWB�n���h������������\���ǂ����̃`�F�b�N
+ * \brief AWBハンドルが即時解放可能かどうかのチェック
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb	AWB�n���h��
- * \return		CriBool		AWB�̏�ԁiCRI_TRUE = ��������\�ACRI_FALSE = �Đ����̃v���[���[����j
- * \par ����:
- * AWB�n���h���𑦍��ɉ���\���ǂ������`�F�b�N���܂��B<br>
- * �{�֐��� CRI_FALSE ��Ԃ��^�C�~���O�� ::criAtomAwb_Release �֐������s����ƁA
- * AWB�n���h�����Q�Ƃ��Ă���v���[���[�ɑ΂����~�������s���܂��B<br>
- * �i�X�g���[���Đ��p��AWB�n���h���̏ꍇ�A�t�@�C���ǂݍ��݊�����҂��߁A
- * ::criAtomAwb_Release �֐����Œ����ԏ������u���b�N�����\��������܂��B�j<br>
+ * \param[in]	awb	AWBハンドル
+ * \return		CriBool		AWBの状態（CRI_TRUE = 即時解放可能、CRI_FALSE = 再生中のプレーヤーあり）
+ * \par 説明:
+ * AWBハンドルを即座に解放可能かどうかをチェックします。<br>
+ * 本関数が CRI_FALSE を返すタイミングで ::criAtomAwb_Release 関数を実行すると、
+ * AWBハンドルを参照しているプレーヤーに対する停止処理が行われます。<br>
+ * （ストリーム再生用のAWBハンドルの場合、ファイル読み込み完了を待つため、
+ * ::criAtomAwb_Release 関数内で長時間処理がブロックされる可能性があります。）<br>
  * \attention
- * �{�֐������s����ƁA�w�肵��AWB�f�[�^���Q�Ƃ��Ă���Atom�v���[���[�����݂��Ȃ����A
- * ���C�u�������Ō����������s���܂��B<br>
- * ���̂��߁A�{�֐����s���ɑ��X���b�h��Atom�v���[���[�̍쐬�^�j�����s���ƁA
- * �A�N�Z�X�ᔽ��f�b�h���b�N���̏d��ȕs���U�����鋰�ꂪ����܂��B<br>
- * �{�֐����s����Atom�v���[���[�̍쐬�^�j���𑼃X���b�h�ōs���K�v������ꍇ�A
- * �{�֐��� ::criAtom_Lock �֐��Ń��b�N���Ă�����s���Ă��������B<br>
+ * 本関数を実行すると、指定したAWBデータを参照しているAtomプレーヤーが存在しないか、
+ * ライブラリ内で検索処理が行われます。<br>
+ * そのため、本関数実行中に他スレッドでAtomプレーヤーの作成／破棄を行うと、
+ * アクセス違反やデッドロック等の重大な不具合を誘発する恐れがあります。<br>
+ * 本関数実行時にAtomプレーヤーの作成／破棄を他スレッドで行う必要がある場合、
+ * 本関数を ::criAtom_Lock 関数でロックしてから実行してください。<br>
  * \sa criAtomAwb_Release
  */
 CriBool CRIAPI criAtomAwb_IsReadyToRelease(CriAtomAwbHn awb);
 
 /*JP
- * \brief AWB�n���h���̃X�e�[�^�X�擾
+ * \brief AWBハンドルのステータス取得
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb AWB�n���h��
- * \return		CriAtomAwbStatus AWB�n���h���̏�Ԃ������l
- * \par ����:
- * AWB�n���h���̃X�e�[�^�X���擾���܂��B<br>
- * �{�֐��Ŏ擾����AWB�n���h���̃X�e�[�^�X�́A::criAtom_ExecuteMain �֐���
- * ���s���邱�ƂōX�V����܂��B<br>
+ * \param[in]	awb AWBハンドル
+ * \return		CriAtomAwbStatus AWBハンドルの状態を示す値
+ * \par 説明:
+ * AWBハンドルのステータスを取得します。<br>
+ * 本関数で取得するAWBハンドルのステータスは、::criAtom_ExecuteMain 関数を
+ * 実行することで更新されます。<br>
  * \sa criAtomAwb_LoadToc, criAtomAwb_LoadTocAsync
  */
 CriAtomAwbStatus CRIAPI criAtomAwb_GetStatus(CriAtomAwbHn awb);
 
 /*JP
- * \brief �g�`�f�[�^ID�̎擾
+ * \brief 波形データIDの取得
  * \ingroup ATOMLIB_AWB
- * \param[in]	awb AWB�n���h��
- * \param[in]	index	 �g�`�C���f�b�N�X
- * \retval		�g�`�f�[�^ID (0�ȏ�)								����ɏ���������
- * \retval		CRIATOMAWB_ILLEGAL_ID (-1)		�G���[������
- * \par ����:
- * AWB�n���h������index�Ŏw�肵���g�`�f�[�^ID���擾���܂��B<br>
+ * \param[in]	awb AWBハンドル
+ * \param[in]	index	 波形インデックス
+ * \retval		波形データID (0以上)								正常に処理が完了
+ * \retval		CRIATOMAWB_ILLEGAL_ID (-1)		エラーが発生
+ * \par 説明:
+ * AWBハンドルからindexで指定した波形データIDを取得します。<br>
  * \sa criAtomAwb_LoadToc, criAtomAwb_LoadTocAsync
  */
 CriSint32 CRIAPI criAtomAwb_GetIdByIndex(CriAtomAwbHn awb, CriUint16 index);
@@ -4391,102 +4404,102 @@ CriSint32 CRIAPI criAtomAwb_GetIdByIndex(CriAtomAwbHn awb, CriUint16 index);
  *      CRI Atom Player API
  *=========================================================================*/
 /*JP
- * \brief �W���v���[���[�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief 標準プレーヤー作成用ワーク領域サイズの計算
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		�W���v���[���[�쐬�p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * �W���v���[���[�iADX��HCA���Đ��\�ȃv���[���[�j���쐬���邽�߂ɕK�v�ȁA
- * ���[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	config		標準プレーヤー作成用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * 標準プレーヤー（ADXとHCAを再生可能なプレーヤー）を作成するために必要な、
+ * ワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * �v���[���[�̍쐬�ɕK�v�ȃ��[�N�������̃T�C�Y�́A�v���[���[�쐬�p�R���t�B�O
- * �\���́i ::CriAtomStandardPlayerConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * プレーヤーの作成に必要なワークメモリのサイズは、プレーヤー作成用コンフィグ
+ * 構造体（ ::CriAtomStandardPlayerConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomPlayer_SetDefaultConfigForStandardPlayer �K�p���Ɠ����p�����[�^�[�j
- * �Ń��[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomPlayer_SetDefaultConfigForStandardPlayer 適用時と同じパラメーター）
+ * でワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ���[�N�̈�̃T�C�Y�̓��C�u�������������i ::criAtom_Initialize �֐����s���j
- * �Ɏw�肵���p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * ワーク領域のサイズはライブラリ初期化時（ ::criAtom_Initialize 関数実行時）
+ * に指定したパラメーターによって変化します。<br>
+ * そのため、本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * \sa CriAtomStandardPlayerConfig, criAtomPlayer_CreateStandardPlayer
  */
 CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForStandardPlayer(
 	const CriAtomStandardPlayerConfig *config);
 
 /*JP
- * \brief �W���v���[���[�̍쐬
+ * \brief 標準プレーヤーの作成
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		�W���v���[���[�쐬�p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomPlayerHn	Atom�v���[���[�n���h��
- * \par ����:
- * ADX��HCA���Đ��\�ȃv���[���[���쐬���܂��B<br>
- * �{�֐��ō쐬���ꂽAtom�v���[���[�ɂ́AADX�f�[�^��HCA�f�[�^�̃f�R�[�h�@�\���t������Ă��܂��B<br>
+ * \param[in]	config		標準プレーヤー作成用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomPlayerHn	Atomプレーヤーハンドル
+ * \par 説明:
+ * ADXとHCAが再生可能なプレーヤーを作成します。<br>
+ * 本関数で作成されたAtomプレーヤーには、ADXデータとHCAデータのデコード機能が付加されています。<br>
  * <br>
- * �쐬���ꂽ�v���[���[�ōĐ��ł��鉹���̃t�H�[�}�b�g�́A�������iconfig�j�Ɏw�肵��
- * �p�����[�^�[�ɂ���Č��܂�܂��B<br>
- * �Ⴆ�΁Aconfig��max_sampling_rate��24000��ݒ肵���ꍇ�A�쐬���ꂽ�v���[���[�ł�
- * 24kHz�𒴂���T���v�����O���[�g�̉����f�[�^�͍Đ��ł��Ȃ��Ȃ�܂��B<br>
- * config��NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�i ::criAtomPlayer_SetDefaultConfigForStandardPlayer
- * �K�p���Ɠ����p�����[�^�[�j�Ńv���[���[���쐬���܂��B
+ * 作成されたプレーヤーで再生できる音声のフォーマットは、第一引数（config）に指定した
+ * パラメーターによって決まります。<br>
+ * 例えば、configのmax_sampling_rateに24000を設定した場合、作成されたプレーヤーでは
+ * 24kHzを超えるサンプリングレートの音声データは再生できなくなります。<br>
+ * configにNULLを指定した場合、デフォルト設定（ ::criAtomPlayer_SetDefaultConfigForStandardPlayer
+ * 適用時と同じパラメーター）でプレーヤーを作成します。
  * <br>
- * �v���[���[���쐬����ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
+ * プレーヤーを作成する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
  * <br>
- * User Allocator������p����ꍇ�A���[�U�����[�N�̈��p�ӂ���K�v�͂���܂���B<br>
- * work��NULL�Awork_size��0���w�肷�邾���ŁA�K�v�ȃ�������o�^�ς݂̃������m�ۊ֐�����m�ۂ��܂��B<br>
- * �W���v���[���[�쐬���Ɋm�ۂ��ꂽ�������́A�W���v���[���[�j�����i ::criAtomPlayer_Destroy
- * �֐����s���j�ɉ������܂��B<br>
+ * User Allocator方式を用いる場合、ユーザがワーク領域を用意する必要はありません。<br>
+ * workにNULL、work_sizeに0を指定するだけで、必要なメモリを登録済みのメモリ確保関数から確保します。<br>
+ * 標準プレーヤー作成時に確保されたメモリは、標準プレーヤー破棄時（ ::criAtomPlayer_Destroy
+ * 関数実行時）に解放されます。<br>
  * <br>
- * Fixed Memory������p����ꍇ�A���[�N�̈�Ƃ��ĕʓr�m�ۍς݂̃������̈��{�֐���
- * �ݒ肷��K�v������܂��B<br>
- * ���[�N�̈�̃T�C�Y�� ::criAtomPlayer_CalculateWorkSizeForStandardPlayer �֐��Ŏ擾�\�ł��B<br>
- * �W���v���[���[�쐬�O�� ::criAtomPlayer_CalculateWorkSizeForStandardPlayer �֐��Ŏ擾����
- * �T�C�Y���̃�������\�ߊm�ۂ��Ă����A�{�֐��ɐݒ肵�Ă��������B<br>
- * ���AFixed Memory������p�����ꍇ�A���[�N�̈�͕W���v���[���[�̔j��
- * �i ::criAtomPlayer_Destroy �֐��j���s���܂ł̊ԁA���C�u�������ŗ��p���ꑱ���܂��B<br>
- * �W���v���[���[�̔j�����s���O�ɁA���[�N�̈�̃�������������Ȃ��ł��������B<br>
- * \par ��:
- * �yUser Allocator�����ɂ��W���v���[���[�̍쐬�z<br>
- * User Allocator������p����ꍇ�A�W���v���[���[�̍쐬�^�j���̎菇�͈ȉ��̂悤�ɂȂ�܂��B<br>
- * 	-# �W���v���[���[�쐬�O�ɁA ::criAtom_SetUserMallocFunction �֐���
- * ::criAtom_SetUserFreeFunction �֐���p���ă������m�ہ^����֐���o�^����B<br>
- * 	-# �W���v���[���[�쐬�p�R���t�B�O�\���̂Ƀp�����[�^�[���Z�b�g����B<br>
- * 	-# ::criAtomPlayer_CreateStandardPlayer �֐��ŕW���v���[���[���쐬����B<br>
- * �iwork�ɂ�NULL�Awork_size�ɂ�0���w�肷��B�j<br>
- * 	-# �n���h�����s�v�ɂȂ����� ::criAtomPlayer_Destroy �֐��ŕW���v���[���[��j������B<br>
+ * Fixed Memory方式を用いる場合、ワーク領域として別途確保済みのメモリ領域を本関数に
+ * 設定する必要があります。<br>
+ * ワーク領域のサイズは ::criAtomPlayer_CalculateWorkSizeForStandardPlayer 関数で取得可能です。<br>
+ * 標準プレーヤー作成前に ::criAtomPlayer_CalculateWorkSizeForStandardPlayer 関数で取得した
+ * サイズ分のメモリを予め確保しておき、本関数に設定してください。<br>
+ * 尚、Fixed Memory方式を用いた場合、ワーク領域は標準プレーヤーの破棄
+ * （ ::criAtomPlayer_Destroy 関数）を行うまでの間、ライブラリ内で利用され続けます。<br>
+ * 標準プレーヤーの破棄を行う前に、ワーク領域のメモリを解放しないでください。<br>
+ * \par 例:
+ * 【User Allocator方式による標準プレーヤーの作成】<br>
+ * User Allocator方式を用いる場合、標準プレーヤーの作成／破棄の手順は以下のようになります。<br>
+ * 	-# 標準プレーヤー作成前に、 ::criAtom_SetUserMallocFunction 関数と
+ * ::criAtom_SetUserFreeFunction 関数を用いてメモリ確保／解放関数を登録する。<br>
+ * 	-# 標準プレーヤー作成用コンフィグ構造体にパラメーターをセットする。<br>
+ * 	-# ::criAtomPlayer_CreateStandardPlayer 関数で標準プレーヤーを作成する。<br>
+ * （workにはNULL、work_sizeには0を指定する。）<br>
+ * 	-# ハンドルが不要になったら ::criAtomPlayer_Destroy 関数で標準プレーヤーを破棄する。<br>
  *
- * <br>��̓I�ȃR�[�h�͈ȉ��̂Ƃ���ł��B<br>
+ * <br>具体的なコードは以下のとおりです。<br>
  * \code
- * // �Ǝ��̃������m�ۊ֐�
+ * // 独自のメモリ確保関数
  * void *user_malloc(void *obj, CriUint32 size)
  * {
  * 	void *mem;
  *
- * 	// �������̊m��
+ * 	// メモリの確保
  * 	mem = malloc(size);
  *
  * 	return (mem);
  * }
  *
- * // �Ǝ��̃���������֐���p��
+ * // 独自のメモリ解放関数を用意
  * void user_free(void *obj, void *mem)
  * {
- * 	// �������̉��
+ * 	// メモリの解放
  * 	free(mem);
  *
  * 	return;
@@ -4494,111 +4507,106 @@ CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForStandardPlayer(
  *
  * main()
  * {
- * 	CriAtomStandardPlayerConfig config;	// �W���v���[���[�쐬�p�R���t�B�O�\����
- * 	CriAtomPlayerHn player;				// Atom�v���[���[�n���h��
+ * 	CriAtomStandardPlayerConfig config;	// 標準プレーヤー作成用コンフィグ構造体
+ * 	CriAtomPlayerHn player;				// Atomプレーヤーハンドル
  * 		:
- * 	// �Ǝ��̃������m�ۊ֐���o�^
+ * 	// 独自のメモリ確保関数を登録
  * 	criAtom_SetUserMallocFunction(user_malloc, NULL);
  *
- * 	// �Ǝ��̃���������֐���o�^
+ * 	// 独自のメモリ解放関数を登録
  * 	criAtom_SetUserFreeFunction(user_free, NULL);
  *
- * 	// �W���v���[���[�쐬�p�R���t�B�O�\���̂�ݒ�
+ * 	// 標準プレーヤー作成用コンフィグ構造体を設定
  * 	memset(&config, 0, sizeof(config));
- * 	config.max_channels = 2;			// �X�e���I�Đ��\�ȃv���[���[���쐬����
- * 	config.max_sampling_rate = 48000;	// �ő��48000Hz�̉������Đ�����
+ * 	config.max_channels = 2;			// ステレオ再生可能なプレーヤーを作成する
+ * 	config.max_sampling_rate = 48000;	// 最大で48000Hzの音声を再生する
  *
- * 	// �W���v���[���[�̍쐬
- * 	// ���[�N�̈�ɂ�NULL��0���w�肷��B
- * 	// ���K�v�ȃ������́A�o�^�����������m�ۊ֐����g���Ċm�ۂ����B
+ * 	// 標準プレーヤーの作成
+ * 	// ワーク領域にはNULLと0を指定する。
+ * 	// →必要なメモリは、登録したメモリ確保関数を使って確保される。
  * 	player = criAtomPlayer_CreateStandardPlayer(&config, NULL, 0);
  * 		:
- * 	// �����Đ�����
+ * 	// 音声再生処理
  * 		:
- * 	// �W���v���[���[���s�v�ɂȂ������_�Ŕj��
- * 	// ���W���v���[���[�쐬���Ƀ��C�u�������Ŋm�ۂ��ꂽ����������������B
+ * 	// 標準プレーヤーが不要になった時点で破棄
+ * 	// →標準プレーヤー作成時にライブラリ内で確保されたメモリが解放される。
  * 	criAtomPlayer_Destroy(player);
  * 		:
  * }
  * \endcode
- * �����C�u�������������Ƀ������m�ہ^����֐���o�^�ς݂̏ꍇ�A�W���v���[���[�쐬��
- * �ɍēx�֐���o�^����K�v�͂���܂���B<br>
+ * ※ライブラリ初期化時にメモリ確保／解放関数を登録済みの場合、標準プレーヤー作成時
+ * に再度関数を登録する必要はありません。<br>
  * <br>
- * �yFixed Memory�����ɂ��W���v���[���[�̍쐬�z<br>
- * Fixed Memory������p����ꍇ�A�W���v���[���[�̍쐬�^�j���̎菇�͈ȉ��̂悤�ɂȂ�܂��B<br>
- * 	-# �W���v���[���[�쐬�p�R���t�B�O�\���̂Ƀp�����[�^�[���Z�b�g����B<br>
- * 	-# �W���v���[���[�̍쐬�ɕK�v�ȃ��[�N�̈�̃T�C�Y���A
- * ::criAtomPlayer_CalculateWorkSizeForStandardPlayer �֐����g���Čv�Z����B<br>
- * 	-# ���[�N�̈�T�C�Y���̃��������m�ۂ���B<br>
- * 	-# ::criAtomPlayer_CreateStandardPlayer �֐��ŕW���v���[���[���쐬����B<br>
- * �iwork�ɂ͊m�ۂ����������̃A�h���X���Awork_size�ɂ̓��[�N�̈�̃T�C�Y���w�肷��B�j<br>
- * 	-# �n���h�����s�v�ɂȂ����� ::criAtomPlayer_Destroy �֐��ŕW���v���[���[��j������B<br>
- * 	-# ���[�N�̈�̃��������������B<br>
+ * 【Fixed Memory方式による標準プレーヤーの作成】<br>
+ * Fixed Memory方式を用いる場合、標準プレーヤーの作成／破棄の手順は以下のようになります。<br>
+ * 	-# 標準プレーヤー作成用コンフィグ構造体にパラメーターをセットする。<br>
+ * 	-# 標準プレーヤーの作成に必要なワーク領域のサイズを、
+ * ::criAtomPlayer_CalculateWorkSizeForStandardPlayer 関数を使って計算する。<br>
+ * 	-# ワーク領域サイズ分のメモリを確保する。<br>
+ * 	-# ::criAtomPlayer_CreateStandardPlayer 関数で標準プレーヤーを作成する。<br>
+ * （workには確保したメモリのアドレスを、work_sizeにはワーク領域のサイズを指定する。）<br>
+ * 	-# ハンドルが不要になったら ::criAtomPlayer_Destroy 関数で標準プレーヤーを破棄する。<br>
+ * 	-# ワーク領域のメモリを解放する。<br>
  *
- * <br>��̓I�ȃR�[�h�͈ȉ��̂Ƃ���ł��B<br>
+ * <br>具体的なコードは以下のとおりです。<br>
  * \code
  * main()
  * {
- * 	CriAtomStandardPlayerConfig config;	// �W���v���[���[�쐬�p�R���t�B�O�\����
- * 	CriAtomPlayerHn player;				// Atom�v���[���[�n���h��
- * 	void *work;							// ���[�N�̈�A�h���X
- * 	CriSint32 work_size;				// ���[�N�̈�T�C�Y
+ * 	CriAtomStandardPlayerConfig config;	// 標準プレーヤー作成用コンフィグ構造体
+ * 	CriAtomPlayerHn player;				// Atomプレーヤーハンドル
+ * 	void *work;							// ワーク領域アドレス
+ * 	CriSint32 work_size;				// ワーク領域サイズ
  * 		:
- * 	// �W���v���[���[�쐬�p�R���t�B�O�\���̂�ݒ�
+ * 	// 標準プレーヤー作成用コンフィグ構造体を設定
  * 	memset(&config, 0, sizeof(config));
- * 	config.max_channels = 2;			// �X�e���I�Đ��\�ȃv���[���[���쐬����
- * 	config.max_sampling_rate = 48000;	// �ő��48000Hz�̉������Đ�����
+ * 	config.max_channels = 2;			// ステレオ再生可能なプレーヤーを作成する
+ * 	config.max_sampling_rate = 48000;	// 最大で48000Hzの音声を再生する
  *
- * 	// �W���v���[���[�̍쐬�ɕK�v�ȃ��[�N�̈�̃T�C�Y���v�Z
+ * 	// 標準プレーヤーの作成に必要なワーク領域のサイズを計算
  * 	work_size = criAtomPlayer_CalculateWorkSizeForStandardPlayer(&config);
  *
- * 	// ���[�N�̈�p�Ƀ��������m��
+ * 	// ワーク領域用にメモリを確保
  * 	work = malloc((size_t)work_size);
  *
- * 	// �W���v���[���[�̍쐬
- * 	// ���[�N�̈�ɂ�NULL��0���w�肷��B
- * 	// ���m�ۍς݂̃��[�N�̈���w�肷��B
+ * 	// 標準プレーヤーの作成
+ * 	// ワーク領域にはNULLと0を指定する。
+ * 	// →確保済みのワーク領域を指定する。
  * 	player = criAtomPlayer_CreateStandardPlayer(&config, work, work_size);
  * 		:
- * 	// �����Đ�����
- * 	// �����̊ԁA�m�ۂ����������͕ێ���������B
+ * 	// 音声再生処理
+ * 	// →この間、確保したメモリは保持し続ける。
  * 		:
- * 	// �W���v���[���[���s�v�ɂȂ������_�Ŕj��
+ * 	// 標準プレーヤーが不要になった時点で破棄
  * 	criAtomPlayer_Destroy(player);
  *
- * 	// �K�v�Ȃ��Ȃ������[�N�̈���������
+ * 	// 必要なくなったワーク領域を解放する
  * 	free(work);
  * 		:
  * }
  * \endcode
- * ::criAtomPlayer_CreateStandardPlayer �֐������s����ƁAAtom�v���[���[���쐬����A
- * �v���[���[�𐧌䂷�邽�߂̃n���h���i ::CriAtomPlayerHn �j���Ԃ���܂��B<br>
- * �f�[�^�̃Z�b�g�A�Đ��̊J�n�A�X�e�[�^�X�̎擾���AAtom�v���[���[�ɑ΂���
- * �s������́A�S�ăn���h���ɑ΂��čs���܂��B<br>
+ * ::criAtomPlayer_CreateStandardPlayer 関数を実行すると、Atomプレーヤーが作成され、
+ * プレーヤーを制御するためのハンドル（ ::CriAtomPlayerHn ）が返されます。<br>
+ * データのセット、再生の開始、ステータスの取得等、Atomプレーヤーに対して
+ * 行う操作は、全てハンドルに対して行います。<br>
  * <br>
- * �쐬���ꂽAtom�v���[���[�n���h�����g�p���ĉ����f�[�^���Đ�����菇�͈ȉ��̂Ƃ���ł��B<br>
- * -# ::criAtomPlayer_SetData �֐����g�p���āAAtom�v���[���[�ɍĐ�����f�[�^���Z�b�g����B<br>
- * �i�t�@�C���Đ����́A ::criAtomPlayer_SetFile �֐��܂��� ::criAtomPlayer_SetContentId
- * �֐����g�p����B�j<br>
- * -# ::criAtomPlayer_Start �֐��ōĐ����J�n����B<br>
- * \par ���l:
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 作成されたAtomプレーヤーハンドルを使用して音声データを再生する手順は以下のとおりです。<br>
+ * -# ::criAtomPlayer_SetData 関数を使用して、Atomプレーヤーに再生するデータをセットする。<br>
+ * （ファイル再生時は、 ::criAtomPlayer_SetFile 関数または ::criAtomPlayer_SetContentId
+ * 関数を使用する。）<br>
+ * -# ::criAtomPlayer_Start 関数で再生を開始する。<br>
+ * \par 備考:
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �X�g���[���Đ��p��Atom�v���[���[�́A�����I�Ƀ��[�_�[�i CriFsLoaderHn �j���m�ۂ��܂��B<br>
- * �X�g���[���Đ��p��Atom�v���[���[���쐬����ꍇ�A�v���[���[�n���h�������̃��[�_�[���m��
- * �ł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
- * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �W���v���[���[�̍쐬�ɂ����鎞�Ԃ́A�v���b�g�t�H�[���ɂ���ĈقȂ�܂��B<br>
- * �Q�[�����[�v���̉�ʍX�V���K�v�ȃ^�C�~���O�Ŗ{�֐������s����ƃ~���b�P�ʂ�
- * �������u���b�N����A�t���[���������������鋰�ꂪ����܂��B<br>
- * �W���v���[���[�̍쐬�^�j���́A�V�[���̐؂�ւ�蓙�A���וϓ������e�ł���
- * �^�C�~���O�ōs���悤���肢�������܂��B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * 標準プレーヤーの作成にかかる時間は、プラットフォームによって異なります。<br>
+ * ゲームループ等の画面更新が必要なタイミングで本関数を実行するとミリ秒単位で
+ * 処理がブロックされ、フレーム落ちが発生する恐れがあります。<br>
+ * 標準プレーヤーの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
+ * タイミングで行うようお願いいたします。<br>
  * \sa CriAtomStandardPlayerConfig, criAtomPlayer_CalculateWorkSizeForStandardPlayer,
  * CriAtomPlayerHn, criAtomPlayer_Destroy,
  * criAtomPlayer_SetData, criAtomPlayer_SetFile, criAtomPlayer_SetContentId,
@@ -4608,101 +4616,101 @@ CriAtomPlayerHn CRIAPI criAtomPlayer_CreateStandardPlayer(
 	const CriAtomStandardPlayerConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ADX�v���[���[�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief ADXプレーヤー作成用ワーク領域サイズの計算
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		ADX�v���[���[�쐬�p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * ADX�Đ��p�v���[���[���쐬���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	config		ADXプレーヤー作成用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * ADX再生用プレーヤーを作成するために必要な、ワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * �v���[���[�̍쐬�ɕK�v�ȃ��[�N�������̃T�C�Y�́A�v���[���[�쐬�p�R���t�B�O
- * �\���́i ::CriAtomAdxPlayerConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * プレーヤーの作成に必要なワークメモリのサイズは、プレーヤー作成用コンフィグ
+ * 構造体（ ::CriAtomAdxPlayerConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomPlayer_SetDefaultConfigForAdxPlayer �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomPlayer_SetDefaultConfigForAdxPlayer 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ���[�N�̈�̃T�C�Y�̓��C�u�������������i ::criAtom_Initialize �֐����s���j
- * �Ɏw�肵���p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * ワーク領域のサイズはライブラリ初期化時（ ::criAtom_Initialize 関数実行時）
+ * に指定したパラメーターによって変化します。<br>
+ * そのため、本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * \sa CriAtomAdxPlayerConfig, criAtomPlayer_CreateAdxPlayer
  */
 CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForAdxPlayer(
 	const CriAtomAdxPlayerConfig *config);
 
 /*JP
- * \brief ADX�v���[���[�̍쐬
+ * \brief ADXプレーヤーの作成
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		ADX�v���[���[�쐬�p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomPlayerHn	Atom�v���[���[�n���h��
- * \par ����:
- * ADX���Đ��\�ȃv���[���[���쐬���܂��B<br>
- * �{�֐��ō쐬���ꂽAtom�v���[���[�ɂ́AADX�f�[�^�̃f�R�[�h�@�\���t������Ă��܂��B<br>
+ * \param[in]	config		ADXプレーヤー作成用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomPlayerHn	Atomプレーヤーハンドル
+ * \par 説明:
+ * ADXが再生可能なプレーヤーを作成します。<br>
+ * 本関数で作成されたAtomプレーヤーには、ADXデータのデコード機能が付加されています。<br>
  * <br>
- * �쐬���ꂽ�v���[���[�ōĐ��ł��鉹���̃t�H�[�}�b�g�́A�������iconfig�j�Ɏw�肵��
- * �p�����[�^�[�ɂ���Č��܂�܂��B<br>
- * �Ⴆ�΁Aconfig��max_sampling_rate��24000��ݒ肵���ꍇ�A�쐬���ꂽ�v���[���[�ł�
- * 24kHz�𒴂���T���v�����O���[�g�̉����f�[�^�͍Đ��ł��Ȃ��Ȃ�܂��B<br>
- * config��NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�i ::criAtomPlayer_SetDefaultConfigForAdxPlayer
- * �K�p���Ɠ����p�����[�^�[�j�Ńv���[���[���쐬���܂��B
+ * 作成されたプレーヤーで再生できる音声のフォーマットは、第一引数（config）に指定した
+ * パラメーターによって決まります。<br>
+ * 例えば、configのmax_sampling_rateに24000を設定した場合、作成されたプレーヤーでは
+ * 24kHzを超えるサンプリングレートの音声データは再生できなくなります。<br>
+ * configにNULLを指定した場合、デフォルト設定（ ::criAtomPlayer_SetDefaultConfigForAdxPlayer
+ * 適用時と同じパラメーター）でプレーヤーを作成します。
  * <br>
- * �v���[���[���쐬����ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
+ * プレーヤーを作成する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
  * <br>
- * User Allocator������p����ꍇ�A���[�U�����[�N�̈��p�ӂ���K�v�͂���܂���B<br>
- * work��NULL�Awork_size��0���w�肷�邾���ŁA�K�v�ȃ�������o�^�ς݂̃������m�ۊ֐�����m�ۂ��܂��B<br>
- * ADX�v���[���[�쐬���Ɋm�ۂ��ꂽ�������́AADX�v���[���[�j�����i ::criAtomPlayer_Destroy
- * �֐����s���j�ɉ������܂��B<br>
+ * User Allocator方式を用いる場合、ユーザがワーク領域を用意する必要はありません。<br>
+ * workにNULL、work_sizeに0を指定するだけで、必要なメモリを登録済みのメモリ確保関数から確保します。<br>
+ * ADXプレーヤー作成時に確保されたメモリは、ADXプレーヤー破棄時（ ::criAtomPlayer_Destroy
+ * 関数実行時）に解放されます。<br>
  * <br>
- * Fixed Memory������p����ꍇ�A���[�N�̈�Ƃ��ĕʓr�m�ۍς݂̃������̈��{�֐���
- * �ݒ肷��K�v������܂��B<br>
- * ���[�N�̈�̃T�C�Y�� ::criAtomPlayer_CalculateWorkSizeForAdxPlayer �֐��Ŏ擾�\�ł��B<br>
- * ADX�v���[���[�쐬�O�� ::criAtomPlayer_CalculateWorkSizeForAdxPlayer �֐��Ŏ擾����
- * �T�C�Y���̃�������\�ߊm�ۂ��Ă����A�{�֐��ɐݒ肵�Ă��������B<br>
- * ���AFixed Memory������p�����ꍇ�A���[�N�̈��ADX�v���[���[�̔j��
- * �i ::criAtomPlayer_Destroy �֐��j���s���܂ł̊ԁA���C�u�������ŗ��p���ꑱ���܂��B<br>
- * ADX�v���[���[�̔j�����s���O�ɁA���[�N�̈�̃�������������Ȃ��ł��������B<br>
- * \par ��:
- * �yUser Allocator�����ɂ��ADX�v���[���[�̍쐬�z<br>
- * User Allocator������p����ꍇ�AADX�v���[���[�̍쐬�^�j���̎菇�͈ȉ��̂悤�ɂȂ�܂��B<br>
- * 	-# ADX�v���[���[�쐬�O�ɁA ::criAtom_SetUserMallocFunction �֐���
- * ::criAtom_SetUserFreeFunction �֐���p���ă������m�ہ^����֐���o�^����B<br>
- * 	-# ADX�v���[���[�쐬�p�R���t�B�O�\���̂Ƀp�����[�^�[���Z�b�g����B<br>
- * 	-# ::criAtomPlayer_CreateAdxPlayer �֐���ADX�v���[���[���쐬����B<br>
- * �iwork�ɂ�NULL�Awork_size�ɂ�0���w�肷��B�j<br>
- * 	-# �n���h�����s�v�ɂȂ����� ::criAtomPlayer_Destroy �֐���ADX�v���[���[��j������B<br>
+ * Fixed Memory方式を用いる場合、ワーク領域として別途確保済みのメモリ領域を本関数に
+ * 設定する必要があります。<br>
+ * ワーク領域のサイズは ::criAtomPlayer_CalculateWorkSizeForAdxPlayer 関数で取得可能です。<br>
+ * ADXプレーヤー作成前に ::criAtomPlayer_CalculateWorkSizeForAdxPlayer 関数で取得した
+ * サイズ分のメモリを予め確保しておき、本関数に設定してください。<br>
+ * 尚、Fixed Memory方式を用いた場合、ワーク領域はADXプレーヤーの破棄
+ * （ ::criAtomPlayer_Destroy 関数）を行うまでの間、ライブラリ内で利用され続けます。<br>
+ * ADXプレーヤーの破棄を行う前に、ワーク領域のメモリを解放しないでください。<br>
+ * \par 例:
+ * 【User Allocator方式によるADXプレーヤーの作成】<br>
+ * User Allocator方式を用いる場合、ADXプレーヤーの作成／破棄の手順は以下のようになります。<br>
+ * 	-# ADXプレーヤー作成前に、 ::criAtom_SetUserMallocFunction 関数と
+ * ::criAtom_SetUserFreeFunction 関数を用いてメモリ確保／解放関数を登録する。<br>
+ * 	-# ADXプレーヤー作成用コンフィグ構造体にパラメーターをセットする。<br>
+ * 	-# ::criAtomPlayer_CreateAdxPlayer 関数でADXプレーヤーを作成する。<br>
+ * （workにはNULL、work_sizeには0を指定する。）<br>
+ * 	-# ハンドルが不要になったら ::criAtomPlayer_Destroy 関数でADXプレーヤーを破棄する。<br>
  *
- * <br>��̓I�ȃR�[�h�͈ȉ��̂Ƃ���ł��B<br>
+ * <br>具体的なコードは以下のとおりです。<br>
  * \code
- * // �Ǝ��̃������m�ۊ֐�
+ * // 独自のメモリ確保関数
  * void *user_malloc(void *obj, CriUint32 size)
  * {
  * 	void *mem;
  *
- * 	// �������̊m��
+ * 	// メモリの確保
  * 	mem = malloc(size);
  *
  * 	return (mem);
  * }
  *
- * // �Ǝ��̃���������֐���p��
+ * // 独自のメモリ解放関数を用意
  * void user_free(void *obj, void *mem)
  * {
- * 	// �������̉��
+ * 	// メモリの解放
  * 	free(mem);
  *
  * 	return;
@@ -4710,111 +4718,106 @@ CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForAdxPlayer(
  *
  * main()
  * {
- * 	CriAtomAdxPlayerConfig config;	// ADX�v���[���[�쐬�p�R���t�B�O�\����
- * 	CriAtomPlayerHn player;			// Atom�v���[���[�n���h��
+ * 	CriAtomAdxPlayerConfig config;	// ADXプレーヤー作成用コンフィグ構造体
+ * 	CriAtomPlayerHn player;			// Atomプレーヤーハンドル
  * 		:
- * 	// �Ǝ��̃������m�ۊ֐���o�^
+ * 	// 独自のメモリ確保関数を登録
  * 	criAtom_SetUserMallocFunction(user_malloc, NULL);
  *
- * 	// �Ǝ��̃���������֐���o�^
+ * 	// 独自のメモリ解放関数を登録
  * 	criAtom_SetUserFreeFunction(user_free, NULL);
  *
- * 	// ADX�v���[���[�쐬�p�R���t�B�O�\���̂�ݒ�
+ * 	// ADXプレーヤー作成用コンフィグ構造体を設定
  * 	memset(&config, 0, sizeof(config));
- * 	config.max_channels = 2;			// �X�e���I�Đ��\�ȃv���[���[���쐬����
- * 	config.max_sampling_rate = 48000;	// �ő��48000Hz�̉������Đ�����
+ * 	config.max_channels = 2;			// ステレオ再生可能なプレーヤーを作成する
+ * 	config.max_sampling_rate = 48000;	// 最大で48000Hzの音声を再生する
  *
- * 	// ADX�v���[���[�̍쐬
- * 	// ���[�N�̈�ɂ�NULL��0���w�肷��B
- * 	// ���K�v�ȃ������́A�o�^�����������m�ۊ֐����g���Ċm�ۂ����B
+ * 	// ADXプレーヤーの作成
+ * 	// ワーク領域にはNULLと0を指定する。
+ * 	// →必要なメモリは、登録したメモリ確保関数を使って確保される。
  * 	player = criAtomPlayer_CreateAdxPlayer(&config, NULL, 0);
  * 		:
- * 	// �����Đ�����
+ * 	// 音声再生処理
  * 		:
- * 	// ADX�v���[���[���s�v�ɂȂ������_�Ŕj��
- * 	// ��ADX�v���[���[�쐬���Ƀ��C�u�������Ŋm�ۂ��ꂽ����������������B
+ * 	// ADXプレーヤーが不要になった時点で破棄
+ * 	// →ADXプレーヤー作成時にライブラリ内で確保されたメモリが解放される。
  * 	criAtomPlayer_Destroy(player);
  * 		:
  * }
  * \endcode
- * �����C�u�������������Ƀ������m�ہ^����֐���o�^�ς݂̏ꍇ�AADX�v���[���[�쐬��
- * �ɍēx�֐���o�^����K�v�͂���܂���B<br>
+ * ※ライブラリ初期化時にメモリ確保／解放関数を登録済みの場合、ADXプレーヤー作成時
+ * に再度関数を登録する必要はありません。<br>
  * <br>
- * �yFixed Memory�����ɂ��ADX�v���[���[�̍쐬�z<br>
- * Fixed Memory������p����ꍇ�AADX�v���[���[�̍쐬�^�j���̎菇�͈ȉ��̂悤�ɂȂ�܂��B<br>
- * 	-# ADX�v���[���[�쐬�p�R���t�B�O�\���̂Ƀp�����[�^�[���Z�b�g����B<br>
- * 	-# ADX�v���[���[�̍쐬�ɕK�v�ȃ��[�N�̈�̃T�C�Y���A
- * ::criAtomPlayer_CalculateWorkSizeForAdxPlayer �֐����g���Čv�Z����B<br>
- * 	-# ���[�N�̈�T�C�Y���̃��������m�ۂ���B<br>
- * 	-# ::criAtomPlayer_CreateAdxPlayer �֐���ADX�v���[���[���쐬����B<br>
- * �iwork�ɂ͊m�ۂ����������̃A�h���X���Awork_size�ɂ̓��[�N�̈�̃T�C�Y���w�肷��B�j<br>
- * 	-# �n���h�����s�v�ɂȂ����� ::criAtomPlayer_Destroy �֐���ADX�v���[���[��j������B<br>
- * 	-# ���[�N�̈�̃��������������B<br>
+ * 【Fixed Memory方式によるADXプレーヤーの作成】<br>
+ * Fixed Memory方式を用いる場合、ADXプレーヤーの作成／破棄の手順は以下のようになります。<br>
+ * 	-# ADXプレーヤー作成用コンフィグ構造体にパラメーターをセットする。<br>
+ * 	-# ADXプレーヤーの作成に必要なワーク領域のサイズを、
+ * ::criAtomPlayer_CalculateWorkSizeForAdxPlayer 関数を使って計算する。<br>
+ * 	-# ワーク領域サイズ分のメモリを確保する。<br>
+ * 	-# ::criAtomPlayer_CreateAdxPlayer 関数でADXプレーヤーを作成する。<br>
+ * （workには確保したメモリのアドレスを、work_sizeにはワーク領域のサイズを指定する。）<br>
+ * 	-# ハンドルが不要になったら ::criAtomPlayer_Destroy 関数でADXプレーヤーを破棄する。<br>
+ * 	-# ワーク領域のメモリを解放する。<br>
  *
- * <br>��̓I�ȃR�[�h�͈ȉ��̂Ƃ���ł��B<br>
+ * <br>具体的なコードは以下のとおりです。<br>
  * \code
  * main()
  * {
- * 	CriAtomAdxPlayerConfig config;	// ADX�v���[���[�쐬�p�R���t�B�O�\����
- * 	CriAtomPlayerHn player;			// Atom�v���[���[�n���h��
- * 	void *work;						// ���[�N�̈�A�h���X
- * 	CriSint32 work_size;			// ���[�N�̈�T�C�Y
+ * 	CriAtomAdxPlayerConfig config;	// ADXプレーヤー作成用コンフィグ構造体
+ * 	CriAtomPlayerHn player;			// Atomプレーヤーハンドル
+ * 	void *work;						// ワーク領域アドレス
+ * 	CriSint32 work_size;			// ワーク領域サイズ
  * 		:
- * 	// ADX�v���[���[�쐬�p�R���t�B�O�\���̂�ݒ�
+ * 	// ADXプレーヤー作成用コンフィグ構造体を設定
  * 	memset(&config, 0, sizeof(config));
- * 	config.max_channels = 2;			// �X�e���I�Đ��\�ȃv���[���[���쐬����
- * 	config.max_sampling_rate = 48000;	// �ő��48000Hz�̉������Đ�����
+ * 	config.max_channels = 2;			// ステレオ再生可能なプレーヤーを作成する
+ * 	config.max_sampling_rate = 48000;	// 最大で48000Hzの音声を再生する
  *
- * 	// ADX�v���[���[�̍쐬�ɕK�v�ȃ��[�N�̈�̃T�C�Y���v�Z
+ * 	// ADXプレーヤーの作成に必要なワーク領域のサイズを計算
  * 	work_size = criAtomPlayer_CalculateWorkSizeForAdxPlayer(&config);
  *
- * 	// ���[�N�̈�p�Ƀ��������m��
+ * 	// ワーク領域用にメモリを確保
  * 	work = malloc((size_t)work_size);
  *
- * 	// ADX�v���[���[�̍쐬
- * 	// ���[�N�̈�ɂ�NULL��0���w�肷��B
- * 	// ���m�ۍς݂̃��[�N�̈���w�肷��B
+ * 	// ADXプレーヤーの作成
+ * 	// ワーク領域にはNULLと0を指定する。
+ * 	// →確保済みのワーク領域を指定する。
  * 	player = criAtomPlayer_CreateAdxPlayer(&config, work, work_size);
  * 		:
- * 	// �����Đ�����
- * 	// �����̊ԁA�m�ۂ����������͕ێ���������B
+ * 	// 音声再生処理
+ * 	// →この間、確保したメモリは保持し続ける。
  * 		:
- * 	// ADX�v���[���[���s�v�ɂȂ������_�Ŕj��
+ * 	// ADXプレーヤーが不要になった時点で破棄
  * 	criAtomPlayer_Destroy(player);
  *
- * 	// �K�v�Ȃ��Ȃ������[�N�̈���������
+ * 	// 必要なくなったワーク領域を解放する
  * 	free(work);
  * 		:
  * }
  * \endcode
- * ::criAtomPlayer_CreateAdxPlayer �֐������s����ƁAAtom�v���[���[���쐬����A
- * �v���[���[�𐧌䂷�邽�߂̃n���h���i ::CriAtomPlayerHn �j���Ԃ���܂��B<br>
- * �f�[�^��f�R�[�_�[�̃Z�b�g�A�Đ��̊J�n�A�X�e�[�^�X�̎擾���AAtom�v���[���[�ɑ΂���
- * �s������́A�S�ăn���h���ɑ΂��čs���܂��B<br>
+ * ::criAtomPlayer_CreateAdxPlayer 関数を実行すると、Atomプレーヤーが作成され、
+ * プレーヤーを制御するためのハンドル（ ::CriAtomPlayerHn ）が返されます。<br>
+ * データやデコーダーのセット、再生の開始、ステータスの取得等、Atomプレーヤーに対して
+ * 行う操作は、全てハンドルに対して行います。<br>
  * <br>
- * �쐬���ꂽAtom�v���[���[�n���h�����g�p���ĉ����f�[�^���Đ�����菇�͈ȉ��̂Ƃ���ł��B<br>
- * -# ::criAtomPlayer_SetData �֐����g�p���āAAtom�v���[���[�ɍĐ�����f�[�^���Z�b�g����B<br>
- * �i�t�@�C���Đ����́A ::criAtomPlayer_SetFile �֐��܂��� ::criAtomPlayer_SetContentId
- * �֐����g�p����B�j<br>
- * -# ::criAtomPlayer_Start �֐��ōĐ����J�n����B<br>
- * \par ���l:
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 作成されたAtomプレーヤーハンドルを使用して音声データを再生する手順は以下のとおりです。<br>
+ * -# ::criAtomPlayer_SetData 関数を使用して、Atomプレーヤーに再生するデータをセットする。<br>
+ * （ファイル再生時は、 ::criAtomPlayer_SetFile 関数または ::criAtomPlayer_SetContentId
+ * 関数を使用する。）<br>
+ * -# ::criAtomPlayer_Start 関数で再生を開始する。<br>
+ * \par 備考:
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �X�g���[���Đ��p��Atom�v���[���[�́A�����I�Ƀ��[�_�[�i CriFsLoaderHn �j���m�ۂ��܂��B<br>
- * �X�g���[���Đ��p��Atom�v���[���[���쐬����ꍇ�A�v���[���[�n���h�������̃��[�_�[���m��
- * �ł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
- * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * ADX�v���[���[�̍쐬�ɂ����鎞�Ԃ́A�v���b�g�t�H�[���ɂ���ĈقȂ�܂��B<br>
- * �Q�[�����[�v���̉�ʍX�V���K�v�ȃ^�C�~���O�Ŗ{�֐������s����ƃ~���b�P�ʂ�
- * �������u���b�N����A�t���[���������������鋰�ꂪ����܂��B<br>
- * ADX�v���[���[�̍쐬�^�j���́A�V�[���̐؂�ւ�蓙�A���וϓ������e�ł���
- * �^�C�~���O�ōs���悤���肢�������܂��B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * ADXプレーヤーの作成にかかる時間は、プラットフォームによって異なります。<br>
+ * ゲームループ等の画面更新が必要なタイミングで本関数を実行するとミリ秒単位で
+ * 処理がブロックされ、フレーム落ちが発生する恐れがあります。<br>
+ * ADXプレーヤーの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
+ * タイミングで行うようお願いいたします。<br>
  * \sa CriAtomAdxPlayerConfig, criAtomPlayer_CalculateWorkSizeForAdxPlayer,
  * CriAtomPlayerHn, criAtomPlayer_Destroy,
  * criAtomPlayer_SetData, criAtomPlayer_SetFile, criAtomPlayer_SetContentId,
@@ -4824,90 +4827,90 @@ CriAtomPlayerHn CRIAPI criAtomPlayer_CreateAdxPlayer(
 	const CriAtomAdxPlayerConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief HCA�v���[���[�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief HCAプレーヤー作成用ワーク領域サイズの計算
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		HCA�v���[���[�쐬�p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * HCA�Đ��p�v���[���[���쐬���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	config		HCAプレーヤー作成用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * HCA再生用プレーヤーを作成するために必要な、ワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * �v���[���[�̍쐬�ɕK�v�ȃ��[�N�������̃T�C�Y�́A�v���[���[�쐬�p�R���t�B�O
- * �\���́i ::CriAtomHcaPlayerConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * プレーヤーの作成に必要なワークメモリのサイズは、プレーヤー作成用コンフィグ
+ * 構造体（ ::CriAtomHcaPlayerConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomPlayer_SetDefaultConfigForHcaPlayer �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomPlayer_SetDefaultConfigForHcaPlayer 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ���[�N�̈�̃T�C�Y�̓��C�u�������������i ::criAtom_Initialize �֐����s���j
- * �Ɏw�肵���p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * ワーク領域のサイズはライブラリ初期化時（ ::criAtom_Initialize 関数実行時）
+ * に指定したパラメーターによって変化します。<br>
+ * そのため、本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * \sa CriAtomHcaPlayerConfig, criAtomPlayer_CreateHcaPlayer
  */
 CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForHcaPlayer(
 	const CriAtomHcaPlayerConfig *config);
 
 /*JP
- * \brief HCA�v���[���[�̍쐬
+ * \brief HCAプレーヤーの作成
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		HCA�v���[���[�쐬�p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomPlayerHn	Atom�v���[���[�n���h��
- * \par ����:
- * HCA���Đ��\�ȃv���[���[���쐬���܂��B<br>
- * �{�֐��ō쐬���ꂽAtom�v���[���[�ɂ́AHCA�f�[�^�̃f�R�[�h�@�\���t������Ă��܂��B<br>
+ * \param[in]	config		HCAプレーヤー作成用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomPlayerHn	Atomプレーヤーハンドル
+ * \par 説明:
+ * HCAが再生可能なプレーヤーを作成します。<br>
+ * 本関数で作成されたAtomプレーヤーには、HCAデータのデコード機能が付加されています。<br>
  * <br>
- * �쐬���ꂽ�v���[���[�ōĐ��ł��鉹���̃t�H�[�}�b�g�́A�������iconfig�j�Ɏw�肵��
- * �p�����[�^�[�ɂ���Č��܂�܂��B<br>
- * �Ⴆ�΁Aconfig��max_sampling_rate��24000��ݒ肵���ꍇ�A�쐬���ꂽ�v���[���[�ł�
- * 24kHz�𒴂���T���v�����O���[�g�̉����f�[�^�͍Đ��ł��Ȃ��Ȃ�܂��B<br>
- * config��NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�i ::criAtomPlayer_SetDefaultConfigForHcaPlayer
- * �K�p���Ɠ����p�����[�^�[�j�Ńv���[���[���쐬���܂��B
+ * 作成されたプレーヤーで再生できる音声のフォーマットは、第一引数（config）に指定した
+ * パラメーターによって決まります。<br>
+ * 例えば、configのmax_sampling_rateに24000を設定した場合、作成されたプレーヤーでは
+ * 24kHzを超えるサンプリングレートの音声データは再生できなくなります。<br>
+ * configにNULLを指定した場合、デフォルト設定（ ::criAtomPlayer_SetDefaultConfigForHcaPlayer
+ * 適用時と同じパラメーター）でプレーヤーを作成します。
  * <br>
- * �v���[���[���쐬����ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
- * �e�����̏ڍׂɂ��ẮA�ʓr ::criAtomPlayer_CreateAdxPlayer �֐��̐��������Q�Ƃ��������B<br>
+ * プレーヤーを作成する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
+ * 各方式の詳細については、別途 ::criAtomPlayer_CreateAdxPlayer 関数の説明をご参照ください。<br>
  * <br>
- * ::criAtomPlayer_CreateHcaPlayer �֐������s����ƁAAtom�v���[���[���쐬����A
- * �v���[���[�𐧌䂷�邽�߂̃n���h���i ::CriAtomPlayerHn �j���Ԃ���܂��B<br>
- * �f�[�^��f�R�[�_�[�̃Z�b�g�A�Đ��̊J�n�A�X�e�[�^�X�̎擾���AAtom�v���[���[�ɑ΂���
- * �s������́A�S�ăn���h���ɑ΂��čs���܂��B<br>
+ * ::criAtomPlayer_CreateHcaPlayer 関数を実行すると、Atomプレーヤーが作成され、
+ * プレーヤーを制御するためのハンドル（ ::CriAtomPlayerHn ）が返されます。<br>
+ * データやデコーダーのセット、再生の開始、ステータスの取得等、Atomプレーヤーに対して
+ * 行う操作は、全てハンドルに対して行います。<br>
  * <br>
- * �쐬���ꂽAtom�v���[���[�n���h�����g�p���ĉ����f�[�^���Đ�����菇�͈ȉ��̂Ƃ���ł��B<br>
- * -# ::criAtomPlayer_SetData �֐����g�p���āAAtom�v���[���[�ɍĐ�����f�[�^���Z�b�g����B<br>
- * �i�t�@�C���Đ����́A ::criAtomPlayer_SetFile �֐��܂��� ::criAtomPlayer_SetContentId
- * �֐����g�p����B�j<br>
- * -# ::criAtomPlayer_Start �֐��ōĐ����J�n����B<br>
- * \par ���l:
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 作成されたAtomプレーヤーハンドルを使用して音声データを再生する手順は以下のとおりです。<br>
+ * -# ::criAtomPlayer_SetData 関数を使用して、Atomプレーヤーに再生するデータをセットする。<br>
+ * （ファイル再生時は、 ::criAtomPlayer_SetFile 関数または ::criAtomPlayer_SetContentId
+ * 関数を使用する。）<br>
+ * -# ::criAtomPlayer_Start 関数で再生を開始する。<br>
+ * \par 備考:
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �X�g���[���Đ��p��Atom�v���[���[�́A�����I�Ƀ��[�_�[�i CriFsLoaderHn �j���m�ۂ��܂��B<br>
- * �X�g���[���Đ��p��Atom�v���[���[���쐬����ꍇ�A�v���[���[�n���h�������̃��[�_�[���m��
- * �ł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
+ * ストリーム再生用のAtomプレーヤーは、内部的にローダー（ CriFsLoaderHn ）を確保します。<br>
+ * ストリーム再生用のAtomプレーヤーを作成する場合、プレーヤーハンドル数分のローダーが確保
+ * できる設定でAtomライブラリ（またはCRI File Systemライブラリ）を初期化する
+ * 必要があります。<br>
  * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * HCA�v���[���[�̍쐬�ɂ����鎞�Ԃ́A�v���b�g�t�H�[���ɂ���ĈقȂ�܂��B<br>
- * �Q�[�����[�v���̉�ʍX�V���K�v�ȃ^�C�~���O�Ŗ{�֐������s����ƃ~���b�P�ʂ�
- * �������u���b�N����A�t���[���������������鋰�ꂪ����܂��B<br>
- * HCA�v���[���[�̍쐬�^�j���́A�V�[���̐؂�ւ�蓙�A���וϓ������e�ł���
- * �^�C�~���O�ōs���悤���肢�������܂��B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * HCAプレーヤーの作成にかかる時間は、プラットフォームによって異なります。<br>
+ * ゲームループ等の画面更新が必要なタイミングで本関数を実行するとミリ秒単位で
+ * 処理がブロックされ、フレーム落ちが発生する恐れがあります。<br>
+ * HCAプレーヤーの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
+ * タイミングで行うようお願いいたします。<br>
  * \sa CriAtomHcaPlayerConfig, criAtomPlayer_CalculateWorkSizeForHcaPlayer,
  * CriAtomPlayerHn, criAtomPlayer_Destroy,
  * criAtomPlayer_SetData, criAtomPlayer_SetFile, criAtomPlayer_SetContentId,
@@ -4917,90 +4920,85 @@ CriAtomPlayerHn CRIAPI criAtomPlayer_CreateHcaPlayer(
 	const CriAtomHcaPlayerConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief HCA-MX�v���[���[�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief HCA-MXプレーヤー作成用ワーク領域サイズの計算
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		HCA-MX�v���[���[�쐬�p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * HCA-MX�Đ��p�v���[���[���쐬���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	config		HCA-MXプレーヤー作成用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * HCA-MX再生用プレーヤーを作成するために必要な、ワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * �v���[���[�̍쐬�ɕK�v�ȃ��[�N�������̃T�C�Y�́A�v���[���[�쐬�p�R���t�B�O
- * �\���́i ::CriAtomHcaMxPlayerConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * プレーヤーの作成に必要なワークメモリのサイズは、プレーヤー作成用コンフィグ
+ * 構造体（ ::CriAtomHcaMxPlayerConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomPlayer_SetDefaultConfigForHcaMxPlayer �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomPlayer_SetDefaultConfigForHcaMxPlayer 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ���[�N�̈�̃T�C�Y��HCA-MX���������i ::criAtomHcaMx_Initialize �֐����s���j
- * �Ɏw�肵���p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�{�֐������s����O�ɁAHCA-MX�����������Ă����K�v������܂��B<br>
+ * ワーク領域のサイズはHCA-MX初期化時（ ::criAtomHcaMx_Initialize 関数実行時）
+ * に指定したパラメーターによって変化します。<br>
+ * そのため、本関数を実行する前に、HCA-MXを初期化しておく必要があります。<br>
  * \sa CriAtomHcaMxPlayerConfig, criAtomPlayer_CreateHcaMxPlayer
  */
 CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForHcaMxPlayer(
 	const CriAtomHcaMxPlayerConfig *config);
 
 /*JP
- * \brief HCA-MX�v���[���[�̍쐬
+ * \brief HCA-MXプレーヤーの作成
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		HCA-MX�v���[���[�쐬�p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomPlayerHn	Atom�v���[���[�n���h��
- * \par ����:
- * HCA-MX���Đ��\�ȃv���[���[���쐬���܂��B<br>
- * �{�֐��ō쐬���ꂽAtom�v���[���[�ɂ́AHCA-MX�f�[�^�̃f�R�[�h�@�\���t������Ă��܂��B<br>
+ * \param[in]	config		HCA-MXプレーヤー作成用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomPlayerHn	Atomプレーヤーハンドル
+ * \par 説明:
+ * HCA-MXが再生可能なプレーヤーを作成します。<br>
+ * 本関数で作成されたAtomプレーヤーには、HCA-MXデータのデコード機能が付加されています。<br>
  * <br>
- * �쐬���ꂽ�v���[���[�ōĐ��ł��鉹���̃t�H�[�}�b�g�́A�������iconfig�j�Ɏw�肵��
- * �p�����[�^�[�ɂ���Č��܂�܂��B<br>
- * �Ⴆ�΁Aconfig��max_sampling_rate��24000��ݒ肵���ꍇ�A�쐬���ꂽ�v���[���[�ł�
- * 24kHz�𒴂���T���v�����O���[�g�̉����f�[�^�͍Đ��ł��Ȃ��Ȃ�܂��B<br>
- * config��NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�i ::criAtomPlayer_SetDefaultConfigForHcaMxPlayer
- * �K�p���Ɠ����p�����[�^�[�j�Ńv���[���[���쐬���܂��B
+ * 作成されたプレーヤーで再生できる音声のフォーマットは、第一引数（config）に指定した
+ * パラメーターによって決まります。<br>
+ * 例えば、configのmax_sampling_rateに24000を設定した場合、作成されたプレーヤーでは
+ * 24kHzを超えるサンプリングレートの音声データは再生できなくなります。<br>
+ * configにNULLを指定した場合、デフォルト設定（ ::criAtomPlayer_SetDefaultConfigForHcaMxPlayer
+ * 適用時と同じパラメーター）でプレーヤーを作成します。
  * <br>
- * �v���[���[���쐬����ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
- * �e�����̏ڍׂɂ��ẮA�ʓr ::criAtomPlayer_CreateAdxPlayer �֐��̐��������Q�Ƃ��������B<br>
+ * プレーヤーを作成する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
+ * 各方式の詳細については、別途 ::criAtomPlayer_CreateAdxPlayer 関数の説明をご参照ください。<br>
  * <br>
- * ::criAtomPlayer_CreateHcaMxPlayer �֐������s����ƁAAtom�v���[���[���쐬����A
- * �v���[���[�𐧌䂷�邽�߂̃n���h���i ::CriAtomPlayerHn �j���Ԃ���܂��B<br>
- * �f�[�^��f�R�[�_�[�̃Z�b�g�A�Đ��̊J�n�A�X�e�[�^�X�̎擾���AAtom�v���[���[�ɑ΂���
- * �s������́A�S�ăn���h���ɑ΂��čs���܂��B<br>
+ * ::criAtomPlayer_CreateHcaMxPlayer 関数を実行すると、Atomプレーヤーが作成され、
+ * プレーヤーを制御するためのハンドル（ ::CriAtomPlayerHn ）が返されます。<br>
+ * データやデコーダーのセット、再生の開始、ステータスの取得等、Atomプレーヤーに対して
+ * 行う操作は、全てハンドルに対して行います。<br>
  * <br>
- * �쐬���ꂽAtom�v���[���[�n���h�����g�p���ĉ����f�[�^���Đ�����菇�͈ȉ��̂Ƃ���ł��B<br>
- * -# ::criAtomPlayer_SetData �֐����g�p���āAAtom�v���[���[�ɍĐ�����f�[�^���Z�b�g����B<br>
- * �i�t�@�C���Đ����́A ::criAtomPlayer_SetFile �֐��܂��� ::criAtomPlayer_SetContentId
- * �֐����g�p����B�j<br>
- * -# ::criAtomPlayer_Start �֐��ōĐ����J�n����B<br>
- * \par ���l:
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 作成されたAtomプレーヤーハンドルを使用して音声データを再生する手順は以下のとおりです。<br>
+ * -# ::criAtomPlayer_SetData 関数を使用して、Atomプレーヤーに再生するデータをセットする。<br>
+ * （ファイル再生時は、 ::criAtomPlayer_SetFile 関数または ::criAtomPlayer_SetContentId
+ * 関数を使用する。）<br>
+ * -# ::criAtomPlayer_Start 関数で再生を開始する。<br>
+ * \par 備考:
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �X�g���[���Đ��p��Atom�v���[���[�́A�����I�Ƀ��[�_�[�i CriFsLoaderHn �j���m�ۂ��܂��B<br>
- * �X�g���[���Đ��p��Atom�v���[���[���쐬����ꍇ�A�v���[���[�n���h�������̃��[�_�[���m��
- * �ł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
+ * 本関数を実行する前に、HCA-MXを初期化しておく必要があります。<br>
  * <br>
- * �{�֐������s����O�ɁAHCA-MX�����������Ă����K�v������܂��B<br>
- * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * HCA-MX�v���[���[�̍쐬�ɂ����鎞�Ԃ́A�v���b�g�t�H�[���ɂ���ĈقȂ�܂��B<br>
- * �Q�[�����[�v���̉�ʍX�V���K�v�ȃ^�C�~���O�Ŗ{�֐������s����ƃ~���b�P�ʂ�
- * �������u���b�N����A�t���[���������������鋰�ꂪ����܂��B<br>
- * HCA-MX�v���[���[�̍쐬�^�j���́A�V�[���̐؂�ւ�蓙�A���וϓ������e�ł���
- * �^�C�~���O�ōs���悤���肢�������܂��B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * HCA-MXプレーヤーの作成にかかる時間は、プラットフォームによって異なります。<br>
+ * ゲームループ等の画面更新が必要なタイミングで本関数を実行するとミリ秒単位で
+ * 処理がブロックされ、フレーム落ちが発生する恐れがあります。<br>
+ * HCA-MXプレーヤーの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
+ * タイミングで行うようお願いいたします。<br>
  * \sa CriAtomHcaMxPlayerConfig, criAtomPlayer_CalculateWorkSizeForHcaMxPlayer,
  * CriAtomPlayerHn, criAtomPlayer_Destroy,
  * criAtomPlayer_SetData, criAtomPlayer_SetFile, criAtomPlayer_SetContentId,
@@ -5010,96 +5008,91 @@ CriAtomPlayerHn CRIAPI criAtomPlayer_CreateHcaMxPlayer(
 	const CriAtomHcaMxPlayerConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief WAVE�v���[���[�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief WAVEプレーヤー作成用ワーク領域サイズの計算
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		WAVE�v���[���[�쐬�p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * WAVE�Đ��p�v���[���[���쐬���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	config		WAVEプレーヤー作成用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * WAVE再生用プレーヤーを作成するために必要な、ワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * �v���[���[�̍쐬�ɕK�v�ȃ��[�N�������̃T�C�Y�́A�v���[���[�쐬�p�R���t�B�O
- * �\���́i ::CriAtomWavePlayerConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * プレーヤーの作成に必要なワークメモリのサイズは、プレーヤー作成用コンフィグ
+ * 構造体（ ::CriAtomWavePlayerConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomPlayer_SetDefaultConfigForWavePlayer �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomPlayer_SetDefaultConfigForWavePlayer 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ���[�N�̈�̃T�C�Y�̓��C�u�������������i ::criAtom_Initialize �֐����s���j
- * �Ɏw�肵���p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * ワーク領域のサイズはライブラリ初期化時（ ::criAtom_Initialize 関数実行時）
+ * に指定したパラメーターによって変化します。<br>
+ * そのため、本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * \sa CriAtomWavePlayerConfig, criAtomPlayer_CreateWavePlayer
  */
 CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForWavePlayer(
 	const CriAtomWavePlayerConfig *config);
 
 /*JP
- * \brief WAVE�v���[���[�̍쐬
+ * \brief WAVEプレーヤーの作成
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		WAVE�v���[���[�쐬�p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomPlayerHn	Atom�v���[���[�n���h��
- * \par ����:
- * WAVE���Đ��\�ȃv���[���[���쐬���܂��B<br>
- * �{�֐��ō쐬���ꂽAtom�v���[���[�ɂ́AWAVE�f�[�^�̃f�R�[�h�@�\���t������Ă��܂��B<br>
+ * \param[in]	config		WAVEプレーヤー作成用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomPlayerHn	Atomプレーヤーハンドル
+ * \par 説明:
+ * WAVEが再生可能なプレーヤーを作成します。<br>
+ * 本関数で作成されたAtomプレーヤーには、WAVEデータのデコード機能が付加されています。<br>
  * <br>
- * �쐬���ꂽ�v���[���[�ōĐ��ł��鉹���̃t�H�[�}�b�g�́A�������iconfig�j�Ɏw�肵��
- * �p�����[�^�[�ɂ���Č��܂�܂��B<br>
- * �Ⴆ�΁Aconfig��max_sampling_rate��24000��ݒ肵���ꍇ�A�쐬���ꂽ�v���[���[�ł�
- * 24kHz�𒴂���T���v�����O���[�g�̉����f�[�^�͍Đ��ł��Ȃ��Ȃ�܂��B<br>
- * config��NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�i ::criAtomPlayer_SetDefaultConfigForWavePlayer
- * �K�p���Ɠ����p�����[�^�[�j�Ńv���[���[���쐬���܂��B
+ * 作成されたプレーヤーで再生できる音声のフォーマットは、第一引数（config）に指定した
+ * パラメーターによって決まります。<br>
+ * 例えば、configのmax_sampling_rateに24000を設定した場合、作成されたプレーヤーでは
+ * 24kHzを超えるサンプリングレートの音声データは再生できなくなります。<br>
+ * configにNULLを指定した場合、デフォルト設定（ ::criAtomPlayer_SetDefaultConfigForWavePlayer
+ * 適用時と同じパラメーター）でプレーヤーを作成します。
  * <br>
- * �v���[���[���쐬����ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
- * �e�����̏ڍׂɂ��ẮA�ʓr ::criAtomPlayer_CreateAdxPlayer �֐��̐��������Q�Ƃ��������B<br>
+ * プレーヤーを作成する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
+ * 各方式の詳細については、別途 ::criAtomPlayer_CreateAdxPlayer 関数の説明をご参照ください。<br>
  * <br>
- * ::criAtomPlayer_CreateWavePlayer �֐������s����ƁAAtom�v���[���[���쐬����A
- * �v���[���[�𐧌䂷�邽�߂̃n���h���i ::CriAtomPlayerHn �j���Ԃ���܂��B<br>
- * �f�[�^��f�R�[�_�[�̃Z�b�g�A�Đ��̊J�n�A�X�e�[�^�X�̎擾���AAtom�v���[���[�ɑ΂���
- * �s������́A�S�ăn���h���ɑ΂��čs���܂��B<br>
+ * ::criAtomPlayer_CreateWavePlayer 関数を実行すると、Atomプレーヤーが作成され、
+ * プレーヤーを制御するためのハンドル（ ::CriAtomPlayerHn ）が返されます。<br>
+ * データやデコーダーのセット、再生の開始、ステータスの取得等、Atomプレーヤーに対して
+ * 行う操作は、全てハンドルに対して行います。<br>
  * <br>
- * �쐬���ꂽAtom�v���[���[�n���h�����g�p���ĉ����f�[�^���Đ�����菇�͈ȉ��̂Ƃ���ł��B<br>
- * -# ::criAtomPlayer_SetData �֐����g�p���āAAtom�v���[���[�ɍĐ�����f�[�^���Z�b�g����B<br>
- * �i�t�@�C���Đ����́A ::criAtomPlayer_SetFile �֐��܂��� ::criAtomPlayer_SetContentId
- * �֐����g�p����B�j<br>
- * -# ::criAtomPlayer_Start �֐��ōĐ����J�n����B<br>
- * \par ���l:
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 作成されたAtomプレーヤーハンドルを使用して音声データを再生する手順は以下のとおりです。<br>
+ * -# ::criAtomPlayer_SetData 関数を使用して、Atomプレーヤーに再生するデータをセットする。<br>
+ * （ファイル再生時は、 ::criAtomPlayer_SetFile 関数または ::criAtomPlayer_SetContentId
+ * 関数を使用する。）<br>
+ * -# ::criAtomPlayer_Start 関数で再生を開始する。<br>
+ * \par 備考:
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �X�g���[���Đ��p��Atom�v���[���[�́A�����I�Ƀ��[�_�[�i CriFsLoaderHn �j���m�ۂ��܂��B<br>
- * �X�g���[���Đ��p��Atom�v���[���[���쐬����ꍇ�A�v���[���[�n���h�������̃��[�_�[���m��
- * �ł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * WAVEプレーヤーの作成にかかる時間は、プラットフォームによって異なります。<br>
+ * ゲームループ等の画面更新が必要なタイミングで本関数を実行するとミリ秒単位で
+ * 処理がブロックされ、フレーム落ちが発生する恐れがあります。<br>
+ * WAVEプレーヤーの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
+ * タイミングで行うようお願いいたします。<br>
  * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * WAVE�v���[���[�̍쐬�ɂ����鎞�Ԃ́A�v���b�g�t�H�[���ɂ���ĈقȂ�܂��B<br>
- * �Q�[�����[�v���̉�ʍX�V���K�v�ȃ^�C�~���O�Ŗ{�֐������s����ƃ~���b�P�ʂ�
- * �������u���b�N����A�t���[���������������鋰�ꂪ����܂��B<br>
- * WAVE�v���[���[�̍쐬�^�j���́A�V�[���̐؂�ւ�蓙�A���וϓ������e�ł���
- * �^�C�~���O�ōs���悤���肢�������܂��B<br>
- * <br>
- * ����AWave�t�@�C���̃`�����N��͂͌����ɂ͍s���Ă��܂���B<br>
- * �`�����N�̕��я���FORM�`�����N�ACOMM�`�����N�ASSND�`�����N�ł͂Ȃ��ꍇ��A
- * ���̑��̃`�����N���܂�Wave�t�@�C���́A��͂Ɏ��s����\��������܂��B<br>
- * �܂��A�����_�őΉ����Ă���t�H�[�}�b�g�́A���m�����܂��̓X�e���I��
- * 16bit �񈳏k�f�[�^�݂̂ł��B<br>
+ * 現状、Waveファイルのチャンク解析は厳密には行っていません。<br>
+ * チャンクの並び順がFORMチャンク、COMMチャンク、SSNDチャンクではない場合や、
+ * その他のチャンクを含むWaveファイルは、解析に失敗する可能性があります。<br>
+ * また、現時点で対応しているフォーマットは、モノラルまたはステレオの
+ * 16bit 非圧縮データのみです。<br>
  * \sa CriAtomWavePlayerConfig, criAtomPlayer_CalculateWorkSizeForWavePlayer,
  * CriAtomPlayerHn, criAtomPlayer_Destroy,
  * criAtomPlayer_SetData, criAtomPlayer_SetFile, criAtomPlayer_SetContentId,
@@ -5109,96 +5102,91 @@ CriAtomPlayerHn CRIAPI criAtomPlayer_CreateWavePlayer(
 	const CriAtomWavePlayerConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief AIFF�v���[���[�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief AIFFプレーヤー作成用ワーク領域サイズの計算
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		AIFF�v���[���[�쐬�p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * AIFF�Đ��p�v���[���[���쐬���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	config		AIFFプレーヤー作成用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * AIFF再生用プレーヤーを作成するために必要な、ワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * �v���[���[�̍쐬�ɕK�v�ȃ��[�N�������̃T�C�Y�́A�v���[���[�쐬�p�R���t�B�O
- * �\���́i ::CriAtomAiffPlayerConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * プレーヤーの作成に必要なワークメモリのサイズは、プレーヤー作成用コンフィグ
+ * 構造体（ ::CriAtomAiffPlayerConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomPlayer_SetDefaultConfigForAiffPlayer �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomPlayer_SetDefaultConfigForAiffPlayer 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ���[�N�̈�̃T�C�Y�̓��C�u�������������i ::criAtom_Initialize �֐����s���j
- * �Ɏw�肵���p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * ワーク領域のサイズはライブラリ初期化時（ ::criAtom_Initialize 関数実行時）
+ * に指定したパラメーターによって変化します。<br>
+ * そのため、本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * \sa CriAtomAiffPlayerConfig, criAtomPlayer_CreateAiffPlayer
  */
 CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForAiffPlayer(
 	const CriAtomAiffPlayerConfig *config);
 
 /*JP
- * \brief AIFF�v���[���[�̍쐬
+ * \brief AIFFプレーヤーの作成
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		AIFF�v���[���[�쐬�p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomPlayerHn	Atom�v���[���[�n���h��
- * \par ����:
- * AIFF���Đ��\�ȃv���[���[���쐬���܂��B<br>
- * �{�֐��ō쐬���ꂽAtom�v���[���[�ɂ́AAIFF�f�[�^�̃f�R�[�h�@�\���t������Ă��܂��B<br>
+ * \param[in]	config		AIFFプレーヤー作成用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomPlayerHn	Atomプレーヤーハンドル
+ * \par 説明:
+ * AIFFが再生可能なプレーヤーを作成します。<br>
+ * 本関数で作成されたAtomプレーヤーには、AIFFデータのデコード機能が付加されています。<br>
  * <br>
- * �쐬���ꂽ�v���[���[�ōĐ��ł��鉹���̃t�H�[�}�b�g�́A�������iconfig�j�Ɏw�肵��
- * �p�����[�^�[�ɂ���Č��܂�܂��B<br>
- * �Ⴆ�΁Aconfig��max_sampling_rate��24000��ݒ肵���ꍇ�A�쐬���ꂽ�v���[���[�ł�
- * 24kHz�𒴂���T���v�����O���[�g�̉����f�[�^�͍Đ��ł��Ȃ��Ȃ�܂��B<br>
- * config��NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�i ::criAtomPlayer_SetDefaultConfigForAiffPlayer
- * �K�p���Ɠ����p�����[�^�[�j�Ńv���[���[���쐬���܂��B
+ * 作成されたプレーヤーで再生できる音声のフォーマットは、第一引数（config）に指定した
+ * パラメーターによって決まります。<br>
+ * 例えば、configのmax_sampling_rateに24000を設定した場合、作成されたプレーヤーでは
+ * 24kHzを超えるサンプリングレートの音声データは再生できなくなります。<br>
+ * configにNULLを指定した場合、デフォルト設定（ ::criAtomPlayer_SetDefaultConfigForAiffPlayer
+ * 適用時と同じパラメーター）でプレーヤーを作成します。
  * <br>
- * �v���[���[���쐬����ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
- * �e�����̏ڍׂɂ��ẮA�ʓr ::criAtomPlayer_CreateAdxPlayer �֐��̐��������Q�Ƃ��������B<br>
+ * プレーヤーを作成する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
+ * 各方式の詳細については、別途 ::criAtomPlayer_CreateAdxPlayer 関数の説明をご参照ください。<br>
  * <br>
- * ::criAtomPlayer_CreateAiffPlayer �֐������s����ƁAAtom�v���[���[���쐬����A
- * �v���[���[�𐧌䂷�邽�߂̃n���h���i ::CriAtomPlayerHn �j���Ԃ���܂��B<br>
- * �f�[�^��f�R�[�_�[�̃Z�b�g�A�Đ��̊J�n�A�X�e�[�^�X�̎擾���AAtom�v���[���[�ɑ΂���
- * �s������́A�S�ăn���h���ɑ΂��čs���܂��B<br>
+ * ::criAtomPlayer_CreateAiffPlayer 関数を実行すると、Atomプレーヤーが作成され、
+ * プレーヤーを制御するためのハンドル（ ::CriAtomPlayerHn ）が返されます。<br>
+ * データやデコーダーのセット、再生の開始、ステータスの取得等、Atomプレーヤーに対して
+ * 行う操作は、全てハンドルに対して行います。<br>
  * <br>
- * �쐬���ꂽAtom�v���[���[�n���h�����g�p���ĉ����f�[�^���Đ�����菇�͈ȉ��̂Ƃ���ł��B<br>
- * -# ::criAtomPlayer_SetData �֐����g�p���āAAtom�v���[���[�ɍĐ�����f�[�^���Z�b�g����B<br>
- * �i�t�@�C���Đ����́A ::criAtomPlayer_SetFile �֐��܂��� ::criAtomPlayer_SetContentId
- * �֐����g�p����B�j<br>
- * -# ::criAtomPlayer_Start �֐��ōĐ����J�n����B<br>
- * \par ���l:
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 作成されたAtomプレーヤーハンドルを使用して音声データを再生する手順は以下のとおりです。<br>
+ * -# ::criAtomPlayer_SetData 関数を使用して、Atomプレーヤーに再生するデータをセットする。<br>
+ * （ファイル再生時は、 ::criAtomPlayer_SetFile 関数または ::criAtomPlayer_SetContentId
+ * 関数を使用する。）<br>
+ * -# ::criAtomPlayer_Start 関数で再生を開始する。<br>
+ * \par 備考:
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �X�g���[���Đ��p��Atom�v���[���[�́A�����I�Ƀ��[�_�[�i CriFsLoaderHn �j���m�ۂ��܂��B<br>
- * �X�g���[���Đ��p��Atom�v���[���[���쐬����ꍇ�A�v���[���[�n���h�������̃��[�_�[���m��
- * �ł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * AIFFプレーヤーの作成にかかる時間は、プラットフォームによって異なります。<br>
+ * ゲームループ等の画面更新が必要なタイミングで本関数を実行するとミリ秒単位で
+ * 処理がブロックされ、フレーム落ちが発生する恐れがあります。<br>
+ * AIFFプレーヤーの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
+ * タイミングで行うようお願いいたします。<br>
  * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * AIFF�v���[���[�̍쐬�ɂ����鎞�Ԃ́A�v���b�g�t�H�[���ɂ���ĈقȂ�܂��B<br>
- * �Q�[�����[�v���̉�ʍX�V���K�v�ȃ^�C�~���O�Ŗ{�֐������s����ƃ~���b�P�ʂ�
- * �������u���b�N����A�t���[���������������鋰�ꂪ����܂��B<br>
- * AIFF�v���[���[�̍쐬�^�j���́A�V�[���̐؂�ւ�蓙�A���וϓ������e�ł���
- * �^�C�~���O�ōs���悤���肢�������܂��B<br>
- * <br>
- * ����AAIFF�t�@�C���̃`�����N��͂͌����ɂ͍s���Ă��܂���B<br>
- * �`�����N�̕��я���FORM�`�����N�ACOMM�`�����N�ASSND�`�����N�ł͂Ȃ��ꍇ��A
- * ���̑��̃`�����N���܂�AIFF�t�@�C���́A��͂Ɏ��s����\��������܂��B<br>
- * �܂��A�����_�őΉ����Ă���t�H�[�}�b�g�́A���m�����܂��̓X�e���I��
- * 16bit �񈳏k�f�[�^�݂̂ł��B<br>
+ * 現状、AIFFファイルのチャンク解析は厳密には行っていません。<br>
+ * チャンクの並び順がFORMチャンク、COMMチャンク、SSNDチャンクではない場合や、
+ * その他のチャンクを含むAIFFファイルは、解析に失敗する可能性があります。<br>
+ * また、現時点で対応しているフォーマットは、モノラルまたはステレオの
+ * 16bit 非圧縮データのみです。<br>
  * \sa CriAtomAiffPlayerConfig, criAtomPlayer_CalculateWorkSizeForAiffPlayer,
  * CriAtomPlayerHn, criAtomPlayer_Destroy,
  * criAtomPlayer_SetData, criAtomPlayer_SetFile, criAtomPlayer_SetContentId,
@@ -5208,90 +5196,85 @@ CriAtomPlayerHn CRIAPI criAtomPlayer_CreateAiffPlayer(
 	const CriAtomAiffPlayerConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief RawPCM�v���[���[�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief RawPCMプレーヤー作成用ワーク領域サイズの計算
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		RawPCM�v���[���[�쐬�p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * RawPCM�Đ��p�v���[���[���쐬���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
+ * \param[in]	config		RawPCMプレーヤー作成用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * RawPCM再生用プレーヤーを作成するために必要な、ワーク領域のサイズを取得します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * �v���[���[�̍쐬�ɕK�v�ȃ��[�N�������̃T�C�Y�́A�v���[���[�쐬�p�R���t�B�O
- * �\���́i ::CriAtomRawPcmPlayerConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * プレーヤーの作成に必要なワークメモリのサイズは、プレーヤー作成用コンフィグ
+ * 構造体（ ::CriAtomRawPcmPlayerConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomPlayer_SetDefaultConfigForRawPcmPlayer �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomPlayer_SetDefaultConfigForRawPcmPlayer 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ���[�N�̈�̃T�C�Y�̓��C�u�������������i ::criAtom_Initialize �֐����s���j
- * �Ɏw�肵���p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * ワーク領域のサイズはライブラリ初期化時（ ::criAtom_Initialize 関数実行時）
+ * に指定したパラメーターによって変化します。<br>
+ * そのため、本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * \sa CriAtomRawPcmPlayerConfig, criAtomPlayer_CreateRawPcmPlayer
  */
 CriSint32 CRIAPI criAtomPlayer_CalculateWorkSizeForRawPcmPlayer(
 	const CriAtomRawPcmPlayerConfig *config);
 
 /*JP
- * \brief RawPCM�v���[���[�̍쐬
+ * \brief RawPCMプレーヤーの作成
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	config		RawPCM�v���[���[�쐬�p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomPlayerHn	Atom�v���[���[�n���h��
- * \par ����:
- * RawPCM���Đ��\�ȃv���[���[���쐬���܂��B<br>
- * �{�֐��ō쐬���ꂽAtom�v���[���[�ɂ́ARawPCM�f�[�^�̃f�R�[�h�@�\���t������Ă��܂��B<br>
+ * \param[in]	config		RawPCMプレーヤー作成用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomPlayerHn	Atomプレーヤーハンドル
+ * \par 説明:
+ * RawPCMが再生可能なプレーヤーを作成します。<br>
+ * 本関数で作成されたAtomプレーヤーには、RawPCMデータのデコード機能が付加されています。<br>
  * <br>
- * �쐬���ꂽ�v���[���[�ōĐ��ł��鉹���̃t�H�[�}�b�g�́A�������iconfig�j�Ɏw�肵��
- * �p�����[�^�[�ɂ���Č��܂�܂��B<br>
- * �Ⴆ�΁Aconfig��max_sampling_rate��24000��ݒ肵���ꍇ�A�쐬���ꂽ�v���[���[�ł�
- * 24kHz�𒴂���T���v�����O���[�g�̉����f�[�^�͍Đ��ł��Ȃ��Ȃ�܂��B<br>
- * config��NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�i ::criAtomPlayer_SetDefaultConfigForRawPcmPlayer
- * �K�p���Ɠ����p�����[�^�[�j�Ńv���[���[���쐬���܂��B
+ * 作成されたプレーヤーで再生できる音声のフォーマットは、第一引数（config）に指定した
+ * パラメーターによって決まります。<br>
+ * 例えば、configのmax_sampling_rateに24000を設定した場合、作成されたプレーヤーでは
+ * 24kHzを超えるサンプリングレートの音声データは再生できなくなります。<br>
+ * configにNULLを指定した場合、デフォルト設定（ ::criAtomPlayer_SetDefaultConfigForRawPcmPlayer
+ * 適用時と同じパラメーター）でプレーヤーを作成します。
  * <br>
- * �v���[���[���쐬����ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���[�N�̈���m�ۂ�����@�ɂ́A�ȉ���2�ʂ�̕��@������܂��B<br>
- * <b>(a) User Allocator����</b>�F�������̊m�ہ^����ɁA���[�U���p�ӂ����֐����g�p������@�B<br>
- * <b>(b) Fixed Memory����</b>�F�K�v�ȃ������̈�𒼐ڃ��C�u�����ɓn�����@�B<br>
- * �e�����̏ڍׂɂ��ẮA�ʓr ::criAtomPlayer_CreateAdxPlayer �֐��̐��������Q�Ƃ��������B<br>
+ * プレーヤーを作成する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ワーク領域を確保する方法には、以下の2通りの方法があります。<br>
+ * <b>(a) User Allocator方式</b>：メモリの確保／解放に、ユーザが用意した関数を使用する方法。<br>
+ * <b>(b) Fixed Memory方式</b>：必要なメモリ領域を直接ライブラリに渡す方法。<br>
+ * 各方式の詳細については、別途 ::criAtomPlayer_CreateAdxPlayer 関数の説明をご参照ください。<br>
  * <br>
- * ::criAtomPlayer_CreateRawPcmPlayer �֐������s����ƁAAtom�v���[���[���쐬����A
- * �v���[���[�𐧌䂷�邽�߂̃n���h���i ::CriAtomPlayerHn �j���Ԃ���܂��B<br>
- * �f�[�^��f�R�[�_�[�̃Z�b�g�A�Đ��̊J�n�A�X�e�[�^�X�̎擾���AAtom�v���[���[�ɑ΂���
- * �s������́A�S�ăn���h���ɑ΂��čs���܂��B<br>
+ * ::criAtomPlayer_CreateRawPcmPlayer 関数を実行すると、Atomプレーヤーが作成され、
+ * プレーヤーを制御するためのハンドル（ ::CriAtomPlayerHn ）が返されます。<br>
+ * データやデコーダーのセット、再生の開始、ステータスの取得等、Atomプレーヤーに対して
+ * 行う操作は、全てハンドルに対して行います。<br>
  * <br>
- * �쐬���ꂽAtom�v���[���[�n���h�����g�p���ĉ����f�[�^���Đ�����菇�͈ȉ��̂Ƃ���ł��B<br>
- * -# ::criAtomPlayer_SetData �֐����g�p���āAAtom�v���[���[�ɍĐ�����f�[�^���Z�b�g����B<br>
- * �i�t�@�C���Đ����́A ::criAtomPlayer_SetFile �֐��܂��� ::criAtomPlayer_SetContentId
- * �֐����g�p����B�j<br>
- * -# ::criAtomPlayer_Start �֐��ōĐ����J�n����B<br>
- * \par ���l:
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 作成されたAtomプレーヤーハンドルを使用して音声データを再生する手順は以下のとおりです。<br>
+ * -# ::criAtomPlayer_SetData 関数を使用して、Atomプレーヤーに再生するデータをセットする。<br>
+ * （ファイル再生時は、 ::criAtomPlayer_SetFile 関数または ::criAtomPlayer_SetContentId
+ * 関数を使用する。）<br>
+ * -# ::criAtomPlayer_Start 関数で再生を開始する。<br>
+ * \par 備考:
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �X�g���[���Đ��p��Atom�v���[���[�́A�����I�Ƀ��[�_�[�i CriFsLoaderHn �j���m�ۂ��܂��B<br>
- * �X�g���[���Đ��p��Atom�v���[���[���쐬����ꍇ�A�v���[���[�n���h�������̃��[�_�[���m��
- * �ł���ݒ��Atom���C�u�����i�܂���CRI File System���C�u�����j������������
- * �K�v������܂��B<br>
- * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * RawPCM�v���[���[�̍쐬�ɂ����鎞�Ԃ́A�v���b�g�t�H�[���ɂ���ĈقȂ�܂��B<br>
- * �Q�[�����[�v���̉�ʍX�V���K�v�ȃ^�C�~���O�Ŗ{�֐������s����ƃ~���b�P�ʂ�
- * �������u���b�N����A�t���[���������������鋰�ꂪ����܂��B<br>
- * RawPCM�v���[���[�̍쐬�^�j���́A�V�[���̐؂�ւ�蓙�A���וϓ������e�ł���
- * �^�C�~���O�ōs���悤���肢�������܂��B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * RawPCMプレーヤーの作成にかかる時間は、プラットフォームによって異なります。<br>
+ * ゲームループ等の画面更新が必要なタイミングで本関数を実行するとミリ秒単位で
+ * 処理がブロックされ、フレーム落ちが発生する恐れがあります。<br>
+ * RawPCMプレーヤーの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
+ * タイミングで行うようお願いいたします。<br>
  * \sa CriAtomRawPcmPlayerConfig, criAtomPlayer_CalculateWorkSizeForRawPcmPlayer,
  * CriAtomPlayerHn, criAtomPlayer_Destroy,
  * criAtomPlayer_SetData, criAtomPlayer_SetFile, criAtomPlayer_SetContentId,
@@ -5301,640 +5284,640 @@ CriAtomPlayerHn CRIAPI criAtomPlayer_CreateRawPcmPlayer(
 	const CriAtomRawPcmPlayerConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief Atom�v���[���[�̔j��
+ * \brief Atomプレーヤーの破棄
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \par ����:
- * Atom�v���[���[��j�����܂��B<br>
- * �{�֐������s�������_�ŁAAtom�v���[���[�쐬���Ɋm�ۂ��ꂽ���\�[�X���S�ĉ������܂��B<br>
- * �܂��A�����Ɏw�肵��Atom�v���[���[�n���h���������ɂȂ�܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \par 説明:
+ * Atomプレーヤーを破棄します。<br>
+ * 本関数を実行した時点で、Atomプレーヤー作成時に確保されたリソースが全て解放されます。<br>
+ * また、引数に指定したAtomプレーヤーハンドルも無効になります。<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �����Đ�����Atom�v���[���[��j�����悤�Ƃ����ꍇ�A�{�֐����ōĐ���~��
- * �҂��Ă��烊�\�[�X�̉�����s���܂��B<br>
- * �i�t�@�C������Đ����Ă���ꍇ�́A����ɓǂݍ��݊����҂����s���܂��B�j<br>
- * ���̂��߁A�{�֐����ŏ����������ԁi���t���[���j�u���b�N�����\��������܂��B<br>
- * Atom�v���[���[�̍쐬�^�j���́A�V�[���̐؂�ւ�蓙�A���וϓ������e�ł���
- * �^�C�~���O�ōs���悤���肢�������܂��B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * 音声再生中のAtomプレーヤーを破棄しようとした場合、本関数内で再生停止を
+ * 待ってからリソースの解放が行われます。<br>
+ * （ファイルから再生している場合は、さらに読み込み完了待ちが行われます。）<br>
+ * そのため、本関数内で処理が長時間（数フレーム）ブロックされる可能性があります。<br>
+ * Atomプレーヤーの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
+ * タイミングで行うようお願いいたします。<br>
  * \sa criAtomPlayer_CreateAdxPlayer, CriAtomPlayerHn
  */
 void CRIAPI criAtomPlayer_Destroy(CriAtomPlayerHn player);
 
 /*JP
- * \brief �����f�[�^�̃Z�b�g�i�I���������f�[�^�̎w��j
+ * \brief 音声データのセット（オンメモリデータの指定）
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player			Atom�v���[���[�n���h��
- * \param[in]	buffer			�o�b�t�@�[�A�h���X
- * \param[in]	buffer_size		�o�b�t�@�[�T�C�Y
- * \par ����:
- * ��������ɔz�u���ꂽ�����f�[�^���AAtom�v���[���[�Ɋ֘A�t���܂��B<br>
- * �{�֐��Ń������A�h���X�ƃT�C�Y���w���A ::criAtomPlayer_Start �֐��ōĐ���
- * �J�n����ƁA�w�肳�ꂽ�f�[�^���Đ�����܂��B
- * \par ��:
+ * \param[in]	player			Atomプレーヤーハンドル
+ * \param[in]	buffer			バッファーアドレス
+ * \param[in]	buffer_size		バッファーサイズ
+ * \par 説明:
+ * メモリ上に配置された音声データを、Atomプレーヤーに関連付けます。<br>
+ * 本関数でメモリアドレスとサイズを指定後、 ::criAtomPlayer_Start 関数で再生を
+ * 開始すると、指定されたデータが再生されます。
+ * \par 例:
  * \code
  * main()
  * {
  * 		:
- * 	// �����f�[�^���Z�b�g
+ * 	// 音声データをセット
  * 	criAtomPlayer_SetData(player, buffer, buffer_size);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * ���A��U�Z�b�g�����f�[�^�̏��́A���̃f�[�^���Z�b�g�����܂�Atom�v���[���[���ɕێ�
- * ����܂��B<br>
- * ���̂��߁A�����f�[�^�����x���Đ�����ꍇ�ɂ́A�Đ����Ƀf�[�^���Z�b�g���Ȃ����K�v
- * �͂���܂���B
- * \par ���l:
- * �f�[�^�v���R�[���o�b�N�֐��i ::CriAtomPlayerDataRequestCbFunc �j���Ŗ{�֐������s����ƁA
- * �O��Z�b�g���������̏I�[�ɘA�����Ď��̃f�[�^���Đ�����܂��B<br>
- * �Ⴆ�΁A�ȉ��̃R�[�h�����s����ƁAbuffer1�̃f�[�^��buffer2�̃f�[�^���V�[�����X��
- * �A�����čĐ�����܂��B<br>
- * �i���̌��buffer2�̃f�[�^���J��Ԃ��Đ�����܂��B�j<br>
+ * 尚、一旦セットしたデータの情報は、他のデータがセットされるまでAtomプレーヤー内に保持
+ * されます。<br>
+ * そのため、同じデータを何度も再生する場合には、再生毎にデータをセットしなおす必要
+ * はありません。
+ * \par 備考:
+ * データ要求コールバック関数（ ::CriAtomPlayerDataRequestCbFunc ）内で本関数を実行すると、
+ * 前回セットした音声の終端に連結して次のデータが再生されます。<br>
+ * 例えば、以下のコードを実行すると、buffer1のデータとbuffer2のデータがシームレスに
+ * 連結して再生されます。<br>
+ * （その後はbuffer2のデータが繰り返し再生されます。）<br>
  * \code
- * // �f�[�^�v���R�[���o�b�N�֐�
+ * // データ要求コールバック関数
  * void on_data_request(void *obj, CriAtomPlayerHn player)
  * {
- * 	// �����čĐ�����f�[�^���Z�b�g
+ * 	// 続けて再生するデータをセット
  * 	criAtomPlayer_SetData(player, buffer2, buffer_size2);
  * }
  *
  * main()
  * {
  * 		:
- * 	// �f�[�^�v���R�[���o�b�N�֐��̓o�^
+ * 	// データ要求コールバック関数の登録
  * 	criAtomPlayer_SetDataRequestCallback(player, on_data_request, NULL);
  *
- * 	// �����f�[�^���Z�b�g
+ * 	// 音声データをセット
  * 	criAtomPlayer_SetData(player, buffer1, buffer_size1);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * �f�[�^�v���R�[���o�b�N�֐����� ::criAtomPlayer_SetFile �֐������s���邱�ƂŁA
- * �I���������f�[�^�ƃt�@�C����A�����čĐ����邱�Ƃ��\�ł��B<br>
- * �i�������A��ɍĐ�����I���������f�[�^���Z������ꍇ�A���ɍĐ�����t�@�C����
- * �ǂݍ��݂��Ԃɍ��킸�A�������r�؂��\��������܂��B�j<br>
+ * データ要求コールバック関数内で ::criAtomPlayer_SetFile 関数を実行することで、
+ * オンメモリデータとファイルを連結して再生することも可能です。<br>
+ * （ただし、先に再生するオンメモリデータが短すぎる場合、次に再生するファイルの
+ * 読み込みが間に合わず、音声が途切れる可能性があります。）<br>
  * \attention
- * �v���[���[���L������̂̓o�b�t�@�[�̃A�h���X�ƃT�C�Y�݂̂ł��B<br>
- * �i�o�b�t�@�[���̃f�[�^���R�s�[�����킯�ł͂���܂���B�j<br>
- * ���̂��߁A�w�肵���f�[�^�̍Đ����I������܂ł̊ԁA
- * �A�v���P�[�V�������Ńo�b�t�@�[��ێ���������K�v������܂��B<br>
+ * プレーヤーが記憶するのはバッファーのアドレスとサイズのみです。<br>
+ * （バッファー内のデータがコピーされるわけではありません。）<br>
+ * そのため、指定したデータの再生が終了するまでの間、
+ * アプリケーション側でバッファーを保持し続ける必要があります。<br>
  * <br>
- * �{�֐��͒�~���̃v���[���[�ɑ΂��Ă̂ݎ��s�\�ł��B<br>
+ * 本関数は停止中のプレーヤーに対してのみ実行可能です。<br>
  * \sa criAtomPlayer_Start
  */
 void CRIAPI criAtomPlayer_SetData(
 	CriAtomPlayerHn player, void *buffer, CriSint32 buffer_size);
 
 /*JP
- * \brief �����f�[�^�̃Z�b�g�i�t�@�C���̎w��j
+ * \brief 音声データのセット（ファイルの指定）
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	binder		�o�C���_�[�n���h��
- * \param[in]	path		�t�@�C���p�X
- * \par ����:
- * �����t�@�C����Atom�v���[���[�Ɋ֘A�t���܂��B<br>
- * �{�֐��Ńt�@�C�����w���A ::criAtomPlayer_Start �֐��ōĐ����J�n����ƁA
- * �w�肳�ꂽ�t�@�C�����X�g���[�~���O�Đ�����܂��B<br>
- * ���A�{�֐������s�������_�ł́A�t�@�C���̓ǂݍ��݂͊J�n����܂���B<br>
- * �t�@�C���̓ǂݍ��݂��J�n�����̂́A ::criAtomPlayer_Start �֐����s��ł��B<br>
- * \par ��:
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	binder		バインダーハンドル
+ * \param[in]	path		ファイルパス
+ * \par 説明:
+ * 音声ファイルをAtomプレーヤーに関連付けます。<br>
+ * 本関数でファイルを指定後、 ::criAtomPlayer_Start 関数で再生を開始すると、
+ * 指定されたファイルがストリーミング再生されます。<br>
+ * 尚、本関数を実行した時点では、ファイルの読み込みは開始されません。<br>
+ * ファイルの読み込みが開始されるのは、 ::criAtomPlayer_Start 関数実行後です。<br>
+ * \par 例:
  * \code
  * main()
  * {
  * 		:
- * 	// �����t�@�C�����Z�b�g
+ * 	// 音声ファイルをセット
  * 	criAtomPlayer_SetFile(player, NULL, "sample.adx");
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * ���A��U�Z�b�g�����t�@�C���̏��́A���̃f�[�^���Z�b�g�����܂�Atom�v���[���[���ɕێ�
- * ����܂��B<br>
- * ���̂��߁A�����f�[�^�����x���Đ�����ꍇ�ɂ́A�Đ����Ƀf�[�^���Z�b�g���Ȃ����K�v
- * �͂���܂���B
- * \par ���l:
- * �f�[�^�v���R�[���o�b�N�֐��i ::CriAtomPlayerDataRequestCbFunc �j���Ŗ{�֐������s����ƁA
- * �O��Z�b�g���������̏I�[�ɘA�����Ď��̃f�[�^���Đ�����܂��B<br>
- * �Ⴆ�΁A�ȉ��̃R�[�h�����s����ƁA"sample1.adx"��"sample2.adx"���V�[�����X��
- * �A�����čĐ�����܂��B<br>
- * �i���̌��"sample2.adx"���J��Ԃ��Đ�����܂��B�j<br>
+ * 尚、一旦セットしたファイルの情報は、他のデータがセットされるまでAtomプレーヤー内に保持
+ * されます。<br>
+ * そのため、同じデータを何度も再生する場合には、再生毎にデータをセットしなおす必要
+ * はありません。
+ * \par 備考:
+ * データ要求コールバック関数（ ::CriAtomPlayerDataRequestCbFunc ）内で本関数を実行すると、
+ * 前回セットした音声の終端に連結して次のデータが再生されます。<br>
+ * 例えば、以下のコードを実行すると、"sample1.adx"と"sample2.adx"がシームレスに
+ * 連結して再生されます。<br>
+ * （その後は"sample2.adx"が繰り返し再生されます。）<br>
  * \code
- * // �f�[�^�v���R�[���o�b�N�֐�
+ * // データ要求コールバック関数
  * void on_data_request(void *obj, CriAtomPlayerHn player)
  * {
- * 	// �����čĐ�����t�@�C�����Z�b�g
+ * 	// 続けて再生するファイルをセット
  * 	criAtomPlayer_SetFile(player, NULL, "sample2.adx");
  * }
  *
  * main()
  * {
  * 		:
- * 	// �f�[�^�v���R�[���o�b�N�֐��̓o�^
+ * 	// データ要求コールバック関数の登録
  * 	criAtomPlayer_SetDataRequestCallback(player, on_data_request, NULL);
  *
- * 	// �����t�@�C�����Z�b�g
+ * 	// 音声ファイルをセット
  * 	criAtomPlayer_SetFile(player, NULL, "sample1.adx");
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * ���A�������ibinder�j�Ƀo�C���_�[���w�肷�邱�ƂŁA
- * CPK�t�@�C�����̃R���e���c���Đ����邱�Ƃ��\�ł��B<br>
+ * 尚、第二引数（binder）にバインダーを指定することで、
+ * CPKファイル内のコンテンツを再生することも可能です。<br>
  * \code
  * main()
  * {
  * 		:
- * 	// CPK�t�@�C�����o�C���h
+ * 	// CPKファイルをバインド
  * 	criFsBinder_BindCpk(binder, "sample.cpk", work, work_size, &bind_id);
  *
- * 	// �o�C���h�����҂�
+ * 	// バインド完了待ち
  * 	for (;;) {
- * 		// �X�e�[�^�X�̃`�F�b�N
+ * 		// ステータスのチェック
  * 		criFsBinder_GetStatus(binder, &status);
  * 		if (status == CRIFSBINDER_STATUS_COMPLETE) {
  * 			break;
  * 		}
  *
- * 		// �T�[�o�[�����̎��s
+ * 		// サーバー処理の実行
  * 		criFs_ExecuteMain();
  *
- * 		// Vsync�҂���
+ * 		// Vsync待ち等
  * 			:
  * 	}
  * 		:
- * 	// �����t�@�C�����Z�b�g
- * 	// sample.cpk����content.adx���Z�b�g
+ * 	// 音声ファイルをセット
+ * 	// sample.cpk内のcontent.adxをセット
  * 	criAtomPlayer_SetFile(player, binder, "content.adx");
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * �f�[�^�v���R�[���o�b�N�֐����� ::criAtomPlayer_SetData �֐������s���邱�ƂŁA
- * �t�@�C���ƃI���������f�[�^��A�����čĐ����邱�Ƃ��\�ł��B
+ * データ要求コールバック関数内で ::criAtomPlayer_SetData 関数を実行することで、
+ * ファイルとオンメモリデータを連結して再生することも可能です。
  * \attention
- * �t�@�C������̍Đ����s���ꍇ�ɂ́A�X�g���[�~���O�Đ��ɑΉ�����
- * Atom�v���[���[���g�p����K�v������܂��B<br>
- * �i ::CriAtomAdxPlayerConfig ��streaming_flag��CRI_TRUE��ݒ肵��
- * Atom�v���[���[���쐬����K�v������܂��B�j<br>
+ * ファイルからの再生を行う場合には、ストリーミング再生に対応した
+ * Atomプレーヤーを使用する必要があります。<br>
+ * （ ::CriAtomAdxPlayerConfig のstreaming_flagにCRI_TRUEを設定して
+ * Atomプレーヤーを作成する必要があります。）<br>
  * <br>
- * �{�֐��͒�~���̃v���[���[�ɑ΂��Ă̂ݎ��s�\�ł��B<br>
+ * 本関数は停止中のプレーヤーに対してのみ実行可能です。<br>
  * \sa CriAtomAdxPlayerConfig, criAtomPlayer_CreateAdxPlayer, criAtomPlayer_Start
  */
 void CRIAPI criAtomPlayer_SetFile(
 	CriAtomPlayerHn player, CriFsBinderHn binder, const CriChar8 *path);
 
 /*JP
- * \brief �����f�[�^�̃Z�b�g�iCPK�R���e���cID�̎w��j
+ * \brief 音声データのセット（CPKコンテンツIDの指定）
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	binder		�o�C���_�[�n���h��
- * \param[in]	id			�R���e���cID
- * \par ����:
- * �R���e���c��Atom�v���[���[�Ɋ֘A�t���܂��B<br>
- * CRI File System���C�u�������g�p����CPK�t�@�C�����̃R���e���c�t�@�C����
- * ID�w��ōĐ����邽�߂Ɏg�p���܂��B<br>
- * �{�֐��Ƀo�C���_�[�ƃR���e���cID���w���A ::criAtomPlayer_Start �֐��ōĐ���
- * �J�n����ƁA�w�肳�ꂽ�R���e���c�t�@�C�����X�g���[�~���O�Đ�����܂��B<br>
- * ���A�{�֐������s�������_�ł́A�t�@�C���̓ǂݍ��݂͊J�n����܂���B<br>
- * �t�@�C���̓ǂݍ��݂��J�n�����̂́A ::criAtomPlayer_Start �֐����s��ł��B<br>
- * \par ��:
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	binder		バインダーハンドル
+ * \param[in]	id			コンテンツID
+ * \par 説明:
+ * コンテンツをAtomプレーヤーに関連付けます。<br>
+ * CRI File Systemライブラリを使用してCPKファイル内のコンテンツファイルを
+ * ID指定で再生するために使用します。<br>
+ * 本関数にバインダーとコンテンツIDを指定後、 ::criAtomPlayer_Start 関数で再生を
+ * 開始すると、指定されたコンテンツファイルがストリーミング再生されます。<br>
+ * 尚、本関数を実行した時点では、ファイルの読み込みは開始されません。<br>
+ * ファイルの読み込みが開始されるのは、 ::criAtomPlayer_Start 関数実行後です。<br>
+ * \par 例:
  * \code
  * main()
  * {
  * 		:
- * 	// CPK�t�@�C�����o�C���h
+ * 	// CPKファイルをバインド
  * 	criFsBinder_BindCpk(binder, "sample.cpk", work, work_size, &bind_id);
  *
- * 	// �o�C���h�����҂�
+ * 	// バインド完了待ち
  * 	for (;;) {
- * 		// �X�e�[�^�X�̃`�F�b�N
+ * 		// ステータスのチェック
  * 		criFsBinder_GetStatus(binder, &status);
  * 		if (status == CRIFSBINDER_STATUS_COMPLETE) {
  * 			break;
  * 		}
  *
- * 		// �T�[�o�[�����̎��s
+ * 		// サーバー処理の実行
  * 		criFs_ExecuteMain();
  *
- * 		// Vsync�҂���
+ * 		// Vsync待ち等
  * 			:
  * 	}
  * 		:
- * 	// �����t�@�C�����Z�b�g
- * 	// sample.cpk����1�Ԃ̃R���e���c���Z�b�g
+ * 	// 音声ファイルをセット
+ * 	// sample.cpk内の1番のコンテンツをセット
  * 	criAtomPlayer_SetContentId(player, binder, 1);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * ���A��U�Z�b�g�����t�@�C���̏��́A���̃f�[�^���Z�b�g�����܂�Atom�v���[���[���ɕێ�
- * ����܂��B<br>
- * ���̂��߁A�����f�[�^�����x���Đ�����ꍇ�ɂ́A�Đ����Ƀf�[�^���Z�b�g���Ȃ����K�v
- * �͂���܂���B
- * \par ���l:
- * �f�[�^�v���R�[���o�b�N�֐��i ::CriAtomPlayerDataRequestCbFunc �j���Ŗ{�֐������s����ƁA
- * �O��Z�b�g���������̏I�[�ɘA�����Ď��̃f�[�^���Đ�����܂��B<br>
- * �Ⴆ�΁A�ȉ��̃R�[�h�����s����ƁA1�Ԃ̃f�[�^��2�Ԃ̃f�[�^���V�[�����X��
- * �A�����čĐ�����܂��B<br>
- * �i���̌��2�Ԃ̃f�[�^���J��Ԃ��Đ�����܂��B�j<br>
+ * 尚、一旦セットしたファイルの情報は、他のデータがセットされるまでAtomプレーヤー内に保持
+ * されます。<br>
+ * そのため、同じデータを何度も再生する場合には、再生毎にデータをセットしなおす必要
+ * はありません。
+ * \par 備考:
+ * データ要求コールバック関数（ ::CriAtomPlayerDataRequestCbFunc ）内で本関数を実行すると、
+ * 前回セットした音声の終端に連結して次のデータが再生されます。<br>
+ * 例えば、以下のコードを実行すると、1番のデータと2番のデータがシームレスに
+ * 連結して再生されます。<br>
+ * （その後は2番のデータが繰り返し再生されます。）<br>
  * \code
- * // �f�[�^�v���R�[���o�b�N�֐�
+ * // データ要求コールバック関数
  * void on_data_request(void *obj, CriAtomPlayerHn player)
  * {
- * 	// �o�C���_�[�̎擾
+ * 	// バインダーの取得
  * 	binder = (CriFsBinderHn)obj;
  *
- * 	// �����čĐ�����t�@�C�����Z�b�g
- * 	// ���o�C���_�[����2�Ԃ̃R���e���c���Z�b�g
+ * 	// 続けて再生するファイルをセット
+ * 	// →バインダー内の2番のコンテンツをセット
  * 	criAtomPlayer_SetContentId(player, binder, 2);
  * }
  *
  * main()
  * {
  * 		:
- * 	// �f�[�^�v���R�[���o�b�N�֐��̓o�^
+ * 	// データ要求コールバック関数の登録
  * 	criAtomPlayer_SetDataRequestCallback(player, on_data_request, binder);
  *
- * 	// �����t�@�C�����Z�b�g
- * 	// ���o�C���_�[����1�Ԃ̃R���e���c���Z�b�g
+ * 	// 音声ファイルをセット
+ * 	// →バインダー内の1番のコンテンツをセット
  * 	criAtomPlayer_SetContentId(player, binder, 1);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * �f�[�^�v���R�[���o�b�N�֐����� ::criAtomPlayer_SetData �֐������s���邱�ƂŁA
- * �t�@�C���ƃI���������f�[�^��A�����čĐ����邱�Ƃ��\�ł��B
+ * データ要求コールバック関数内で ::criAtomPlayer_SetData 関数を実行することで、
+ * ファイルとオンメモリデータを連結して再生することも可能です。
  * \attention
- * �t�@�C������̍Đ����s���ꍇ�ɂ́A�X�g���[�~���O�Đ��ɑΉ�����
- * Atom�v���[���[���g�p����K�v������܂��B<br>
- * �i ::CriAtomAdxPlayerConfig ��streaming_flag��CRI_TRUE��ݒ肵��
- * Atom�v���[���[���쐬����K�v������܂��B�j<br>
+ * ファイルからの再生を行う場合には、ストリーミング再生に対応した
+ * Atomプレーヤーを使用する必要があります。<br>
+ * （ ::CriAtomAdxPlayerConfig のstreaming_flagにCRI_TRUEを設定して
+ * Atomプレーヤーを作成する必要があります。）<br>
  * <br>
- * �{�֐��͒�~���̃v���[���[�ɑ΂��Ă̂ݎ��s�\�ł��B<br>
+ * 本関数は停止中のプレーヤーに対してのみ実行可能です。<br>
  * \sa CriAtomAdxPlayerConfig, criAtomPlayer_CreateAdxPlayer, criAtomPlayer_Start
  */
 void CRIAPI criAtomPlayer_SetContentId(
 	CriAtomPlayerHn player, CriFsBinderHn binder, CriSint32 id);
 
 /*JP
- * \brief �����f�[�^�̃Z�b�g�i�����f�[�^ID�̎w��j
+ * \brief 音声データのセット（音声データIDの指定）
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	awb			AWB�n���h��
- * \param[in]	id			�g�`�f�[�^ID
- * \par ����:
- * �Đ�����g�`�f�[�^��Atom�v���[���[�Ɋ֘A�t���܂��B<br>
- * �{�֐���AWB�n���h���Ɣg�`�f�[�^ID���w���A ::criAtomPlayer_Start �֐��ōĐ���
- * �J�n����ƁA�w�肵���g�`�f�[�^���X�g���[�~���O�Đ�����܂��B<br>
- * ���A�{�֐������s�������_�ł́A�t�@�C���̓ǂݍ��݂͊J�n����܂���B<br>
- * �t�@�C���̓ǂݍ��݂��J�n�����̂́A ::criAtomPlayer_Start �֐����s��ł��B<br>
- * \par ��:
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	awb			AWBハンドル
+ * \param[in]	id			波形データID
+ * \par 説明:
+ * 再生する波形データをAtomプレーヤーに関連付けます。<br>
+ * 本関数にAWBハンドルと波形データIDを指定後、 ::criAtomPlayer_Start 関数で再生を
+ * 開始すると、指定した波形データがストリーミング再生されます。<br>
+ * 尚、本関数を実行した時点では、ファイルの読み込みは開始されません。<br>
+ * ファイルの読み込みが開始されるのは、 ::criAtomPlayer_Start 関数実行後です。<br>
+ * \par 例:
  * \code
  * main()
  * {
  * 		:
- * 	// AWB��TOC�������[�h����AWB�n���h�����쐬
+ * 	// AWBのTOC情報をロードしてAWBハンドルを作成
  * 	awb = criAtomAwb_LoadToc(NULL, "sample.awb", NULL, 0);
  * 		:
- * 	// �g�`�f�[�^���Z�b�g
- * 	// AWB����1�Ԃ̔g�`�f�[�^���Z�b�g
+ * 	// 波形データをセット
+ * 	// AWB内の1番の波形データをセット
  * 	criAtomPlayer_SetWaveId(player, awb, 1);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * ���A��U�Z�b�g�����t�@�C���̏��́A���̃f�[�^���Z�b�g�����܂�Atom�v���[���[���ɕێ�
- * ����܂��B<br>
- * ���̂��߁A�����f�[�^�����x���Đ�����ꍇ�ɂ́A�Đ����Ƀf�[�^���Z�b�g���Ȃ����K�v
- * �͂���܂���B
- * \par ���l:
- * �f�[�^�v���R�[���o�b�N�֐��i ::CriAtomPlayerDataRequestCbFunc �j���Ŗ{�֐������s����ƁA
- * �O��Z�b�g���������̏I�[�ɘA�����Ď��̃f�[�^���Đ�����܂��B<br>
- * �Ⴆ�΁A�ȉ��̃R�[�h�����s����ƁA1�Ԃ̃f�[�^��2�Ԃ̃f�[�^���V�[�����X��
- * �A�����čĐ�����܂��B<br>
- * �i���̌��2�Ԃ̃f�[�^���J��Ԃ��Đ�����܂��B�j<br>
+ * 尚、一旦セットしたファイルの情報は、他のデータがセットされるまでAtomプレーヤー内に保持
+ * されます。<br>
+ * そのため、同じデータを何度も再生する場合には、再生毎にデータをセットしなおす必要
+ * はありません。
+ * \par 備考:
+ * データ要求コールバック関数（ ::CriAtomPlayerDataRequestCbFunc ）内で本関数を実行すると、
+ * 前回セットした音声の終端に連結して次のデータが再生されます。<br>
+ * 例えば、以下のコードを実行すると、1番のデータと2番のデータがシームレスに
+ * 連結して再生されます。<br>
+ * （その後は2番のデータが繰り返し再生されます。）<br>
  * \code
- * // �f�[�^�v���R�[���o�b�N�֐�
+ * // データ要求コールバック関数
  * void on_data_request(void *obj, CriAtomPlayerHn player)
  * {
- * 	// AWB�n���h���̎擾
+ * 	// AWBハンドルの取得
  * 	awb = (CriAtomAwbHn)obj;
  *
- * 	// �����čĐ�����t�@�C�����Z�b�g
- * 	// ��AWB����2�Ԃ̔g�`�f�[�^���Z�b�g
+ * 	// 続けて再生するファイルをセット
+ * 	// →AWB内の2番の波形データをセット
  * 	criAtomPlayer_SetWaveId(player, awb, 2);
  * }
  *
  * main()
  * {
  * 		:
- * 	// �f�[�^�v���R�[���o�b�N�֐��̓o�^
+ * 	// データ要求コールバック関数の登録
  * 	criAtomPlayer_SetDataRequestCallback(player, on_data_request, awb);
  *
- * 	// �g�`�f�[�^���Z�b�g
- * 	// ��AWB����1�Ԃ̔g�`�f�[�^���Z�b�g
+ * 	// 波形データをセット
+ * 	// →AWB内の1番の波形データをセット
  * 	criAtomPlayer_SetWaveId(player, awb, 1);
  *
- * 	// �Z�b�g���ꂽ�g�`�f�[�^���Đ�
+ * 	// セットされた波形データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * �f�[�^�v���R�[���o�b�N�֐����� ::criAtomPlayer_SetData �֐������s���邱�ƂŁA
- * �t�@�C���ƃI���������f�[�^��A�����čĐ����邱�Ƃ��\�ł��B
+ * データ要求コールバック関数内で ::criAtomPlayer_SetData 関数を実行することで、
+ * ファイルとオンメモリデータを連結して再生することも可能です。
  * \attention
- * �t�@�C������̍Đ����s���ꍇ�ɂ́A�X�g���[�~���O�Đ��ɑΉ�����
- * Atom�v���[���[���g�p����K�v������܂��B<br>
- * �i ::CriAtomAdxPlayerConfig ��streaming_flag��CRI_TRUE��ݒ肵��
- * Atom�v���[���[���쐬����K�v������܂��B�j<br>
+ * ファイルからの再生を行う場合には、ストリーミング再生に対応した
+ * Atomプレーヤーを使用する必要があります。<br>
+ * （ ::CriAtomAdxPlayerConfig のstreaming_flagにCRI_TRUEを設定して
+ * Atomプレーヤーを作成する必要があります。）<br>
  * <br>
- * �{�֐��͒�~���̃v���[���[�ɑ΂��Ă̂ݎ��s�\�ł��B<br>
+ * 本関数は停止中のプレーヤーに対してのみ実行可能です。<br>
  * \sa CriAtomAdxPlayerConfig, criAtomPlayer_CreateAdxPlayer, criAtomPlayer_Start
  */
 void CRIAPI criAtomPlayer_SetWaveId(
 	CriAtomPlayerHn player, CriAtomAwbHn awb, CriSint32 id);
 
 /*JP
- * \brief ���ꉹ���f�[�^�̍ăZ�b�g
+ * \brief 同一音声データの再セット
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \par ����:
- * �O��Đ������f�[�^���A�ēx�Đ�����悤Atom�v���[���[�Ɏw�����܂��B<br>
- * \par ��:
- * �ȉ��̏����ɂ��A���ꉹ���f�[�^�𖳌��Ƀ��[�v�Đ��\�ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \par 説明:
+ * 前回再生したデータを、再度再生するようAtomプレーヤーに指示します。<br>
+ * \par 例:
+ * 以下の処理により、同一音声データを無限にループ再生可能です。<br>
  * \code
- * // �f�[�^�v���R�[���o�b�N�֐�
+ * // データ要求コールバック関数
  * void on_data_request(void *obj, CriAtomPlayerHn player)
  * {
- * 	// �O��Đ������f�[�^���ăZ�b�g
+ * 	// 前回再生したデータを再セット
  * 	criAtomPlayer_SetPreviousDataAgain(player);
  * }
  *
  * main()
  * {
  * 		:
- * 	// �f�[�^�v���R�[���o�b�N�֐��̓o�^
+ * 	// データ要求コールバック関数の登録
  * 	criAtomPlayer_SetDataRequestCallback(player, on_data_request, NULL);
  *
- * 	// �����f�[�^���Z�b�g
+ * 	// 音声データをセット
  * 	criAtomPlayer_SetData(player, buffer, buffer_size);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
  * \attention
- * �{�֐��̓f�[�^�v���R�[���o�b�N�֐����ł̂ݎg�p���܂��B<br>
- * �i�f�[�^�v���R�[���o�b�N�֐��O�ł����s�\�ł����A���̏ꍇ���̌��ʂ�����܂���B�j<br>
+ * 本関数はデータ要求コールバック関数内でのみ使用します。<br>
+ * （データ要求コールバック関数外でも実行可能ですが、その場合何の効果もありません。）<br>
  * \sa criAtomPlayer_SetDataRequestCallback
  */
 void CRIAPI criAtomPlayer_SetPreviousDataAgain(CriAtomPlayerHn player);
 
 /*JP
- * \brief �R�[���o�b�N�֐��̍Ď��s�v��
+ * \brief コールバック関数の再実行要求
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \par ����:
- * �f�[�^�v���R�[���o�b�N�֐��̏�����扄�΂����܂��B<br>
- * �f�[�^�v���R�[���o�b�N�֐������s���ꂽ���_�ŁA���ɍĐ����鉹���f�[�^��
- * �܂����܂��Ă��Ȃ��ꍇ�A�{�֐������s���邱�ƂŁA�R�[���o�b�N�֐������g���C
- * ���邱�Ƃ��\�ɂȂ�܂��B<br>
- * �i���~���b��ɍēx�f�[�^�v���R�[���o�b�N�֐����Ă΂�܂��B�j
- * \par ���l:
- * �f�[�^�v���R�[���o�b�N�֐����ŉ������Ȃ������ꍇ�AAtom�v���[���[�̃X�e�[�^�X��
- * CRIATOMPLAYER_STATUS_PLAYEND �ɑJ�ڂ��܂��B<br>
- * �������A�f�[�^�v���R�[���o�b�N�֐����Ŗ{�֐������s�����ꍇ�AAtom�v���[���[��
- * �X�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYING ���ێ��������܂��B
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \par 説明:
+ * データ要求コールバック関数の処理を先延ばしします。<br>
+ * データ要求コールバック関数が実行された時点で、次に再生する音声データが
+ * まだ決まっていない場合、本関数を実行することで、コールバック関数をリトライ
+ * することが可能になります。<br>
+ * （数ミリ秒後に再度データ要求コールバック関数が呼ばれます。）
+ * \par 備考:
+ * データ要求コールバック関数内で何もしなかった場合、Atomプレーヤーのステータスは
+ * CRIATOMPLAYER_STATUS_PLAYEND に遷移します。<br>
+ * しかし、データ要求コールバック関数内で本関数を実行した場合、Atomプレーヤーの
+ * ステータスは CRIATOMPLAYER_STATUS_PLAYING を維持し続けます。
  * \attention
- * �{�֐������s�����ꍇ�AAtom�v���[���[�̃X�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYING
- * ���ێ��������܂����A�����o�͓͂r�؂��\��������܂��B<br>
- * �i�f�[�^�̓ǂݍ��݂��Ԃɍ���Ȃ��ꍇ�A�O��Đ����������ƁA���ɃZ�b�g���鉹��
- * �Ƃ̊ԂɁA����������\��������܂��B�j<br>
+ * 本関数を実行した場合、Atomプレーヤーのステータスは CRIATOMPLAYER_STATUS_PLAYING
+ * を維持し続けますが、音声出力は途切れる可能性があります。<br>
+ * （データの読み込みが間に合わない場合、前回再生した音声と、次にセットする音声
+ * との間に、無音が入る可能性があります。）<br>
  * <br>
- * �{�֐��̓f�[�^�v���R�[���o�b�N�֐����ł̂ݎg�p�\�ł��B<br>
- * �i�f�[�^�v���R�[���o�b�N�֐��O�Ŏ��s�����ꍇ�A�G���[���������܂��B�j<br>
+ * 本関数はデータ要求コールバック関数内でのみ使用可能です。<br>
+ * （データ要求コールバック関数外で実行した場合、エラーが発生します。）<br>
  * \sa criAtomPlayer_SetDataRequestCallback
  */
 void CRIAPI criAtomPlayer_DeferCallback(CriAtomPlayerHn player);
 
 /*JP
- * \brief �Đ��̊J�n
+ * \brief 再生の開始
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \par ����:
- * �����f�[�^�̍Đ��������J�n���܂��B<br>
- * �{�֐������s����O�ɁA���O�� ::criAtomPlayer_SetData �֐������g�p���A�Đ�����
- * �����f�[�^��Atom�v���[���[�ɃZ�b�g���Ă����K�v������܂��B<br>
- * �Ⴆ�΁A�I���������̉����f�[�^���Đ�����ꍇ�ɂ́A�ȉ��̂悤�Ɏ��O��
- * ::criAtomPlayer_SetData �֐����g���ĉ����f�[�^���Z�b�g������A�{�֐������s����
- * �K�v������܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \par 説明:
+ * 音声データの再生処理を開始します。<br>
+ * 本関数を実行する前に、事前に ::criAtomPlayer_SetData 関数等を使用し、再生する
+ * 音声データをAtomプレーヤーにセットしておく必要があります。<br>
+ * 例えば、オンメモリの音声データを再生する場合には、以下のように事前に
+ * ::criAtomPlayer_SetData 関数を使って音声データをセットした後、本関数を実行する
+ * 必要があります。<br>
  * \code
  * main()
  * {
  * 		:
- * 	// �����f�[�^���Z�b�g
+ * 	// 音声データをセット
  * 	criAtomPlayer_SetData(player, buffer, buffer_size);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * �{�֐����s��A�Đ��̐i�݋�i�������J�n���ꂽ���A�Đ����������������j���ǂ��Ȃ���
- * ���邩�́A�X�e�[�^�X���擾���邱�ƂŊm�F���\�ł��B<br>
- * �X�e�[�^�X�̎擾�ɂ́A ::criAtomPlayer_GetStatus �֐����g�p���܂��B<br>
- * ::criAtomPlayer_GetStatus �֐��͈ȉ���5�ʂ�̃X�e�[�^�X��Ԃ��܂��B<br>
+ * 本関数実行後、再生の進み具合（発音が開始されたか、再生が完了したか等）がどうなって
+ * いるかは、ステータスを取得することで確認が可能です。<br>
+ * ステータスの取得には、 ::criAtomPlayer_GetStatus 関数を使用します。<br>
+ * ::criAtomPlayer_GetStatus 関数は以下の5通りのステータスを返します。<br>
  * 	-# CRIATOMPLAYER_STATUS_STOP
  * 	-# CRIATOMPLAYER_STATUS_PREP
  * 	-# CRIATOMPLAYER_STATUS_PLAYING
  * 	-# CRIATOMPLAYER_STATUS_PLAYEND
  * 	-# CRIATOMPLAYER_STATUS_ERROR
  *
- * Atom�v���[���[���쐬�������_�ł́AAtom�v���[���[�̃X�e�[�^�X�͒�~���
- * �i CRIATOMPLAYER_STATUS_STOP �j�ł��B<br>
- * �Đ����鉹���f�[�^���Z�b�g��A�{�֐������s���邱�ƂŁAAtom�v���[���[�̃X�e�[�^�X��
- * ������ԁi CRIATOMPLAYER_STATUS_PREP �j�ɕύX����܂��B<br>
- * �iCRIATOMPLAYER_STATUS_PREP �́A�f�[�^������f�R�[�h�̊J�n��҂��Ă����Ԃł��B�j<br>
- * �Đ��̊J�n�ɏ[���ȃf�[�^���������ꂽ���_�ŁAAtom�v���[���[�̓X�e�[�^�X��
- * �Đ���ԁi CRIATOMPLAYER_STATUS_PLAYING �j�ɕύX���A�����̏o�͂��J�n���܂��B<br>
- * �Z�b�g���ꂽ�f�[�^��S�čĐ����I����ƁAAtom�v���[���[�̓X�e�[�^�X���Đ��I�����
- * �i CRIATOMPLAYER_STATUS_PLAYEND �j�ɕύX���܂��B<br>
- * ���A�Đ����ɃG���[�����������ꍇ�ɂ́AAtom�v���[���[�̓X�e�[�^�X���G���[���
- * �i CRIATOMPLAYER_STATUS_ERROR �j�ɕύX���܂��B<br>
+ * Atomプレーヤーを作成した時点では、Atomプレーヤーのステータスは停止状態
+ * （ CRIATOMPLAYER_STATUS_STOP ）です。<br>
+ * 再生する音声データをセット後、本関数を実行することで、Atomプレーヤーのステータスが
+ * 準備状態（ CRIATOMPLAYER_STATUS_PREP ）に変更されます。<br>
+ * （CRIATOMPLAYER_STATUS_PREP は、データ供給やデコードの開始を待っている状態です。）<br>
+ * 再生の開始に充分なデータが供給された時点で、Atomプレーヤーはステータスを
+ * 再生状態（ CRIATOMPLAYER_STATUS_PLAYING ）に変更し、音声の出力を開始します。<br>
+ * セットされたデータを全て再生し終えると、Atomプレーヤーはステータスを再生終了状態
+ * （ CRIATOMPLAYER_STATUS_PLAYEND ）に変更します。<br>
+ * 尚、再生中にエラーが発生した場合には、Atomプレーヤーはステータスをエラー状態
+ * （ CRIATOMPLAYER_STATUS_ERROR ）に変更します。<br>
  * <br>
- * Atom�v���[���[�̃X�e�[�^�X���`�F�b�N���A�X�e�[�^�X�ɉ����ď�����؂�ւ��邱�ƂŁA
- * �����̍Đ���ԂɘA�������v���O�������쐬���邱�Ƃ��\�ł��B<br>
- * �Ⴆ�΁A�����̍Đ�������҂��ď�����i�߂����ꍇ�ɂ́A�ȉ��̂悤�ȃR�[�h�ɂȂ�܂��B
+ * Atomプレーヤーのステータスをチェックし、ステータスに応じて処理を切り替えることで、
+ * 音声の再生状態に連動したプログラムを作成することが可能です。<br>
+ * 例えば、音声の再生完了を待って処理を進めたい場合には、以下のようなコードになります。
  * \code
  * main()
  * {
  * 		:
- * 	// �����f�[�^���Z�b�g
+ * 	// 音声データをセット
  * 	criAtomPlayer_SetData(player, buffer, buffer_size);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  *
- * 	// �Đ������҂�
+ * 	// 再生完了待ち
  * 	for (;;) {
- * 		// �X�e�[�^�X�̎擾
+ * 		// ステータスの取得
  * 		status = criAtomPlayer_GetStatus(player);
  *
- * 		// �X�e�[�^�X�̃`�F�b�N
+ * 		// ステータスのチェック
  * 		if (status == CRIATOMPLAYER_STATUS_PLAYEND) {
- * 			// �Đ��I�����̓��[�v�𔲂���
+ * 			// 再生終了時はループを抜ける
  * 			break;
  * 		}
  *
- * 		// �T�[�o�[�����̎��s
+ * 		// サーバー処理の実行
  * 		criAtom_ExecuteMain();
  *
- * 		// ��ʕ\���̍X�V��
+ * 		// 画面表示の更新等
  * 			:
  * 	}
  * 		:
  * }
  * \endcode
- * \par ���l:
- * �Đ��J�n��A���ۂɉ������o�͂����܂łɂ́A�^�C�����O������܂��B<br>
- * �I���������̃f�[�^�Đ����i ::criAtomPlayer_SetData �֐��Ńf�[�^���Z�b�g�����ꍇ�j�́A
- * �{�֐����s��A�ŏ��ɃT�[�o�[���������s���ꂽ�^�C�~���O�ŃX�e�[�^�X��
- * CRIATOMPLAYER_STATUS_PLAYING �ɑJ�ڂ��܂��B<br>
- * �������A�X�g���[�~���O�Đ����́A�Đ����ێ����邽�߂ɕK�v�ȃf�[�^���[���o�b�t�@�����O
- * �����܂ł̊ԁACRIATOMPLAYER_STATUS_PREP ���ێ��������܂��B<br>
- * �i�K�v�[���ȃf�[�^���������ꂽ���_�ŁA CRIATOMPLAYER_STATUS_PLAYING �ɑJ�ڂ��܂��B�j<br>
+ * \par 備考:
+ * 再生開始後、実際に音声が出力されるまでには、タイムラグがあります。<br>
+ * オンメモリのデータ再生時（ ::criAtomPlayer_SetData 関数でデータをセットした場合）は、
+ * 本関数実行後、最初にサーバー処理が実行されたタイミングでステータスが
+ * CRIATOMPLAYER_STATUS_PLAYING に遷移します。<br>
+ * しかし、ストリーミング再生時は、再生を維持するために必要なデータが充分バッファリング
+ * されるまでの間、CRIATOMPLAYER_STATUS_PREP を維持し続けます。<br>
+ * （必要充分なデータが供給された時点で、 CRIATOMPLAYER_STATUS_PLAYING に遷移します。）<br>
  * <br>
- * ���A�X�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYING �ɑJ�ڂ���^�C�~���O�́A
- * �����܂�"�T�E���h���C�u�����ɑ΂��čĐ��w���𔭍s����"�^�C�~���O�ɂȂ�܂��B<br>
- * ���̂��߁A���ۂɃX�s�[�J�[���特���o��^�C�~���O�́A�e�v���b�g�t�H�[���̃T�E���h
- * ���C�u�����̏������ԂɈˑ����܂��B<br>
+ * 尚、ステータスが CRIATOMPLAYER_STATUS_PLAYING に遷移するタイミングは、
+ * あくまで"サウンドライブラリに対して再生指示を発行する"タイミングになります。<br>
+ * そのため、実際にスピーカーから音が出るタイミングは、各プラットフォームのサウンド
+ * ライブラリの処理時間に依存します。<br>
  * <br>
- * �X�g���[�~���O�Đ����ɔ������J�n�����^�C�~���O�́A�����ɃX�g���[�~���O�Đ����s��
- * �����̐���A�f�o�C�X�̓ǂݍ��ݑ��x�ɂ���ĕω����܂��B<br>
- * �X�g���[�~���O�Đ����ɈӐ}�Ƃ����^�C�~���O�Ŕ������J�n���������ꍇ�ɂ́A
- * ::criAtomPlayer_Pause �֐��Ŏ��O�Ƀ|�[�Y�������Ă����AAtom�v���[���[�̃X�e�[�^�X��
- * CRIATOMPLAYER_STATUS_PLAYING �ɑJ�ڂ������_�ŁA�|�[�Y���������Ă��������B<br>
- * �i�|�[�Y����������ԂŃX�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYING �ɑJ�ڂ����ꍇ�A
- * �|�[�Y������ŏ��̃T�[�o�[���������s���ꂽ�^�C�~���O�ŁA�������J�n����܂��B<br>
+ * ストリーミング再生時に発音が開始されるタイミングは、同時にストリーミング再生を行う
+ * 音声の数や、デバイスの読み込み速度によって変化します。<br>
+ * ストリーミング再生時に意図としたタイミングで発音を開始させたい場合には、
+ * ::criAtomPlayer_Pause 関数で事前にポーズをかけておき、Atomプレーヤーのステータスが
+ * CRIATOMPLAYER_STATUS_PLAYING に遷移した時点で、ポーズを解除してください。<br>
+ * （ポーズをかけた状態でステータスが CRIATOMPLAYER_STATUS_PLAYING に遷移した場合、
+ * ポーズ解除後最初のサーバー処理が実行されたタイミングで、発音が開始されます。<br>
  * <br>
- * ��̓I�ȃR�[�h�͈ȉ��̂Ƃ���ł��B<br>
+ * 具体的なコードは以下のとおりです。<br>
  * \code
  * main()
  * {
  * 		:
- * 	// �����t�@�C�����Z�b�g
+ * 	// 音声ファイルをセット
  * 	criAtomPlayer_SetData(player, NULL, "sample.adx");
  *
- * 	// �Đ��J�n�O�Ƀ|�[�Y�������Ă���
+ * 	// 再生開始前にポーズをかけておく
  * 	criAtomPlayer_Pause(player, CRI_TRUE);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  *
- * 	// �X�e�[�^�X��CRIATOMPLAYER_STATUS_PLAYING�ɑJ�ڂ���̂�҂�
+ * 	// ステータスがCRIATOMPLAYER_STATUS_PLAYINGに遷移するのを待つ
  * 	for (;;) {
- * 		// �X�e�[�^�X�̎擾
+ * 		// ステータスの取得
  * 		status = criAtomPlayer_GetStatus(player);
  *
- * 		// �X�e�[�^�X�̃`�F�b�N
+ * 		// ステータスのチェック
  * 		if (status == CRIATOMPLAYER_STATUS_PLAYING) {
- * 			// CRIATOMPLAYER_STATUS_PLAYING��ԂɂȂ������_�Ń��[�v�𔲂���
+ * 			// CRIATOMPLAYER_STATUS_PLAYING状態になった時点でループを抜ける
  * 			break;
  * 		}
  *
- * 		// �T�[�o�[�����̎��s
+ * 		// サーバー処理の実行
  * 		criAtom_ExecuteMain();
  *
- * 		// ��ʕ\���̍X�V��
+ * 		// 画面表示の更新等
  * 			:
  * 	}
  *
- * 	// �|�[�Y�̉���
- * 	// �����̃T�[�o�[���������s�����^�C�~���O�Ŕ������J�n�����
+ * 	// ポーズの解除
+ * 	// →次のサーバー処理が実行されるタイミングで発音が開始される
  * 	criAtomPlayer_Pause(player, CRI_FALSE);
  * 		:
  * }
  * \endcode
  * \attention
- * ���ɍĐ����J�n����Atom�v���[���[�ɑ΂��Ė{�֐������s���邱�Ƃ͂ł��܂���B<br>
- * �iADX���C�u�����Ƃ͈قȂ�A�Đ�����Atom�v���[���[�ɑ΂��čēx�Đ��̊J�n���w�������ꍇ�A
- * �G���[�ɂȂ�܂��B�j<br>
- * Atom�v���[���[�ɑ΂��čĐ����w������ꍇ�ɂ́A�K�����O�ɃX�e�[�^�X���`�F�b�N���A
- * �X�e�[�^�X���������i CRIATOMPLAYER_STATUS_PREP �j��Đ����i CRIATOMPLAYER_STATUS_PLAYING �j
- * �ɂȂ��Ă��Ȃ����Ƃ����m�F���������B
+ * 既に再生を開始したAtomプレーヤーに対して本関数を実行することはできません。<br>
+ * （ADXライブラリとは異なり、再生中のAtomプレーヤーに対して再度再生の開始を指示した場合、
+ * エラーになります。）<br>
+ * Atomプレーヤーに対して再生を指示する場合には、必ず事前にステータスをチェックし、
+ * ステータスが準備中（ CRIATOMPLAYER_STATUS_PREP ）や再生中（ CRIATOMPLAYER_STATUS_PLAYING ）
+ * になっていないことをご確認ください。
  * \sa criAtomPlayer_SetData, criAtomPlayer_SetFile, criAtomPlayer_GetStatus,
  * criAtomPlayer_Pause, criAtom_ExecuteMain
  */
 void CRIAPI criAtomPlayer_Start(CriAtomPlayerHn player);
 
 /*JP
- * \brief �Đ��̒�~
+ * \brief 再生の停止
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \par ����:
- * �Đ��̒�~�v���𔭍s���܂��B<br>
- * �����Đ�����Atom�v���[���[�ɑ΂��Ė{�֐������s����ƁAAtom�v���[���[�͍Đ����~
- * �i�t�@�C���̓ǂݍ��݂�A�������~�߂�j���A�X�e�[�^�X���~���
- * �i CRIATOMPLAYER_STATUS_STOP �j�ɑJ�ڂ��܂��B<br>
- * ���ɒ�~���Ă���Atom�v���[���[�i�X�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYEND ��
- * CRIATOMPLAYER_STATUS_ERROR ��Atom�v���[���[�j �ɑ΂��Ė{�֐������s����ƁA
- * Atom�v���[���[�̃X�e�[�^�X�� CRIATOMPLAYER_STATUS_STOP �ɕύX���܂��B
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \par 説明:
+ * 再生の停止要求を発行します。<br>
+ * 音声再生中のAtomプレーヤーに対して本関数を実行すると、Atomプレーヤーは再生を停止
+ * （ファイルの読み込みや、発音を止める）し、ステータスを停止状態
+ * （ CRIATOMPLAYER_STATUS_STOP ）に遷移します。<br>
+ * 既に停止しているAtomプレーヤー（ステータスが CRIATOMPLAYER_STATUS_PLAYEND や
+ * CRIATOMPLAYER_STATUS_ERROR のAtomプレーヤー） に対して本関数を実行すると、
+ * Atomプレーヤーのステータスを CRIATOMPLAYER_STATUS_STOP に変更します。
  * \attention
- * �����Đ�����Atom�v���[���[�ɑ΂��Ė{�֐������s�����ꍇ�A�X�e�[�^�X��������
- * CRIATOMPLAYER_STATUS_STOP �ɂȂ�Ƃ͌���܂���B<br>
- * �i��~��ԂɂȂ�܂łɁA���Ԃ�������ꍇ������܂��B�j<br>
- * ���̂��߁A�{�֐��ōĐ����~��A�����ĕʂ̉����f�[�^���Đ�����ꍇ�ɂ́A
- * �K���X�e�[�^�X�� CRIATOMPLAYER_STATUS_STOP �ɑJ�ڂ������Ƃ��m�F���Ă���
- * ���̃f�[�^���Z�b�g�i�܂��͍Đ��̊J�n�j���s���Ă��������B<br>
+ * 音声再生中のAtomプレーヤーに対して本関数を実行した場合、ステータスが即座に
+ * CRIATOMPLAYER_STATUS_STOP になるとは限りません。<br>
+ * （停止状態になるまでに、時間がかかる場合があります。）<br>
+ * そのため、本関数で再生を停止後、続けて別の音声データを再生する場合には、
+ * 必ずステータスが CRIATOMPLAYER_STATUS_STOP に遷移したことを確認してから
+ * 次のデータをセット（または再生の開始）を行ってください。<br>
  * <br>
  * \code
  * main()
  * {
  * 		:
- * 	// �Đ��̒�~��v��
+ * 	// 再生の停止を要求
  * 	criAtomPlayer_Stop(player);
  *
- * 	// �X�e�[�^�X��CRIATOMPLAYER_STATUS_STOP�ɑJ�ڂ���̂�҂�
+ * 	// ステータスがCRIATOMPLAYER_STATUS_STOPに遷移するのを待つ
  * 	for (;;) {
- * 		// �X�e�[�^�X�̎擾
+ * 		// ステータスの取得
  * 		status = criAtomPlayer_GetStatus(player);
  *
- * 		// �X�e�[�^�X�̃`�F�b�N
+ * 		// ステータスのチェック
  * 		if (status == CRIATOMPLAYER_STATUS_STOP) {
- * 			// CRIATOMPLAYER_STATUS_STOP��ԂɂȂ������_�Ń��[�v�𔲂���
+ * 			// CRIATOMPLAYER_STATUS_STOP状態になった時点でループを抜ける
  * 			break;
  * 		}
  *
- * 		// �T�[�o�[�����̎��s
+ * 		// サーバー処理の実行
  * 		criAtom_ExecuteMain();
  *
- * 		// ��ʕ\���̍X�V��
+ * 		// 画面表示の更新等
  * 			:
  * 	}
  *
- * 	// �ʂ̉����t�@�C�����Z�b�g
+ * 	// 別の音声ファイルをセット
  * 	criAtomPlayer_SetData(player, NULL, "sample.adx");
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
@@ -5944,192 +5927,192 @@ void CRIAPI criAtomPlayer_Start(CriAtomPlayerHn player);
 void CRIAPI criAtomPlayer_Stop(CriAtomPlayerHn player);
 
 /*JP
- * \brief �Đ��̃|�[�Y�^�|�[�Y����
+ * \brief 再生のポーズ／ポーズ解除
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	flag		����t���O�iCRI_TRUE = �|�[�Y�ACRI_FALSE = �|�[�Y�����j
- * \par ����:
- * �Đ����|�[�Y�i�ꎞ��~�j������A�|�[�Y���������܂��B<br>
- * �|�[�Y���邩�A�|�[�Y���������邩�́A������flag�Ŏw�肵�܂��B<br>
- * flag��CRI_TRUE���w�肵���ꍇ�A�Đ��̓|�[�Y����܂��B<br>
- * flag��CRI_FALSE���w�肵���ꍇ�A�|�[�Y����������܂��B<br>
- * Atom�v���[���[���|�[�Y����Ă��邩�ǂ����� ::criAtomPlayer_IsPaused �֐����g�p����
- * ���ƂŊm�F���\�ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	flag		動作フラグ（CRI_TRUE = ポーズ、CRI_FALSE = ポーズ解除）
+ * \par 説明:
+ * 再生をポーズ（一時停止）したり、ポーズを解除します。<br>
+ * ポーズするか、ポーズを解除するかは、引数のflagで指定します。<br>
+ * flagにCRI_TRUEを指定した場合、再生はポーズされます。<br>
+ * flagにCRI_FALSEを指定した場合、ポーズが解除されます。<br>
+ * Atomプレーヤーがポーズされているかどうかは ::criAtomPlayer_IsPaused 関数を使用する
+ * ことで確認が可能です。<br>
  * <br>
- * �{�֐��͎�Ɉȉ���2�ʂ�̗p�r�ɗ��p���܂��B<br>
- * 	- �����o�͂̈ꎞ��~�^�ꎞ��~�����B
- * 	- �X�g���[�~���O�Đ��̓��o���B
+ * 本関数は主に以下の2通りの用途に利用します。<br>
+ * 	- 音声出力の一時停止／一時停止解除。
+ * 	- ストリーミング再生の頭出し。
  *
  * <br>
- * �y�����o�͂̈ꎞ��~�^�ꎞ��~�����ɂ��āz
- * �Đ�����Atom�v���[���[�ɑ΂��ă|�[�Y���s���ƁA���̎��_�ŉ����̏o�͂𒆒f���܂��B<br>
- * �|�[�Y���ꂽAtom�v���[���[�ɑ΂��ă|�[�Y�������s���ƁA�|�[�Y���ɒ��f���ꂽ�ӏ�����
- * �Đ����ĊJ����܂��B<br>
+ * 【音声出力の一時停止／一時停止解除について】
+ * 再生中のAtomプレーヤーに対してポーズを行うと、その時点で音声の出力を中断します。<br>
+ * ポーズされたAtomプレーヤーに対してポーズ解除を行うと、ポーズ時に中断された箇所から
+ * 再生が再開されます。<br>
  * <br>
- * �y�X�g���[�~���O�Đ��̓��o���ɂ��āz
- * �|�[�Y�����͍Đ��J�n�O��Atom�v���[���[�ɑ΂��Ă��L���ł��B<br>
- * �Đ��J�n�O��Atom�v���[���[�ɑ΂��ă|�[�Y���������ꍇ�A�|�[�Y���ꂽAtom�v���[���[��
- * ::criAtomPlayer_Start �֐��ōĐ��w�����Ă��A�����̏o�͍͂s���܂���B<br>
- * �������A�Đ������͍s���邽�߁A�f�[�^���[���ɋ�������Ă���΁A�X�e�[�^�X��
- * CRIATOMPLAYER_STATUS_PLAYING �܂őJ�ڂ��܂��B<br>
+ * 【ストリーミング再生の頭出しについて】
+ * ポーズ処理は再生開始前のAtomプレーヤーに対しても有効です。<br>
+ * 再生開始前のAtomプレーヤーに対してポーズをかけた場合、ポーズされたAtomプレーヤーに
+ * ::criAtomPlayer_Start 関数で再生指示しても、音声の出力は行われません。<br>
+ * しかし、再生準備は行われるため、データが充分に供給されていれば、ステータスは
+ * CRIATOMPLAYER_STATUS_PLAYING まで遷移します。<br>
  * <br>
- * �X�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYING �̏�ԂŃ|�[�Y����Ă���Atom�v���[���[
- * �ɂ��ẮA�|�[�Y�������s�����^�C�~���O�Ŕ������J�n�����邱�Ƃ��\�ł��B<br>
- * ���̂��߁A�ȉ��̏����菇�𓥂ނ��ƂŁA�X�g���[�~���O�Đ��̔����^�C�~���O��
- * ���̃A�N�V�����ɓ��������邱�Ƃ��\�ł��B<br>
- * 	-# ::criAtomPlayer_Pause �֐���Atom�v���[���[���|�[�Y������B
- * 	-# ::criAtomPlayer_Start �֐���Atom�v���[���[�ɍĐ��J�n���w������B
- * 	-# Atom�v���[���[�̃X�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYING �ɂȂ�̂�҂B
- * 	-# �������J�n�������^�C�~���O�� ::criAtomPlayer_Pause �֐������s���A�|�[�Y����������B
+ * ステータスが CRIATOMPLAYER_STATUS_PLAYING の状態でポーズされているAtomプレーヤー
+ * については、ポーズ解除を行ったタイミングで発音を開始させることが可能です。<br>
+ * そのため、以下の処理手順を踏むことで、ストリーミング再生の発音タイミングを
+ * 他のアクションに同期させることが可能です。<br>
+ * 	-# ::criAtomPlayer_Pause 関数でAtomプレーヤーをポーズさせる。
+ * 	-# ::criAtomPlayer_Start 関数でAtomプレーヤーに再生開始を指示する。
+ * 	-# Atomプレーヤーのステータスが CRIATOMPLAYER_STATUS_PLAYING になるのを待つ。
+ * 	-# 発音を開始したいタイミングで ::criAtomPlayer_Pause 関数を実行し、ポーズを解除する。
  *
  * <br>
- * ��̓I�ȃR�[�h�͈ȉ��̂Ƃ���ł��B<br>
+ * 具体的なコードは以下のとおりです。<br>
  * \code
  * main()
  * {
  * 		:
- * 	// �����t�@�C�����Z�b�g
+ * 	// 音声ファイルをセット
  * 	criAtomPlayer_SetData(player, NULL, "sample.adx");
  *
- * 	// �Đ��J�n�O�Ƀ|�[�Y�������Ă���
+ * 	// 再生開始前にポーズをかけておく
  * 	criAtomPlayer_Pause(player, CRI_TRUE);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  *
- * 	// �X�e�[�^�X��CRIATOMPLAYER_STATUS_PLAYING�ɑJ�ڂ���̂�҂�
+ * 	// ステータスがCRIATOMPLAYER_STATUS_PLAYINGに遷移するのを待つ
  * 	for (;;) {
- * 		// �X�e�[�^�X�̎擾
+ * 		// ステータスの取得
  * 		status = criAtomPlayer_GetStatus(player);
  *
- * 		// �X�e�[�^�X�̃`�F�b�N
+ * 		// ステータスのチェック
  * 		if (status == CRIATOMPLAYER_STATUS_PLAYING) {
- * 			// CRIATOMPLAYER_STATUS_PLAYING��ԂɂȂ������_�Ń��[�v�𔲂���
+ * 			// CRIATOMPLAYER_STATUS_PLAYING状態になった時点でループを抜ける
  * 			break;
  * 		}
  *
- * 		// �T�[�o�[�����̎��s
+ * 		// サーバー処理の実行
  * 		criAtom_ExecuteMain();
  *
- * 		// ��ʕ\���̍X�V��
+ * 		// 画面表示の更新等
  * 			:
  * 	}
  *
- * 	// �|�[�Y�̉���
- * 	// �����̃T�[�o�[���������s�����^�C�~���O�Ŕ������J�n�����
+ * 	// ポーズの解除
+ * 	// →次のサーバー処理が実行されるタイミングで発音が開始される
  * 	criAtomPlayer_Pause(player, CRI_FALSE);
  * 		:
  * }
  * \endcode
- * \par ���l:
- * �����ɂ́A ::criAtomPlayer_Pause �֐����s��A�ŏ��ɃT�[�o�[���������삵�����_��
- * �|�[�Y�������s���܂��B<br>
- * ���̂��߁A�T�[�o�[���������s�����O�Ƀ|�[�Y�˃|�[�Y�����̑�����s���ƁA
- * �������~�܂邱�ƂȂ��Đ����i�ތ`�ɂȂ�܂��B
+ * \par 備考:
+ * 厳密には、 ::criAtomPlayer_Pause 関数実行後、最初にサーバー処理が動作した時点で
+ * ポーズ処理が行われます。<br>
+ * そのため、サーバー処理が実行される前にポーズ⇒ポーズ解除の操作を行うと、
+ * 音声が止まることなく再生が進む形になります。
  * <br>
- * ���A�|�[�Y���ꂽAtom�v���[���[�ɑ΂��čēx�|�[�Y���s������A�|�[�Y����Ă��Ȃ�
- * Atom�v���[���[�ɑ΂��ă|�[�Y�������s���Ă��A�G���[�͔������܂���B<br>
- * �i�����������ꂸ�Ɋ֐��𔲂��܂��B�j
+ * 尚、ポーズされたAtomプレーヤーに対して再度ポーズを行ったり、ポーズされていない
+ * Atomプレーヤーに対してポーズ解除を行っても、エラーは発生しません。<br>
+ * （何も処理されずに関数を抜けます。）
  * \sa criAtomPlayer_IsPaused, criAtomPlayer_Start
  */
 void CRIAPI criAtomPlayer_Pause(CriAtomPlayerHn player, CriBool flag);
 
 /*JP
- * \brief �|�[�Y����Ă��邩�ǂ����̃`�F�b�N
+ * \brief ポーズされているかどうかのチェック
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \return		CriBool		�|�[�Y��ԁiCRI_TRUE = �|�[�Y����Ă���ACRI_FALSE = �|�[�Y����Ă��Ȃ��j
- * \par ����:
- * Atom�v���[���[���|�[�Y����Ă��邩�ǂ������`�F�b�N���܂��B<br>
- * �|�[�Y����Ă��邩�ǂ����́A�߂�l�Ŕ��肵�܂��B<br>
- * �߂�l��CRI_TRUE�������ꍇ�AAtom�v���[���[�̓|�[�Y����Ă��܂��B<br>
- * �߂�l��CRI_FALSE�������ꍇ�AAtom�v���[���[�̓|�[�Y����Ă��܂���B<br>
- * \par ���l:
- * �{�֐��� ::criAtomPlayer_Pause �֐��Ŏw�肳�ꂽ����t���O�����̂܂ܕԂ��܂��B<br>
- * �i ::criAtomPlayer_Pause �֐��̑�2�����ɃZ�b�g�����l��flag�Ƃ��ĕԂ���܂��B�j<br>
- * ���̂��߁A�{�֐��̌��ʂƎ��ۂɉ����o�͂���~���Ă��邩�ǂ����́A�K��������v����Ƃ�
- * ����܂���B<br>
- * �i ::criAtomPlayer_Pause �֐��̎��s�^�C�~���O�ƁA���ۂɉ����o�͂���~����^�C�~���O��
- * �^�C�����O�����݂��邽�߁B�j
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \return		CriBool		ポーズ状態（CRI_TRUE = ポーズされている、CRI_FALSE = ポーズされていない）
+ * \par 説明:
+ * Atomプレーヤーがポーズされているかどうかをチェックします。<br>
+ * ポーズされているかどうかは、戻り値で判定します。<br>
+ * 戻り値がCRI_TRUEだった場合、Atomプレーヤーはポーズされています。<br>
+ * 戻り値がCRI_FALSEだった場合、Atomプレーヤーはポーズされていません。<br>
+ * \par 備考:
+ * 本関数は ::criAtomPlayer_Pause 関数で指定された動作フラグをそのまま返します。<br>
+ * （ ::criAtomPlayer_Pause 関数の第2引数にセットした値がflagとして返されます。）<br>
+ * そのため、本関数の結果と実際に音声出力が停止しているかどうかは、必ずしも一致するとは
+ * 限りません。<br>
+ * （ ::criAtomPlayer_Pause 関数の実行タイミングと、実際に音声出力が停止するタイミングに
+ * タイムラグが存在するため。）
  * \sa criAtomPlayer_Pause
  */
 CriBool CRIAPI criAtomPlayer_IsPaused(CriAtomPlayerHn player);
 
 /*JP
- * \brief �X�e�[�^�X�̎擾
+ * \brief ステータスの取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \return		CriAtomPlayerStatus	�X�e�[�^�X
- * \par ����:
- * Atom�v���[���[�̃X�e�[�^�X���擾���܂��B<br>
- * �X�e�[�^�X��Atom�v���[���[�̍Đ���Ԃ������l�ŁA�ȉ���5�ʂ�̒l�����݂��܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \return		CriAtomPlayerStatus	ステータス
+ * \par 説明:
+ * Atomプレーヤーのステータスを取得します。<br>
+ * ステータスはAtomプレーヤーの再生状態を示す値で、以下の5通りの値が存在します。<br>
  * -# CRIATOMPLAYER_STATUS_STOP
  * -# CRIATOMPLAYER_STATUS_PREP
  * -# CRIATOMPLAYER_STATUS_PLAYING
  * -# CRIATOMPLAYER_STATUS_PLAYEND
  * -# CRIATOMPLAYER_STATUS_ERROR
  *
- * Atom�v���[���[���쐬�������_�ł́AAtom�v���[���[�̃X�e�[�^�X�͒�~���
- * �i ::CRIATOMPLAYER_STATUS_STOP �j�ł��B<br>
- * �Đ����鉹���f�[�^���Z�b�g��A::criAtomPlayer_Start �֐������s���邱�ƂŁA
- * Atom�v���[���[�̃X�e�[�^�X��������ԁi ::CRIATOMPLAYER_STATUS_PREP �j�ɕύX����܂��B<br>
- * �i ::CRIATOMPLAYER_STATUS_PREP �́A�f�[�^������f�R�[�h�̊J�n��҂��Ă����Ԃł��B�j<br>
- * �Đ��̊J�n�ɏ[���ȃf�[�^���������ꂽ���_�ŁAAtom�v���[���[�̓X�e�[�^�X��
- * �Đ���ԁi ::CRIATOMPLAYER_STATUS_PLAYING �j�ɕύX���A�����̏o�͂��J�n���܂��B<br>
- * �Z�b�g���ꂽ�f�[�^��S�čĐ����I����ƁAAtom�v���[���[�̓X�e�[�^�X���Đ��I�����
- * �i ::CRIATOMPLAYER_STATUS_PLAYEND �j�ɕύX���܂��B<br>
- * ���A�Đ����ɃG���[�����������ꍇ�ɂ́AAtom�v���[���[�̓X�e�[�^�X���G���[���
- * �i ::CRIATOMPLAYER_STATUS_ERROR �j�ɕύX���܂��B<br>
+ * Atomプレーヤーを作成した時点では、Atomプレーヤーのステータスは停止状態
+ * （ ::CRIATOMPLAYER_STATUS_STOP ）です。<br>
+ * 再生する音声データをセット後、::criAtomPlayer_Start 関数を実行することで、
+ * Atomプレーヤーのステータスが準備状態（ ::CRIATOMPLAYER_STATUS_PREP ）に変更されます。<br>
+ * （ ::CRIATOMPLAYER_STATUS_PREP は、データ供給やデコードの開始を待っている状態です。）<br>
+ * 再生の開始に充分なデータが供給された時点で、Atomプレーヤーはステータスを
+ * 再生状態（ ::CRIATOMPLAYER_STATUS_PLAYING ）に変更し、音声の出力を開始します。<br>
+ * セットされたデータを全て再生し終えると、Atomプレーヤーはステータスを再生終了状態
+ * （ ::CRIATOMPLAYER_STATUS_PLAYEND ）に変更します。<br>
+ * 尚、再生中にエラーが発生した場合には、Atomプレーヤーはステータスをエラー状態
+ * （ ::CRIATOMPLAYER_STATUS_ERROR ）に変更します。<br>
  * <br>
- * Atom�v���[���[�̃X�e�[�^�X���`�F�b�N���A�X�e�[�^�X�ɉ����ď�����؂�ւ��邱�ƂŁA
- * �����̍Đ���ԂɘA�������v���O�������쐬���邱�Ƃ��\�ł��B<br>
- * �Ⴆ�΁A�����̍Đ�������҂��ď�����i�߂����ꍇ�ɂ́A�ȉ��̂悤�ȃR�[�h�ɂȂ�܂��B
+ * Atomプレーヤーのステータスをチェックし、ステータスに応じて処理を切り替えることで、
+ * 音声の再生状態に連動したプログラムを作成することが可能です。<br>
+ * 例えば、音声の再生完了を待って処理を進めたい場合には、以下のようなコードになります。
  * \code
  * main()
  * {
  * 		:
- * 	// �����f�[�^���Z�b�g
+ * 	// 音声データをセット
  * 	criAtomPlayer_SetData(player, buffer, buffer_size);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  *
- * 	// �Đ������҂�
+ * 	// 再生完了待ち
  * 	for (;;) {
- * 		// �X�e�[�^�X�̎擾
+ * 		// ステータスの取得
  * 		status = criAtomPlayer_GetStatus(player);
  *
- * 		// �X�e�[�^�X�̃`�F�b�N
+ * 		// ステータスのチェック
  * 		if (status == CRIATOMPLAYER_STATUS_PLAYEND) {
- * 			// �Đ��I�����̓��[�v�𔲂���
+ * 			// 再生終了時はループを抜ける
  * 			break;
  * 		}
  *
- * 		// �T�[�o�[�����̎��s
+ * 		// サーバー処理の実行
  * 		criAtom_ExecuteMain();
  *
- * 		// ��ʕ\���̍X�V��
+ * 		// 画面表示の更新等
  * 			:
  * 	}
  * 		:
  * }
  * \endcode
- * \par ���l:
- * �f�o�C�X����̃f�[�^�ǂݍ��݂Ɏ��s�����ꍇ��A�f�[�^�G���[�����������ꍇ
- * �i�s���ȃf�[�^��ǂݍ��񂾏ꍇ�j�AAtom�v���[���[�̃X�e�[�^�X�̓G���[��ԂɂȂ�܂��B<br>
- * �f�[�^�ǂݍ��݃G���[�������ɃA�v���P�[�V�����ŃG���[���b�Z�[�W����\������ꍇ�ɂ́A
- * �X�e�[�^�X�� CRIATOMPLAYER_STATUS_ERROR �ɂȂ��Ă��Ȃ����ǂ������`�F�b�N���A
- * �K�X�G���[���b�Z�[�W�̕\�����s���Ă��������B<br>
+ * \par 備考:
+ * デバイスからのデータ読み込みに失敗した場合や、データエラーが発生した場合
+ * （不正なデータを読み込んだ場合）、Atomプレーヤーのステータスはエラー状態になります。<br>
+ * データ読み込みエラー発生時にアプリケーションでエラーメッセージ等を表示する場合には、
+ * ステータスが CRIATOMPLAYER_STATUS_ERROR になっていないかどうかをチェックし、
+ * 適宜エラーメッセージの表示を行ってください。<br>
  * \code
  * main()
  * {
  * 		:
- * 	// �X�e�[�^�X�̎擾
+ * 	// ステータスの取得
  * 	status = criAtomPlayer_GetStatus(player);
  *
- * 	// �X�e�[�^�X�̃`�F�b�N
+ * 	// ステータスのチェック
  * 	if (status == CRIATOMPLAYER_STATUS_ERROR) {
- * 		// CRIATOMPLAYER_STATUS_ERROR�ɂȂ������_�ŃG���[���b�Z�[�W��\������
+ * 		// CRIATOMPLAYER_STATUS_ERRORになった時点でエラーメッセージを表示する
  * 			:
  * 	}
  * 		:
@@ -6140,494 +6123,494 @@ CriBool CRIAPI criAtomPlayer_IsPaused(CriAtomPlayerHn player);
 CriAtomPlayerStatus CRIAPI criAtomPlayer_GetStatus(CriAtomPlayerHn player);
 
 /*JP
- * \brief �`�����l�����̎擾
+ * \brief チャンネル数の取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \return		CriSint32	�`�����l����
- * \par ����:
- * Atom�v���[���[�ōĐ����̉����ɂ��āA�`�����l�������擾���܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \return		CriSint32	チャンネル数
+ * \par 説明:
+ * Atomプレーヤーで再生中の音声について、チャンネル数を取得します。<br>
  * <br>
- * �`�����l�������擾�ł��Ȃ������ꍇ�A�{�֐��� -1 ��Ԃ��܂��B<br>
+ * チャンネル数が取得できなかった場合、本関数は -1 を返します。<br>
  * \attention
- * �Đ������́A�v���[���[�̃X�e�[�^�X�� ::CRIATOMPLAYER_STATUS_PLAYING
- * �ɂȂ�܂Ŏ擾�ł��܂���B<br>
- * �i ::CRIATOMPLAYER_STATUS_PREP ���ɖ{�֐������s�����ꍇ�A�G���[�l���Ԃ���܂��B�j<br>
+ * 再生時刻は、プレーヤーのステータスが ::CRIATOMPLAYER_STATUS_PLAYING
+ * になるまで取得できません。<br>
+ * （ ::CRIATOMPLAYER_STATUS_PREP 時に本関数を実行した場合、エラー値が返されます。）<br>
  */
 CriSint32 CRIAPI criAtomPlayer_GetNumChannels(CriAtomPlayerHn player);
 
 /*JP
- * \brief �Đ��ς݃T���v�����̎擾
+ * \brief 再生済みサンプル数の取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player			Atom�v���[���[�n���h��
- * \param[out]	num_played		�Đ��ς݃T���v�����i�T���v�����P�ʁj
- * \param[out]	sampling_rate	�T���v�����O���[�g�iHz�P�ʁj
- * \return		CriBool			�T���v�������擾�ł������ǂ����i CRI_TRUE = �擾�ł����A CRI_FALSE = �擾�ł��Ȃ������j
- * \par ����:
- * Atom�v���[���[�ōĐ����̉����ɂ��āA�Đ��ς݂̃T���v�����A
- * ����уT���v�����O���[�g���擾���܂��B<br>
- * �Đ������̓T���v�����P�ʁA�T���v�����O���[�g��Hz�P�ʂł��B<br>
+ * \param[in]	player			Atomプレーヤーハンドル
+ * \param[out]	num_played		再生済みサンプル数（サンプル数単位）
+ * \param[out]	sampling_rate	サンプリングレート（Hz単位）
+ * \return		CriBool			サンプル数が取得できたかどうか（ CRI_TRUE = 取得できた、 CRI_FALSE = 取得できなかった）
+ * \par 説明:
+ * Atomプレーヤーで再生中の音声について、再生済みのサンプル数、
+ * およびサンプリングレートを取得します。<br>
+ * 再生時刻はサンプル数単位、サンプリングレートはHz単位です。<br>
  * <br>
- * �T���v�������������擾�ł����ꍇ�A�߂�l�� CRI_TRUE �ɂȂ�܂��B<br>
- * �Đ��ς݃T���v�������擾�ł��Ȃ������ꍇ�A�߂�l�� CRI_FALSE �ɂȂ�܂��B<br>
- * �i�����ɁA sampling_rate �� -1 �ɂȂ�܂��B�j<br>
- * \par ���l
- * �擾����K�v�̂Ȃ������ɂ��ẮA NULL ���w��\�ł��B<br>
- * �Ⴆ�΁A�T���v�����O���[�g�݂̂��擾�������ꍇ�A��2�����i num_played �j
- * �ɂ� NULL ���w��\�ł��B
+ * サンプル数が正しく取得できた場合、戻り値は CRI_TRUE になります。<br>
+ * 再生済みサンプル数が取得できなかった場合、戻り値は CRI_FALSE になります。<br>
+ * （同時に、 sampling_rate は -1 になります。）<br>
+ * \par 備考
+ * 取得する必要のない引数については、 NULL を指定可能です。<br>
+ * 例えば、サンプリングレートのみを取得したい場合、第2引数（ num_played ）
+ * には NULL を指定可能です。
  * <br>
- * �{�֐����Ԃ��Đ��ς݃T���v�����́A�o�͍ς݉����f�[�^�̗ݐϒl�ł��B<br>
- * ���̂��߁A���[�v�Đ�����A�V�[�����X�A���Đ������s�����ꍇ�ł��A
- * �Đ��ʒu�ɉ����ăT���v�����������߂邱�Ƃ͂���܂���B<br>
- * �܂��A ::criAtomPlayer_Pause �֐��Ń|�[�Y���������ꍇ�A
- * �Đ��ς݃T���v�����̃J�E���g�A�b�v����~���܂��B<br>
- * �i�|�[�Y����������΃J�E���g�A�b�v���ĊJ����܂��B�j
+ * 本関数が返す再生済みサンプル数は、出力済み音声データの累積値です。<br>
+ * そのため、ループ再生時や、シームレス連結再生時を行った場合でも、
+ * 再生位置に応じてサンプル数が巻き戻ることはありません。<br>
+ * また、 ::criAtomPlayer_Pause 関数でポーズをかけた場合、
+ * 再生済みサンプル数のカウントアップも停止します。<br>
+ * （ポーズを解除すればカウントアップが再開されます。）
  * \attention
- * �Đ��ς݃T���v�����́A�v���[���[�̃X�e�[�^�X�� ::CRIATOMPLAYER_STATUS_PLAYING
- * �ɂȂ�܂Ŏ擾�ł��܂���B<br>
- * �i ::CRIATOMPLAYER_STATUS_PREP ���ɖ{�֐������s�����ꍇ�A�G���[�l���Ԃ���܂��B�j<br>
+ * 再生済みサンプル数は、プレーヤーのステータスが ::CRIATOMPLAYER_STATUS_PLAYING
+ * になるまで取得できません。<br>
+ * （ ::CRIATOMPLAYER_STATUS_PREP 時に本関数を実行した場合、エラー値が返されます。）<br>
  * <br>
- * �Đ��T���v�����̐��x�́A�v���b�g�t�H�[���̃T�E���h���C�u�����Ɉˑ����܂��B
+ * 再生サンプル数の精度は、プラットフォームのサウンドライブラリに依存します。
  */
 CriBool CRIAPI criAtomPlayer_GetNumPlayedSamples(
 	CriAtomPlayerHn player, CriSint64 *num_played, CriSint32 *sampling_rate);
 
 /*JP
- * \brief �T�E���h�o�b�t�@�ւ̏������݃T���v�����̎擾
+ * \brief サウンドバッファへの書き込みサンプル数の取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player			Atom�v���[���n���h��
- * \param[out]	num_rendered	�������ݍς݃T���v�����i�T���v�����P�ʁj
- * \param[out]	sampling_rate	�T���v�����O���[�g�iHz�P�ʁj
- * \return		CriBool			�T���v�������擾�ł������ǂ����i CRI_TRUE = �擾�ł����A CRI_FALSE = �擾�ł��Ȃ������j
- * \par ����:
- * Atom�v���[���ōĐ����̉����ɂ��āA�T�E���h�o�b�t�@�ւ̏������ݍς݂̃T���v�����A
- * ����уT���v�����O���[�g���擾���܂��B<br>
- * ::criAtomPlayer_GetNumPlayedSamples �֐��ƈقȂ�A
- * �T�E���h�o�b�t�@�ɏ������܂ꂽ���o�͂̉����f�[�^�̃T���v�������܂ޒl��Ԃ��܂��B
+ * \param[in]	player			Atomプレーヤハンドル
+ * \param[out]	num_rendered	書き込み済みサンプル数（サンプル数単位）
+ * \param[out]	sampling_rate	サンプリングレート（Hz単位）
+ * \return		CriBool			サンプル数が取得できたかどうか（ CRI_TRUE = 取得できた、 CRI_FALSE = 取得できなかった）
+ * \par 説明:
+ * Atomプレーヤで再生中の音声について、サウンドバッファへの書き込み済みのサンプル数、
+ * およびサンプリングレートを取得します。<br>
+ * ::criAtomPlayer_GetNumPlayedSamples 関数と異なり、
+ * サウンドバッファに書き込まれた未出力の音声データのサンプル数を含む値を返します。
  * <br>
- * �T���v�������������擾�ł����ꍇ�A�߂�l�� CRI_TRUE �ɂȂ�܂��B<br>
- * �������ݍς݃T���v�������擾�ł��Ȃ������ꍇ�A�߂�l�� CRI_FALSE �ɂȂ�܂��B<br>
- * �i�����ɁA sampling_rate �� -1 �ɂȂ�܂��B�j<br>
- * \par ���l
- * �擾����K�v�̂Ȃ������ɂ��ẮA NULL ���w��\�ł��B<br>
- * �Ⴆ�΁A�T���v�����O���[�g�݂̂��擾�������ꍇ�A��2�����i num_rendered �j
- * �ɂ� NULL ���w��\�ł��B
+ * サンプル数が正しく取得できた場合、戻り値は CRI_TRUE になります。<br>
+ * 書き込み済みサンプル数が取得できなかった場合、戻り値は CRI_FALSE になります。<br>
+ * （同時に、 sampling_rate は -1 になります。）<br>
+ * \par 備考
+ * 取得する必要のない引数については、 NULL を指定可能です。<br>
+ * 例えば、サンプリングレートのみを取得したい場合、第2引数（ num_rendered ）
+ * には NULL を指定可能です。
  * <br>
- * �{�֐����Ԃ��T���v�����́A�������ݍς݃T���v�����̗ݐϒl�ł��B<br>
- * ���̂��߁A���[�v�Đ���V�[�����X�A���Đ����s�����ꍇ�ł��A
- * �Đ��ʒu�ɉ����ăT���v�����������߂邱�Ƃ͂���܂���B<br>
- * �܂��A ::criAtomPlayer_Pause �֐��Ń|�[�Y���������ꍇ�A
- * �������ݍς݃T���v�����̃J�E���g�A�b�v����~���܂��B<br>
- * �i�|�[�Y����������΃J�E���g�A�b�v���ĊJ����܂��B�j
+ * 本関数が返すサンプル数は、書き込み済みサンプル数の累積値です。<br>
+ * そのため、ループ再生やシームレス連結再生を行った場合でも、
+ * 再生位置に応じてサンプル数が巻き戻ることはありません。<br>
+ * また、 ::criAtomPlayer_Pause 関数でポーズをかけた場合、
+ * 書き込み済みサンプル数のカウントアップも停止します。<br>
+ * （ポーズを解除すればカウントアップが再開されます。）
  * \attention
- * �������ݍς݃T���v�����́A�v���[���̃X�e�[�^�X�� ::CRIATOMPLAYER_STATUS_PLAYING
- * �ɂȂ�܂Ŏ擾�ł��܂���B<br>
- * �i ::CRIATOMPLAYER_STATUS_PREP ���ɖ{�֐������s�����ꍇ�A�G���[�l���Ԃ���܂��B�j<br>
+ * 書き込み済みサンプル数は、プレーヤのステータスが ::CRIATOMPLAYER_STATUS_PLAYING
+ * になるまで取得できません。<br>
+ * （ ::CRIATOMPLAYER_STATUS_PREP 時に本関数を実行した場合、エラー値が返されます。）<br>
  * <br>
- * �������ݍς݃T���v�����̐��x�́A�v���b�g�t�H�[���̃T�E���h���C�u�����Ɉˑ����܂��B
+ * 書き込み済みサンプル数の精度は、プラットフォームのサウンドライブラリに依存します。
  * \sa criAtomPlayer_GetNumPlayedSamples
  */
 CriBool CRIAPI criAtomPlayer_GetNumRenderedSamples(
 	CriAtomPlayerHn player, CriSint64 *num_rendered, CriSint32 *sampling_rate);
 
 /*JP
- * \brief �f�R�[�h�f�[�^�T�C�Y�̎擾
+ * \brief デコードデータサイズの取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player			Atom�v���[���[�n���h��
- * \return		CriSint64		�f�R�[�h�f�[�^�ʁi�P�ʂ̓o�C�g�j
- * \par ����:
- * Atom�v���[���[���Ńf�R�[�h���������f�[�^�̃o�C�g����Ԃ��܂��B<br>
- * \par ���l
- * �{�֐����Ԃ��f�R�[�h�ʂ́A�Đ��J�n���_����̗ݐϒl�ł��B<br>
- * ���̂��߁A���[�v�Đ�����A�V�[�����X�A���Đ������s�����ꍇ�ł��A
- * �Đ��ʒu�ɉ����ăf�R�[�h�ʂ������߂邱�Ƃ͂���܂���B<br>
- * �܂��A ::criAtomPlayer_Pause �֐��Ń|�[�Y���������ꍇ�A
- * �f�R�[�h�ʂ̃J�E���g�A�b�v����~���܂��B<br>
- * �i�|�[�Y����������΃J�E���g�A�b�v���ĊJ����܂��B�j
+ * \param[in]	player			Atomプレーヤーハンドル
+ * \return		CriSint64		デコードデータ量（単位はバイト）
+ * \par 説明:
+ * Atomプレーヤー内でデコードした音声データのバイト数を返します。<br>
+ * \par 備考
+ * 本関数が返すデコード量は、再生開始時点からの累積値です。<br>
+ * そのため、ループ再生時や、シームレス連結再生時を行った場合でも、
+ * 再生位置に応じてデコード量が巻き戻ることはありません。<br>
+ * また、 ::criAtomPlayer_Pause 関数でポーズをかけた場合、
+ * デコード量のカウントアップも停止します。<br>
+ * （ポーズを解除すればカウントアップが再開されます。）
  * \attention
- * HCA-MX���g�p����ꍇ��A���k���ꂽ�����f�[�^�𒼐ڃn�[�h�E�F�A�ɑ��M����v���b�g�t�H�[��
- * �i�f�R�[�h�������v���b�g�t�H�[��SDK�ɉB������Ă���R�[�f�b�N�j
- * �ɂ��ẮA�{�֐��Ńf�R�[�h�ʂ��擾�ł��܂���B<br>
+ * HCA-MXを使用する場合や、圧縮された音声データを直接ハードウェアに送信するプラットフォーム
+ * （デコード処理がプラットフォームSDKに隠蔽されているコーデック）
+ * については、本関数でデコード量を取得できません。<br>
  */
 CriSint64 CRIAPI criAtomPlayer_GetDecodedDataSize(CriAtomPlayerHn player);
 
 /*JP
- * \brief �f�R�[�h�T���v�����̎擾
+ * \brief デコードサンプル数の取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player			Atom�v���[���[�n���h��
- * \return		CriSint64		�f�R�[�h�T���v����
- * \par ����:
- * Atom�v���[���[���Ńf�R�[�h���������f�[�^�̃o�C�g����Ԃ��܂��B<br>
- * \par ���l
- * �{�֐����Ԃ��f�R�[�h�T���v�����́A�Đ��J�n���_����̗ݐϒl�ł��B<br>
- * ���̂��߁A���[�v�Đ�����A�V�[�����X�A���Đ������s�����ꍇ�ł��A
- * �Đ��ʒu�ɉ����ăf�R�[�h�T���v�����������߂邱�Ƃ͂���܂���B<br>
- * �܂��A ::criAtomPlayer_Pause �֐��Ń|�[�Y���������ꍇ�A
- * �f�R�[�h�T���v�����̃J�E���g�A�b�v����~���܂��B<br>
- * �i�|�[�Y����������΃J�E���g�A�b�v���ĊJ����܂��B�j
+ * \param[in]	player			Atomプレーヤーハンドル
+ * \return		CriSint64		デコードサンプル数
+ * \par 説明:
+ * Atomプレーヤー内でデコードした音声データのバイト数を返します。<br>
+ * \par 備考
+ * 本関数が返すデコードサンプル数は、再生開始時点からの累積値です。<br>
+ * そのため、ループ再生時や、シームレス連結再生時を行った場合でも、
+ * 再生位置に応じてデコードサンプル数が巻き戻ることはありません。<br>
+ * また、 ::criAtomPlayer_Pause 関数でポーズをかけた場合、
+ * デコードサンプル数のカウントアップも停止します。<br>
+ * （ポーズを解除すればカウントアップが再開されます。）
  * \attention
- * HCA-MX���g�p����ꍇ��A���k���ꂽ�����f�[�^�𒼐ڃn�[�h�E�F�A�ɑ��M����v���b�g�t�H�[��
- * �i�f�R�[�h�������v���b�g�t�H�[��SDK�ɉB������Ă���R�[�f�b�N�j
- * �ɂ��ẮA�{�֐��Ńf�R�[�h�T���v�������擾�ł��܂���B<br>
+ * HCA-MXを使用する場合や、圧縮された音声データを直接ハードウェアに送信するプラットフォーム
+ * （デコード処理がプラットフォームSDKに隠蔽されているコーデック）
+ * については、本関数でデコードサンプル数を取得できません。<br>
  */
 CriSint64 CRIAPI criAtomPlayer_GetNumDecodedSamples(CriAtomPlayerHn player);
 
 /*JP
- * \brief �Đ������̎擾
+ * \brief 再生時刻の取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \return		CriSint64	�Đ������i�~���b�P�ʁj
- * \par ����:
- * Atom�v���[���[�ōĐ����̉����ɂ��āA���݂̍Đ��������擾���܂��B<br>
- * �Đ������̒P�ʂ̓~���b�P�ʂł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \return		CriSint64	再生時刻（ミリ秒単位）
+ * \par 説明:
+ * Atomプレーヤーで再生中の音声について、現在の再生時刻を取得します。<br>
+ * 再生時刻の単位はミリ秒単位です。<br>
  * <br>
- * �����Ɍ�肪����ꍇ�i player �� NULL �̏ꍇ�j�A�{�֐��� -1 ��Ԃ��܂��B<br>
- * ��~����Đ����������A�Đ��������擾�ł��Ȃ��^�C�~���O�Ŗ{�֐������s�����ꍇ�A
- * �{�֐��� 0 ��Ԃ��܂��B<br>
- * \par ���l
- * �Đ������͍Đ��ς݃T���v���������Ɍv�Z����Ă��܂��B<br>
- * ���̂��߁A ::criAtomPlayer_SetFrequencyRatio �֐���p���ăs�b�`���グ���ꍇ�A
- * �Đ������͎����Ԃ��������i�݂܂��B<br>
- * �i�s�b�`���������ꍇ�A�Đ������͎����������x���i�݂܂��B�j<br>
+ * 引数に誤りがある場合（ player が NULL の場合）、本関数は -1 を返します。<br>
+ * 停止中や再生準備中等、再生時刻が取得できないタイミングで本関数を実行した場合、
+ * 本関数は 0 を返します。<br>
+ * \par 備考
+ * 再生時刻は再生済みサンプル数を元に計算されています。<br>
+ * そのため、 ::criAtomPlayer_SetFrequencyRatio 関数を用いてピッチを上げた場合、
+ * 再生時刻は実時間よりも早く進みます。<br>
+ * （ピッチを下げた場合、再生時刻は実時刻よりも遅く進みます。）<br>
  * <br>
- * �{�֐����Ԃ��Đ������́A�o�͍ς݉����f�[�^�̗ݐϒl�ł��B<br>
- * ���̂��߁A���[�v�Đ�����A�V�[�����X�A���Đ������s�����ꍇ�ł��A
- * �Đ��ʒu�ɉ����Ď����������߂邱�Ƃ͂���܂���B<br>
- * �܂��A ::criAtomPlayer_Pause �֐��Ń|�[�Y���������ꍇ�A
- * �Đ������̃J�E���g�A�b�v����~���܂��B<br>
- * �i�|�[�Y����������΃J�E���g�A�b�v���ĊJ����܂��B�j
+ * 本関数が返す再生時刻は、出力済み音声データの累積値です。<br>
+ * そのため、ループ再生時や、シームレス連結再生時を行った場合でも、
+ * 再生位置に応じて時刻が巻き戻ることはありません。<br>
+ * また、 ::criAtomPlayer_Pause 関数でポーズをかけた場合、
+ * 再生時刻のカウントアップも停止します。<br>
+ * （ポーズを解除すればカウントアップが再開されます。）
  * \attention
- * �Đ������́A�v���[���[�̃X�e�[�^�X�� ::CRIATOMPLAYER_STATUS_PLAYING
- * �ɂȂ�܂Ŏ擾�ł��܂���B<br>
- * �i ::CRIATOMPLAYER_STATUS_PREP ���ɖ{�֐������s�����ꍇ�A 0 ���Ԃ���܂��B�j<br>
+ * 再生時刻は、プレーヤーのステータスが ::CRIATOMPLAYER_STATUS_PLAYING
+ * になるまで取得できません。<br>
+ * （ ::CRIATOMPLAYER_STATUS_PREP 時に本関数を実行した場合、 0 が返されます。）<br>
  * <br>
- * �Đ������̐��x�́A�v���b�g�t�H�[���̃T�E���h���C�u�����Ɉˑ����܂��B
+ * 再生時刻の精度は、プラットフォームのサウンドライブラリに依存します。
  * \sa criAtomPlayer_GetStatus, criAtomPlayer_SetFrequencyRatio
  */
 CriSint64 CRIAPI criAtomPlayer_GetTime(CriAtomPlayerHn player);
 
 /*JP
- * \brief �Đ������̃t�H�[�}�b�g���̎擾
+ * \brief 再生音声のフォーマット情報の取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[out]	info		�t�H�[�}�b�g���
- * \return		CriBool		��񂪎擾�ł������ǂ����i CRI_TRUE = �擾�ł����A CRI_FALSE = �擾�ł��Ȃ������j
- * \par ����:
- * ::criAtomPlayer_Start �֐��ōĐ����ꂽ�����̃t�H�[�}�b�g�����擾���܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[out]	info		フォーマット情報
+ * \return		CriBool		情報が取得できたかどうか（ CRI_TRUE = 取得できた、 CRI_FALSE = 取得できなかった）
+ * \par 説明:
+ * ::criAtomPlayer_Start 関数で再生された音声のフォーマット情報を取得します。<br>
  * <br>
- * �t�H�[�}�b�g��񂪎擾�ł����ꍇ�A�{�֐��� CRI_TRUE ��Ԃ��܂��B<br>
- * �t�H�[�}�b�g��񂪎擾�ł��Ȃ������ꍇ�A�{�֐��� CRI_FALSE ��Ԃ��܂��B<br>
+ * フォーマット情報が取得できた場合、本関数は CRI_TRUE を返します。<br>
+ * フォーマット情報が取得できなかった場合、本関数は CRI_FALSE を返します。<br>
  * \attention
- * �{�֐��́A�����Đ����̂݃t�H�[�}�b�g�����擾�\�ł��B<br>
- * �Đ��J�n�O��Đ��������ɖ{�֐������s����ƁA�t�H�[�}�b�g���̎擾�Ɏ��s���܂��B<br>
+ * 本関数は、音声再生中のみフォーマット情報を取得可能です。<br>
+ * 再生開始前や再生準備中に本関数を実行すると、フォーマット情報の取得に失敗します。<br>
  * \sa criAtomPlayer_Start, criAtomPlayer_GetStatus
  */
 CriBool CRIAPI criAtomPlayer_GetFormatInfo(
 	CriAtomPlayerHn player, CriAtomFormatInfo *info);
 
 /*JP
- * \brief ���̓o�b�t�@�[���f�[�^�c�ʂ̎擾
+ * \brief 入力バッファー内データ残量の取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \return		CriSint32	���̓o�b�t�@�[���̃f�[�^�c�ʁiByte�P�ʁj
- * \par ����:
- * Atom�v���[���[�̓��̓o�b�t�@�[���̃f�[�^�c�ʂ��擾���܂��B<br>
- * \par ���l:
- * �{�֐��͏��擾�p�r�ɂ݂̂ɗ��p�\�ȃf�o�b�O�֐��ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \return		CriSint32	入力バッファー内のデータ残量（Byte単位）
+ * \par 説明:
+ * Atomプレーヤーの入力バッファー内のデータ残量を取得します。<br>
+ * \par 備考:
+ * 本関数は情報取得用途にのみに利用可能なデバッグ関数です。<br>
  * <br>
- * ���r�؂�̕s������������ہA�{�֐����g�p���čĐ����̃v���[���[��
- * ���̓o�b�t�@�[�Ƀf�[�^���c���Ă��邩�ǂ������`�F�b�N�\�ł��B<br>
- * �v���[���[�̃X�e�[�^�X�� ::CRIATOMPLAYER_STATUS_PLAYING �ɂ�������炸�A
- * �f�[�^�c�ʂ������� 0 �̏ꍇ�A���炩�ُ̈�ɂ��f�[�^�̋�����
- * �u���b�N����Ă���\��������܂��B<br>
+ * 音途切れの不具合が発生した際、本関数を使用して再生中のプレーヤーの
+ * 入力バッファーにデータが残っているかどうかをチェック可能です。<br>
+ * プレーヤーのステータスが ::CRIATOMPLAYER_STATUS_PLAYING にもかかわらず、
+ * データ残量が長時間 0 の場合、何らかの異常によりデータの供給が
+ * ブロックされている可能性があります。<br>
  */
 CriSint32 CRIAPI criAtomPlayer_GetInputBufferRemainSize(CriAtomPlayerHn player);
 
 /*JP
- * \brief �o�̓o�b�t�@�[���f�[�^�c�ʂ̎擾
+ * \brief 出力バッファー内データ残量の取得
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \return		CriSint32	�o�̓o�b�t�@�[���̃f�[�^�c�ʁi�T���v�����P�ʁj
- * \par ����:
- * Atom�v���[���[�̏o�̓o�b�t�@�[���̃f�[�^�c�ʂ��擾���܂��B<br>
- * \par ���l:
- * �{�֐��͏��擾�p�r�ɂ݂̂ɗ��p�\�ȃf�o�b�O�֐��ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \return		CriSint32	出力バッファー内のデータ残量（サンプル数単位）
+ * \par 説明:
+ * Atomプレーヤーの出力バッファー内のデータ残量を取得します。<br>
+ * \par 備考:
+ * 本関数は情報取得用途にのみに利用可能なデバッグ関数です。<br>
  * <br>
- * ���r�؂�̕s������������ہA�{�֐����g�p���čĐ����̃v���[���[��
- * �o�̓o�b�t�@�[�Ƀf�[�^���c���Ă��邩�ǂ������`�F�b�N�\�ł��B<br>
- * �v���[���[�̃X�e�[�^�X�� ::CRIATOMPLAYER_STATUS_PLAYING �ɂ�������炸�A
- * �f�[�^�c�ʂ������� 0 �̏ꍇ�A���炩�ُ̈�ɂ��f�R�[�h������
- * �s���Ă��Ȃ��\��������܂��B<br>
+ * 音途切れの不具合が発生した際、本関数を使用して再生中のプレーヤーの
+ * 出力バッファーにデータが残っているかどうかをチェック可能です。<br>
+ * プレーヤーのステータスが ::CRIATOMPLAYER_STATUS_PLAYING にもかかわらず、
+ * データ残量が長時間 0 の場合、何らかの異常によりデコード処理が
+ * 行われていない可能性があります。<br>
  * \attention
- * �{�֐��́A�����f�[�^��Atom���C�u�������Ńf�R�[�h����P�[�X�ɂ��Ă̂ݗL���ł��B<br>
- * ���k���ꂽ�����f�[�^�𒼐ڃn�[�h�E�F�A�ɑ��M����v���b�g�t�H�[��
- * �i�f�R�[�h�������v���b�g�t�H�[��SDK�ɉB������Ă���R�[�f�b�N�j
- * �ɂ��ẮA�{�֐��Ńf�[�^�c�ʂ��擾�ł��܂���B<br>
+ * 本関数は、音声データをAtomライブラリ内でデコードするケースについてのみ有効です。<br>
+ * 圧縮された音声データを直接ハードウェアに送信するプラットフォーム
+ * （デコード処理がプラットフォームSDKに隠蔽されているコーデック）
+ * については、本関数でデータ残量を取得できません。<br>
  */
 CriSint32 CRIAPI criAtomPlayer_GetOutputBufferRemainSamples(CriAtomPlayerHn player);
 
 /*JP
- * \brief �Đ��J�n�ʒu�̎w��
+ * \brief 再生開始位置の指定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	start_time_ms	�Đ��J�n�ʒu�i�~���b�w��j
- * \par ����:
- * Atom�v���[���[�ōĐ����鉹���ɂ��āA�Đ����J�n����ʒu���w�肵�܂��B<br>
- * �����f�[�^��r������Đ��������ꍇ�A�Đ��J�n�O�ɖ{�֐��ōĐ��J�n�ʒu��
- * �w�肷��K�v������܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	start_time_ms	再生開始位置（ミリ秒指定）
+ * \par 説明:
+ * Atomプレーヤーで再生する音声について、再生を開始する位置を指定します。<br>
+ * 音声データを途中から再生したい場合、再生開始前に本関数で再生開始位置を
+ * 指定する必要があります。<br>
  * <br>
- * �Đ��J�n�ʒu�̎w��̓~���b�P�ʂōs���܂��B<br>
- * �Ⴆ�΁A start_time_ms �� 10000 ���Z�b�g���Ė{�֐������s����ƁA
- * ���ɍĐ����鉹���f�[�^�� 10 �b�ڂ̈ʒu����Đ�����܂��B
- * \par ���l
- * �{�֐��ōĐ��ʒu���w�肵���ꍇ�ł��A�w�肵�������҂�����̈ʒu����Đ���
- * �J�n�����Ƃ͌���܂���B<br>
- * �i�g�p���鉹���R�[�f�b�N�ɂ���ẮA�w�莞���̏�����O����Đ����J�n����܂��B�j<br>
+ * 再生開始位置の指定はミリ秒単位で行います。<br>
+ * 例えば、 start_time_ms に 10000 をセットして本関数を実行すると、
+ * 次に再生する音声データは 10 秒目の位置から再生されます。
+ * \par 備考
+ * 本関数で再生位置を指定した場合でも、指定した時刻ぴったりの位置から再生が
+ * 開始されるとは限りません。<br>
+ * （使用する音声コーデックによっては、指定時刻の少し手前から再生が開始されます。）<br>
  * <br>
- * �����f�[�^�r������̍Đ��́A�����f�[�^�擪����̍Đ��ɔ�ׁA�����J�n��
- * �^�C�~���O���x���Ȃ�܂��B<br>
- * ����́A��U�����f�[�^�̃w�b�_�[����͌�A�w��ʒu�ɃW�����v���Ă���f�[�^��ǂ�
- * �����čĐ����J�n���邽�߂ł��B
+ * 音声データ途中からの再生は、音声データ先頭からの再生に比べ、発音開始の
+ * タイミングが遅くなります。<br>
+ * これは、一旦音声データのヘッダーを解析後、指定位置にジャンプしてからデータを読み
+ * 直して再生を開始するためです。
  * \attention
- * start_time_ms �ɂ�64bit�l���Z�b�g�\�ł����A����A32bit�ȏ�̍Đ�������
- * �w�肷�邱�Ƃ͂ł��܂���B<br>
+ * start_time_ms には64bit値をセット可能ですが、現状、32bit以上の再生時刻を
+ * 指定することはできません。<br>
  * <br>
- * �����Đ����ɖ{�֐������s���Ă��A�Đ����̉����̍Đ��ʒu�͕ύX����܂���B<br>
- * �{�֐��Őݒ肵���l�́A ::criAtomPlayer_Start �֐��ŉ����̍Đ����J�n����
- * �^�C�~���O�ł̂ݎQ�Ƃ���܂��B<br>
+ * 音声再生中に本関数を実行しても、再生中の音声の再生位置は変更されません。<br>
+ * 本関数で設定した値は、 ::criAtomPlayer_Start 関数で音声の再生を開始する
+ * タイミングでのみ参照されます。<br>
  * <br>
- * �@��ŗL�̉����t�H�[�}�b�g�ɂ��Ă��A�Đ��J�n�ʒu���w��ł��Ȃ��ꍇ������܂��B<br>
+ * 機種固有の音声フォーマットについても、再生開始位置を指定できない場合があります。<br>
  * <br>
  * \sa criAtomPlayer_Start
  */
 void CRIAPI criAtomPlayer_SetStartTime(CriAtomPlayerHn player, CriSint64 start_time_ms);
 
 /*JP
- * \brief �{�����[���̎w��
+ * \brief ボリュームの指定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	vol			�{�����[���l
- * \par ����:
- * �o�͉����̃{�����[�����w�肵�܂��B<br>
- * �{�֐����g�p���邱�ƂŁAAtom�v���[���[�ōĐ����鉹���̃{�����[�������R��
- * �ύX�\�ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	vol			ボリューム値
+ * \par 説明:
+ * 出力音声のボリュームを指定します。<br>
+ * 本関数を使用することで、Atomプレーヤーで再生する音声のボリュームを自由に
+ * 変更可能です。<br>
  * <br>
- * �{�����[���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃{�����[���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B
- * \���l:
- * �{�����[���l�ɂ�0.0f�ȏ�̒l���ݒ�\�ł��B<br>
- * �iAtom���C�u���� Ver.1.21.07���A
- * �{�����[���l��1.0f�𒴂���l���w��ł���悤�ɂȂ�܂����B�j<br>
- * 1.0f�𒴂���l���Z�b�g�����ꍇ�A<b>�v���b�g�t�H�[���ɂ���Ă�</b>�A
- * �g�`�f�[�^�����f�ނ����傫�ȉ��ʂōĐ��\�ł��B<br>
- * �{�����[���l�ɕ��l���w�肵���ꍇ�A�l��0.0f�ɃN���b�v����܂��B<br>
- * �i�g�`�f�[�^�̈ʑ������]����邱�Ƃ͂���܂���B�j<br>
+ * ボリューム値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのボリュームで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。
+ * \備考:
+ * ボリューム値には0.0f以上の値が設定可能です。<br>
+ * （Atomライブラリ Ver.1.21.07より、
+ * ボリューム値に1.0fを超える値を指定できるようになりました。）<br>
+ * 1.0fを超える値をセットした場合、<b>プラットフォームによっては</b>、
+ * 波形データを元素材よりも大きな音量で再生可能です。<br>
+ * ボリューム値に負値を指定した場合、値は0.0fにクリップされます。<br>
+ * （波形データの位相が反転されることはありません。）<br>
  * <br>
- * �{�֐��̐ݒ�l�ƁA�ȉ��̊֐��̃{�����[���ݒ�l�͓Ɨ����Đ��䂳��܂��B<br>
+ * 本関数の設定値と、以下の関数のボリューム設定値は独立して制御されます。<br>
  * 	- ::criAtomPlayer_SetChannelVolume
  * 	- ::criAtomPlayer_SetSendLevel
  *
- * �Ⴆ�΁A�{�֐���0.5f���A ::criAtomPlayer_SetChannelVolume
- * �֐��ɂ�0.5f��ݒ肵���ꍇ�A
- * �o�͉����̃{�����[���͌�����0.25f�{�����{�����[���ŏo�͂���܂��B<br>
- * �i0.5f�~0.5f��0.25f�̉��Z���s���܂��B�j<br>
+ * 例えば、本関数に0.5fを、 ::criAtomPlayer_SetChannelVolume
+ * 関数にも0.5fを設定した場合、
+ * 出力音声のボリュームは原音を0.25f倍したボリュームで出力されます。<br>
+ * （0.5f×0.5f＝0.25fの演算が行われます。）<br>
  * \attention
- * 1.0f�𒴂���{�����[�����w�肷��ꍇ�A�ȉ��̓_�ɒ��ӂ���K�v������܂��B<br>
- *  - �v���b�g�t�H�[�����Ƃɋ������قȂ�\��������B
- *  - �����ꂪ��������\��������B
+ * 1.0fを超えるボリュームを指定する場合、以下の点に注意する必要があります。<br>
+ *  - プラットフォームごとに挙動が異なる可能性がある。
+ *  - 音割れが発生する可能性がある。
  *
  * <br>
- * �{�֐���1.0f�𒴂���{�����[���l��ݒ肵���ꍇ�ł��A
- * ���������̔g�`�f�[�^�����傫�ȉ��ʂōĐ�����邩�ǂ����́A
- * �v���b�g�t�H�[���≹�����k�R�[�f�b�N�̎�ʂɂ���ĈقȂ�܂��B<br>
- * ���̂��߁A�}���`�v���b�g�t�H�[���^�C�g���Ń{�����[���𒲐�����ꍇ�ɂ́A
- * 1.0f�𒴂���{�����[���l���g�p���Ȃ����Ƃ��������߂��܂��B<br>
- * �i1.0f�𒴂���{�����[���l���w�肵���ꍇ�A�����g�`�f�[�^���Đ������ꍇ�ł��A
- * �@�킲�ƂɈقȂ鉹�ʂŏo�͂����\��������܂��B�j<br>
+ * 本関数に1.0fを超えるボリューム値を設定した場合でも、
+ * 音声が元の波形データよりも大きな音量で再生されるかどうかは、
+ * プラットフォームや音声圧縮コーデックの種別によって異なります。<br>
+ * そのため、マルチプラットフォームタイトルでボリュームを調整する場合には、
+ * 1.0fを超えるボリューム値を使用しないことをおすすめします。<br>
+ * （1.0fを超えるボリューム値を指定した場合、同じ波形データを再生した場合でも、
+ * 機種ごとに異なる音量で出力される可能性があります。）<br>
  * <br>
- * �܂��A���ʂ��グ�邱�Ƃ��\�ȋ@��ł����Ă��A
- * �n�[�h�E�F�A�ŏo�͉\�ȉ��ʂɂ͏�������邽�߁A
- * ������ɂ��m�C�Y����������\��������܂��B<br>
+ * また、音量を上げることが可能な機種であっても、
+ * ハードウェアで出力可能な音量には上限があるため、
+ * 音割れによるノイズが発生する可能性があります。<br>
  * \sa criAtomPlayer_GetVolume
  */
 void CRIAPI criAtomPlayer_SetVolume(CriAtomPlayerHn player, CriFloat32 vol);
 
 /*JP
- * \brief �{�����[���̎w��
+ * \brief ボリュームの指定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \return		CriFloat32	�{�����[���l
- * \par ����:
- * �o�͉����̃{�����[�����擾���܂��B<br>
- * �{�����[���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \return		CriFloat32	ボリューム値
+ * \par 説明:
+ * 出力音声のボリュームを取得します。<br>
+ * ボリューム値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
  * \sa criAtomPlayer_SetVolume
  */
 CriFloat32 CRIAPI criAtomPlayer_GetVolume(CriAtomPlayerHn player);
 
 /*JP
- * \brief �`�����l���P�ʂ̃{�����[���w��
+ * \brief チャンネル単位のボリューム指定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	ch			�`�����l���ԍ�
- * \param[in]	vol			�{�����[���l�i0.0f�`1.0f�j
- * \par ����:
- * �o�͉����̃{�����[�����`�����l���P�ʂŎw�肵�܂��B<br>
- * �{�֐����g�p���邱�ƂŁAAtom�v���[���[�ōĐ����鉹���̃{�����[�����A
- * �`�����l���P�ʂŎ��R�ɕύX�\�ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	ch			チャンネル番号
+ * \param[in]	vol			ボリューム値（0.0f～1.0f）
+ * \par 説明:
+ * 出力音声のボリュームをチャンネル単位で指定します。<br>
+ * 本関数を使用することで、Atomプレーヤーで再生する音声のボリュームを、
+ * チャンネル単位で自由に変更可能です。<br>
  * <br>
- * ��2�����̃`�����l���ԍ���"�����f�[�^�̃`�����l���ԍ�"���w�肵�܂��B<br>
- * �i�o�̓X�s�[�J�[��ID�ł͂���܂���B�j<br>
- * �Ⴆ�΁A���m����������0�Ԃ̃{�����[����ύX�����ꍇ�A
- * �X�s�[�J�[����o�͂���鉹���̃{�����[���S�Ă��ύX����܂��B<br>
- * �i ::criAtomPlayer_SetVolume �֐������s����̂Ɠ�����������܂��B�j<br>
- * ����ɑ΂��A�X�e���I������0�Ԃ̃{�����[����ύX����ƁA�f�t�H���g�ݒ�
- * �ł̓��t�g�X�s�[�J�[����o�͂���鉹���̃{�����[���݂̂��ύX����܂��B<br>
- * �i ::criAtomPlayer_SetSendLevel �֐��𕹗p���Ă���ꍇ�́A
- * �K���������t�g�X�s�[�J�[����o�͂���鉹�ʂ̃{�����[�����ύX�����
- * �Ƃ͌���܂���B�j<br>
+ * 第2引数のチャンネル番号は"音声データのチャンネル番号"を指定します。<br>
+ * （出力スピーカーのIDではありません。）<br>
+ * 例えば、モノラル音声の0番のボリュームを変更した場合、
+ * スピーカーから出力される音声のボリューム全てが変更されます。<br>
+ * （ ::criAtomPlayer_SetVolume 関数を実行するのと同じ動作をします。）<br>
+ * これに対し、ステレオ音声の0番のボリュームを変更すると、デフォルト設定
+ * ではレフトスピーカーから出力される音声のボリュームのみが変更されます。<br>
+ * （ ::criAtomPlayer_SetSendLevel 関数を併用している場合は、
+ * 必ずしもレフトスピーカーから出力される音量のボリュームが変更される
+ * とは限りません。）<br>
  * <br>
- * �{�����[���l�ɂ́A0.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * �{�����[���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃{�����[���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B
- * \���l:
- * �{�����[���l��1.0f�𒴂���l���w�肵���ꍇ�A�l��1.0f�ɃN���b�v����܂��B<br>
- * �i�������傫�ȉ��ʂŉ������Đ�����邱�Ƃ͂���܂���B�j<br>
- * ���l�ɁA�{�����[���l��0.0f�����̒l���w�肵���ꍇ���A�l��0.0f�ɃN���b�v����܂��B<br>
- * �i�ʑ������]����邱�Ƃ͂���܂���B�j
+ * ボリューム値には、0.0f～1.0fの範囲で実数値を指定します。<br>
+ * ボリューム値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのボリュームで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。
+ * \備考:
+ * ボリューム値に1.0fを超える値を指定した場合、値は1.0fにクリップされます。<br>
+ * （原音より大きな音量で音声が再生されることはありません。）<br>
+ * 同様に、ボリューム値に0.0f未満の値を指定した場合も、値は0.0fにクリップされます。<br>
+ * （位相が反転されることはありません。）
  * <br>
- * �{�֐��̐ݒ�l�ƁA�ȉ��̊֐��̃{�����[���ݒ�l�͓Ɨ����Đ��䂳��܂��B<br>
+ * 本関数の設定値と、以下の関数のボリューム設定値は独立して制御されます。<br>
  * 	- ::criAtomPlayer_SetVolume
  * 	- ::criAtomPlayer_SetSendLevel
- * �Ⴆ�΁A�{�֐���0.5f���A ::criAtomPlayer_SetVolume �֐��ɂ�0.5f��ݒ肵���ꍇ�A
- * �o�͉����̃{�����[���͌�����0.25f�{�����{�����[���ŏo�͂���܂��B<br>
- * �i0.5f�~0.5f��0.25f�̉��Z���s���܂��B�j
+ * 例えば、本関数に0.5fを、 ::criAtomPlayer_SetVolume 関数にも0.5fを設定した場合、
+ * 出力音声のボリュームは原音を0.25f倍したボリュームで出力されます。<br>
+ * （0.5f×0.5f＝0.25fの演算が行われます。）
  * \sa criAtomPlayer_SetVolume, criAtomPlayer_SetSendLevel, criAtomPlayer_SetPanAdx1Compatible
  */
 void CRIAPI criAtomPlayer_SetChannelVolume(
 	CriAtomPlayerHn player, CriSint32 ch, CriFloat32 vol);
 
 /*JP
- * \brief �Z���h���x���̐ݒ�
+ * \brief センドレベルの設定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	ch			�`�����l���ԍ�
- * \param[in]	spk			�X�s�[�J�[ID
- * \param[in]	level		�{�����[���l�i0.0f�`1.0f�j
- * \par ����:
- * �Z���h���x�����w�肵�܂��B<br>
- * �Z���h���x���́A�����f�[�^�̊e�`�����l���̉������A�ǂ̃X�s�[�J�[����
- * �ǂ̒��x�̉��ʂŏo�͂��邩���w�肷�邽�߂̎d�g�݂ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	ch			チャンネル番号
+ * \param[in]	spk			スピーカーID
+ * \param[in]	level		ボリューム値（0.0f～1.0f）
+ * \par 説明:
+ * センドレベルを指定します。<br>
+ * センドレベルは、音声データの各チャンネルの音声を、どのスピーカーから
+ * どの程度の音量で出力するかを指定するための仕組みです。<br>
  * <br>
- * ��2�����̃`�����l���ԍ���"�����f�[�^�̃`�����l���ԍ�"���w�肵�܂��B<br>
- * ��3�����̃X�s�[�J�[ID�ɂ́A�w�肵���`�����l���ԍ��̃f�[�^���ǂ̃X�s�[�J�[����
- * �o�͂��邩���w�肵�A��4�����̑��M���̃{�����[�����w�肵�܂��B<br>
- * �{�����[���l�́A0.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * �{�����[���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃{�����[���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B
+ * 第2引数のチャンネル番号は"音声データのチャンネル番号"を指定します。<br>
+ * 第3引数のスピーカーIDには、指定したチャンネル番号のデータをどのスピーカーから
+ * 出力するかを指定し、第4引数の送信時のボリュームを指定します。<br>
+ * ボリューム値は、0.0f～1.0fの範囲で実数値を指定します。<br>
+ * ボリューム値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのボリュームで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。
  * <br>
- * �Ⴆ�΁A�����f�[�^�̃`�����l��0�Ԃ̃f�[�^�����C�g�X�s�[�J�[����
- * �t���{�����[���i1.0f�j�ŏo�͂������ꍇ�A�w��͈ȉ��̂悤�ɂȂ�܂��B
+ * 例えば、音声データのチャンネル0番のデータをライトスピーカーから
+ * フルボリューム（1.0f）で出力したい場合、指定は以下のようになります。
  * \code
  * criAtomPlayer_SetSendLevel(player, 0, CRIATOM_SPEAKER_FRONT_RIGHT, 1.0f);
  * \endcode
- * �`�����l���P�ʂ̃{�����[���w��i ::criAtomPlayer_SetChannelVolume �֐��j
- * �ƈقȂ�A�{�֐��ł�1�̃`�����l���̃f�[�^�𕡐��̃X�s�[�J�[����قȂ�
- * �{�����[���ŏo�͂��邱�Ƃ��\�ł��B<br>
- * �Ⴆ�΁A�`�����l��1�Ԃ̉��������t�g�X�s�[�J�[����0.3f�A���C�g�X�s�[�J�[
- * ����0.5f�A�Z���^�[�X�s�[�J�[����0.7f�ŏo�͂������ꍇ�A�w��͈ȉ��̂悤�ɂȂ�܂��B
+ * チャンネル単位のボリューム指定（ ::criAtomPlayer_SetChannelVolume 関数）
+ * と異なり、本関数では1つのチャンネルのデータを複数のスピーカーから異なる
+ * ボリュームで出力することが可能です。<br>
+ * 例えば、チャンネル1番の音声をレフトスピーカーから0.3f、ライトスピーカー
+ * から0.5f、センタースピーカーから0.7fで出力したい場合、指定は以下のようになります。
  * \code
  * criAtomPlayer_SetSendLevel(player, 1, CRIATOM_SPEAKER_FRONT_LEFT, 0.3f);
  * criAtomPlayer_SetSendLevel(player, 1, CRIATOM_SPEAKER_FRONT_RIGHT, 0.5f);
  * criAtomPlayer_SetSendLevel(player, 1, CRIATOM_SPEAKER_FRONT_CENTER, 0.7f);
  * \endcode
- * ���A�Z�b�g���ꂽ�Z���h���x���̒l�� ::criAtomPlayer_ResetSendLevel �֐���
- * ���Z�b�g���邱�Ƃ��\�ł��B<br>
- * \���l:
- * �Z���h���x���̐ݒ�ɂ́u�����ݒ�v�u�蓮�ݒ�v��2�ʂ肪���݂��܂��B<br>
- * Atom�v���[���[���쐬���������A ::criAtomPlayer_ResetSendLevel �֐���
- * �Z���h���x�����N���A�����ꍇ�A�Z���h���x���̐ݒ�́u�����ݒ�v�ƂȂ�܂��B<br>
- * �{�֐������s�����ꍇ�A�Z���h���x���̐ݒ�́u�蓮�ݒ�v�ƂȂ�܂��B<br>
+ * 尚、セットされたセンドレベルの値は ::criAtomPlayer_ResetSendLevel 関数で
+ * リセットすることが可能です。<br>
+ * \備考:
+ * センドレベルの設定には「自動設定」「手動設定」の2通りが存在します。<br>
+ * Atomプレーヤーを作成した直後や、 ::criAtomPlayer_ResetSendLevel 関数で
+ * センドレベルをクリアした場合、センドレベルの設定は「自動設定」となります。<br>
+ * 本関数を実行した場合、センドレベルの設定は「手動設定」となります。<br>
  * <br>
- * �u�����ݒ�v�̏ꍇ�AAtom�v���[���[�͈ȉ��̂悤�ɉ��������[�e�B���O���܂��B<br>
+ * 「自動設定」の場合、Atomプレーヤーは以下のように音声をルーティングします。<br>
  * <br>
- * �y���m�����������Đ�����ꍇ�z<br>
- * �`�����l��0�̉��������E�̃X�s�[�J�[�����0.7f�i-3dB�j�̃{�����[���ŏo�͂��܂��B<br>
+ * 【モノラル音声を再生する場合】<br>
+ * チャンネル0の音声を左右のスピーカーから約0.7f（-3dB）のボリュームで出力します。<br>
  * <br>
- * �y�X�e���I�������Đ�����ꍇ�z<br>
- * �`�����l��0�̉��������t�g�X�s�[�J�[����A
- * �`�����l��1�̉��������C�g�X�s�[�J�[����o�͂��܂��B<br>
+ * 【ステレオ音声を再生する場合】<br>
+ * チャンネル0の音声をレフトスピーカーから、
+ * チャンネル1の音声をライトスピーカーから出力します。<br>
  * <br>
- * �y4ch�������Đ�����ꍇ�z<br>
- * �`�����l��0�̉��������t�g�X�s�[�J�[����A�`�����l��1�̉��������C�g�X�s�[�J�[����A
- * �`�����l��2�̉������T���E���h���t�g�X�s�[�J�[����A
- * �`�����l��3�̉������T���E���h���C�g�X�s�[�J�[����ł��ꂼ��o�͂��܂��B<br>
+ * 【4ch音声を再生する場合】<br>
+ * チャンネル0の音声をレフトスピーカーから、チャンネル1の音声をライトスピーカーから、
+ * チャンネル2の音声をサラウンドレフトスピーカーから、
+ * チャンネル3の音声をサラウンドライトスピーカーからでそれぞれ出力します。<br>
  * <br>
- * �y5ch�������Đ�����ꍇ�z<br>
- * �`�����l��0�̉��������t�g�X�s�[�J�[����A�`�����l��1�̉��������C�g�X�s�[�J�[����A
- * �`�����l��2�̉������Z���^�[�X�s�[�J�[����A
- * �`�����l��3�̉������T���E���h���t�g�X�s�[�J�[����A
- * �`�����l��4�̉������T���E���h���C�g�X�s�[�J�[���炻�ꂼ��o�͂��܂��B<br>
- * �i 5ch�������Đ�����ꍇ�A ::criAtom_SetChannelMapping
- * �֐��ŕʂ̕��я��ɕύX���邱�Ƃ��\�ł��B�j<br>
+ * 【5ch音声を再生する場合】<br>
+ * チャンネル0の音声をレフトスピーカーから、チャンネル1の音声をライトスピーカーから、
+ * チャンネル2の音声をセンタースピーカーから、
+ * チャンネル3の音声をサラウンドレフトスピーカーから、
+ * チャンネル4の音声をサラウンドライトスピーカーからそれぞれ出力します。<br>
+ * （ 5ch音声を再生する場合、 ::criAtom_SetChannelMapping
+ * 関数で別の並び順に変更することも可能です。）<br>
  * <br>
- * �y5.1ch�������Đ�����ꍇ�z<br>
- * �`�����l��0�̉��������t�g�X�s�[�J�[����A�`�����l��1�̉��������C�g�X�s�[�J�[����A
- * �`�����l��2�̉������Z���^�[�X�s�[�J�[����A�`�����l��3�̉�����LFE����A
- * �`�����l��4�̉������T���E���h���t�g�X�s�[�J�[����A
- * �`�����l��5�̉������T���E���h���C�g�X�s�[�J�[���炻�ꂼ��o�͂��܂��B<br>
- * �i 6ch�������Đ�����ꍇ�A ::criAtom_SetChannelMapping
- * �֐��ŕʂ̕��я��ɕύX���邱�Ƃ��\�ł��B�j<br>
+ * 【5.1ch音声を再生する場合】<br>
+ * チャンネル0の音声をレフトスピーカーから、チャンネル1の音声をライトスピーカーから、
+ * チャンネル2の音声をセンタースピーカーから、チャンネル3の音声をLFEから、
+ * チャンネル4の音声をサラウンドレフトスピーカーから、
+ * チャンネル5の音声をサラウンドライトスピーカーからそれぞれ出力します。<br>
+ * （ 6ch音声を再生する場合、 ::criAtom_SetChannelMapping
+ * 関数で別の並び順に変更することも可能です。）<br>
  * <br>
- * �y7.1ch�������Đ�����ꍇ�z<br>
- * �`�����l��0�̉��������t�g�X�s�[�J�[����A�`�����l��1�̉��������C�g�X�s�[�J�[����A
- * �`�����l��2�̉������Z���^�[�X�s�[�J�[����A�`�����l��3�̉�����LFE����A
- * �`�����l��4�̉������T���E���h���t�g�X�s�[�J�[����A
- * �`�����l��5�̉������T���E���h���C�g�X�s�[�J�[����A<br>
- * �`�����l��6�̉������T���E���h�o�b�N���t�g�X�s�[�J�[����A
- * �`�����l��7�̉������T���E���h�o�b�N���C�g�X�s�[�J�[���炻�ꂼ��o�͂��܂��B<br>
+ * 【7.1ch音声を再生する場合】<br>
+ * チャンネル0の音声をレフトスピーカーから、チャンネル1の音声をライトスピーカーから、
+ * チャンネル2の音声をセンタースピーカーから、チャンネル3の音声をLFEから、
+ * チャンネル4の音声をサラウンドレフトスピーカーから、
+ * チャンネル5の音声をサラウンドライトスピーカーから、<br>
+ * チャンネル6の音声をサラウンドバックレフトスピーカーから、
+ * チャンネル7の音声をサラウンドバックライトスピーカーからそれぞれ出力します。<br>
  * <br>
- * ����ɑ΂��A�{�֐���p���āu�蓮�ݒ�v���s�����ꍇ�A�����f�[�^�̃`�����l������
- * �֌W�Ȃ��A�w�肳�ꂽ���[�e�B���O�ŉ������o�͂���܂��B<br>
- * �i�Z���h���x����ݒ肵�Ă��Ȃ��`�����l���̉����͏o�͂���܂���B�j<br>
- * �Z���h���x���̐ݒ���N���A���A���[�e�B���O���u�����ݒ�v�̏�Ԃɖ߂������ꍇ�́A
- * ::criAtomPlayer_ResetSendLevel �֐������s���Ă��������B<br>
+ * これに対し、本関数を用いて「手動設定」を行った場合、音声データのチャンネル数に
+ * 関係なく、指定されたルーティングで音声が出力されます。<br>
+ * （センドレベルを設定していないチャンネルの音声は出力されません。）<br>
+ * センドレベルの設定をクリアし、ルーティングを「自動設定」の状態に戻したい場合は、
+ * ::criAtomPlayer_ResetSendLevel 関数を実行してください。<br>
  * <br>
- * �{�����[���l��1.0f�𒴂���l���w�肵���ꍇ�A�l��1.0f�ɃN���b�v����܂��B<br>
- * �i�������傫�ȉ��ʂŉ������Đ�����邱�Ƃ͂���܂���B�j<br>
- * ���l�ɁA�{�����[���l��0.0f�����̒l���w�肵���ꍇ���A�l��0.0f�ɃN���b�v����܂��B<br>
- * �i�ʑ������]����邱�Ƃ͂���܂���B�j
+ * ボリューム値に1.0fを超える値を指定した場合、値は1.0fにクリップされます。<br>
+ * （原音より大きな音量で音声が再生されることはありません。）<br>
+ * 同様に、ボリューム値に0.0f未満の値を指定した場合も、値は0.0fにクリップされます。<br>
+ * （位相が反転されることはありません。）
  * <br>
- * �{�֐��̐ݒ�l�ƁA�ȉ��̊֐��̃{�����[���ݒ�l�͓Ɨ����Đ��䂳��܂��B<br>
+ * 本関数の設定値と、以下の関数のボリューム設定値は独立して制御されます。<br>
  * 	- ::criAtomPlayer_SetVolume
  * 	- ::criAtomPlayer_SetChannelVolume
- * �Ⴆ�΁A�{�֐���0.5f���A ::criAtomPlayer_SetVolume �֐��ɂ�0.5f��ݒ肵���ꍇ�A
- * �o�͉����̃{�����[���͌�����0.25f�{�����{�����[���ŏo�͂���܂��B<br>
- * �i0.5f�~0.5f��0.25f�̉��Z���s���܂��B�j
+ * 例えば、本関数に0.5fを、 ::criAtomPlayer_SetVolume 関数にも0.5fを設定した場合、
+ * 出力音声のボリュームは原音を0.25f倍したボリュームで出力されます。<br>
+ * （0.5f×0.5f＝0.25fの演算が行われます。）
  * \attention
- * �Đ����鉹���f�[�^���}���`�`�����l���̃f�[�^�ł����Ă��A�Z���h���x�����ꕔ��
- * �`�����l���݂̂ɂ����ݒ肳��Ă��Ȃ��ꍇ�A�Z���h���x���̐ݒ肳��Ă��Ȃ�
- * �`�����l���̉����͏o�͂���܂���B<br>
+ * 再生する音声データがマルチチャンネルのデータであっても、センドレベルが一部の
+ * チャンネルのみにしか設定されていない場合、センドレベルの設定されていない
+ * チャンネルの音声は出力されません。<br>
  * <br>
- * �{�֐��� ::criAtomPlayer_SetPanAdx1Compatible �֐��𕹗p���Ȃ��ł��������B<br>
- * ::criAtomPlayer_SetPanAdx1Compatible �֐����A�����I�ɖ{�֐����Ăяo�����߁A
- * ���҂𕹗p�����ꍇ�A�ォ����s�����֐��ɂ��ݒ肪�㏑�������\��������܂��B<br>
- * �����̒�ʂ��R���g���[������ۂɂ́A�{�֐����܂��� ::criAtomPlayer_SetPanAdx1Compatible �֐�
- * �̂����ꂩ����݂̂������p���������B<br>
- * �i3D�p���𗘗p����ꍇ�͖{�֐����A2D�p���݂̂��s���ꍇ�� ::criAtomPlayer_SetPanAdx1Compatible
- * �֐��������p���������B�j
+ * 本関数と ::criAtomPlayer_SetPanAdx1Compatible 関数を併用しないでください。<br>
+ * ::criAtomPlayer_SetPanAdx1Compatible 関数が、内部的に本関数を呼び出すため、
+ * 両者を併用した場合、後から実行した関数により設定が上書きされる可能性があります。<br>
+ * 音源の定位をコントロールする際には、本関数かまたは ::criAtomPlayer_SetPanAdx1Compatible 関数
+ * のいずれか一方のみをご利用ください。<br>
+ * （3Dパンを利用する場合は本関数を、2Dパンのみを行う場合は ::criAtomPlayer_SetPanAdx1Compatible
+ * 関数をご利用ください。）
  * <br>
- * �{�֐��͈ꕔ�̋@��ł̂ݗ��p���\�ł��B<br>
- * �i�v���b�g�t�H�[���̃T�E���h���C�u�����̎d�l�ɂ���Ă͎���������ȏꍇ��
- * ����A���̏ꍇ�͗��p�ł��܂���B�j<br>
- * �{�֐������p�\���ǂ����́A�ʓr�}�j���A���̋@��ˑ����̃y�[�W�����Q�Ƃ��������B
+ * 本関数は一部の機種でのみ利用が可能です。<br>
+ * （プラットフォームのサウンドライブラリの仕様によっては実装が困難な場合が
+ * あり、その場合は利用できません。）<br>
+ * 本関数が利用可能かどうかは、別途マニュアルの機種依存情報のページをご参照ください。
  * \sa criAtomPlayer_SetVolume, criAtomPlayer_SetChannelVolume, criAtomPlayer_SetPanAdx1Compatible,
  * criAtomPlayer_ResetSendLevel, criAtom_SetChannelMapping
  */
@@ -6635,90 +6618,90 @@ void CRIAPI criAtomPlayer_SetSendLevel(
 	CriAtomPlayerHn player, CriSint32 ch, CriAtomSpeakerId spk, CriFloat32 level);
 
 /*JP
- * \brief �Z���h���x���̃��Z�b�g
+ * \brief センドレベルのリセット
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \par ����:
- * �Z���h���x���̐ݒ�����Z�b�g���܂��B<br>
- * �{�֐������s���邱�ƂŁA�ߋ��ɃZ�b�g���ꂽ�Z���h���x���ݒ肪�S�ăN���A����܂��B<br>
- * \���l:
- * �Z���h���x���̐ݒ�ɂ́u�����ݒ�v�u�蓮�ݒ�v��2�ʂ肪���݂��܂��B<br>
- * Atom�v���[���[���쐬���������A�{�֐��ŃZ���h���x�������Z�b�g�����ꍇ�A
- * �Z���h���x���̐ݒ�́u�����ݒ�v�ƂȂ�܂��B<br>
- * �i�����ݒ莞�̃��[�e�B���O�ɂ��ẮA ::criAtomPlayer_SetSendLevel
- * �֐��̐������Q�Ƃ��Ă��������B�j<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \par 説明:
+ * センドレベルの設定をリセットします。<br>
+ * 本関数を実行することで、過去にセットされたセンドレベル設定が全てクリアされます。<br>
+ * \備考:
+ * センドレベルの設定には「自動設定」「手動設定」の2通りが存在します。<br>
+ * Atomプレーヤーを作成した直後や、本関数でセンドレベルをリセットした場合、
+ * センドレベルの設定は「自動設定」となります。<br>
+ * （自動設定時のルーティングについては、 ::criAtomPlayer_SetSendLevel
+ * 関数の説明を参照してください。）<br>
  * \attention
- * �{�֐��� ::criAtomPlayer_ResetPan �֐��𕹗p���Ȃ��ł��������B<br>
- * ::criAtomPlayer_ResetPan �֐����A�����I�ɖ{�֐����Ăяo�����߁A
- * ���҂𕹗p�����ꍇ�A�ォ����s�����֐��ɂ��ݒ肪�㏑�������\��������܂��B
+ * 本関数と ::criAtomPlayer_ResetPan 関数を併用しないでください。<br>
+ * ::criAtomPlayer_ResetPan 関数が、内部的に本関数を呼び出すため、
+ * 両者を併用した場合、後から実行した関数により設定が上書きされる可能性があります。
  * \sa criAtomPlayer_SetSendLevel, criAtomPlayer_ResetPan
  */
 void CRIAPI criAtomPlayer_ResetSendLevel(CriAtomPlayerHn player);
 
 /*JP
- * \brief �p���̐ݒ�
+ * \brief パンの設定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	ch			�`�����l���ԍ�
- * \param[in]	pan			�p���ݒ�l�i-1.0f�`1.0f�j
- * \par ����:
- * �p���i�����̒�ʈʒu�j���w�肵�܂��B<br>
- * �{�֐������s���邱�ƂŁA���m����������X�e���I�����ɑ΂��A�����̒�ʈʒu�����R
- * �ɃR���g���[�����邱�Ƃ��\�ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	ch			チャンネル番号
+ * \param[in]	pan			パン設定値（-1.0f～1.0f）
+ * \par 説明:
+ * パン（音源の定位位置）を指定します。<br>
+ * 本関数を実行することで、モノラル音声やステレオ音声に対し、音源の定位位置を自由
+ * にコントロールすることが可能です。<br>
  * <br>
- * ��2�����̃`�����l���ԍ���"�����f�[�^�̃`�����l���ԍ�"���w�肵�܂��B<br>
- * ��3�����̃p���ݒ�l�ɂ́A�w�肵���`�����l���ԍ��̃f�[�^�̒�ʂ��ǂ̈ʒu�ɂ���
- * �����w�肵�܂��B<br>
- * �p���ݒ�l�́A-1.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * �����́A���̒l���w�肷��ƒ�����荶���i�l���������قǍ����j�A0.0f���w�肷���
- * �����A���̒l���w�肷��ƒ������E���i�l���傫���قǉE���j�ɒ�ʂ��܂��B<br>
- * �i�L���̂����l�ł́A-1.0f�����[�A0.0f�������A1.0f���E�[�ɂȂ�܂��B�j<br>
- * -1.0f��1.0f�̊Ԃł́A�����̈ʒu�̓��j�A�ɕω����܂��B
- * �܂�A�p���ݒ�l�����ʂ��ω������Ȃ���-1.0�`1.0�܂ŕύX�����ꍇ�A
- * �����͍��[����E�[�ֈ�葬�x�ňړ����邱�ƂɂȂ�܂��B<br>
- * \par ���l:
- * �p���̐ݒ�ɂ́u�����ݒ�v�u�蓮�ݒ�v��2�ʂ肪���݂��܂��B<br>
- * Atom�v���[���[���쐬���������A ::criAtomPlayer_ResetPan �֐���
- * �p�����N���A�����ꍇ�A�p���̐ݒ�́u�����ݒ�v�ƂȂ�܂��B<br>
- * �{�֐������s�����ꍇ�A�p���̐ݒ�́u�蓮�ݒ�v�ƂȂ�܂��B<br>
+ * 第2引数のチャンネル番号は"音声データのチャンネル番号"を指定します。<br>
+ * 第3引数のパン設定値には、指定したチャンネル番号のデータの定位をどの位置にする
+ * かを指定します。<br>
+ * パン設定値は、-1.0f～1.0fの範囲で実数値を指定します。<br>
+ * 音源は、負の値を指定すると中央より左側（値が小さいほど左寄り）、0.0fを指定すると
+ * 中央、正の値を指定すると中央より右側（値が大きいほど右寄り）に定位します。<br>
+ * （キリのいい値では、-1.0fが左端、0.0fが中央、1.0fが右端になります。）<br>
+ * -1.0fと1.0fの間では、音源の位置はリニアに変化します。
+ * つまり、パン設定値を一定量ずつ変化させながら-1.0～1.0まで変更した場合、
+ * 音源は左端から右端へ一定速度で移動することになります。<br>
+ * \par 備考:
+ * パンの設定には「自動設定」「手動設定」の2通りが存在します。<br>
+ * Atomプレーヤーを作成した直後や、 ::criAtomPlayer_ResetPan 関数で
+ * パンをクリアした場合、パンの設定は「自動設定」となります。<br>
+ * 本関数を実行した場合、パンの設定は「手動設定」となります。<br>
  * <br>
- * �u�����ݒ�v�̏ꍇ�AAtom�v���[���[�͈ȉ��̂悤�ɉ��������[�e�B���O���܂��B<br>
+ * 「自動設定」の場合、Atomプレーヤーは以下のように音声をルーティングします。<br>
  * <br>
- * �y���m�����������Đ�����ꍇ�z<br>
- * �`�����l��0�̉��������E�̃X�s�[�J�[�����0.7f�i-3dB�j�̃{�����[���ŏo�͂��܂��B<br>
+ * 【モノラル音声を再生する場合】<br>
+ * チャンネル0の音声を左右のスピーカーから約0.7f（-3dB）のボリュームで出力します。<br>
  * <br>
- * �y�X�e���I�������Đ�����ꍇ�z<br>
- * �`�����l��0�̉��������t�g�X�s�[�J�[����A
- * �`�����l��1�̉��������C�g�X�s�[�J�[����o�͂��܂��B<br>
+ * 【ステレオ音声を再生する場合】<br>
+ * チャンネル0の音声をレフトスピーカーから、
+ * チャンネル1の音声をライトスピーカーから出力します。<br>
  * <br>
- * ����ɑ΂��A�{�֐���p���āu�蓮�ݒ�v���s�����ꍇ�A�����f�[�^�̃`�����l������
- * �֌W�Ȃ��A�w�肳�ꂽ���[�e�B���O�ŉ������o�͂���܂��B<br>
- * �p���̐ݒ���N���A���A���[�e�B���O���u�����ݒ�v�̏�Ԃɖ߂������ꍇ�́A
- * ::criAtomPlayer_ResetPan �֐������s���Ă��������B<br>
+ * これに対し、本関数を用いて「手動設定」を行った場合、音声データのチャンネル数に
+ * 関係なく、指定されたルーティングで音声が出力されます。<br>
+ * パンの設定をクリアし、ルーティングを「自動設定」の状態に戻したい場合は、
+ * ::criAtomPlayer_ResetPan 関数を実行してください。<br>
  * \attention
- * �{�֐��Ńp�����R���g���[���\�Ȃ̂́A���m���������ƃX�e���I�����݂̂ł��B<br>
- * 3ch�ȏ�̉����ɑ΂��ăp�����R���g���[���������ꍇ�ɂ́A ::criAtomPlayer_SetSendLevel
- * �֐����g�p����K�v������܂��B<br>
+ * 本関数でパンをコントロール可能なのは、モノラル音声とステレオ音声のみです。<br>
+ * 3ch以上の音声に対してパンをコントロールしたい場合には、 ::criAtomPlayer_SetSendLevel
+ * 関数を使用する必要があります。<br>
  * <br>
- * �Đ����鉹���f�[�^���X�e���I�̏ꍇ�A�`�����l��0�Ԃƃ`�����l��1�Ԃ̂��ꂼ���
- * �ɂ��āA�Ɨ����ăp�����R���g���[�����邱�Ƃ��\�ł��B<br>
- * �������A�ݒ肳�ꂽ�p�������m�������������Ȃ̂��A�X�e���I���������Ȃ̂��͋��
- * ����Ȃ����߁A�X�e���I�ݒ�p�Ƀp���ݒ���s����Atom�v���[���[�Ń��m�����������Đ�
- * �����ꍇ�A�Ӑ}���Ȃ��ʒu�ɉ�������ʂ���\��������܂��B<br>
+ * 再生する音声データがステレオの場合、チャンネル0番とチャンネル1番のそれぞれの
+ * について、独立してパンをコントロールすることが可能です。<br>
+ * ただし、設定されたパンがモノラル音声向けなのか、ステレオ音声向けなのかは区別
+ * されないため、ステレオ設定用にパン設定を行ったAtomプレーヤーでモノラル音声を再生
+ * した場合、意図しない位置に音源が定位する可能性があります。<br>
  * <br>
- * �Đ����鉹���f�[�^���X�e���I�ɂ�������炸�A�ǂ��炩����̃`�����l���ɑ΂���
- * �����p�����ݒ肳��Ă��Ȃ��ꍇ�A�p����ݒ肵�Ă��Ȃ��`�����l���̉����̒�ʈʒu
- * �� 0.0f �i��������̏o�́j�ɂȂ�܂��B<br>
- * �X�e���I�����̃p�����R���g���[������ۂɂ́A�K�������̃`�����l���ɂ��ăp����
- * �ݒ���s���Ă��������B<br>
+ * 再生する音声データがステレオにもかかわらず、どちらか一方のチャンネルに対して
+ * しかパンが設定されていない場合、パンを設定していないチャンネルの音声の定位位置
+ * は 0.0f （中央からの出力）になります。<br>
+ * ステレオ音声のパンをコントロールする際には、必ず両方のチャンネルについてパンの
+ * 設定を行ってください。<br>
  * <br>
- * �{�֐��� ::criAtomPlayer_SetSendLevel �֐��𕹗p���Ȃ��ł��������B<br>
- * �{�֐��������I�� ::criAtomPlayer_SetSendLevel �֐����Ăяo�����߁A
- * ���҂𕹗p�����ꍇ�A�ォ����s�����֐��ɂ��ݒ肪�㏑�������\��������܂��B<br>
- * �����̒�ʂ��R���g���[������ۂɂ́A�{�֐����܂��� ::criAtomPlayer_SetSendLevel �֐�
- * �̂����ꂩ����݂̂������p���������B<br>
- * �i3D�p���𗘗p����ꍇ�� ::criAtomPlayer_SetSendLevel �֐����A2D�p���݂̂��s���ꍇ��
- * �{�֐��������p���������B�j
+ * 本関数と ::criAtomPlayer_SetSendLevel 関数を併用しないでください。<br>
+ * 本関数が内部的に ::criAtomPlayer_SetSendLevel 関数を呼び出すため、
+ * 両者を併用した場合、後から実行した関数により設定が上書きされる可能性があります。<br>
+ * 音源の定位をコントロールする際には、本関数かまたは ::criAtomPlayer_SetSendLevel 関数
+ * のいずれか一方のみをご利用ください。<br>
+ * （3Dパンを利用する場合は ::criAtomPlayer_SetSendLevel 関数を、2Dパンのみを行う場合は
+ * 本関数をご利用ください。）
  * \sa criAtomPlayer_SetVolume, criAtomPlayer_SetChannelVolume, criAtomPlayer_SetPanAdx1Compatible
  * criAtomPlayer_ResetPan
  */
@@ -6726,321 +6709,321 @@ void CRIAPI criAtomPlayer_SetPanAdx1Compatible(
 	CriAtomPlayerHn player, CriSint32 ch, CriFloat32 pan);
 
 /*JP
- * \brief �p���̃��Z�b�g
+ * \brief パンのリセット
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \par ����:
- * �p���̐ݒ�����Z�b�g���܂��B<br>
- * �{�֐������s���邱�ƂŁA�ߋ��ɃZ�b�g���ꂽ�p���ݒ肪�S�ăN���A����܂��B<br>
- * \���l:
- * �p���̐ݒ�ɂ́u�����ݒ�v�u�蓮�ݒ�v��2�ʂ肪���݂��܂��B<br>
- * Atom�v���[���[���쐬���������A�{�֐��Ńp�������Z�b�g�����ꍇ�A
- * �p���̐ݒ�́u�����ݒ�v�ƂȂ�܂��B<br>
- * �i�����ݒ莞�̃��[�e�B���O�ɂ��ẮA ::criAtomPlayer_SetPanAdx1Compatible
- * �֐��̐������Q�Ƃ��Ă��������B�j<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \par 説明:
+ * パンの設定をリセットします。<br>
+ * 本関数を実行することで、過去にセットされたパン設定が全てクリアされます。<br>
+ * \備考:
+ * パンの設定には「自動設定」「手動設定」の2通りが存在します。<br>
+ * Atomプレーヤーを作成した直後や、本関数でパンをリセットした場合、
+ * パンの設定は「自動設定」となります。<br>
+ * （自動設定時のルーティングについては、 ::criAtomPlayer_SetPanAdx1Compatible
+ * 関数の説明を参照してください。）<br>
  * \attention
- * �{�֐��� ::criAtomPlayer_ResetSendLevel �֐��𕹗p���Ȃ��ł��������B<br>
- * �{�֐��������I�� ::criAtomPlayer_ResetSendLevel �֐����Ăяo�����߁A
- * ���҂𕹗p�����ꍇ�A�ォ����s�����֐��ɂ��ݒ肪�㏑�������\��������܂��B
+ * 本関数と ::criAtomPlayer_ResetSendLevel 関数を併用しないでください。<br>
+ * 本関数が内部的に ::criAtomPlayer_ResetSendLevel 関数を呼び出すため、
+ * 両者を併用した場合、後から実行した関数により設定が上書きされる可能性があります。
  * \sa criAtomPlayer_SetPanAdx1Compatible, criAtomPlayer_ResetSendLevel
  */
 void CRIAPI criAtomPlayer_ResetPan(CriAtomPlayerHn player);
 
 /*JP
- * \brief ���g��������̐ݒ�
+ * \brief 周波数調整比の設定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	ratio		���g��������
- * \par ����:
- * �����̎��g���������ݒ肵�܂��B<br>
- * ���g��������́A�����f�[�^�̎��g���ƍĐ����g���̔䗦�ŁA�Đ����x�̔{���Ɠ����ł��B<br>
- * ���g���䂪1.0f�𒴂���ꍇ�A�����f�[�^�͌�����荂���ɍĐ�����A
- * 1.0f�����̏ꍇ�́A�����f�[�^�͌������ᑬ�ōĐ�����܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	ratio		周波数調整比
+ * \par 説明:
+ * 音声の周波数調整比を設定します。<br>
+ * 周波数調整比は、音声データの周波数と再生周波数の比率で、再生速度の倍率と等価です。<br>
+ * 周波数比が1.0fを超える場合、音声データは原音より高速に再生され、
+ * 1.0f未満の場合は、音声データは原音より低速で再生されます。<br>
  * <br>
- * ���g����́A�����̃s�b�`�ɂ��e�����܂��B<br>
- * �Ⴆ�΁A���g�����1.0f�ōĐ������ꍇ�A�����f�[�^�͌����ʂ�̃s�b�`�ōĐ�����܂����A
- * ���g�����2.0f�ɕύX�����ꍇ�A�s�b�`��1�I�N�^�[�u�オ�܂��B<br>
- * �i�Đ����x��2�{�ɂȂ邽�߁B�j<br>
- * \par ��:
+ * 周波数比は、音声のピッチにも影響します。<br>
+ * 例えば、周波数比を1.0fで再生した場合、音声データは原音通りのピッチで再生されますが、
+ * 周波数比を2.0fに変更した場合、ピッチは1オクターブ上がます。<br>
+ * （再生速度が2倍になるため。）<br>
+ * \par 例:
  * \code
- * // 1/2�̑��x�i-1�I�N�^�[�u�j�ŉ������Đ�����悤�w��
+ * // 1/2の速度（-1オクターブ）で音声を再生するよう指定
  * criAtomPlayer_SetFrequencyRatio(player, 0.5f);
  * \endcode
  * \attention
- * ���g�����1.0f�𒴂���l��ݒ肵���ꍇ�A�Đ����鉹���̃f�[�^���ʏ���
- * ���������邽�߁A�����f�[�^�̋�����A�f�[�^�̃f�R�[�h���Ԃɍ���Ȃ��Ȃ�
- * �\��������܂��B<br>
- * �i���؂ꓙ�̖�肪��������\��������܂��B�j<br>
- * ���g�����1.0f�𒴂���l��ݒ肷��ꍇ�ɂ́AAtom�v���[���[�쐬���Ɏw�肷��
- * �ő�T���v�����O���[�g�̒l���A���g������l�������l�ɐݒ肵�Ă��������B<br>
- * �iAtom�v���[���[�쐬���Ɏw�肷�� ::CriAtomAdxPlayerConfig �\����
- * �� max_sampling_rate �̒l�ɁA�u�����̃T���v�����O���[�g�~���g����v��
- * �v�Z�����l���w�肷��K�v������܂��B�j<br>
+ * 周波数比に1.0fを超える値を設定した場合、再生する音声のデータが通常より
+ * 速く消費されるため、音声データの供給や、データのデコードが間に合わなくなる
+ * 可能性があります。<br>
+ * （音切れ等の問題が発生する可能性があります。）<br>
+ * 周波数比に1.0fを超える値を設定する場合には、Atomプレーヤー作成時に指定する
+ * 最大サンプリングレートの値を、周波数比を考慮した値に設定してください。<br>
+ * （Atomプレーヤー作成時に指定する ::CriAtomAdxPlayerConfig 構造体
+ * の max_sampling_rate の値に、「原音のサンプリングレート×周波数比」で
+ * 計算される値を指定する必要があります。）<br>
  * \code
  * main()
  * {
- * 	CriAtomAdxPlayerConfig config;	// Atom�v���[���[�쐬�p�R���t�B�O�\����
- * 	CriAtomAdxPlayerHn player;		// Atom�v���[���[�n���h��
+ * 	CriAtomAdxPlayerConfig config;	// Atomプレーヤー作成用コンフィグ構造体
+ * 	CriAtomAdxPlayerHn player;		// Atomプレーヤーハンドル
  * 		:
- * 	// Atom�v���[���[�쐬�p�R���t�B�O�\���̂�ݒ�
+ * 	// Atomプレーヤー作成用コンフィグ構造体を設定
  * 	memset(&config, 0, sizeof(config));
- * 	config.max_channels = 2;			// �X�e���I�Đ��\�ȃv���[���[���쐬����
+ * 	config.max_channels = 2;			// ステレオ再生可能なプレーヤーを作成する
  *
- * 	// 48000Hz�̉�����1.5�{���ōĐ�����ꍇ
- * 	// 48000�~1.5��72000Hz�̐ݒ��Atom�v���[���[���쐬����
- * 	config.max_sampling_rate = 72000;	// �ő��72000Hz�̉������Đ�����
+ * 	// 48000Hzの音声を1.5倍速で再生する場合
+ * 	// 48000×1.5＝72000Hzの設定でAtomプレーヤーを作成する
+ * 	config.max_sampling_rate = 72000;	// 最大で72000Hzの音声を再生する
  *
- * 	// Atom�v���[���[�̍쐬
- * 	// ���[�N�̈�ɂ�NULL��0���w�肷��B
- * 	// ���K�v�ȃ������̓��C�u�������œ��I�Ɋm�ۂ����B
+ * 	// Atomプレーヤーの作成
+ * 	// ワーク領域にはNULLと0を指定する。
+ * 	// →必要なメモリはライブラリ内で動的に確保される。
  * 	player = criAtomPlayer_CreateAdxPlayer(&config, NULL, 0);
  * 		:
- * 	// ���g�����ύX����
+ * 	// 周波数比を変更する
  * 	criAtomPlayer_SetFrequencyRatio(player, 1.5f);
  * 		:
  * }
  * \endcode
- * �{�֐��͈ꕔ�̋@��ł̂ݗ��p���\�ł��B<br>
- * �i�v���b�g�t�H�[���̃T�E���h���C�u�����̎d�l�ɂ���Ă͎���������ȏꍇ��
- * ����A���̏ꍇ�͗��p�ł��܂���B�j<br>
- * �{�֐������p�\���ǂ����́A�ʓr�}�j���A���̋@��ˑ����̃y�[�W�����Q�Ƃ��������B
+ * 本関数は一部の機種でのみ利用が可能です。<br>
+ * （プラットフォームのサウンドライブラリの仕様によっては実装が困難な場合が
+ * あり、その場合は利用できません。）<br>
+ * 本関数が利用可能かどうかは、別途マニュアルの機種依存情報のページをご参照ください。
  * \sa CriAtomAdxPlayerConfig, criAtomPlayer_CreateAdxPlayer, criAtomPlayer_SetMaxFrequencyRatio
  */
 void CRIAPI criAtomPlayer_SetFrequencyRatio(CriAtomPlayerHn player, CriFloat32 ratio);
 
 /*JP
- * \brief �ő���g��������̐ݒ�
+ * \brief 最大周波数調整比の設定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	ratio		�ő���g��������
- * \par ����:
- * �����̍ő���g���������ݒ肵�܂��B<br>
- * �{�֐��ōő���g����������w�肷�邱�ƂŁA�w��͈͓��ł̃s�b�`�ύX�������ɔ��f�����悤�ɂȂ�܂��B<br>
- * \par ���l:
- * Atom Ver.2.10.00�ȑO�̃��C�u�����ł́A�s�b�`���グ���ۂɉ����r�؂��
- * �i�Đ����x�������Ȃ������ʁA�����f�[�^�̋���������Ȃ��Ȃ�j�P�[�X������܂����B<br>
- * ���̑΍�Ƃ��āAAtom Ver.2.10.00�ł̓s�b�`���グ�Ă������r�؂�Ȃ��悤�A
- * �������[���Ƀo�b�t�@�����O���Ă���s�b�`���グ��悤�����ύX���Ă��܂��B<br>
- * �C���ɂ��A�s�b�`����ɂ���ĉ����r�؂�邱�Ƃ͂Ȃ��Ȃ�܂������A
- * �s�b�`���グ��ۂɃo�b�t�@�����O��҂��ԕ������s�b�`�ύX���x���`�ɂȂ邽�߁A
- * ���̕ω����ȑO�̃o�[�W�����Ɣ�ׂĊɖ��ɂȂ�\��������܂��B<br>
- * �i�Z���ԂɃs�b�`���グ��������P�[�X�ɂ����āA���̖�����ς��\��������܂��B�j<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	ratio		最大周波数調整比
+ * \par 説明:
+ * 音声の最大周波数調整比を設定します。<br>
+ * 本関数で最大周波数調整比を指定することで、指定範囲内でのピッチ変更が即座に反映されるようになります。<br>
+ * \par 備考:
+ * Atom Ver.2.10.00以前のライブラリでは、ピッチを上げた際に音が途切れる
+ * （再生速度が速くなった結果、音声データの供給が足りなくなる）ケースがありました。<br>
+ * この対策として、Atom Ver.2.10.00ではピッチを上げても音が途切れないよう、
+ * 音声を充分にバッファリングしてからピッチを上げるよう動作を変更しています。<br>
+ * 修正により、ピッチ操作によって音が途切れることはなくなりましたが、
+ * ピッチを上げる際にバッファリングを待つ時間分だけピッチ変更が遅れる形になるため、
+ * 音の変化が以前のバージョンと比べて緩慢になる可能性があります。<br>
+ * （短時間にピッチを上げ下げするケースにおいて、音の鳴り方が変わる可能性があります。）<br>
  * <br>
- * �{�֐��ōő���g������������炩���ߐݒ肵���ꍇ�A
- * �w�肳�ꂽ���x��z�肵�ď�Ƀo�b�t�@�����O���s����悤�ɂȂ邽�߁A
- * �i�w�肳�ꂽ�͈͓��̎��g���ɂ����Ắj�o�b�t�@�����O�Ȃ��Ƀs�b�`�ύX�������ɍs���܂��B<br>
- * �Z���ԂɃs�b�`���グ��������P�[�X�ɂ��ẮA
- * �\�z�����ő���g������������炩���ߖ{�֐��Őݒ肵�Ă���Đ����s���Ă��������B<br>
+ * 本関数で最大周波数調整比をあらかじめ設定した場合、
+ * 指定された速度を想定して常にバッファリングが行われるようになるため、
+ * （指定された範囲内の周波数においては）バッファリングなしにピッチ変更が即座に行われます。<br>
+ * 短時間にピッチを上げ下げするケースについては、
+ * 予想される最大周波数調整比をあらかじめ本関数で設定してから再生を行ってください。<br>
  * \sa criAtomPlayer_SetFrequencyRatio
  */
 void CRIAPI criAtomPlayer_SetMaxFrequencyRatio(CriAtomPlayerHn player, CriFloat32 ratio);
 
 /*JP
- * \brief ���[�v�񐔂̐���
+ * \brief ループ回数の制限
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	count		���[�v������
- * \par ����:
- * �g�`�f�[�^�̃��[�v�Đ��񐔂𐧌����܂��B<br>
- * �Ⴆ�΁Acount��1���w�肵���ꍇ�A���[�v�g�`�f�[�^��1��̂݃��[�v���čĐ����I�����܂��B<br>
- * �i���[�v�G���h�|�C���g�ɓ��B��A1�񂾂����[�v�X�^�[�g�ʒu�ɖ߂�܂��B�j<br>
- * \par ���l:
- * �f�t�H���g��Ԃł́A���[�v�|�C���g�t���̉����f�[�^�͖����Ƀ��[�v�Đ�����܂��B<br>
- * ���[�v�񐔂���U����������A���[�v�񐔂��ēx������ɖ߂������ꍇ�ɂ́A
- * count �� ::CRIATOMPLAYER_NO_LOOP_LIMITATION ���w�肵�Ă��������B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	count		ループ制限回数
+ * \par 説明:
+ * 波形データのループ再生回数を制限します。<br>
+ * 例えば、countに1を指定した場合、ループ波形データは1回のみループして再生を終了します。<br>
+ * （ループエンドポイントに到達後、1回だけループスタート位置に戻ります。）<br>
+ * \par 備考:
+ * デフォルト状態では、ループポイント付きの音声データは無限にループ再生されます。<br>
+ * ループ回数を一旦制限した後、ループ回数を再度無限回に戻したい場合には、
+ * count に ::CRIATOMPLAYER_NO_LOOP_LIMITATION を指定してください。<br>
  * <br>
- * count �� ::CRIATOMPLAYER_IGNORE_LOOP ���w�肷�邱�ƂŁA
- * ���[�v�|�C���g�t���̉����f�[�^�����[�v�������ɍĐ����邱�Ƃ��\�ł��B<br>
+ * count に ::CRIATOMPLAYER_IGNORE_LOOP を指定することで、
+ * ループポイント付きの音声データをループさせずに再生することも可能です。<br>
  * \attention
- * ���[�v�����񐔂̎w��́A�����Đ��J�n�O�ɍs���K�v������܂��B<br>
- * �Đ����ɖ{�֐������s���Ă��A���[�v�񐔂͕ύX����܂���B<br>
- * �Đ����̔C�ӂ̃^�C�~���O�Ń��[�v�Đ����~�������ꍇ�A
- * ���[�v�Đ��ł͂Ȃ��A�V�[�����X�A���Đ��Ő�����s���Ă��������B<br>
+ * ループ制限回数の指定は、音声再生開始前に行う必要があります。<br>
+ * 再生中に本関数を実行しても、ループ回数は変更されません。<br>
+ * 再生中の任意のタイミングでループ再生を停止したい場合、
+ * ループ再生ではなく、シームレス連結再生で制御を行ってください。<br>
  * <br>
- * �{�֐��Ŏw�肵�����[�v�����񐔂́A
- * ���炩���߃��[�v�|�C���g���ݒ肳�ꂽ�g�`�f�[�^���Đ�����ꍇ�ɂ̂ݓK�p����܂��B<br>
- * �g�`�f�[�^���̂Ƀ��[�v�|�C���g���ݒ肳��Ă��Ȃ��ꍇ�A
- * �{�֐������s���Ă����̌��ʂ�����܂���B<br>
+ * 本関数で指定したループ制限回数は、
+ * あらかじめループポイントが設定された波形データを再生する場合にのみ適用されます。<br>
+ * 波形データ自体にループポイントが設定されていない場合、
+ * 本関数を実行しても何の効果もありません。<br>
  * <br>
- * �{�֐����g�p���ă��[�v�񐔂��w�肵���ꍇ�ł��A
- * ���[�v�I�����Ƀ��[�v�G���h�|�C���g�ȍ~�̔g�`�f�[�^���Đ�����邱�Ƃ͂���܂���B<br>
- * �i�w��񐔕����[�v������A���[�v�G���h�|�C���g�ōĐ�����~���܂��B�j<br>
+ * 本関数を使用してループ回数を指定した場合でも、
+ * ループ終了時にループエンドポイント以降の波形データが再生されることはありません。<br>
+ * （指定回数分ループした後、ループエンドポイントで再生が停止します。）<br>
  * <br>
- * ��O�I�ɁA�ȉ��̏����𖞂����ꍇ�Ɍ���A�i���[�v�͂���܂��񂪁j
- * �����V���b�g�Ń��[�v�|�C���g�ȍ~�̃f�[�^���܂߂čĐ����邱�Ƃ��\�ł��B<br>
- * 	- criatomencd.exe �� -nodelterm ���w�肵�ăf�[�^���G���R�[�h����B
- * 	- �{�֐��� ::CRIATOMPLAYER_IGNORE_LOOP ���w�肵�Ă���Đ����s���B
+ * 例外的に、以下の条件を満たす場合に限り、（ループはされませんが）
+ * ワンショットでループポイント以降のデータを含めて再生することが可能です。<br>
+ * 	- criatomencd.exe で -nodelterm を指定してデータをエンコードする。
+ * 	- 本関数に ::CRIATOMPLAYER_IGNORE_LOOP を指定してから再生を行う。
  *
  * <br>
- * �{�֐��Ń��[�v�񐔂𐧌��ł���̂́AADX�R�[�f�b�N��HCA�R�[�f�b�N�݂̂ł��B<br>
- * �v���b�g�t�H�[���ˑ��̉����R�[�f�b�N�ɑ΂��Ė{�֐������s���Ȃ��ł��������B<br>
- * �i�Đ����I�����Ȃ��A�m�C�Y���������铙�̖�肪�������܂��B�j<br>
+ * 本関数でループ回数を制限できるのは、ADXコーデックとHCAコーデックのみです。<br>
+ * プラットフォーム依存の音声コーデックに対して本関数を実行しないでください。<br>
+ * （再生が終了しない、ノイズが発生する等の問題が発生します。）<br>
  */
 void CRIAPI criAtomPlayer_LimitLoopCount(CriAtomPlayerHn player, CriSint32 count);
 
 /*JP
- * \brief HCA-MX�f�R�[�h��~�L�TID�̎w��
+ * \brief HCA-MXデコード先ミキサーIDの指定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	mixer_id	�~�L�TID
- * \par ����:
- * HCA-MX�̃f�R�[�h��~�L�TID���w�肵�܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	mixer_id	ミキサーID
+ * \par 説明:
+ * HCA-MXのデコード先ミキサーIDを指定します。<br>
  * \attention
- * �{�֐��� ::criAtomPlayer_CreateHcaMxPlayer
- * �֐��ō쐬���ꂽ�v���[���[�ɑ΂��Ă̂݌��ʂ�����܂��B<br>
- * �i���̊֐��ō쐬���ꂽ�v���[���[�ɑ΂��ẮA���̌��ʂ�����܂���B�j<br>
+ * 本関数は ::criAtomPlayer_CreateHcaMxPlayer
+ * 関数で作成されたプレーヤーに対してのみ効果があります。<br>
+ * （他の関数で作成されたプレーヤーに対しては、何の効果もありません。）<br>
  * <br>
- * �{�֐��͒�~���̃v���[���[�ɑ΂��Ă̂ݎ��s�\�ł��B<br>
+ * 本関数は停止中のプレーヤーに対してのみ実行可能です。<br>
  * \sa criAtomPlayer_CreateHcaMxPlayer
  */
 void CRIAPI criAtomPlayer_SetHcaMxMixerId(CriAtomPlayerHn player, CriSint32 mixer_id);
 
 /*JP
- * \brief ASR���b�NID�̎w��
+ * \brief ASRラックIDの指定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	rack_id		���b�NID
- * \par ����:
- * �{�C�X�̏o�͐�̃��b�NID���w�肵�܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	rack_id		ラックID
+ * \par 説明:
+ * ボイスの出力先のラックIDを指定します。<br>
  * \attention
- * �{�֐��͒�~���̃v���[���[�ɑ΂��Ă̂ݎ��s�\�ł��B<br>
+ * 本関数は停止中のプレーヤーに対してのみ実行可能です。<br>
  */
 void CRIAPI criAtomPlayer_SetAsrRackId(CriAtomPlayerHn player, CriSint32 rack_id);
 
 /*JP
- * \brief RawPCM�t�H�[�}�b�g�̎w��
+ * \brief RawPCMフォーマットの指定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player			Atom�v���[���[�n���h��
- * \param[in]	pcm_format		RawPCM�̃f�[�^�t�H�[�}�b�g
- * \param[in]	num_channels	�`�����l����
- * \param[in]	sampling_rate	�T���v�����O���[�g
- * \par ����:
- * RawPCM�̃f�[�^�t�H�[�}�b�g�����w�肵�܂��B<br>
+ * \param[in]	player			Atomプレーヤーハンドル
+ * \param[in]	pcm_format		RawPCMのデータフォーマット
+ * \param[in]	num_channels	チャンネル数
+ * \param[in]	sampling_rate	サンプリングレート
+ * \par 説明:
+ * RawPCMのデータフォーマット情報を指定します。<br>
  * \attention
- * �{�֐��� ::criAtomPlayer_CreateRawPcmPlayer
- * �֐��ō쐬���ꂽ�v���[���[�ɑ΂��Ă̂݌��ʂ�����܂��B<br>
- * �i���̊֐��ō쐬���ꂽ�v���[���[�ɑ΂��ẮA���̌��ʂ�����܂���B�j<br>
+ * 本関数は ::criAtomPlayer_CreateRawPcmPlayer
+ * 関数で作成されたプレーヤーに対してのみ効果があります。<br>
+ * （他の関数で作成されたプレーヤーに対しては、何の効果もありません。）<br>
  * <br>
- * �{�֐��͒�~���̃v���[���[�ɑ΂��Ă̂ݎ��s�\�ł��B<br>
+ * 本関数は停止中のプレーヤーに対してのみ実行可能です。<br>
  * \sa criAtomPlayer_CreateRawPcmPlayer
  */
 void CRIAPI criAtomPlayer_SetRawPcmFormat(CriAtomPlayerHn player,
 	CriAtomPcmFormat pcm_format, CriSint32 num_channels, CriSint32 sampling_rate);
 
 /*JP
- * \brief �f�[�^�v���R�[���o�b�N�֐��̓o�^
+ * \brief データ要求コールバック関数の登録
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	func		�f�[�^�v���R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �f�[�^�v���R�[���o�b�N�֐��̓o�^���s���܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	func		データ要求コールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * データ要求コールバック関数の登録を行います。<br>
  * <br>
- * �f�[�^�v���R�[���o�b�N�́A�����̉����f�[�^���V�[�����X�ɘA�����čĐ�����ۂ�
- * �g�p���܂��B<br>
- * �o�^�����R�[���o�b�N�֐��́AAtom�v���[���[���A���Đ��p�̃f�[�^��v������^�C�~���O��
- * ���s����܂��B<br>
- * �i�O��̃f�[�^��ǂݍ��ݏI���āA���ɍĐ����ׂ��f�[�^��v������^�C�~���O��
- * �R�[���o�b�N�֐������s����܂��B�j<br>
- * �o�^�����R�[���o�b�N�֐����� ::criAtomPlayer_SetData �֐�����p����Atom�v���[���[��
- * �f�[�^���Z�b�g����ƁA�Z�b�g���ꂽ�f�[�^�͌��ݍĐ����̃f�[�^�ɑ����ăV�[�����X��
- * �A������čĐ�����܂��B<br>
- * �܂��A�R�[���o�b�N�֐����� ::criAtomPlayer_SetPreviousDataAgain �֐������s���邱�ƂŁA
- * ����f�[�^���J��Ԃ��Đ��������邱�Ƃ��\�ł��B<br>
- * \par ���l:
- * �o�^�����R�[���o�b�N�֐����Ńf�[�^���w�肵�Ȃ������ꍇ�A���݂̃f�[�^���Đ���
- * �I�������_�ŁAAtom�v���[���[�̃X�e�[�^�X�� CRIATOMPLAYER_STATUS_PLAYEND �ɑJ�ڂ��܂��B<br>
+ * データ要求コールバックは、複数の音声データをシームレスに連結して再生する際に
+ * 使用します。<br>
+ * 登録したコールバック関数は、Atomプレーヤーが連結再生用のデータを要求するタイミングで
+ * 実行されます。<br>
+ * （前回のデータを読み込み終えて、次に再生すべきデータを要求するタイミングで
+ * コールバック関数が実行されます。）<br>
+ * 登録したコールバック関数内で ::criAtomPlayer_SetData 関数等を用いてAtomプレーヤーに
+ * データをセットすると、セットされたデータは現在再生中のデータに続いてシームレスに
+ * 連結されて再生されます。<br>
+ * また、コールバック関数内で ::criAtomPlayer_SetPreviousDataAgain 関数を実行することで、
+ * 同一データを繰り返し再生し続けることも可能です。<br>
+ * \par 備考:
+ * 登録したコールバック関数内でデータを指定しなかった場合、現在のデータを再生し
+ * 終えた時点で、Atomプレーヤーのステータスが CRIATOMPLAYER_STATUS_PLAYEND に遷移します。<br>
  * <br>
- * �^�C�~���O���̖��ɂ��A�f�[�^���w�肷�邱�Ƃ��ł��Ȃ����A�X�e�[�^�X��
- * CRIATOMPLAYER_STATUS_PLAYEND �ɑJ�ڂ��������Ȃ��ꍇ�ɂ́A�R�[���o�b�N�֐�����
- * ::criAtomPlayer_DeferCallback �֐������s���Ă��������B<br>
- * ::criAtomPlayer_DeferCallback �֐������s���邱�ƂŁA��1V��ɍēx�f�[�^�v��
- * �R�[���o�b�N�֐����Ăяo����܂��B�i�R�[���o�b�N���������g���C�\�B�j<br>
- * �������A ::criAtomPlayer_DeferCallback �֐������s�����ꍇ�A�Đ����r�؂��
- * �i�A���ӏ��Ɉ�莞�Ԗ���������j�\��������܂��B<br>
- * \par ��:
- * �ȉ��̃R�[�h�����s����ƁAbuffer1�̃f�[�^��buffer2�̃f�[�^���V�[�����X��
- * �A�����čĐ�����܂��B<br>
- * �i���̌��buffer2�̃f�[�^���J��Ԃ��Đ�����܂��B�j<br>
+ * タイミング等の問題により、データを指定することができないが、ステータスを
+ * CRIATOMPLAYER_STATUS_PLAYEND に遷移させたくない場合には、コールバック関数内で
+ * ::criAtomPlayer_DeferCallback 関数を実行してください。<br>
+ * ::criAtomPlayer_DeferCallback 関数を実行することで、約1V後に再度データ要求
+ * コールバック関数が呼び出されます。（コールバック処理をリトライ可能。）<br>
+ * ただし、 ::criAtomPlayer_DeferCallback 関数を実行した場合、再生が途切れる
+ * （連結箇所に一定時間無音が入る）可能性があります。<br>
+ * \par 例:
+ * 以下のコードを実行すると、buffer1のデータとbuffer2のデータがシームレスに
+ * 連結して再生されます。<br>
+ * （その後はbuffer2のデータが繰り返し再生されます。）<br>
  * \code
- * // �f�[�^�v���R�[���o�b�N�֐�
+ * // データ要求コールバック関数
  * void on_data_request(void *obj, CriAtomPlayerHn player)
  * {
- * 	// �����čĐ�����f�[�^���Z�b�g
+ * 	// 続けて再生するデータをセット
  * 	criAtomPlayer_SetData(player, buffer2, buffer_size2);
  * }
  *
  * main()
  * {
  * 		:
- * 	// �f�[�^�v���R�[���o�b�N�֐��̓o�^
+ * 	// データ要求コールバック関数の登録
  * 	criAtomPlayer_SetDataRequestCallback(player, on_data_request, NULL);
  *
- * 	// �����f�[�^���Z�b�g
+ * 	// 音声データをセット
  * 	criAtomPlayer_SetData(player, buffer1, buffer_size1);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * �ȉ��̏����ɂ��A���ꉹ���f�[�^�𖳌��Ƀ��[�v�Đ��\�ł��B<br>
+ * 以下の処理により、同一音声データを無限にループ再生可能です。<br>
  * \code
- * // �f�[�^�v���R�[���o�b�N�֐�
+ * // データ要求コールバック関数
  * void on_data_request(void *obj, CriAtomPlayerHn player)
  * {
- * 	// �O��Đ������f�[�^���ăZ�b�g
+ * 	// 前回再生したデータを再セット
  * 	criAtomPlayer_SetPreviousDataAgain(player);
  * }
  *
  * main()
  * {
  * 		:
- * 	// �f�[�^�v���R�[���o�b�N�֐��̓o�^
+ * 	// データ要求コールバック関数の登録
  * 	criAtomPlayer_SetDataRequestCallback(player, on_data_request, NULL);
  *
- * 	// �����f�[�^���Z�b�g
+ * 	// 音声データをセット
  * 	criAtomPlayer_SetData(player, buffer, buffer_size);
  *
- * 	// �Z�b�g���ꂽ�����f�[�^���Đ�
+ * 	// セットされた音声データを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
  * \attention
- * �f�[�^�v���R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖�肪
- * �������܂��̂ŁA�����ӂ��������B<br>
+ * データ要求コールバック関数内で長時間処理をブロックすると、音切れ等の問題が
+ * 発生しますので、ご注意ください。<br>
  * <br>
- * �V�[�����X�A���Đ����T�|�[�g���Ȃ��R�[�f�b�N���g�p���Ă���ꍇ�A
- * �f�[�^�v���R�[���o�b�N�֐����Ŏ��̃f�[�^���Z�b�g���Ă��A
- * �f�[�^�͑����čĐ�����܂���B<br>
- * �iHCA-MX��v���b�g�t�H�[���ŗL�̉������k�R�[�f�b�N���g�p���Ă���ꍇ�A
- * �V�[�����X�A���Đ��͂ł��܂���B�j<br>
+ * シームレス連結再生をサポートしないコーデックを使用している場合、
+ * データ要求コールバック関数内で次のデータをセットしても、
+ * データは続けて再生されません。<br>
+ * （HCA-MXやプラットフォーム固有の音声圧縮コーデックを使用している場合、
+ * シームレス連結再生はできません。）<br>
  * <br>
- * �V�[�����X�A���Đ��Ɏg�p����g�`�f�[�^�̃t�H�[�}�b�g�́A
- * �S�ē����ɂ���K�v������܂��B<br>
- * ��̓I�ɂ́A�ȉ��̃p�����[�^�[�������ł���K�v������܂��B<br>
- * 	- �R�[�f�b�N
- * 	- �`�����l����
- * 	- �T���v�����O���[�g
+ * シームレス連結再生に使用する波形データのフォーマットは、
+ * 全て同じにする必要があります。<br>
+ * 具体的には、以下のパラメーターが同じである必要があります。<br>
+ * 	- コーデック
+ * 	- チャンネル数
+ * 	- サンプリングレート
  *
- * �p�����[�^�[���قȂ�g�`��A�����悤�Ƃ����ꍇ�A
- * �Ӑ}���Ȃ����x�ŉ����f�[�^���Đ����ꂽ��A
- * �G���[�R�[���o�b�N���������铙�̖�肪�������܂��B<br>
+ * パラメーターが異なる波形を連結しようとした場合、
+ * 意図しない速度で音声データが再生されたり、
+ * エラーコールバックが発生する等の問題が発生します。<br>
  * <br>
- * �R�[���o�b�N�֐����Ń��[�v�t���̔g�`�f�[�^���Z�b�g�����ꍇ�ł��A
- * ���[�v�Đ��͍s���܂���B<br>
- * �i���[�v�|�C���g����������A�Đ����I�����܂��B�j<br>
+ * コールバック関数内でループ付きの波形データをセットした場合でも、
+ * ループ再生は行われません。<br>
+ * （ループポイントが無視され、再生が終了します。）<br>
  * <br>
- * �R�[���o�b�N�֐�����Atom�v���[���[��j�����Ȃ��ł��������B<br>
- * �R�[���o�b�N�𔲂�������A���΂炭�̊Ԃ̓T�[�o�[�������œ��Y�n���h���̃��\�[�X
- * ���Q�Ƃ���邽�߁A�A�N�Z�X�ᔽ���̏d��Ȗ�肪��������\��������܂��B
+ * コールバック関数内でAtomプレーヤーを破棄しないでください。<br>
+ * コールバックを抜けた後も、しばらくの間はサーバー処理内で当該ハンドルのリソース
+ * が参照されるため、アクセス違反等の重大な問題が発生する可能性があります。
  * <br>
- * �R�[���o�b�N�֐���1�����o�^�ł��܂���B<br>
- * �o�^����𕡐���s�����ꍇ�A���ɓo�^�ς݂̃R�[���o�b�N�֐����A
- * �ォ��o�^�����R�[���o�b�N�֐��ɂ��㏑������Ă��܂��܂��B<br>
+ * コールバック関数は1つしか登録できません。<br>
+ * 登録操作を複数回行った場合、既に登録済みのコールバック関数が、
+ * 後から登録したコールバック関数により上書きされてしまいます。<br>
  * <br>
- * func��NULL���w�肷�邱�Ƃœo�^�ς݊֐��̓o�^�������s���܂��B<br>
+ * funcにNULLを指定することで登録済み関数の登録解除が行えます。<br>
  * \sa CriAtomPlayerDataRequestCbFunc, criAtomPlayer_SetData,
  * criAtomPlayer_SetPreviousDataAgain, criAtomPlayer_DeferCallback
  */
@@ -7048,32 +7031,32 @@ void CRIAPI criAtomPlayer_SetDataRequestCallback(
 	CriAtomPlayerHn player, CriAtomPlayerDataRequestCbFunc func, void *obj);
 
 /*JP
- * \brief �X�e�[�^�X�ύX�R�[���o�b�N�֐��̓o�^
+ * \brief ステータス変更コールバック関数の登録
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	func		�X�e�[�^�X�ύX�R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �X�e�[�^�X�ύX�R�[���o�b�N�֐���o�^���܂��B<br>
- * �o�^�����R�[���o�b�N�֐��́AAtom�v���[���[�̃X�e�[�^�X���X�V�����^�C�~���O��
- * ���s����܂��B<br>
- * �ύX���ꂽ�X�e�[�^�X�ɂ��ẮA�R�[���o�b�N�֐��̈����Ƃ��ēn�����Atom�v���[���[
- * �n���h���ɑ΂��A ::criAtomPlayer_GetStatus �֐������s���邱�ƂŎ擾�\�ł��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	func		ステータス変更コールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * ステータス変更コールバック関数を登録します。<br>
+ * 登録したコールバック関数は、Atomプレーヤーのステータスが更新されるタイミングで
+ * 実行されます。<br>
+ * 変更されたステータスについては、コールバック関数の引数として渡されるAtomプレーヤー
+ * ハンドルに対し、 ::criAtomPlayer_GetStatus 関数を実行することで取得可能です。<br>
  * <br>
- * �X�e�[�^�X�ύX�R�[���o�b�N�𗘗p���邱�ƂŁAAtom�v���[���[�̃X�e�[�^�X�ύX��
- * ���킹�ē���̏������s�����Ƃ��\�ɂȂ�܂��B<br>
- * �Ⴆ�΁A�ȉ��̂悤�ȃR�[�h�ŁA�X�e�[�^�X�� CRIATOMPLAYER_STATUS_ERROR �ɂȂ���
- * �ꍇ�Ƀ��[�h�G���[���b�Z�[�W��\�����邱�Ƃ��\�ł��B<br>
+ * ステータス変更コールバックを利用することで、Atomプレーヤーのステータス変更に
+ * 合わせて特定の処理を行うことが可能になります。<br>
+ * 例えば、以下のようなコードで、ステータスが CRIATOMPLAYER_STATUS_ERROR になった
+ * 場合にリードエラーメッセージを表示することが可能です。<br>
  * \code
- * // �X�e�[�^�X�ύX�R�[���o�b�N�֐�
+ * // ステータス変更コールバック関数
  * void on_status_change(void *obj, CriAtomPlayerHn player)
  * {
  * 	CriAtomPlayerStatus status;
  *
- * 	// �X�e�[�^�X�̎擾
+ * 	// ステータスの取得
  * 	status = criAtomPlayer_GetStatus(player);
  * 	if (status == CRIATOMPLAYER_STATUS_ERROR) {
- * 		// ���[�h�G���[�������̏���
+ * 		// リードエラー発生時の処理
  * 			:
  * 	}
  * }
@@ -7081,119 +7064,119 @@ void CRIAPI criAtomPlayer_SetDataRequestCallback(
  * main()
  * {
  * 		:
- * 	// �X�e�[�^�X�ύX�R�[���o�b�N�֐��̓o�^
+ * 	// ステータス変更コールバック関数の登録
  * 	criAtomPlayer_SetStatusChangeCallback(player, on_status_change, NULL);
  *
- * 	// �����t�@�C�����Z�b�g
+ * 	// 音声ファイルをセット
  * 	criAtomPlayer_SetFile(player, NULL, "sample.adx");
  *
- * 	// �Z�b�g���ꂽ�����t�@�C�����Đ�
+ * 	// セットされた音声ファイルを再生
  * 	criAtomPlayer_Start(player);
  * 		:
  * }
  * \endcode
- * \par ���l:
- * �����ɂ́A�X�e�[�^�X�J�ځ`�R�[���o�b�N�֐����s�܂ł̊Ԃɑ��̏��������荞�݂œ��삷��
- * �]�n�����邽�߁A�X�e�[�^�X�J�ڂƃR�[���o�b�N�֐����s�̃^�C�~���O���Y����\��������܂��B<br>
+ * \par 備考:
+ * 厳密には、ステータス遷移～コールバック関数実行までの間に他の処理が割り込みで動作する
+ * 余地があるため、ステータス遷移とコールバック関数実行のタイミングがズレる可能性があります。<br>
  * \attention
- * �X�e�[�^�X�ύX�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖��
- * ���������܂��̂ŁA�����ӂ��������B<br>
+ * ステータス変更コールバック関数内で長時間処理をブロックすると、音切れ等の問題
+ * が発生しますので、ご注意ください。<br>
  * <br>
- * �X�e�[�^�X�ύX�R�[���o�b�N�֐��𔲂���܂ł́AAtom�v���[���[�̃X�e�[�^�X��
- * �ύX����邱�Ƃ͂���܂���B<br>
- * ���̂��߁A�X�e�[�^�X�ύX�R�[���o�b�N�֐�����Atom�v���[���[�̃X�e�[�^�X�J�ڂ�
- * �҂������s���ƁA�f�b�h���b�N���������A��������ɐi�܂Ȃ��Ȃ�܂��B<br>
+ * ステータス変更コールバック関数を抜けるまでは、Atomプレーヤーのステータスが
+ * 変更されることはありません。<br>
+ * そのため、ステータス変更コールバック関数内でAtomプレーヤーのステータス遷移を
+ * 待つ処理を行うと、デッドロックが発生し、処理が先に進まなくなります。<br>
  * <br>
- * �R�[���o�b�N�֐�����Atom�v���[���[��j�����Ȃ��ł��������B<br>
- * �R�[���o�b�N�𔲂�������A���΂炭�̊Ԃ̓T�[�o�[�������œ��Y�n���h���̃��\�[�X
- * ���Q�Ƃ���邽�߁A�A�N�Z�X�ᔽ���̏d��Ȗ�肪��������\��������܂��B
+ * コールバック関数内でAtomプレーヤーを破棄しないでください。<br>
+ * コールバックを抜けた後も、しばらくの間はサーバー処理内で当該ハンドルのリソース
+ * が参照されるため、アクセス違反等の重大な問題が発生する可能性があります。
  * <br>
- * �R�[���o�b�N�֐���1�����o�^�ł��܂���B<br>
- * �o�^����𕡐���s�����ꍇ�A���ɓo�^�ς݂̃R�[���o�b�N�֐����A
- * �ォ��o�^�����R�[���o�b�N�֐��ɂ��㏑������Ă��܂��܂��B<br>
+ * コールバック関数は1つしか登録できません。<br>
+ * 登録操作を複数回行った場合、既に登録済みのコールバック関数が、
+ * 後から登録したコールバック関数により上書きされてしまいます。<br>
  * <br>
- * func��NULL���w�肷�邱�Ƃœo�^�ς݊֐��̓o�^�������s���܂��B<br>
+ * funcにNULLを指定することで登録済み関数の登録解除が行えます。<br>
  * \sa criAtomPlayer_GetStatus
  */
 void CRIAPI criAtomPlayer_SetStatusChangeCallback(
 	CriAtomPlayerHn player, CriAtomPlayerStatusChangeCbFunc func, void *obj);
 
 /*JP
- * \brief �p�����[�^�[�ύX�R�[���o�b�N�֐��̓o�^
+ * \brief パラメーター変更コールバック関数の登録
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	func		�p�����[�^�[�ύX�R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �p�����[�^�[�ύX�R�[���o�b�N�֐���o�^���܂��B<br>
- * �o�^�����R�[���o�b�N�֐��́AAtom�v���[���[�̃p�����[�^�[���X�V�����^�C�~���O�Ŏ��s����܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	func		パラメーター変更コールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * パラメーター変更コールバック関数を登録します。<br>
+ * 登録したコールバック関数は、Atomプレーヤーのパラメーターが更新されるタイミングで実行されます。<br>
  * \attention
- * �p�����[�^�[�ύX�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖��
- * ���������܂��̂ŁA�����ӂ��������B<br>
+ * パラメーター変更コールバック関数内で長時間処理をブロックすると、音切れ等の問題
+ * が発生しますので、ご注意ください。<br>
  * <br>
- * �R�[���o�b�N�֐�����Atom�v���[���[��j�����Ȃ��ł��������B<br>
- * �R�[���o�b�N�𔲂�������A���΂炭�̊Ԃ̓T�[�o�[�������œ��Y�n���h���̃��\�[�X
- * ���Q�Ƃ���邽�߁A�A�N�Z�X�ᔽ���̏d��Ȗ�肪��������\��������܂��B
+ * コールバック関数内でAtomプレーヤーを破棄しないでください。<br>
+ * コールバックを抜けた後も、しばらくの間はサーバー処理内で当該ハンドルのリソース
+ * が参照されるため、アクセス違反等の重大な問題が発生する可能性があります。
  * <br>
- * �R�[���o�b�N�֐���1�����o�^�ł��܂���B<br>
- * �o�^����𕡐���s�����ꍇ�A���ɓo�^�ς݂̃R�[���o�b�N�֐����A
- * �ォ��o�^�����R�[���o�b�N�֐��ɂ��㏑������Ă��܂��܂��B<br>
+ * コールバック関数は1つしか登録できません。<br>
+ * 登録操作を複数回行った場合、既に登録済みのコールバック関数が、
+ * 後から登録したコールバック関数により上書きされてしまいます。<br>
  * <br>
- * func��NULL���w�肷�邱�Ƃœo�^�ς݊֐��̓o�^�������s���܂��B<br>
+ * funcにNULLを指定することで登録済み関数の登録解除が行えます。<br>
  */
 void CRIAPI criAtomPlayer_SetParameterChangeCallback(
 	CriAtomPlayerHn player, CriAtomPlayerParameterChangeCbFunc func, void *obj);
 
 /*JP
- * \brief �g�`�t�B���^�[�R�[���o�b�N�֐��̓o�^
+ * \brief 波形フィルターコールバック関数の登録
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	func		�g�`�t�B���^�[�R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �f�R�[�h���ʂ� PCM �f�[�^���󂯎��R�[���o�b�N�֐���o�^���܂��B<br>
- * �o�^���ꂽ�R�[���o�b�N�֐��́A Atom �v���[���[�������f�[�^���f�R�[�h�����^�C�~���O�ŌĂяo����܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	func		波形フィルターコールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * デコード結果の PCM データを受け取るコールバック関数を登録します。<br>
+ * 登録されたコールバック関数は、 Atom プレーヤーが音声データをデコードしたタイミングで呼び出されます。<br>
  * \attention
- * �X�e�[�^�X�ύX�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖��
- * ���������܂��̂ŁA�����ӂ��������B<br>
+ * ステータス変更コールバック関数内で長時間処理をブロックすると、音切れ等の問題
+ * が発生しますので、ご注意ください。<br>
  * <br>
- * HCA-MX�R�[�f�b�N��v���b�g�t�H�[���ŗL�̉������k�R�[�f�b�N���g�p���Ă���ꍇ�A
- * �t�B���^�[�R�[���o�b�N�͗��p�ł��܂���B<br>
+ * HCA-MXコーデックやプラットフォーム固有の音声圧縮コーデックを使用している場合、
+ * フィルターコールバックは利用できません。<br>
  * <br>
- * �R�[���o�b�N�֐���1�����o�^�ł��܂���B<br>
- * �o�^����𕡐���s�����ꍇ�A���ɓo�^�ς݂̃R�[���o�b�N�֐����A
- * �ォ��o�^�����R�[���o�b�N�֐��ɂ��㏑������Ă��܂��܂��B<br>
+ * コールバック関数は1つしか登録できません。<br>
+ * 登録操作を複数回行った場合、既に登録済みのコールバック関数が、
+ * 後から登録したコールバック関数により上書きされてしまいます。<br>
  * <br>
- * func��NULL���w�肷�邱�Ƃœo�^�ς݊֐��̓o�^�������s���܂��B<br>
+ * funcにNULLを指定することで登録済み関数の登録解除が行えます。<br>
  * \sa CriAtomPlayerFilterCbFunc
  */
 void CRIAPI criAtomPlayer_SetFilterCallback(
 	CriAtomPlayerHn player, CriAtomPlayerFilterCbFunc func, void *obj);
 
 /*JP
- * \brief ���[�h�v���R�[���o�b�N�֐��̓o�^
+ * \brief ロード要求コールバック関数の登録
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player		Atom�v���[���[�n���h��
- * \param[in]	func		���[�h�v���R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * ���[�h�v���R�[���o�b�N�֐��̓o�^���s���܂��B<br>
+ * \param[in]	player		Atomプレーヤーハンドル
+ * \param[in]	func		ロード要求コールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * ロード要求コールバック関数の登録を行います。<br>
  * <br>
- * ���[�h�v���R�[���o�b�N�́AAtom�v���[���[�̃t�@�C�����[�h��Ԃ��Ď�����ۂɎg�p���܂��B<br>
- * �i�f�o�b�O�ړI�̊֐��Ȃ̂ŁA�ʏ�{�֐����g�p����K�v�͂���܂���B�j<br>
+ * ロード要求コールバックは、Atomプレーヤーのファイルロード状態を監視する際に使用します。<br>
+ * （デバッグ目的の関数なので、通常本関数を使用する必要はありません。）<br>
  * \attention
- * ���[�h�v���R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖�肪
- * �������܂��̂ŁA�����ӂ��������B<br>
+ * ロード要求コールバック関数内で長時間処理をブロックすると、音切れ等の問題が
+ * 発生しますので、ご注意ください。<br>
  * <br>
- * �R�[���o�b�N�֐�����Atom�v���[���[��j�����Ȃ��ł��������B<br>
- * �R�[���o�b�N�𔲂�������A���΂炭�̊Ԃ̓T�[�o�[�������œ��Y�n���h���̃��\�[�X
- * ���Q�Ƃ���邽�߁A�A�N�Z�X�ᔽ���̏d��Ȗ�肪��������\��������܂��B
+ * コールバック関数内でAtomプレーヤーを破棄しないでください。<br>
+ * コールバックを抜けた後も、しばらくの間はサーバー処理内で当該ハンドルのリソース
+ * が参照されるため、アクセス違反等の重大な問題が発生する可能性があります。
  * <br>
- * �R�[���o�b�N�֐���1�����o�^�ł��܂���B<br>
- * �o�^����𕡐���s�����ꍇ�A���ɓo�^�ς݂̃R�[���o�b�N�֐����A
- * �ォ��o�^�����R�[���o�b�N�֐��ɂ��㏑������Ă��܂��܂��B<br>
+ * コールバック関数は1つしか登録できません。<br>
+ * 登録操作を複数回行った場合、既に登録済みのコールバック関数が、
+ * 後から登録したコールバック関数により上書きされてしまいます。<br>
  * <br>
- * func��NULL���w�肷�邱�Ƃœo�^�ς݊֐��̓o�^�������s���܂��B<br>
+ * funcにNULLを指定することで登録済み関数の登録解除が行えます。<br>
  * \sa CriAtomPlayerLoadRequestCbFunc
  */
 void CRIAPI criAtomPlayer_SetLoadRequestCallback(
@@ -7204,15 +7187,15 @@ void CRIAPI criAtomPlayer_SetLoadRequestCallback(
  *=========================================================================*/
 
 /*JP
- * \brief HCA�t�H�[�}�b�g�̎w��
+ * \brief HCAフォーマットの指定
  * \ingroup ATOMLIB_PLAYER
- * \param[in]	player				Atom�v���[���[
- * \param[in]	num_channels		�`�����l����
- * \param[in]	sampling_rate		�T���v�����O���g��
- * \param[in]	bitrate				�r�b�g���[�g
- * \par ����:
- * HCA�f�[�^�̃t�H�[�}�b�g����ݒ肵�܂��B<br>
- * �{�֐������s���邱�ƂŁA�w�b�_�[���X��HCA�f�[�^���Đ����邱�Ƃ��\�ɂȂ�܂��B<br>
+ * \param[in]	player				Atomプレーヤー
+ * \param[in]	num_channels		チャンネル数
+ * \param[in]	sampling_rate		サンプリング周波数
+ * \param[in]	bitrate				ビットレート
+ * \par 説明:
+ * HCAデータのフォーマット情報を設定します。<br>
+ * 本関数を実行することで、ヘッダーレスのHCAデータを再生することが可能になります。<br>
  */
 void CRIAPI criAtomPlayer_SetHcaFormat(CriAtomPlayerHn player,
 	CriSint32 num_channels, CriSint32 sampling_rate, CriSint32 bitrate);
@@ -7221,83 +7204,83 @@ void CRIAPI criAtomPlayer_SetHcaFormat(CriAtomPlayerHn player,
  *      CRI Atom D-BAS API
  *=========================================================================*/
 /*JP
- * \brief D-BAS�쐬�p���[�N�T�C�Y�̌v�Z
+ * \brief D-BAS作成用ワークサイズの計算
  * \ingroup ATOMLIB_DBAS
- * \param[in]	config		D-BAS�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \return		CriSint32	D-BAS�쐬�p���[�N�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * D-BAS�쐬�p�p�����[�^�[�Ɋ�Â��āAD-BAS�̍쐬�ɕK�v���[�N�T�C�Y���v�Z���܂��B<br>
+ * \param[in]	config		D-BAS作成用コンフィグ構造体へのポインタ
+ * \return		CriSint32	D-BAS作成用ワークサイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * D-BAS作成用パラメーターに基づいて、D-BASの作成に必要ワークサイズを計算します。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �ݒ�ɂ���ẮAD-BAS��2GB�ȏ�̃��[�N�T�C�Y��K�v�Ƃ���ꍇ������A<br>
- * ���̍ۂ̓G���[�ɂȂ�A -1 ��Ԃ��܂��B<br>
- * �G���[�����������ꍇ�́Amax_streams��max_bps�̒l��Ⴍ�ݒ肵�Ă��������B<br>
+ * 設定によっては、D-BASが2GB以上のワークサイズを必要とする場合があり、<br>
+ * その際はエラーになり、 -1 を返します。<br>
+ * エラーが発生した場合は、max_streamsかmax_bpsの値を低く設定してください。<br>
  * \sa criAtomDbas_Create
  */
 CriSint32 CRIAPI criAtomDbas_CalculateWorkSize(const CriAtomDbasConfig *config);
 
 /*JP
- * \brief D-BAS�̍쐬
+ * \brief D-BASの作成
  * \ingroup ATOMLIB_DBAS
- * \param[in]	config			D-BAS�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
- * \param[in]	work			D-BAS�쐬�p���[�N�̈�ւ̃|�C���^
- * \param[in]	work_size		D-BAS�쐬�p���[�N�T�C�Y
- * \return		CriAtomDbasId	D-BAS�Ǘ��pID
- * \par ����:
- * D-BAS�쐬�p�p�����[�^�[�Ɋ�Â��āAD-BAS���쐬���܂��B<br>
- * �쐬�ɐ�������ƁAD-BAS�����C�u�����ɓo�^���A�L���ȊǗ��pID��Ԃ��܂��B<br>
- * D-BAS�̍쐬�Ɏ��s�����ꍇ�A�{�֐��� ::CRIATOMDBAS_ILLEGAL_ID ��Ԃ��܂��B<br>
- * �i�G���[�̌����̓G���[�R�[���o�b�N�ɕԂ���܂��B�j<br>
+ * \param[in]	config			D-BAS作成用コンフィグ構造体へのポインタ
+ * \param[in]	work			D-BAS作成用ワーク領域へのポインタ
+ * \param[in]	work_size		D-BAS作成用ワークサイズ
+ * \return		CriAtomDbasId	D-BAS管理用ID
+ * \par 説明:
+ * D-BAS作成用パラメーターに基づいて、D-BASを作成します。<br>
+ * 作成に成功すると、D-BASをライブラリに登録し、有効な管理用IDを返します。<br>
+ * D-BASの作成に失敗した場合、本関数は ::CRIATOMDBAS_ILLEGAL_ID を返します。<br>
+ * （エラーの原因はエラーコールバックに返されます。）<br>
  * <br>
- * �擾����ID��::criAtomDbas_Destroy �֐��Ŏg�p���܂��B<br>
+ * 取得したIDは::criAtomDbas_Destroy 関数で使用します。<br>
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * \sa criAtomDbas_CalculateWorkSize, criAtomDbas_Destroy
  */
 CriAtomDbasId CRIAPI criAtomDbas_Create(
 	const CriAtomDbasConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief D-BAS�̔j��
+ * \brief D-BASの破棄
  * \ingroup ATOMLIB_DBAS
- * \param[in]	atom_dbas_id	D-BAS�Ǘ��pID
- * \par ����:
- * ::criAtomDbas_Create �֐��Ŏ擾�����Ǘ��pID���w�肵�āAD-BAS��j�����܂��B<br>
+ * \param[in]	atom_dbas_id	D-BAS管理用ID
+ * \par 説明:
+ * ::criAtomDbas_Create 関数で取得した管理用IDを指定して、D-BASを破棄します。<br>
  * \sa criAtomDbas_Create
  */
 void CRIAPI criAtomDbas_Destroy(CriAtomDbasId atom_dbas_id);
 
 /*JP
- * \brief �X�g���[���Đ�����Atom�v���[���[�n���h�����擾
+ * \brief ストリーム再生中のAtomプレーヤーハンドルを取得
  * \ingroup ATOMLIB_DBAS
- * \param[in]	dbas_id			D-BAS�Ǘ��pID
- * \param[out]	players			�v���[���[�n���h���󂯎��p�z��
- * \param[in]	length			�v���[���[�n���h���󂯎��p�z��v�f��
- * \return		CriSint32		�v���[���[��
- * \retval		0�ȏ�			����ɏ���������
- * \retval		-1				�G���[������
- * \par ����:
- * �X�g���[���Đ�����Atom�v���[���[�n���h�����擾���܂��B<br>
- * �v���[���[�n���h���̎擾�ɐ�������ƁA
- * ��3�����iplayers�z��j�Ƀv���[���[�n���h���̃A�h���X���ۑ�����A
- * �v���[���[�n���h�������߂�l�Ƃ��ĕԂ���܂��B<br>
- * \par ���l:
- * ��3�����iplayers�z��j��NULL�A��4�����ilength�j��0���w�肷�邱�ƂŁA
- * �X�g���[���Đ����̃v���[���[�̐�������߂�l�Ƃ��Ď擾�\�ł��B<br>
+ * \param[in]	dbas_id			D-BAS管理用ID
+ * \param[out]	players			プレーヤーハンドル受け取り用配列
+ * \param[in]	length			プレーヤーハンドル受け取り用配列要素数
+ * \return		CriSint32		プレーヤー数
+ * \retval		0以上			正常に処理が完了
+ * \retval		-1				エラーが発生
+ * \par 説明:
+ * ストリーム再生中のAtomプレーヤーハンドルを取得します。<br>
+ * プレーヤーハンドルの取得に成功すると、
+ * 第3引数（players配列）にプレーヤーハンドルのアドレスが保存され、
+ * プレーヤーハンドル数が戻り値として返されます。<br>
+ * \par 備考:
+ * 第3引数（players配列）にNULL、第4引数（length）に0を指定することで、
+ * ストリーム再生中のプレーヤーの数だけを戻り値として取得可能です。<br>
  * \attention
- * �v���[���[�����擾���Ă���n���h�����擾����ꍇ�A
- * �v���[���[���擾�ƃn���h���擾�̊ԂɃT�[�o�[���������荞�܂Ȃ��悤�A
- * criAtom_Lock �֐��Ŕr��������s���K�v������܂��B<br>
- * �i�T�[�o�[�����̃^�C�~���O�ŁA�v���[���[�����ς��\��������܂��B�j<br>
+ * プレーヤー数を取得してからハンドルを取得する場合、
+ * プレーヤー数取得とハンドル取得の間にサーバー処理が割り込まないよう、
+ * criAtom_Lock 関数で排他制御を行う必要があります。<br>
+ * （サーバー処理のタイミングで、プレーヤー数が変わる可能性があります。）<br>
  * <br>
- * �z��v�f�����X�g���[���Đ����̃v���[���[���ɖ����Ȃ��ꍇ�A
- * �{�֐��̓G���[�l�i-1�j��Ԃ��܂��B<br>
+ * 配列要素数がストリーム再生中のプレーヤー数に満たない場合、
+ * 本関数はエラー値（-1）を返します。<br>
  */
 CriSint32 CRIAPI criAtomDbas_GetStreamingPlayerHandles(
 	CriAtomDbasId dbas_id, CriAtomPlayerHn *players, CriSint32 length);
@@ -7306,103 +7289,103 @@ CriSint32 CRIAPI criAtomDbas_GetStreamingPlayerHandles(
 /*       CRI Atom Streaming Cache API                                      */
 /* ========================================================================*/
 /*JP
- * \brief �X�g���[�~���O�L���b�V���쐬�ɕK�v�ȃ��[�N�T�C�Y�̌v�Z
+ * \brief ストリーミングキャッシュ作成に必要なワークサイズの計算
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \param[in]	config		�X�g���[�~���O�L���b�V���쐬�p�\����
- * return		CriSint32	�X�g���[�~���O�L���b�V���쐬�ɕK�v�ȃ��[�N�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * �X�g���[�~���O�L���b�V���쐬�ɕK�v�ȃ��[�N�T�C�Y���v�Z���܂��B<br>
- * config�ŗ^������p�����[�^�[�Ɉˑ����A�K�v�ȃ��[�N�T�C�Y�͑������܂��B<br>
+ * \param[in]	config		ストリーミングキャッシュ作成用構造体
+ * return		CriSint32	ストリーミングキャッシュ作成に必要なワークサイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * ストリーミングキャッシュ作成に必要なワークサイズを計算します。<br>
+ * configで与えられるパラメーターに依存し、必要なワークサイズは増加します。<br>
  * \sa criAtomStreamingCache_Create
  */
 CriSint32 CRIAPI criAtomStreamingCache_CalculateWorkSize(
 	const CriAtomStreamingCacheConfig* config);
 
 /*JP
- * \brief �X�g���[�~���O�L���b�V���̍쐬
+ * \brief ストリーミングキャッシュの作成
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \param[in]	config		�X�g���[�~���O�L���b�V���쐬�p�\����
- * \param[in]	work		�X�g���[�~���O�L���b�V���쐬�p���[�N
- * \param[in]	work_size	�X�g���[�~���O�L���b�V���쐬�p���[�N�T�C�Y
- * return		CriAtomStreamingCacheId	�X�g���[�~���O�L���b�V��ID
- * \par ����:
- * �X�g���[�~���O�L���b�V�����쐬���܂��B<br>
- * Atom�v���[���[�ɃX�g���[�~���O�L���b�V����ݒ肷�邱�ƂŁA
- * �X�g���[�~���O�Đ����s����������Ƀt�@�C���S�̂�ێ��i�L���b�V���j���܂��B<br>
- * �����t�@�C����2��ڈȍ~�̍Đ��ł́A�L���b�V�����g�����������Đ��Ɏ����I�ɐ؂�ւ��܂��B<br>
- * �܂��A�Đ��f�[�^�����[�v�f�[�^�������Ă����ꍇ�A
- * ���[�v�ȍ~�̍Đ��͎����I�Ƀ������Đ��ōs����悤�ɂȂ�܂��B<br>
- * �{�@�\��Atom�v���[���[���X�g���[�~���O�Đ����s���ꍇ�̂݋@�\���܂��B<br>
- * �{�֐��Ɏ��s�����ꍇ�ACRIATOM_STREAMING_CACHE_ILLEGAL_ID���Ԃ�܂��B<br>
+ * \param[in]	config		ストリーミングキャッシュ作成用構造体
+ * \param[in]	work		ストリーミングキャッシュ作成用ワーク
+ * \param[in]	work_size	ストリーミングキャッシュ作成用ワークサイズ
+ * return		CriAtomStreamingCacheId	ストリーミングキャッシュID
+ * \par 説明:
+ * ストリーミングキャッシュを作成します。<br>
+ * Atomプレーヤーにストリーミングキャッシュを設定することで、
+ * ストリーミング再生を行いつつメモリ上にファイル全体を保持（キャッシュ）します。<br>
+ * 同じファイルの2回目以降の再生では、キャッシュを使ったメモリ再生に自動的に切り替わります。<br>
+ * また、再生データがループデータを持っていた場合、
+ * ループ以降の再生は自動的にメモリ再生で行われるようになります。<br>
+ * 本機能はAtomプレーヤーがストリーミング再生を行う場合のみ機能します。<br>
+ * 本関数に失敗した場合、CRIATOM_STREAMING_CACHE_ILLEGAL_IDが返ります。<br>
  * \attention
- * �t�@�C���S�̂��L���b�V�����鎖���O��ł��B����āA�L���b�V���p�Ɋ��蓖�Ă�ꂽ
- * �������T�C�Y���X�g���[�~���O�Đ��ΏۂƂ���ǂ̃t�@�C���T�C�Y�����������ꍇ�A
- * ��؃L���b�V������܂���B
+ * ファイル全体をキャッシュする事が前提です。よって、キャッシュ用に割り当てられた
+ * メモリサイズがストリーミング再生対象とするどのファイルサイズよりも小さい場合、
+ * 一切キャッシュされません。
  * \sa criAtomStreamingCache_CalculateWorkSize, criAtomStreamingCache_Destroy,
  */
 CriAtomStreamingCacheId CRIAPI criAtomStreamingCache_Create(
 	const CriAtomStreamingCacheConfig* config, void* work, CriSint32 work_size);
 
 /*JP
- * \brief �X�g���[�~���O�L���b�V���̔j��
+ * \brief ストリーミングキャッシュの破棄
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \param[in]	stm_cache_id		�X�g���[�~���O�L���b�V��ID
- * \par ����:
- * �w�肵���X�g���[�~���O�L���b�V����j�����܂��B<br>
+ * \param[in]	stm_cache_id		ストリーミングキャッシュID
+ * \par 説明:
+ * 指定したストリーミングキャッシュを破棄します。<br>
  * \attention
- * �w�肵���X�g���[�~���O�L���b�V���𗘗p���Ă���v���[���[�����݂��Ȃ���ԂŁA
- * �{�֐������s���Ă��������B
+ * 指定したストリーミングキャッシュを利用しているプレーヤーが存在しない状態で、
+ * 本関数を実行してください。
  * \sa criAtomStreamingCache_Create
  */
 void CRIAPI criAtomStreamingCache_Destroy(CriAtomStreamingCacheId stm_cache_id);
 
 /*JP
- * \brief �X�g���[�~���O�L���b�V���̃L���b�V�����e���N���A
+ * \brief ストリーミングキャッシュのキャッシュ内容をクリア
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \param[in]	cache_id		�X�g���[�~���O�L���b�V��ID
- * \par ����:
- * �w�肵���X�g���[�~���O�L���b�V���̓��e���N���A���܂��B<br>
- * �L���b�V���͌Â����ɃN���A����܂��B<br>
- * �w�肵���X�g���[�~���O�L���b�V�����g�p���̃v���[���[�����݂���ꍇ�A
- * �L���b�V���̃N���A�͓r���Œ��f����܂��B<br>
+ * \param[in]	cache_id		ストリーミングキャッシュID
+ * \par 説明:
+ * 指定したストリーミングキャッシュの内容をクリアします。<br>
+ * キャッシュは古い順にクリアされます。<br>
+ * 指定したストリーミングキャッシュを使用中のプレーヤーが存在する場合、
+ * キャッシュのクリアは途中で中断されます。<br>
  * \attention
- * ��ԌÂ��L���b�V�����g�p���̃v���[���[�����݂���ꍇ�A�{�֐������s���Ă�
- * �L���b�V���͈�؃N���A����܂���B
+ * 一番古いキャッシュを使用中のプレーヤーが存在する場合、本関数を実行しても
+ * キャッシュは一切クリアされません。
  * \sa criAtomStreamingCache_Create
  */
 void CRIAPI criAtomStreamingCache_Clear(CriAtomStreamingCacheId cache_id);
 
 /*JP
- * \brief WaveID�w��ŃL���b�V���ς݌���
+ * \brief WaveID指定でキャッシュ済み検索
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \param[in]	stm_cache_id		�X�g���[�~���O�L���b�V��ID
- * \param[in]	awb					AWB�n���h��
+ * \param[in]	stm_cache_id		ストリーミングキャッシュID
+ * \param[in]	awb					AWBハンドル
  * \param[in]	id					WaveID
- * \return		CriBool				�L���b�V���ς݂ł����CRI_TRUE�A����ȊO��CRI_FALSE
- * \par ����:
- * �w�肵���X�g���[�~���O�L���b�V�����ɁA�w��̉����f�[�^���L���b�V������Ă��邩���������܂��B<br>
- * �w��̉����f�[�^���L���b�V������Ă����Ԃł����CRI_TRUE���A
- * �L���b�V������Ă��Ȃ���Ԃł����CRI_FALSE��Ԃ��܂��B<br>
+ * \return		CriBool				キャッシュ済みであればCRI_TRUE、それ以外はCRI_FALSE
+ * \par 説明:
+ * 指定したストリーミングキャッシュ中に、指定の音声データがキャッシュされているかを検索します。<br>
+ * 指定の音声データがキャッシュされている状態であればCRI_TRUEを、
+ * キャッシュされていない状態であればCRI_FALSEを返します。<br>
  * \attention
- * AWB�n���h�����������Đ��p�̏ꍇ�A�{�֐��͉����f�[�^�̗L���ɂ�����炸CRI_TRUE��Ԃ��܂��B<br>
+ * AWBハンドルがメモリ再生用の場合、本関数は音声データの有無にかかわらずCRI_TRUEを返します。<br>
  * \sa criAtomStreamingCache_Create
  */
 CriBool CRIAPI criAtomStreamingCache_IsCachedWaveId(
 	CriAtomStreamingCacheId stm_cache_id, CriAtomAwbHn awb, CriSint32 id);
 
 /*JP
- * \brief �p�X�w��ŃL���b�V���ς݌���
+ * \brief パス指定でキャッシュ済み検索
  * \ingroup ATOMLIB_STREAMING_CACHE
- * \param[in]	stm_cache_id		�X�g���[�~���O�L���b�V��ID
- * \param[in]	src_binder			�����f�[�^�t�@�C���ǂݍ��݌��̃o�C���_�[�n���h��
- * \param[in]	path				�����f�[�^�t�@�C���̃p�X
- * \return		CriBool				�L���b�V���ς݂ł����CRI_TRUE�A����ȊO��CRI_FALSE
- * \par ����:
- * �w�肵���X�g���[�~���O�L���b�V�����ɁA�w��̉����f�[�^���L���b�V������Ă��邩���������܂��B<br>
- * �w��̉����f�[�^���L���b�V������Ă����Ԃł����CRI_TRUE���A
- * �L���b�V������Ă��Ȃ���Ԃł����CRI_FALSE��Ԃ��܂��B<br>
+ * \param[in]	stm_cache_id		ストリーミングキャッシュID
+ * \param[in]	src_binder			音声データファイル読み込み元のバインダーハンドル
+ * \param[in]	path				音声データファイルのパス
+ * \return		CriBool				キャッシュ済みであればCRI_TRUE、それ以外はCRI_FALSE
+ * \par 説明:
+ * 指定したストリーミングキャッシュ中に、指定の音声データがキャッシュされているかを検索します。<br>
+ * 指定の音声データがキャッシュされている状態であればCRI_TRUEを、
+ * キャッシュされていない状態であればCRI_FALSEを返します。<br>
  * \sa criAtomStreamingCache_Create
  */
 CriBool CRIAPI criAtomStreamingCache_IsCachedFile(
@@ -7412,138 +7395,138 @@ CriBool CRIAPI criAtomStreamingCache_IsCachedFile(
  *      CRI Atom DSP API
  *=========================================================================*/
 /*JP
- * \brief �Z���g�l����DSP�p�����[�^�[�ւ̕ϊ�
+ * \brief セント値からDSPパラメーターへの変換
  * \ingroup ATOMLIB_DSP
- * \param[in]	cent		�Z���g�l
- * \return		CriFloat32	DSP�p�����[�^�[�l
- * \par ����:
- * -1200�`1200�͈̔͂�0.0f�`1.0f�͈̔͂ɐ��K�����܂��B<br>
+ * \param[in]	cent		セント値
+ * \return		CriFloat32	DSPパラメーター値
+ * \par 説明:
+ * -1200～1200の範囲を0.0f～1.0fの範囲に正規化します。<br>
  */
 CriFloat32 criAtomDsp_ConvertParameterFromCent(CriFloat32 cent);
 
 /*JP
- * \brief �X�y�N�g�����A�i���C�U�쐬�ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z
+ * \brief スペクトラムアナライザ作成に必要なワーク領域サイズを計算
  * \ingroup ATOMLIB_DSP
- * \param[in]	config		�X�y�N�g�����A�i���C�U�쐬�p�����[�^�[
- * \return		CriSint32	�K�v�ȃ��[�N�̈�̃T�C�Y�i�P�ʂ̓o�C�g�j
- * \par ����:
- * �X�y�N�g�����A�i���C�U�̍쐬�ɕK�v�ȃ��[�N�T�C�Y���v�Z���܂��B<br>
- * config�ŗ^������p�����[�^�[�Ɉˑ����A�K�v�ȃ��[�N�T�C�Y�͕ω����܂��B<br>
- * \par ���l:
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�����ꍇ�A�{�֐��͕��l��Ԃ��܂��B<br>
- * �i���s�̌����̓G���[�R�[���o�b�N�Œʒm����܂��B�j<br>
+ * \param[in]	config		スペクトラムアナライザ作成パラメーター
+ * \return		CriSint32	必要なワーク領域のサイズ（単位はバイト）
+ * \par 説明:
+ * スペクトラムアナライザの作成に必要なワークサイズを計算します。<br>
+ * configで与えられるパラメーターに依存し、必要なワークサイズは変化します。<br>
+ * \par 備考:
+ * ワーク領域サイズの計算に失敗した場合、本関数は負値を返します。<br>
+ * （失敗の原因はエラーコールバックで通知されます。）<br>
  * \sa CriAtomDspSpectraConfig, criAtomDspSpectra_Create
  */
 CriSint32 criAtomDspSpectra_CalculateWorkSize(const CriAtomDspSpectraConfig *config);
 
 /*JP
- * \brief �X�y�N�g�����A�i���C�U�̍쐬
+ * \brief スペクトラムアナライザの作成
  * \ingroup ATOMLIB_DSP
- * \param[in]	config		�X�y�N�g�����A�i���C�U�쐬�p�����[�^�[
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \return		CriAtomDspSpectraHn	�X�y�N�g�����A�i���C�U�n���h��
- * \par ����:
- * �X�y�N�g�����A�i���C�U���쐬���܂��B<br>
- * �X�y�N�g�����A�i���C�U�́APCM�f�[�^����͂��A
- * �ш悲�Ƃ̐M���̋������v�����郂�W���[���ł��B<br>
+ * \param[in]	config		スペクトラムアナライザ作成パラメーター
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \return		CriAtomDspSpectraHn	スペクトラムアナライザハンドル
+ * \par 説明:
+ * スペクトラムアナライザを作成します。<br>
+ * スペクトラムアナライザは、PCMデータを解析し、
+ * 帯域ごとの信号の強さを計測するモジュールです。<br>
  * <br>
- * PCM�f�[�^�̓��͂ɂ́A ::criAtomDspSpectra_Process �֐����g�p���܂��B<br>
- * ��͌��ʂ̎擾�ɂ́A ::criAtomDspSpectra_GetLevels �֐����g�p���܂��B<br>
+ * PCMデータの入力には、 ::criAtomDspSpectra_Process 関数を使用します。<br>
+ * 解析結果の取得には、 ::criAtomDspSpectra_GetLevels 関数を使用します。<br>
  * <br>
- * �s�v�ɂȂ����X�y�N�g�����A�i���C�U�́A ::criAtomDspSpectra_Destroy
- * �֐��Ŗ����I�ɔj������K�v������܂��B<br>
- * \par ���l:
- * �X�y�N�g�����A�i���C�U�̍쐬�Ɏ��s�����ꍇ�A�{�֐���NULL��Ԃ��܂��B<br>
- * �i���s�̌����̓G���[�R�[���o�b�N�Œʒm����܂��B�j
+ * 不要になったスペクトラムアナライザは、 ::criAtomDspSpectra_Destroy
+ * 関数で明示的に破棄する必要があります。<br>
+ * \par 備考:
+ * スペクトラムアナライザの作成に失敗した場合、本関数はNULLを返します。<br>
+ * （失敗の原因はエラーコールバックで通知されます。）
  * <br>
- * ::criAtom_SetUserAllocator �ɂ��A���P�[�^�[�o�^���s�킸�ɖ{�֐������s����ꍇ�A
+ * ::criAtom_SetUserAllocator によるアロケーター登録を行わずに本関数を実行する場合、
  * ::criAtomDspSpectra_CalculateWorkSize
- * �֐��Ōv�Z�����T�C�Y���̃����������[�N�̈�Ƃ��ēn���K�v������܂��B<br>
+ * 関数で計算したサイズ分のメモリをワーク領域として渡す必要があります。<br>
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �{�֐��ɃZ�b�g�������[�N�̈�́A ::criAtomDspSpectra_Destroy
- * �֐������s����܂ł̊ԁA�A�v���P�[�V�����ŕێ�����K�v������܂��B<br>
- * �i ::criAtomDspSpectra_Destroy �֐����s�O�ɁA���[�N�̈�̃�������������Ȃ��ł��������B�j<br>
+ * 本関数にセットしたワーク領域は、 ::criAtomDspSpectra_Destroy
+ * 関数を実行するまでの間、アプリケーションで保持する必要があります。<br>
+ * （ ::criAtomDspSpectra_Destroy 関数実行前に、ワーク領域のメモリを解放しないでください。）<br>
  * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。<br>
  * \sa CriAtomDspSpectraConfig, criAtomDspSpectra_CalculateWorkSize, criAtomDspSpectra_Destroy
  */
 CriAtomDspSpectraHn criAtomDspSpectra_Create(
 	const CriAtomDspSpectraConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief �X�y�N�g�����A�i���C�U�̔j��
+ * \brief スペクトラムアナライザの破棄
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * �X�y�N�g�����A�i���C�U��j�����܂��B<br>
- * �X�y�N�g�����A�i���C�U�쐬���Ɋm�ۂ��ꂽ�������̈悪�������܂��B<br>
- * �i�X�y�N�g�����A�i���C�U�쐬���Ƀ��[�N�̈��n�����ꍇ�A�{�֐����s��ł����
- * ���[�N�̈������\�ł��B�j<br>
+ * \par 説明:
+ * スペクトラムアナライザを破棄します。<br>
+ * スペクトラムアナライザ作成時に確保されたメモリ領域が解放されます。<br>
+ * （スペクトラムアナライザ作成時にワーク領域を渡した場合、本関数実行後であれば
+ * ワーク領域を解放可能です。）<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。
  * \sa criAtomDspSpectra_Create
  */
 void criAtomDspSpectra_Destroy(CriAtomDspSpectraHn spectra);
 
 /*JP
- * \brief �X�y�N�g�����A�i���C�U�̃��Z�b�g
+ * \brief スペクトラムアナライザのリセット
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * �X�y�N�g�����A�i���C�U�����Z�b�g���܂��B<br>
- * �{�֐������s�������_�ŁA ::criAtomDspSpectra_Process
- * �֐��ɃZ�b�g����PCM�̏�񂪃N���A����܂��B<br>
- * \par ���l:
- * ::criAtomDspSpectra_GetLevels �֐��̖߂�l���[���N���A�������ꍇ�A
- * �{�֐������s���Ă��������B<br>
+ * \par 説明:
+ * スペクトラムアナライザをリセットします。<br>
+ * 本関数を実行した時点で、 ::criAtomDspSpectra_Process
+ * 関数にセットしたPCMの情報がクリアされます。<br>
+ * \par 備考:
+ * ::criAtomDspSpectra_GetLevels 関数の戻り値をゼロクリアしたい場合、
+ * 本関数を実行してください。<br>
  * \sa criAtomDspSpectra_Process, criAtomDspSpectra_GetLevels
  */
 void criAtomDspSpectra_Reset(CriAtomDspSpectraHn spectra);
 
 /*JP
- * \brief �X�y�N�g�������
+ * \brief スペクトラム解析
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * PCM�f�[�^����͂��܂��B<br>
- * ��͌��ʂ� ::criAtomDspSpectra_GetLevels �֐��Ŏ擾�\�ł��B<br>
- * \par ���l:
- * ���͂���f�[�^��ipcm�j�̒l�� -1.0f �` +1.0f �͈̔͂�z�肵�Ă��܂��B<br>
- * �����A�}1�͈̔͂𒴂���l����͂����ꍇ�ł��AcriAtomDspSpectra_GetLevels
- * �֐����Ԃ��l���傫���Ȃ邾���Ȃ̂ŁA
- * �f�[�^���͎��_�ŃN���b�s���O���s���K�v�͂���܂���B<br>
- * �{�֐��͓�����1024�_�̃T���v�����~�ς����̂�҂��Ă���FFT�������s���ׁA
- * �X�y�N�g������1024�T���v�����͖��ɍX�V����܂��B
+ * \par 説明:
+ * PCMデータを解析します。<br>
+ * 解析結果は ::criAtomDspSpectra_GetLevels 関数で取得可能です。<br>
+ * \par 備考:
+ * 入力するデータ列（pcm）の値は -1.0f ～ +1.0f の範囲を想定しています。<br>
+ * ただ、±1の範囲を超える値を入力した場合でも、criAtomDspSpectra_GetLevels
+ * 関数が返す値が大きくなるだけなので、
+ * データ入力時点でクリッピングを行う必要はありません。<br>
+ * 本関数は内部で1024点のサンプルが蓄積されるのを待ってからFFT処理を行う為、
+ * スペクトラムは1024サンプル入力毎に更新されます。
  * \sa criAtomDspSpectra_GetLevels
  */
 void criAtomDspSpectra_Process(CriAtomDspSpectraHn spectra,
 	CriUint32 num_channels, CriUint32 num_samples, CriFloat32 *pcm[]);
 
 /*JP
- * \brief �X�y�N�g����͌��ʂ̎擾
+ * \brief スペクトル解析結果の取得
  * \ingroup ATOMLIB_DSP
- * \par ����:
- * ::criAtomDspSpectra_Process �֐��ŃZ�b�g����PCM�f�[�^�́A��͌��ʂ�Ԃ��܂��B<br>
+ * \par 説明:
+ * ::criAtomDspSpectra_Process 関数でセットしたPCMデータの、解析結果を返します。<br>
  * <br>
- * ��͌��ʂ� CriFloat32 �^�̔z��ł��B<br>
- * �z��̗v�f���́A ::criAtomDspSpectra_Create �֐����s����
- * CriAtomDspSpectraConfig::num_bands �Ŏw�肵�����ɂȂ�܂��B<br>
- * 0 �Ԗڂ̗v�f���Œ�ш�̐U���l�A (num_bands - 1) �Ԗڂ̗v�f���ō��ш�̐U���l�ł��B<br>
- * \par ���l:
- * �����`�����l����PCM�f�[�^����͂����ꍇ�A
- * �S�Ẵ`�����l����PCM�f�[�^����U�~�b�N�X���A�~�b�N�X���ʂɑ΂���͂��s���܂��B<br>
- * ���̂��߁A criAtomDspSpectra_Process �֐��ɕ����`�����l���̉����f�[�^���Z�b�g�����ꍇ�ł��A
- * �{�֐��͒����� num_bands ��1�����z���Ԃ��܂��B<br>
+ * 解析結果は CriFloat32 型の配列です。<br>
+ * 配列の要素数は、 ::criAtomDspSpectra_Create 関数実行時に
+ * CriAtomDspSpectraConfig::num_bands で指定した数になります。<br>
+ * 0 番目の要素が最低帯域の振幅値、 (num_bands - 1) 番目の要素が最高帯域の振幅値です。<br>
+ * \par 備考:
+ * 複数チャンネルのPCMデータを解析した場合、
+ * 全てのチャンネルのPCMデータを一旦ミックスし、ミックス結果に対し解析を行います。<br>
+ * そのため、 criAtomDspSpectra_Process 関数に複数チャンネルの音声データをセットした場合でも、
+ * 本関数は長さは num_bands の1次元配列を返します。<br>
  * \attention
- * criAtomDspSpectra_GetLevels �֐����Ԃ��l�́A�ш悲�Ƃ̐U���l�ł��B<br>
- * ��͌��ʂ��s�̂̃X�y�N�g���A�i���C�U�̂悤�ɕ\�����������ꍇ�A
- * �{�֐����Ԃ��l���f�V�x���l�ɕϊ�����K�v������܂��B<br>
+ * criAtomDspSpectra_GetLevels 関数が返す値は、帯域ごとの振幅値です。<br>
+ * 解析結果を市販のスペクトルアナライザのように表示させたい場合、
+ * 本関数が返す値をデシベル値に変換する必要があります。<br>
  * \sa criAtomDspSpectra_Process
  */
 const CriFloat32* criAtomDspSpectra_GetLevels(CriAtomDspSpectraHn spectra);
@@ -7553,155 +7536,155 @@ const CriFloat32* criAtomDspSpectra_GetLevels(CriAtomDspSpectraHn spectra);
 /* ========================================================================*/
 
 /*JP
- * \brief ���x�����[�^�[�@�\�p�̃��[�N�T�C�Y�̌v�Z
+ * \brief レベルメーター機能用のワークサイズの計算
  * \ingroup ATOMLIB_METER
- * \param[in]	config			���x�����[�^�[�ǉ��p�̃R���t�B�O�\����
- * \return		CriSint32		�K�v�ȃ��[�N�̈�T�C�Y
- * \par ����:
- * ���x�����[�^�[�ǉ��ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ōv�Z����܂��B<br>
+ * \param[in]	config			レベルメーター追加用のコンフィグ構造体
+ * \return		CriSint32		必要なワーク領域サイズ
+ * \par 説明:
+ * レベルメーター追加に必要なワーク領域サイズを計算します。<br>
+ * config にNULLを指定するとデフォルト設定で計算されます。<br>
  * \sa criAtomMeter_AttachLevelMeter
  */
 CriSint32 CRIAPI criAtomMeter_CalculateWorkSizeForLevelMeter(
 	const CriAtomLevelMeterConfig *config);
 
 /*JP
- * \brief ���x�����[�^�[�@�\�̒ǉ�
+ * \brief レベルメーター機能の追加
  * \ingroup ATOMLIB_METER
- * \param[in]	config			���x�����[�^�[�ǉ��p�̃R���t�B�O�\����
- * \param[in]	work			���[�N�̈�
- * \param[in]	work_size		���[�N�̈�T�C�Y
- * \par ����:
- * ���C�u�����Ƀ��x�����[�^�[�@�\��ǉ����܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ń��x�����[�^�[���ǉ�����܂��B<br>
- * work ��NULL�Awork_size ��0���w�肷��ƁA�o�^���ꂽ���[�U�A���P�[�^�[�ɂ����
- * ���[�N�̈悪�m�ۂ���܂��B<br>
+ * \param[in]	config			レベルメーター追加用のコンフィグ構造体
+ * \param[in]	work			ワーク領域
+ * \param[in]	work_size		ワーク領域サイズ
+ * \par 説明:
+ * ライブラリにレベルメーター機能を追加します。<br>
+ * config にNULLを指定するとデフォルト設定でレベルメーターが追加されます。<br>
+ * work にNULL、work_size に0を指定すると、登録されたユーザアロケーターによって
+ * ワーク領域が確保されます。<br>
  * \sa criAtomMeter_GetLevelInfo
  */
 void CRIAPI criAtomMeter_AttachLevelMeter(
 	const CriAtomLevelMeterConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ���x�����[�^�[�@�\�̉���
+ * \brief レベルメーター機能の解除
  * \ingroup ATOMLIB_METER
- * \par ����:
- * ���C�u�����̃��x�����[�^�[�@�\���������܂��B<br>
+ * \par 説明:
+ * ライブラリのレベルメーター機能を解除します。<br>
  * \sa criAtomMeter_AttachLevelMeter
  */
 void CRIAPI criAtomMeter_DetachLevelMeter(void);
 
 /*JP
- * \brief ���x�����̎擾
+ * \brief レベル情報の取得
  * \ingroup ATOMLIB_METER
- * \param[out]	info			���x�����̍\����
- * \par ����:
- * ���x�����[�^�[�̌��ʂ��擾���܂��B<br>
- * �w�肷��o�X�ɂ� ::criAtomMeter_AttachLevelMeter �֐��ł��炩����
- * ���x�����[�^�[�@�\��ǉ����Ă����K�v������܂��B<br>
+ * \param[out]	info			レベル情報の構造体
+ * \par 説明:
+ * レベルメーターの結果を取得します。<br>
+ * 指定するバスには ::criAtomMeter_AttachLevelMeter 関数であらかじめ
+ * レベルメーター機能を追加しておく必要があります。<br>
  * \sa criAtomMeter_AttachLevelMeter
  */
 void CRIAPI criAtomMeter_GetLevelInfo(CriAtomLevelInfo *info);
 
 /*JP
- * \brief ���E�h�l�X���[�^�[�@�\�p�̃��[�N�T�C�Y�̌v�Z
+ * \brief ラウドネスメーター機能用のワークサイズの計算
  * \ingroup ATOMLIB_METER
- * \param[in]	config			���E�h�l�X���[�^�[�ǉ��p�̃R���t�B�O�\����
- * \return		CriSint32		�K�v�ȃ��[�N�̈�T�C�Y
- * \par ����:
- * ITU-R BS.1770-3�K�i�̃��E�h�l�X���[�^�[�ǉ��ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ōv�Z����܂��B<br>
+ * \param[in]	config			ラウドネスメーター追加用のコンフィグ構造体
+ * \return		CriSint32		必要なワーク領域サイズ
+ * \par 説明:
+ * ITU-R BS.1770-3規格のラウドネスメーター追加に必要なワーク領域サイズを計算します。<br>
+ * config にNULLを指定するとデフォルト設定で計算されます。<br>
  * \sa criAtomMeter_AttachLoudnessMeter
  */
 CriSint32 CRIAPI criAtomMeter_CalculateWorkSizeForLoudnessMeter(const CriAtomLoudnessMeterConfig *config);
 
 /*JP
- * \brief ���E�h�l�X���[�^�[�@�\�̒ǉ�
+ * \brief ラウドネスメーター機能の追加
  * \ingroup ATOMLIB_METER
- * \param[in]	config			���E�h�l�X���[�^�[�ǉ��p�̃R���t�B�O�\����
- * \param[in]	work			���[�N�̈�
- * \param[in]	work_size		���[�N�̈�T�C�Y
- * \par ����:
- * ���C�u������ITU-R BS.1770-3�K�i�̃��E�h�l�X���[�^�[�@�\��ǉ����܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ń��E�h�l�X���[�^�[���ǉ�����܂��B<br>
- * work ��NULL�Awork_size ��0���w�肷��ƁA�o�^���ꂽ���[�U�A���P�[�^�[�ɂ����
- * ���[�N�̈悪�m�ۂ���܂��B<br>
+ * \param[in]	config			ラウドネスメーター追加用のコンフィグ構造体
+ * \param[in]	work			ワーク領域
+ * \param[in]	work_size		ワーク領域サイズ
+ * \par 説明:
+ * ライブラリにITU-R BS.1770-3規格のラウドネスメーター機能を追加します。<br>
+ * config にNULLを指定するとデフォルト設定でラウドネスメーターが追加されます。<br>
+ * work にNULL、work_size に0を指定すると、登録されたユーザアロケーターによって
+ * ワーク領域が確保されます。<br>
  * \sa criAtomMeter_GetLoudnessInfo
  */
 void CRIAPI criAtomMeter_AttachLoudnessMeter(const CriAtomLoudnessMeterConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ���E�h�l�X���[�^�[�@�\�̉���
+ * \brief ラウドネスメーター機能の解除
  * \ingroup ATOMLIB_METER
- * \par ����:
- * ���C�u�����̃��E�h�l�X���[�^�[�@�\���������܂��B<br>
+ * \par 説明:
+ * ライブラリのラウドネスメーター機能を解除します。<br>
  * \sa criAtomMeter_AttachLoudnessMeter
  */
 void CRIAPI criAtomMeter_DetachLoudnessMeter(void);
 
 /*JP
- * \brief ���E�h�l�X���̎擾
+ * \brief ラウドネス情報の取得
  * \ingroup ATOMLIB_METER
- * \param[out]	info		���E�h�l�X���̍\����
- * \par ����:
- * ���E�h�l�X���[�^�[�̑��茋�ʂ��擾���܂��B
- * �{�֐����Ăяo���O�Ƀ��C�u�����փ��E�h�l�X���[�^�[��ǉ����Ă����K�v������܂��B
+ * \param[out]	info		ラウドネス情報の構造体
+ * \par 説明:
+ * ラウドネスメーターの測定結果を取得します。
+ * 本関数を呼び出す前にライブラリへラウドネスメーターを追加しておく必要があります。
  * \sa criAtomMeter_AttachLoudnessMeter
  */
 void CRIAPI criAtomMeter_GetLoudnessInfo(CriAtomLoudnessInfo *info);
 
 /*JP
- * \brief ���E�h�l�X���[�^�[�̃��Z�b�g
+ * \brief ラウドネスメーターのリセット
  * \ingroup ATOMLIB_METER
- * \par ����:
- * ���E�h�l�X���[�^�[�̒~�σf�[�^�����Z�b�g���܂��B
- * �{�֐����Ăяo���O�Ƀ��C�u�����փ��E�h�l�X���[�^�[��ǉ����Ă����K�v������܂��B
+ * \par 説明:
+ * ラウドネスメーターの蓄積データをリセットします。
+ * 本関数を呼び出す前にライブラリへラウドネスメーターを追加しておく必要があります。
  * \sa criAtomMeter_AttachLoudnessMeter
  */
 void CRIAPI criAtomMeter_ResetLoudnessMeter(void);
 
 /*JP
- * \brief �g�D���[�s�[�N���[�^�[�@�\�p�̃��[�N�T�C�Y�̌v�Z
+ * \brief トゥルーピークメーター機能用のワークサイズの計算
  * \ingroup ATOMLIB_METER
- * \param[in]	config			�g�D���[�s�[�N���[�^�[�ǉ��p�̃R���t�B�O�\����
- * \return		CriSint32		�K�v�ȃ��[�N�̈�T�C�Y
- * \par ����:
- * ITU-R BS.1770-3�K�i�̃g�D���[�s�[�N���[�^�[�ǉ��ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ōv�Z����܂��B<br>
+ * \param[in]	config			トゥルーピークメーター追加用のコンフィグ構造体
+ * \return		CriSint32		必要なワーク領域サイズ
+ * \par 説明:
+ * ITU-R BS.1770-3規格のトゥルーピークメーター追加に必要なワーク領域サイズを計算します。<br>
+ * config にNULLを指定するとデフォルト設定で計算されます。<br>
  * \sa criAtomMeter_AttachTruePeakMeter
  */
 CriSint32 CRIAPI criAtomMeter_CalculateWorkSizeForTruePeakMeter(const CriAtomTruePeakMeterConfig *config);
 
 /*JP
- * \brief �g�D���[�s�[�N���[�^�[�@�\�̒ǉ�
+ * \brief トゥルーピークメーター機能の追加
  * \ingroup ATOMLIB_METER
- * \param[in]	config			�g�D���[�s�[�N���[�^�[�ǉ��p�̃R���t�B�O�\����
- * \param[in]	work			���[�N�̈�
- * \param[in]	work_size		���[�N�̈�T�C�Y
- * \par ����:
- * ���C�u������ITU-R BS.1770-3�K�i�̃g�D���[�s�[�N���[�^�[�@�\��ǉ����܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ńg�D���[�s�[�N���[�^�[���ǉ�����܂��B<br>
- * work ��NULL�Awork_size ��0���w�肷��ƁA�o�^���ꂽ���[�U�A���P�[�^�[�ɂ����
- * ���[�N�̈悪�m�ۂ���܂��B<br>
+ * \param[in]	config			トゥルーピークメーター追加用のコンフィグ構造体
+ * \param[in]	work			ワーク領域
+ * \param[in]	work_size		ワーク領域サイズ
+ * \par 説明:
+ * ライブラリにITU-R BS.1770-3規格のトゥルーピークメーター機能を追加します。<br>
+ * config にNULLを指定するとデフォルト設定でトゥルーピークメーターが追加されます。<br>
+ * work にNULL、work_size に0を指定すると、登録されたユーザアロケーターによって
+ * ワーク領域が確保されます。<br>
  * \sa criAtomMeter_GetTruePeakInfo
  */
 void CRIAPI criAtomMeter_AttachTruePeakMeter(const CriAtomTruePeakMeterConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief �g�D���[�s�[�N���[�^�[�@�\�̉���
+ * \brief トゥルーピークメーター機能の解除
  * \ingroup ATOMLIB_METER
- * \par ����:
- * ���C�u�����̃g�D���[�s�[�N���[�^�[�@�\���������܂��B<br>
+ * \par 説明:
+ * ライブラリのトゥルーピークメーター機能を解除します。<br>
  * \sa criAtomMeter_AttachLoudnessMeter
  */
 void CRIAPI criAtomMeter_DetachTruePeakMeter(void);
 
 /*JP
- * \brief �g�D���[�s�[�N���̎擾
+ * \brief トゥルーピーク情報の取得
  * \ingroup ATOMLIB_METER
- * \param[out]	info		�g�D���[�s�[�N���̍\����
- * \par ����:
- * �g�D���[�s�[�N���[�^�[�̑��茋�ʂ��擾���܂��B
- * �{�֐����Ăяo���O�Ƀ��C�u�����փg�D���[�s�[�N���[�^�[��ǉ����Ă����K�v������܂��B
+ * \param[out]	info		トゥルーピーク情報の構造体
+ * \par 説明:
+ * トゥルーピークメーターの測定結果を取得します。
+ * 本関数を呼び出す前にライブラリへトゥルーピークメーターを追加しておく必要があります。
  * \sa criAtomMeter_AttachTruePeakMeter
  */
 void CRIAPI criAtomMeter_GetTruePeakInfo(CriAtomTruePeakInfo *info);
@@ -7710,46 +7693,46 @@ void CRIAPI criAtomMeter_GetTruePeakInfo(CriAtomTruePeakInfo *info);
 /*       CRI Atom Instrument API                                           */
 /* ========================================================================*/
 /*JP
- * \brief ���[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X�̓o�^
- * \param[in]	ainst_interface	���[�U��`�C���X�g�D�������g�̃o�[�W�������t���C���^�[�t�F�[�X
- * \return						�o�^�ɐ����������H�iCRI_TRUE:�o�^�ɐ�������, CRI_FALSE:�o�^�Ɏ��s�����j
- * \par ����:
- * ���[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X��Atom���C�u�����ɓo�^���܂��B<br>
- * ���[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X��o�^�����C���X�g�D�������g�́A�C���X�g�D�������g�g���b�N�̍Đ��Ɏg�p�ł���悤�ɂȂ�܂��B<br>
- * �ȉ��̏����ɊY������ꍇ�́A���[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X�̓o�^�Ɏ��s���A�G���[�R�[���o�b�N���Ԃ�܂�:
- *  - ����̃G�t�F�N�g���������[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X�����ɓo�^����Ă���
- *  - Atom���g�p���Ă��郆�[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X�ƈقȂ�
- *  - ���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�̓o�^������i ::CRIATOMEXASR_MAX_NUM_USER_EFFECT_INTERFACES �j�ɒB����
- * \par ����:
- * ���[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X�́A�C���X�g�D�������g�g���b�N���Đ�����O��<br>
- * �{�֐��ɂ���ēo�^���s���ĉ������B<br>
- * Atom���C�u�����g�p���ɃC���^�[�t�F�[�X�̓o�^�������s���ꍇ�́A ::criAtomInstrument_UnregisterInstrumentInterface ���g�p���ĉ������B
+ * \brief ユーザ定義インストゥルメントインターフェースの登録
+ * \param[in]	ainst_interface	ユーザ定義インストゥルメントのバージョン情報付きインターフェース
+ * \return						登録に成功したか？（CRI_TRUE:登録に成功した, CRI_FALSE:登録に失敗した）
+ * \par 説明:
+ * ユーザ定義インストゥルメントインターフェースをAtomライブラリに登録します。<br>
+ * ユーザ定義インストゥルメントインターフェースを登録したインストゥルメントは、インストゥルメントトラックの再生に使用できるようになります。<br>
+ * 以下の条件に該当する場合は、ユーザ定義インストゥルメントインターフェースの登録に失敗し、エラーコールバックが返ります:
+ *  - 同一のエフェクト名を持つユーザ定義インストゥルメントインターフェースが既に登録されている
+ *  - Atomが使用しているユーザ定義インストゥルメントインターフェースと異なる
+ *  - ユーザ定義エフェクトインターフェースの登録数上限（ ::CRIATOMEXASR_MAX_NUM_USER_EFFECT_INTERFACES ）に達した
+ * \par 注意:
+ * ユーザ定義インストゥルメントインターフェースは、インストゥルメントトラックを再生する前に<br>
+ * 本関数によって登録を行って下さい。<br>
+ * Atomライブラリ使用中にインターフェースの登録解除を行う場合は、 ::criAtomInstrument_UnregisterInstrumentInterface を使用して下さい。
  * \sa criAtomInstrument_UnregisterInstrumentInterface
  */
 CriBool CRIAPI criAtomInstrument_RegisterInstrumentInterface(CriAtomAinstInterfaceWithVersionPtr ainst_interface);
 
 /*JP
- * \brief ���[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X�̓o�^����
- * \param[in]	ainst_interface	���[�U��`�C���X�g�D�������g�̃o�[�W�������t���C���^�[�t�F�[�X
- * \par ����:
- * �C���X�g�D�������g�C���^�[�t�F�[�X�̓o�^���������܂��B<br>
- * �o�^�����������C���X�g�D�������g�̓C���X�g�D�������g�g���b�N���Đ�����ۂɎg�p�ł��Ȃ��Ȃ�܂��B<br>
- * �o�^�������s���Ă��Ȃ��C���X�g�D�������g�C���^�[�t�F�[�X�̓o�^���������邱�Ƃ͂ł��܂���i�G���[�R�[���o�b�N���Ԃ�܂��j�B
- * \par ����:
- * �o�^���s�������[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X�̓v���[���[�̍Đ����ɎQ�Ƃ��ꑱ���邽�߁A<br>
- * �S�Ẵv���[���[����~��������ŁA�{�֐������s���Ă��������B<br>
- * Atom���C�u�����̏I�����i::criAtom_Finalize �֐��̌Ăяo�����j�ɂ͑S�Ẵ��[�U��`�C���X�g�D�������g�C���^�[�t�F�[�X�̓o�^����������܂��B
+ * \brief ユーザ定義インストゥルメントインターフェースの登録解除
+ * \param[in]	ainst_interface	ユーザ定義インストゥルメントのバージョン情報付きインターフェース
+ * \par 説明:
+ * インストゥルメントインターフェースの登録を解除します。<br>
+ * 登録を解除したインストゥルメントはインストゥルメントトラックを再生する際に使用できなくなります。<br>
+ * 登録処理を行っていないインストゥルメントインターフェースの登録を解除することはできません（エラーコールバックが返ります）。
+ * \par 注意:
+ * 登録を行ったユーザ定義インストゥルメントインターフェースはプレーヤーの再生中に参照され続けるため、<br>
+ * 全てのプレーヤーが停止させた後で、本関数を実行してください。<br>
+ * Atomライブラリの終了時（::criAtom_Finalize 関数の呼び出し時）には全てのユーザ定義インストゥルメントインターフェースの登録が解除されます。
  * \sa  criAtomInstrument_RegisterInstrumentInterface
  */
 void CRIAPI criAtomInstrument_UnregisterInstrumentInterface(CriAtomAinstInterfaceWithVersionPtr ainst_interface);
 
 /***************************************************************************
- *      �b��API�i�g�p�͂��T���������j
+ *      暫定API（使用はお控え下さい）
  *      Tentative API (Please don't use it)
  ***************************************************************************/
-/* �ȉ��ɐ錾����Ă���֐���Atom�̓��������p�A�Q�[���G���W���Ƃ̘A�g���ɂ�
- * �b��I�Ɏg�p����Ă���API�ł��B
- * ����̃A�b�v�f�[�g�ɂė\���Ȃ��ύX�E�폜���s���邽�߁A�g�p�͂��T���������B
+/* 以下に宣言されている関数はAtomの内部処理用、ゲームエンジンとの連携等にて
+ * 暫定的に使用されているAPIです。
+ * 今後のアップデートにて予告なく変更・削除が行われるため、使用はお控え下さい。
  */
 typedef void (CRIAPI *CriAtomPlayerDataEndCbFunc)(void *obj, void *buffer, CriSint32 size);
 typedef void (CRIAPI *CriAtomPlayerCbFunc)(void *obj, CriAtomPlayerHn player);
@@ -7762,13 +7745,15 @@ void CRIAPI criAtomPlayer_SetDecodeCallback(
 	CriAtomPlayerHn player, CriAtomPlayerDecodeCbFunc func, void *obj);
 void CRIAPI criAtomPlayer_DiscardSamples(CriAtomPlayerHn player, CriSint32 num_discard);
 typedef CriSint32 CriAtomWaveType;
+void CRIAPI criAtomDbas_EnableDbas(void);
+void CRIAPI criAtomDbas_DisableDbas(void);
 
 #ifdef __cplusplus
 }
 #endif
 
 /***************************************************************************
- *      ���o�[�W�����Ƃ̌݊��p
+ *      旧バージョンとの互換用
  *      For compatibility with old version
  ***************************************************************************/
 typedef enum CriAtomDownmixModeTag {
@@ -7780,15 +7765,15 @@ typedef enum CriAtomDownmixModeTag {
 } CriAtomDownmixMode;
 
 /*JP
- * \brief Ambisonics�I�[�_�[�i�p�~�ς݁j
+ * \brief Ambisonicsオーダー（廃止済み）
  * \ingroup ATOMLIB_GLOBAL
- * \par ����:
- * Ambisonics�I�[�_�[�^�C�v�������܂��B���݂͔p�~�ς݂ł��B
+ * \par 説明:
+ * Ambisonicsオーダータイプを示します。現在は廃止済みです。
  */
 typedef enum CriAtomAmbisonicsOrderTypeTag {
-	CRIATOMAMBISONICS_ORDER_TYPE_NONE = 0,	/*JP< ���ݒ� */
+	CRIATOMAMBISONICS_ORDER_TYPE_NONE = 0,	/*JP< 未設定 */
 	CRIATOMAMBISONICS_ORDER_TYPE_FIRST,		/*JP< 1st Order */
-	CRIATOMAMBISONICS_ORDER_TYPE_1P = CRIATOMAMBISONICS_ORDER_TYPE_FIRST,	/*JP< 1 Periphonic(1st Order�Ɠ��`) */
+	CRIATOMAMBISONICS_ORDER_TYPE_1P = CRIATOMAMBISONICS_ORDER_TYPE_FIRST,	/*JP< 1 Periphonic(1st Orderと同義) */
 	CRIATOMAMBISONICS_ORDER_TYPE_ENUM_SIZE_IS_4BYTES = 0x7FFFFFFF
 } CriAtomAmbisonicsOrderType;
 
@@ -7798,7 +7783,7 @@ typedef enum CriAtomAmbisonicsOrderTypeTag {
 	criAtomPlayer_SetFrequencyRatio((player), (pitch))
 #define criAtomPlayer_SetPan(player, ch, pan) \
 	criAtomPlayer_SetPanAdx1Compatible((player), (ch), (pan))
-/* �����_���[�̏o��Ch���ݒ�ɉ����āA�����Ń_�E���~�b�N�X���邽�߉��L�֐��͖����ɂ��Ă��܂� */
+/* レンダラーの出力Ch数設定に応じて、自動でダウンミックスするため下記関数は無効にしています */
 #define criAtom_SetDownmixMode(downmix_mode)
 #define criAtomHcaMx_SetBusSendLevel(mixer_id, bus_no, level) \
 	criAtomExHcaMx_SetBusSendLevel(mixer_id, bus_no, level)
@@ -7809,9 +7794,9 @@ extern "C" {
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �{�֐����s���A��� 0xFFFFFFFF ���ԋp����܂��B
- * ::criAtom_GetVersionString �֐��̎g�p���Ă��������B
+ * 削除予定の非推奨APIです。
+ * 本関数実行時、常に 0xFFFFFFFF が返却されます。
+ * ::criAtom_GetVersionString 関数の使用してください。
  */
 CriUint32 CRIAPI criAtom_GetVersionNumber(void);
 

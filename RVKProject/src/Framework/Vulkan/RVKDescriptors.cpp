@@ -172,6 +172,6 @@ namespace RVK {
 		for (auto& write : m_writes) {
 			write.dstSet = set;
 		}
-		vkUpdateDescriptorSets(RVKDevice::s_rvkDevice->GetDevice(), m_writes.size(), m_writes.data(), 0, nullptr);
+		vkUpdateDescriptorSets(RVKDevice::s_rvkDevice->GetDevice(), static_cast<u32>(m_writes.size()), m_writes.data(), 0, nullptr);
 	}
 }  // namespace RVK

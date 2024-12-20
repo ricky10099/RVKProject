@@ -14,13 +14,13 @@
 
 #pragma warning(disable: 4819)
 
-/* 多重定義防止					*/
+/* 螟夐㍾螳夂ｾｩ髦ｲ豁｢					*/
 /* Prevention of redefinition	*/
 #ifndef	CRI_INCL_CRI_ADX2LE_H
 #define	CRI_INCL_CRI_ADX2LE_H
 
 /***************************************************************************
- *      インクルードファイル
+ *      繧､繝ｳ繧ｯ繝ｫ繝ｼ繝峨ヵ繧｡繧､繝ｫ
  *      Include files
  ***************************************************************************/
 #include <cri_le_xpt.h>

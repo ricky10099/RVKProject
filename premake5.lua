@@ -15,11 +15,13 @@ IncludeDir["GLFW"] = "external/GLFW/include"
 IncludeDir["spdlog"] = "external/spdlog/include"
 IncludeDir["Assimp"] = "external/Assimp/include"
 IncludeDir["PhysX"] = "external/PhysX/include"
+IncludeDir["CRI"] = "external/CRI/include"
 
 LibDir = {}
 LibDir["GLFW"] = "external/GLFW/lib-vc2022"
 LibDir["Assimp"] = "external/Assimp/lib"
 LibDir["PhysX"] = "external/PhysX/lib"
+LibDir["CRI"] = "external/CRI/lib"
 
 project "RVKProject"
 	location "RVKProject"
@@ -48,6 +50,7 @@ project "RVKProject"
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.Assimp}",
 		"%{IncludeDir.PhysX}",
+		"%{IncludeDir.CRI}",
 	}
 	
 	libdirs{
@@ -55,6 +58,7 @@ project "RVKProject"
 		"%{LibDir.GLFW}",
 		"%{LibDir.Assimp}/%{cfg.buildcfg}",
 		"%{LibDir.PhysX}/%{cfg.buildcfg}",
+		"%{LibDir.CRI}",
 	}
 
 	links{
@@ -67,12 +71,14 @@ project "RVKProject"
 		"PhysXFoundation_64.lib",
 		"PhysXPvdSDK_static_64.lib",
 		"PhysXExtensions_static_64.lib",
+		"cri_ware_pcx64_le_import",
 	}
 
 	postbuildcommands{
 		"call $(SolutionDir)compileGLSLC.bat",
 		"{COPY} ../%{LibDir.PhysX}/%{cfg.buildcfg}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\"",
 		"{COPY} ../%{LibDir.Assimp}/%{cfg.buildcfg}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\"",
+		"{COPY} ../%{LibDir.CRI}/*.dll \"../bin/" ..outputdir.. "/%{prj.name}/\"",
 	}
 
 	buildoptions{"/utf-8"}

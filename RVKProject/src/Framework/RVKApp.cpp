@@ -1,4 +1,4 @@
-#include "Framework/RVKApp.h"
+﻿#include "Framework/RVKApp.h"
 
 #include <glm/gtc/constants.hpp>
 
@@ -8,6 +8,36 @@
 #include "Framework/Vulkan/RenderSystem/entity_render_system.h"
 #include "Framework/Vulkan/RenderSystem/entity_point_light_system.h"
 #include "Framework/Component.h"
+
+#include "../audio/WorkUnit_0/BGM.h"
+#include "../audio/WorkUnit_0/SE.h"
+
+static const std::string_view CRI_ACF = "../audio/ADXtest.acf";
+static const std::string_view CRI_ACB_BGM = "../audio/WorkUnit_0/BGM.acb";
+static const std::string_view CRI_ACB_SE = "../audio/WorkUnit_0/SE.acb";
+
+#define ACF_FILE    "../audio/ADXtest.acf"
+#define ACB_FILE    "../audio/WorkUnit_0/BGM.acb"
+
+static const int MAX_VOICE = 20;
+static const int MAX_VIRTUAL_VOICE = 60;
+static const int MAX_CRIFS_LOADER = 60;
+
+static void UserErrorCallbackFunc(const CriChar8* errid, CriUint32 p1, CriUint32 p2, CriUint32* parray)
+{
+	const CriChar8* errmsg;
+	errmsg = criErr_ConvertIdToMessage(errid, p1, p2);
+	return;
+}
+
+void* UserAllocFunc(void* obj, CriUint32 size)
+{
+	void* ptr;
+	ptr = malloc(size);
+	return ptr;
+}
+
+void UserFreeFunc(void* obj, void* ptr) { free(ptr); }
 
 namespace RVK {
 	static RVKApp* appInstance;
@@ -60,11 +90,43 @@ namespace RVK {
 		m_pScene->addActor(*groundPlane);
 		/////////////////////////////////////////////////////////////////
 
+		criErr_SetCallback(UserErrorCallbackFunc);
+		criAtomEx_SetUserAllocator(UserAllocFunc, UserFreeFunc, NULL);
+		criAtomEx_SetDefaultConfig(&m_atomexConfig);
+		m_atomexConfig.max_virtual_voices = MAX_VIRTUAL_VOICE;
+		criAtomEx_Initialize(&m_atomexConfig, NULL, 0);
+		criAtomEx_RegisterAcfFile(NULL, CRI_ACB_SE.data(), NULL, 0);
+		/*CriAtomExConfig_WASAPI lib_config;
+		CriFsConfig fs_config;
+		criAtomEx_SetDefaultConfig_WASAPI(&lib_config);
+		criFs_SetDefaultConfig(&fs_config);
+		lib_config.atom_ex.max_virtual_voices = MAX_VIRTUAL_VOICE;
+		fs_config.num_loaders = MAX_CRIFS_LOADER;
+		lib_config.atom_ex.fs_config = &fs_config;*/
+		criAtomEx_Initialize_WASAPI(NULL, NULL, 0);
+
+		criAtomEx_RegisterAcfFile(NULL, CRI_ACF.data(), NULL, 0);
+		bgm_acb_hn = criAtomExAcb_LoadAcbFile(NULL, CRI_ACB_BGM.data(), NULL, NULL, NULL, 0);
+		se_acb_hn = criAtomExAcb_LoadAcbFile(NULL, CRI_ACB_SE.data(), NULL, NULL, NULL, 0);
+		criAtomExVoicePool_SetDefaultConfigForAdxVoicePool(&m_adxVoicePoolpconfig);
+		//adxvp_config.num_voices = 10;
+		//CriAtomExStandardVoicePoolConfig standard_vpool_config;
+		//criAtomExVoicePool_SetDefaultConfigForStandardVoicePool(&standard_vpool_config);
+		//standard_vpool_config.num_voices = MAX_VOICE;
+		m_voicePool = criAtomExVoicePool_AllocateStandardVoicePool(NULL, NULL, 0);
+		m_BGMplayer = criAtomExPlayer_Create(NULL, NULL, 0);
+		m_SEplayer = criAtomExPlayer_Create(NULL, NULL, 0);
+
+		criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
+		criAtomExPlayer_Start(m_BGMplayer);
+		/////////////////////////////////////////////////////////////
 		LoadScene(std::make_unique<Scene>());
 		LoadGameObjects();
 	}
 
 	RVKApp::~RVKApp() {
+		/////////////////////////////////////////////////////////////
+
 		m_pScene->release();
 		m_pDispatcher->release();
 		m_pPhysics->release();
@@ -75,6 +137,16 @@ namespace RVK {
 			transport->release();
 		}
 		m_pFoundation->release();
+		/////////////////////////////////////////////////////////////
+
+		criAtomExPlayer_Destroy(m_BGMplayer);
+		criAtomExPlayer_Destroy(m_SEplayer);
+		criAtomExVoicePool_Free(m_voicePool);
+		criAtomExAcb_Release(bgm_acb_hn);
+		criAtomExAcb_Release(se_acb_hn);
+		criAtomEx_UnregisterAcf();
+		criAtomEx_Finalize_WASAPI();
+		/////////////////////////////////////////////////////////////
 
 		appInstance = nullptr;
 	}
@@ -177,9 +249,12 @@ namespace RVK {
 		m_testLight.AddComponent<Components::Transform>(glm::vec3(0.f, 0.f, 0.f));
 		m_testLight.AddComponent<Components::PointLight>(glm::vec3(1.f, 0.f, 0.f), 0.1f, 0.1f );
 
+		criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
+		criAtomExPlayer_Start(m_BGMplayer);
+
 		while (!m_rvkWindow.ShouldClose()) {
 			glfwPollEvents();
-
+			criAtomEx_ExecuteMain();
 			auto newTime = std::chrono::high_resolution_clock::now();
 			float frameTime =
 				std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
@@ -226,6 +301,24 @@ namespace RVK {
 					cam.camera.SetPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
 				}
 			}
+
+			if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_Z) == GLFW_PRESS) {
+				criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_W006);
+				criAtomExPlayer_Start(m_BGMplayer);
+			}
+			if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_X) == GLFW_PRESS) {
+				criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
+				criAtomExPlayer_Start(m_BGMplayer);
+			}
+			if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_C) == GLFW_PRESS) {
+				criAtomExPlayer_SetCueId(m_SEplayer, se_acb_hn, CRI_SE_BOSSATTACK);
+				criAtomExPlayer_Start(m_SEplayer);
+			}
+			if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_V) == GLFW_PRESS) {
+				criAtomExPlayer_SetCueId(m_SEplayer, se_acb_hn, CRI_SE_SWORDHIT);
+				criAtomExPlayer_Start(m_SEplayer);
+			}
+
 			//{
 			//	Components::Transform pos = m_test.GetComponent<Components::Transform>();
 			//	glm::vec3 bodyPos = pos.position/* + glm::vec3(0.f, 1.5f, 0.f)*/;

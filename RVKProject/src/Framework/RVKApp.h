@@ -1,6 +1,10 @@
-#pragma once
+﻿#pragma once
 
 #include <PxPhysicsAPI.h>
+
+#include <cri_le_xpt.h>
+#include <cri_le_atom_ex.h>
+#include <cri_le_atom_wasapi.h>
 
 #include "Framework/Utils.h"
 #include "Framework/Vulkan/RVKWindow.h"
@@ -52,6 +56,15 @@ namespace RVK {
 	  physx::PxRigidDynamic* m_pBody = nullptr;
 	  physx::PxRigidStatic* m_pFloor = nullptr;
 	  ///////////////////////////////////////////////////////////////
+	  CriAtomExPlayerHn m_BGMplayer;
+	  CriAtomExPlayerHn m_SEplayer;
+	  CriAtomExVoicePoolHn m_voicePool;
+	  CriAtomExConfig m_atomexConfig;
+	  CriAtomExAdxVoicePoolConfig m_adxVoicePoolpconfig;
+	  CriAtomExAcbHn bgm_acb_hn;
+	  CriAtomExAcbHn se_acb_hn;
+	  ///////////////////////////////////////////////////////////////
+
 	};
 
 	RVKApp& GetApp();

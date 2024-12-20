@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * CRI Middleware SDK
  *
@@ -13,13 +13,13 @@
  *	\file		cri_le_atom_asr.h
  */
 
-/* ���d��`�h�~					*/
+/* 多重定義防止					*/
 /* Prevention of redefinition	*/
 #ifndef	CRI_ATOM_ASR_H_INCLUDED
 #define	CRI_ATOM_ASR_H_INCLUDED
 
 /***************************************************************************
- *      �C���N���[�h�t�@�C��
+ *      インクルードファイル
  *      Include files
  ***************************************************************************/
 #include "cri_le_xpt.h"
@@ -27,2056 +27,2056 @@
 #include "cri_le_atom_ex.h"
 
 /***************************************************************************
- *      �萔�}�N��
+ *      定数マクロ
  *      Macro Constants
  ***************************************************************************/
 /*JP
- * \brief �ő�`�����l����
+ * \brief 最大チャンネル数
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ASR�������\�ȍő�`�����l�����ł��B
+ * \par 説明:
+ * ASRが処理可能な最大チャンネル数です。
  */
 #define CRIATOMEXASR_MAX_CHANNELS		(16)
 
 /*JP
- * \brief �f�t�H���g�Z���h�\�o�X��
+ * \brief デフォルトセンド可能バス数
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * �f�t�H���g�̃Z���h�\�ȃo�X���ł��B
+ * \par 説明:
+ * デフォルトのセンド可能なバス数です。
  */
 #define CRIATOMEXASR_DEFAULT_NUM_ROUTES	(8)
 
 /*JP
- * \brief �f�t�t�H���g�̃o�X��
+ * \brief デフフォルトのバス数
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * �f�t�H���g�̃o�X���ł��B
+ * \par 説明:
+ * デフォルトのバス数です。
  */
 #define CRIATOMEXASR_DEFAULT_NUM_BUSES	(8)
 
 /*JP
- * \brief �ő�`�����l����
+ * \brief 最大チャンネル数
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ASR�������\�ȍő�o�X���ł��B
+ * \par 説明:
+ * ASRが処理可能な最大バス数です。
  */
 #define CRIATOMEXASR_MAX_BUSES			(64)
 
 /*JP
- * \brief �f�t�H���gASR���b�NID
+ * \brief デフォルトASRラックID
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ���������Ɏ����I�ɍ쐬�����ASR���b�NID�ł��B <br>
+ * \par 説明:
+ * 初期化時に自動的に作成されるASRラックIDです。 <br>
  * \sa criAtomExAsrRack_Create, criAtomExAsrRack_Destroy
  */
 #define CRIATOMEXASR_RACK_DEFAULT_ID	(0)
 
 /*JP
- * \brief �s���ȃ��b�NID
+ * \brief 不正なラックID
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ::criAtomExAsrRack_Create �֐��Ɏ��s�����ۂɕԂ�l�ł��B <br>
+ * \par 説明:
+ * ::criAtomExAsrRack_Create 関数に失敗した際に返る値です。 <br>
  * \sa criAtomExAsrRack_Create, criAtomExAsrRack_Destroy
  */
 #define CRIATOMEXASR_RACK_ILLEGAL_ID	(-1)
 
 /*JP
- * \brief ���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�̍ő�o�^��
+ * \brief ユーザ定義エフェクトインターフェースの最大登録数
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * �o�^�\�ȃ��[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�̍ő吔�ł��B<br>
+ * \par 説明:
+ * 登録可能なユーザ定義エフェクトインターフェースの最大数です。<br>
  * \sa  criAtomExAsr_RegisterEffectInterface, criAtomExAsr_UnregisterEffectInterface
  */
 #define CRIATOMEXASR_MAX_NUM_USER_EFFECT_INTERFACES	(256)
 
 /*JP
- * \brief �I�u�W�F�N�g�x�[�X�����̓����Đ���
+ * \brief オブジェクトベース音声の同時再生数
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ASR�œ����ɍĐ��ł���I�u�W�F�N�g�x�[�X�����̐��ł��B<br>
+ * \par 説明:
+ * ASRで同時に再生できるオブジェクトベース音声の数です。<br>
  */
 #define CRIATOMEXASR_NUM_OBJECT_BASED_AUDIO (CRIATOMEXASR_MAX_CHANNELS)
 
 /*==========================================================================
- *      CRI ASR�o�X�G�t�F�N�g��
+ *      CRI ASRバスエフェクト名
  *=========================================================================*/
 /*JP
- * \brief �U����͊�̃G�t�F�N�g��
+ * \brief 振幅解析器のエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_AMPLITUDE_ANALYZER_NAME			"CRIWARE/AmplitudeAnalyzer"
 
 /*JP
- * \brief �o�X�E�o�b�t�@�[�v�[���̃G�t�F�N�g��
+ * \brief バス・バッファープールのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_BUS_BUFFER_POOL					"CRIWARE/BusBufferPool"
 
 /*JP
- * \brief �o�C�N�A�b�h�t�B���^�[�̃G�t�F�N�g��
+ * \brief バイクアッドフィルターのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_NAME					"CRIWARE/Biquad"
 
 /*JP
- * \brief �o���h�p�X�t�B���^�[�i2���̃o�^�[���[�X�t�B���^�[�j�̃G�t�F�N�g��
+ * \brief バンドパスフィルター（2次のバターワースフィルター）のエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_BANDPASS_FILTER_NAME				"CRIWARE/Bandpass"
 
 /*JP
- * \brief �R�[���X�̃G�t�F�N�g��
+ * \brief コーラスのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_CHORUS_NAME						"CRIWARE/Chorus"
 
 /*JP
- * \brief �t�����W���[�̃G�t�F�N�g��
+ * \brief フランジャーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_FLANGER_NAME						"CRIWARE/Flanger"
 
 /*JP
- * \brief �R���v���b�T�[�̃G�t�F�N�g��
+ * \brief コンプレッサーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_COMPRESSOR_NAME					"CRIWARE/Compressor"
 
 /*JP
- * \brief ���~�b�^�̃G�t�F�N�g��
+ * \brief リミッターのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_LIMITER_NAME						"CRIWARE/Limiter"
 
 /*JP
- * \brief �f�B���C�̃G�t�F�N�g��
+ * \brief ディレイのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_DELAY_NAME							"CRIWARE/Delay"
 
 /*JP
- * \brief �G�R�[�̃G�t�F�N�g��
+ * \brief エコーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_ECHO_NAME							"CRIWARE/Echo"
 
 /*JP
- * \brief �}���`�^�b�v�f�B���C�̃G�t�F�N�g��
+ * \brief マルチタップディレイのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_NAME				"CRIWARE/MultiTapDelay"
 
 /*JP
- * \brief �f�B�X�g�[�V�����̃G�t�F�N�g��
+ * \brief ディストーションのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_DISTORTION_NAME					"CRIWARE/Distortion"
 
 /*JP
- * \brief I3DL2���o�[�u�̃G�t�F�N�g��
+ * \brief I3DL2リバーブのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_I3DL2_REVERB_NAME					"CRIWARE/I3DL2Reverb"
 
 /*JP
- * \brief �}�g���N�X�̃G�t�F�N�g��
+ * \brief マトリクスのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_MATRIX_NAME						"CRIWARE/Matrix"
 
 /*JP
- * \brief 16ch �g���ɑΉ������}�g���N�X�̃G�t�F�N�g��
+ * \brief 16ch 拡張に対応したマトリクスのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_MATRIX16_NAME						"CRIWARE/Matrix16"
 
 /*JP
- * \brief 3�o���h�C�R���C�U�̃G�t�F�N�g��
+ * \brief 3バンドイコライザーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_3BANDS_EQUALIZER_NAME				"CRIWARE/3BandsEQ"
 
 /*JP
- * \brief 32�o���h�C�R���C�U�̃G�t�F�N�g��
+ * \brief 32バンドイコライザーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
-#define CRIATOMEXASR_32BANDS_EQUALIZER_NAME				"CRIWARE/32BandsEQ"
+#define CRIATOMEXASR_32BANDS_EQALIZER_NAME				"CRIWARE/32BandsEQ"
 
 /*JP
- * \brief �s�b�`�V�t�^�̃G�t�F�N�g��
+ * \brief ピッチシフターのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_NAME					"CRIWARE/PitchShifter"
 
 /*JP
- * \brief ���o�[�u�̃G�t�F�N�g��
+ * \brief リバーブのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_REVERB_NAME						"CRIWARE/Reverb"
 
 /*JP
- * \brief �T���E���_�̃G�t�F�N�g��
+ * \brief サラウンダーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_SURROUNDER_NAME					"CRIWARE/Surrounder"
  
 /*JP
- * \brief �r�b�g�N���b�V���[�̃G�t�F�N�g��
+ * \brief ビットクラッシャーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_BIT_CRUSHER_NAME					"CRIWARE/BitCrusher"
 
 /*JP
- * \brief �t�F�[�U�[�̃G�t�F�N�g��
+ * \brief フェーザーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_PHASER_NAME						"CRIWARE/Phaser"
 
 /*JP
- * \brief �w�b�h�t�H���o�[�`�����T���E���h�̃G�t�F�N�g��
+ * \brief ヘッドフォンバーチャルサラウンドのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_HEADPHONE_VIRTUAL_SURROUND_NAME	"CRIWARE/HeadphoneVirtualSurround"
 
 /*JP
- * \brief IR���o�[�u�̃G�t�F�N�g��
+ * \brief IRリバーブのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_IR_REVERB_NAME						"CRIWARE/IRReverb"
 
 /*JP
- * \brief I3DL2���o�[�u Ver.2 �̃G�t�F�N�g��
+ * \brief I3DL2リバーブ Ver.2 のエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_NAME					"CRIWARE/I3DL2Reverb2"
 
 
 /*JP
- * \brief EQ�t���T���E���_�̃G�t�F�N�g��
+ * \brief EQ付きサラウンダーのエフェクト名
  * \ingroup  ATOMEXLIB_ASR
  */
 #define CRIATOMEXASR_SURROUNDER_WITH_EQUALIZER_NAME		"CRIWARE/SurrounderWithEqualizer"
 
 
 /*==========================================================================
- *      CRI ASR�o�X�G�t�F�N�g �p�����[�^�[��`�}�N��
+ *      CRI ASRバスエフェクト パラメーター定義マクロ
  *=========================================================================*/
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM ASR�o�X�G�t�F�N�g�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM ASRバスエフェクトのパラメーター
  * \ingroup  ATOMEXLIB_ASR
- * \par ����:
- * ASR�o�X�Ŏg�p����CRIWARE�Г����G�t�F�N�g�̃p�����[�^�[�Ɋւ����`�ł��B<br>
- * ::criAtomExAsrRack_SetEffectParameter �֐��� ::criAtomExAsrRack_SetEffectParameter 
- * �֐��Ŏw�肷��C���f�b�N�X�̒�`�ƁA����̃p�����[�^�[�̐ݒ�l�̒�`�ł��B
+ * \par 説明:
+ * ASRバスで使用するCRIWARE社内製エフェクトのパラメーターに関する定義です。<br>
+ * ::criAtomExAsrRack_SetEffectParameter 関数や ::criAtomExAsrRack_SetEffectParameter 
+ * 関数で指定するインデックスの定義と、特定のパラメーターの設定値の定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_AMPLITUDE_ANALYZER �U����͊�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_AMPLITUDE_ANALYZER 振幅解析器のパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �U����͊�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief 振幅解析器で設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �������ݐ�̃T�C�h�`�F�C���e�[�u��ID
+ * \brief 書き込み先のサイドチェインテーブルID
  * \ingroup CRIATOMASR_DSP_PARAM_AMPLITUDE_ANALYZER 
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɐU����͊킪�������ސ�̃e�[�u��ID���w�肵�܂��B<br>
- * �e�[�u��ID�𓯈�ɂ����G�t�F�N�g���m�ł́A��͌��ʂ����L���鎖���ł��܂��B
+ * \par 説明:
+ * 本パラメーターインデックスに振幅解析器が書き込む先のテーブルIDを指定します。<br>
+ * テーブルIDを同一にしたエフェクト同士では、解析結果を共有する事ができます。
  */
 #define CRIATOMEXASR_AMPLITUDE_ANALYZER_PARAMETER_SIDE_CHAIN_TABLE_ID	(0)
 
 /*JP
- * \brief �U����͊�̃p�����[�^�[��
+ * \brief 振幅解析器のパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_AMPLITUDE_ANALYZER 
- * \par ����:
- * �U����͊�̃p�����[�^�[���ł��B
+ * \par 説明:
+ * 振幅解析器のパラメーター数です。
  */
 #define CRIATOMEXASR_AMPLITUDE_ANALYZER_NUM_PARAMETERS					(1)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER �o�C�N�A�b�h�t�B���^�[�E�o���h�p�X�t�B���^�[�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER バイクアッドフィルター・バンドパスフィルターのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �o�C�N�A�b�h�t�B���^�[�E�o���h�p�X�t�B���^�[�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief バイクアッドフィルター・バンドパスフィルターで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �^�C�v
+ * \brief タイプ
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀo�C�N�A�b�h�t�B���^�[�̃^�C�v���w�肵�܂��B<br>
+ * \par 説明:
+ * 本パラメーターインデックスにバイクアッドフィルターのタイプを指定します。<br>
  * \sa CRIATOMEXASR_BIQUAD_FILTER_TYPE_LOWPASS, CRIATOMEXASR_BIQUAD_FILTER_TYPE_HIGHPASS, CRIATOMEXASR_BIQUAD_FILTER_TYPE_NOTCH, CRIATOMEXASR_BIQUAD_FILTER_TYPE_LOWSHELF, CRIATOMEXASR_BIQUAD_FILTER_TYPE_HIGHSHELF, CRIATOMEXASR_BIQUAD_FILTER_TYPE_PEAKING
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_PARAMETER_TYPE						(0)
 
 /*JP
- * \brief �������g��[Hz]
+ * \brief 処理周波数[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀo�C�N�A�b�h�t�B���^�[�̏������g�����w�肵�܂��B<br>
- * �������g���̓^�C�v�Ɉˑ����ĕω����܂��B
- * | �^�C�v  | ���g��  |
+ * \par 説明:
+ * 本パラメーターインデックスにバイクアッドフィルターの処理周波数を指定します。<br>
+ * 処理周波数はタイプに依存して変化します。
+ * | タイプ  | 周波数  |
  * | :-----: | :-: |
- * | ���[�p�X�t�B���^�[�A�n�C�p�X�t�B���^�[ | �Ւf���g�� |
- * | �m�b�`�t�B���^�[�A�s�[�L���O�t�B���^�[�A���[�V�F���t�t�B���^�[�A�n�C�V�F���t�t�B���^�[ | ���S���g�� |
+ * | ローパスフィルター、ハイパスフィルター | 遮断周波数 |
+ * | ノッチフィルター、ピーキングフィルター、ローシェルフフィルター、ハイシェルフフィルター | 中心周波数 |
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_PARAMETER_FREQUENCY					(1)
 
 /*JP
- * \brief Q�l
+ * \brief Q値
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀo�C�N�A�b�h�t�B���^�[��Q�l�i��s�x�A�N�I���e�B�t�@�N�^�j���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.0f�A�ő�l��10.0f�ł��B�o���h�p�X�t�B���^�[�ȊO�ł͐M�������̍ۂɍŏ��l��0.001f�ɐ�������܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにバイクアッドフィルターのQ値（尖鋭度、クオリティファクタ）を指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.0f、最大値は10.0fです。バンドパスフィルター以外では信号処理の際に最小値は0.001fに制限されます。
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_PARAMETER_QUALITY_FACTOR				(2)
 
 /*JP
- * \brief �o�̓Q�C��[�U��]
+ * \brief 出力ゲイン[振幅]
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀo�C�N�A�b�h�t�B���^�[�̏o�̓Q�C�����w�肵�܂��B<br>
- * �o�̓Q�C�����K�p�����̂̓��[�V�F���t�t�B���^�[�A�n�C�V�F���t�t�B���^�[�A�s�[�L���O�t�B���^�[�݂̂ƂȂ�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.0f�A�ő�l��5.0f�ł��B���[�V�F���t�A�n�C�V�F���t�A�s�[�L���O�t�B���^�[�̏ꍇ�͐M�������̍ۂɍŏ��l�� ��1/65536.0f�ɐ�������܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにバイクアッドフィルターの出力ゲインを指定します。<br>
+ * 出力ゲインが適用されるのはローシェルフフィルター、ハイシェルフフィルター、ピーキングフィルターのみとなります。<br>
+ * パラメーターの初期値は1.0f、最小値は0.0f、最大値は5.0fです。ローシェルフ、ハイシェルフ、ピーキングフィルターの場合は信号処理の際に最小値が √1/65536.0fに制限されます。
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_PARAMETER_GAIN						(3)
 
 /*JP
- * \brief �o�C�N�A�b�h�t�B���^�[�̃p�����[�^�[��
+ * \brief バイクアッドフィルターのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
- * \par ����:
- * �o�C�N�A�b�h�t�B���^�[�̃p�����[�^�[���ł��B
+ * \par 説明:
+ * バイクアッドフィルターのパラメーター数です。
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_NUM_PARAMETERS						(4)
 
 /*JP
- * \brief ���[�p�X�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ローパスフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_TYPE_LOWPASS							(0)
 
 /*JP
- * \brief �n�C�p�X�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ハイパスフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_TYPE_HIGHPASS						(1)
 
 /*JP
- * \brief �m�b�`�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ノッチフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_TYPE_NOTCH							(2)
 
 /*JP
- * \brief ���[�V�F���t�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ローシェルフフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_TYPE_LOWSHELF						(3)
 
 /*JP
- * \brief �n�C�V�F���t�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ハイシェルフフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_TYPE_HIGHSHELF						(4)
 
 /*JP
- * \brief �s�[�L���O�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ピーキングフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
  */
 #define CRIATOMEXASR_BIQUAD_FILTER_TYPE_PEAKING							(5)
 
 /*JP
- * \brief ���Ւf�i�J�b�g�I�t�j���g��[Hz]
+ * \brief 低域遮断（カットオフ）周波数[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀo���h�p�X�t�B���^�[�i2���̃o�^�[���[�X�t�B���^�[�j�̒��Ւf���g�����w�肵�܂��B<br>
- * �p�����[�^�[�̍ŏ��l��24.0f�A�ő�l��24000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにバンドパスフィルター（2次のバターワースフィルター）の低域遮断周波数を指定します。<br>
+ * パラメーターの最小値は24.0f、最大値は24000.0fです。
  */
 #define CRIATOMEXASR_BANDPASS_FILTER_PARAMETER_LOW_FREQ					(0)
 
 /*JP
- * \brief ����Ւf�i�J�b�g�I�t�j���g��[Hz]
+ * \brief 高域遮断（カットオフ）周波数[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀo���h�p�X�t�B���^�[�i2���̃o�^�[���[�X�t�B���^�[�j�̍���Ւf���g�����w�肵�܂��B<br>
- * �p�����[�^�[�̍ŏ��l��24.0f�A�ő�l��24000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにバンドパスフィルター（2次のバターワースフィルター）の高域遮断周波数を指定します。<br>
+ * パラメーターの最小値は24.0f、最大値は24000.0fです。
  */
 #define CRIATOMEXASR_BANDPASS_FILTER_PARAMETER_HIGH_FREQ				(1)
 
 /*JP
- * \brief �o���h�p�X�t�B���^�[�i2���̃o�^�[���[�X�t�B���^�[�j�̃p�����[�^�[��
+ * \brief バンドパスフィルター（2次のバターワースフィルター）のパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_BIQUAD_FILTER 
- * \par ����:
- * �o���h�p�X�t�B���^�[�̃p�����[�^�[���ł��B
+ * \par 説明:
+ * バンドパスフィルターのパラメーター数です。
  */
 #define CRIATOMEXASR_BANDPASS_FILTER_NUM_PARAMETERS						(2)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_CHORUS �R�[���X�E�t�����W���[�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_CHORUS コーラス・フランジャーのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �R�[���X�E�t�����W���[�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief コーラス・フランジャーで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �x������[ms]
+ * \brief 遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR�[���X�̒x���iLFO�̒��S�ƂȂ�x���j���Ԃ��w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��30.0f�A�ŏ��l��0.1f�A�ő�l��100.f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコーラスの遅延（LFOの中心となる遅延）時間を指定します。<br>
+ * パラメーターの初期値は30.0f、最小値は0.1f、最大値は100.fです。
  */
 #define CRIATOMEXASR_CHORUS_PARAMETER_DELAY_TIME_MS						(0)
 
 /*JP
- * \brief �[���iLFO�U���j
+ * \brief 深さ（LFO振幅）
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR�[���X�̐[�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.2f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコーラスの深さを指定します。<br>
+ * パラメーターの初期値は0.2f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_CHORUS_PARAMETER_DEPTH								(1)
 
 /*JP
- * \brief ���[�g�i�X�s�[�h�ALFO���g���j[Hz]
+ * \brief レート（スピード、LFO周波数）[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR�[���X��LFO�̃��[�g���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.01f�A�ő�l��100.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコーラスのLFOのレートを指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.01f、最大値は100.0fです。
  */
 #define CRIATOMEXASR_CHORUS_PARAMETER_RATE								(2)
 
 /*JP
- * \brief �t�B�[�h�o�b�N�Q�C��
+ * \brief フィードバックゲイン
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR�[���X�̃t�B�[�h�o�b�N�Q�C�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコーラスのフィードバックゲインを指定します。<br>
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_CHORUS_PARAMETER_FEEDBACK							(3)
 
 /*JP
- * \brief dry�����̃~�b�N�X
+ * \brief dry成分のミックス
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR�[���X��dry�i�����j�����̃~�b�N�X�������w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.7f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコーラスのdry（原音）成分のミックス割合を指定します。<br>
+ * パラメーターの初期値は0.7f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_CHORUS_PARAMETER_DRY_MIX							(4)
 
 /*JP
- * \brief �R�[���X�̃p�����[�^�[��
+ * \brief コーラスのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
  */
 #define CRIATOMEXASR_CHORUS_NUM_PARAMETERS								(8)
 
 /*JP
- * \brief �x������[ms]
+ * \brief 遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�����W���[�̒x���iLFO�̒��S�ƂȂ�x���j���Ԃ��w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��10.0f�A�ŏ��l��0.1f�A�ő�l��10.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフランジャーの遅延（LFOの中心となる遅延）時間を指定します。<br>
+ * パラメーターの初期値は10.0f、最小値は0.1f、最大値は10.0fです。
  */
 #define CRIATOMEXASR_FLANGER_PARAMETER_DELAY_TIME_MS					(0)
 
 /*JP
- * \brief �[���iLFO�U���j
+ * \brief 深さ（LFO振幅）
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�����W���[�̐[�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.1f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフランジャーの深さを指定します。<br>
+ * パラメーターの初期値は0.1f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_FLANGER_PARAMETER_DEPTH							(1)
 
 /*JP
- * \brief ���[�g�i�X�s�[�h�ALFO���g���j[Hz]
+ * \brief レート（スピード、LFO周波数）[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�����W���[��LFO�̃��[�g���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.01f�A�ő�l��100.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフランジャーのLFOのレートを指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.01f、最大値は100.0fです。
  */
 #define CRIATOMEXASR_FLANGER_PARAMETER_RATE								(2)
 
 /*JP
- * \brief �t�B�[�h�o�b�N�Q�C��
+ * \brief フィードバックゲイン
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�����W���[�̃t�B�[�h�o�b�N�Q�C�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフランジャーのフィードバックゲインを指定します。<br>
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_FLANGER_PARAMETER_FEEDBACK							(3)
 
 /*JP
- * \brief dry�����̃~�b�N�X
+ * \brief dry成分のミックス
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�����W���[��dry�i�����j�����̃~�b�N�X�������w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.71f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフランジャーのdry（原音）成分のミックス割合を指定します。<br>
+ * パラメーターの初期値は0.71f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_FLANGER_PARAMETER_DRY_MIX							(4)
 
 /*JP
- * \brief wet�����̃~�b�N�X
+ * \brief wet成分のミックス
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�����W���[��wet�i�����j�����̃~�b�N�X�������w�肵�܂��B
- * �p�����[�^�[�̏����l��0.71f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフランジャーのwet（原音）成分のミックス割合を指定します。
+ * パラメーターの初期値は0.71f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_FLANGER_PARAMETER_WET_MIX							(5)
 
 /*JP
- * \brief �t�����W���[�̃p�����[�^�[��
+ * \brief フランジャーのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
  */
 #define CRIATOMEXASR_FLANGER_NUM_PARAMETERS								(6)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_COMPRESSOR �R���v���b�T�[�E���~�b�^�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_COMPRESSOR コンプレッサー・リミッターのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �R���v���b�T�[�E���~�b�^�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief コンプレッサー・リミッターで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �X���b�V�����h
+ * \brief スレッショルド
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̃X���b�V�����h�i�U�������k����n�߂�臒l�j���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B<br>
- * \note ���V�I�l����dB�l�ւ̕ϊ��̓��V�I�l�ɏ�p�ΐ��i�ꂪ10�̑ΐ��j��������l��20.0f���悶�邱�ƂŎ擾�ł��܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーのスレッショルド（振幅が圧縮され始める閾値）を指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.0f、最大値は1.0fです。<br>
+ * \note レシオ値からdB値への変換はレシオ値に常用対数（底が10の対数）を取った値に20.0fを乗じることで取得できます。
  * \code
- * // db�l db ���烌�V�I�l ratio �֕ϊ�
+ * // db値 db からレシオ値 ratio へ変換
  * ratio = powf(10.0f, db / 20.0f);
- * // ���V�I�l ratio ����Z���g�l cent �֕ϊ�
+ * // レシオ値 ratio からセント値 cent へ変換
  * db = 20.0f * log10f(ratio);
  * \endcode
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_THRESHOLD						(0)
 
 /*JP
- * \brief ���V�I
+ * \brief レシオ
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̃��V�I�i���k�l�j���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l�A�ő�l�ɐ����͂���܂��񂪁A�M�������̍ۂɍŏ��l��0.01f�ɐ�������܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーのレシオ（圧縮値）を指定します。<br>
+ * パラメーターの初期値は1.0f、最小値、最大値に制限はありませんが、信号処理の際に最小値は0.01fに制限されます。
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_RATIO							(1)
 
 /*JP
- * \brief �A�^�b�N����[ms]
+ * \brief アタック時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̃A�^�b�N���ԁi�w�肵�����V�I�Ɉ��k�����܂ł̎��ԁj���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��3000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーのアタック時間（指定したレシオに圧縮されるまでの時間）を指定します。<br>
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は3000.0fです。
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_ATTACK_TIME_MS				(2)
 
 /*JP
- * \brief �����[�X����[ms]
+ * \brief リリース時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̃����[�X���ԁi�U����臒l�ȉ��ɂȂ�����Ɉ��k���I���܂ł̎��ԁj���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��50000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーのリリース時間（振幅が閾値以下になった後に圧縮が終わるまでの時間）を指定します。<br>
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は50000.0fです。
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_RELEASE_TIME_MS				(3)
 
 /*JP
- * \brief �ő�o�̓Q�C��[�U��]
+ * \brief 最大出力ゲイン[振幅]
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̍ő�o�̓Q�C�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l�� 10��(-24/5)��i-96dB�ɑ����j�A�ő�l��10��(12/5)��i48dB�ɑ����j�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーの最大出力ゲインを指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は 10の(-24/5)乗（-96dBに相当）、最大値は10の(12/5)乗（48dBに相当）です。
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_OUTPUT_GAIN					(4)
 
 /*JP
- * \brief �T���E���h�����N�̋���
+ * \brief サラウンドリンクの強さ
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̃T���E���h�����N�̋������w�肵�܂��B<br>
- * �T���E���h�����N�@�\�Ƃ́A�S�`�����l�����ōŒ�̐U���l��p���Ĉ��k���|���鋭����ω�������@�\�ł��B<br>
- * 1.0f�̎��ɑS�`�����l�����ōŒ�̐U���l�����S�Ɏg�p���A0.0f�ŃT���E���h�����N�@�\��OFF�ɂȂ�܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーのサラウンドリンクの強さを指定します。<br>
+ * サラウンドリンク機能とは、全チャンネル内で最低の振幅値を用いて圧縮を掛ける強さを変化させる機能です。<br>
+ * 1.0fの時に全チャンネル内で最低の振幅値を完全に使用し、0.0fでサラウンドリンク機能がOFFになります。
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_SURROUND_LINK					(5)
 
 /*JP
- * \brief �X�v���b�gEQ�̃^�C�v
+ * \brief スプリットEQのタイプ
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̃X�v���b�gEQ�̃^�C�v���w�肵�܂��B<br>
- * �X�v���b�gEQ�Ƃ͑ш��񕪊�����EQ�ł��B�t�B���^�[�ɂ���Ď��o�����ш�݂̂ɃR���v���b�T�[���|���A�c�����ш�ƍ������܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーのスプリットEQのタイプを指定します。<br>
+ * スプリットEQとは帯域を二分割するEQです。フィルターによって取り出した帯域のみにコンプレッサーを掛け、残った帯域と合成します。
  * \sa CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_NONE, CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_LOWPASS, CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_HIGHPASS, CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_BANDPASS, CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_NOTCH
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_SPLIT_EQ_TYPE					(6)
 
 /*JP
- * \brief �X�v���b�gEQ�̏������g��[Hz]
+ * \brief スプリットEQの処理周波数[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̃X�v���b�gEQ�̏������g�����w�肵�܂��B<br>
- * �p�����[�^�[�̍ŏ��l��24.0f�A�ő�l��24000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーのスプリットEQの処理周波数を指定します。<br>
+ * パラメーターの最小値は24.0f、最大値は24000.0fです。
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_SPLIT_EQ_FREQUENCY			(7)
 
 /*JP
- * \brief �X�v���b�gEQ��Q�l
+ * \brief スプリットEQのQ値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR���v���b�T�[�̃X�v���b�gEQ��Q�l�i��s�x�A�N�I���e�B�t�@�N�^�j���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.0f�A�ő�l��10.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにコンプレッサーのスプリットEQのQ値（尖鋭度、クオリティファクタ）を指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.0f、最大値は10.0fです。
  */
 #define CRIATOMEXASR_COMPRESSOR_PARAMETER_SPLIT_EQ_QUALITY_FACTOR		(8)
 
 /*JP
- * \brief �R���v���b�T�[�̃p�����[�^�[��
+ * \brief コンプレッサーのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_NUM_PARAMETERS							(9)
 
 /*JP
- * \brief �X�v���b�gEQ���g�p���Ȃ��ۂ̐ݒ�l
+ * \brief スプリットEQを使用しない際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_NONE						(0)
 
 /*JP
- * \brief �X�v���b�gEQ�Ń��[�p�X�t�B���^�[���g�p����ۂ̐ݒ�l
+ * \brief スプリットEQでローパスフィルターを使用する際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_LOWPASS					(1)
 
 /*JP
- * \brief �X�v���b�gEQ�Ńn�C�p�X�t�B���^�[���g�p����ۂ̐ݒ�l
+ * \brief スプリットEQでハイパスフィルターを使用する際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_HIGHPASS					(2)
 
 /*JP
- * \brief �X�v���b�gEQ�Ńo���h�p�X�t�B���^�[���g�p����ۂ̐ݒ�l
+ * \brief スプリットEQでバンドパスフィルターを使用する際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_BANDPASS					(3)
 
 /*JP
- * \brief �X�v���b�gEQ�Ńm�b�`�t�B���^�[���g�p����ۂ̐ݒ�l
+ * \brief スプリットEQでノッチフィルターを使用する際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_SPLIT_EQ_TYPE_NOTCH						(4)
 
 /*JP
- * \brief �R���v���b�T�[���������g�̐U���v�����ʂɂ�蓮�삳����ۂ̐ݒ�l
+ * \brief コンプレッサーを自分自身の振幅計測結果により動作させる際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_MODE_NORMAL								(0)
 
 /*JP
- * \brief �R���v���b�T�[���T�C�h�`�F�C�����g�p���ē��삳����ۂ̐ݒ�l
+ * \brief コンプレッサーをサイドチェインを使用して動作させる際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_MODE_SIDE_CHAIN							(1)
 
 /*JP
- * \brief �R���v���b�T�[�̐U�����m�^�C�v���s�[�N�l�ɂ���ۂ̐ݒ�l
+ * \brief コンプレッサーの振幅検知タイプをピーク値にする際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_TYPE_PEAK								(0)
 
 /*JP
- * \brief �R���v���b�T�[�̐U�����m�^�C�v��RMS�ɂ���ۂ̐ݒ�l
+ * \brief コンプレッサーの振幅検知タイプをRMSにする際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_COMPRESSOR_TYPE_RMS								(1)
 
 /*JP
- * \brief �X���b�V�����h
+ * \brief スレッショルド
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��~�b�^�̃X���b�V�����h�i�U�������k�����臒l�j���w�肵�܂��B<br>
+ * \par 説明:
+ * 本パラメーターインデックスにリミッターのスレッショルド（振幅が圧縮される閾値）を指定します。<br>
  */
 #define CRIATOMEXASR_LIMITER_PARAMETER_THRESHOLD						(0)
 
 /*JP
- * \brief �A�^�b�N����[ms]
+ * \brief アタック時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��~�b�^�̃A�^�b�N���ԁi���k����������܂ł̎��ԁj���w�肵�܂��B
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��200.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにリミッターのアタック時間（圧縮が完了するまでの時間）を指定します。
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は200.0fです。
  */
 #define CRIATOMEXASR_LIMITER_PARAMETER_ATTACK_TIME_MS					(1)
 
 /*JP
- * \brief �����[�X����[ms]
+ * \brief リリース時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��~�b�^�̃����[�X���ԁi�U����臒l�ȉ��ɂȂ�����Ɉ��k���I���܂ł̎��ԁj���w�肵�܂��B
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��50000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにリミッターのリリース時間（振幅が閾値以下になった後に圧縮が終わるまでの時間）を指定します。
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は50000.0fです。
  */
 #define CRIATOMEXASR_LIMITER_PARAMETER_RELEASE_TIME_MS					(2)
 
 /*JP
- * \brief �ő�o�̓Q�C��[�U��]
+ * \brief 最大出力ゲイン[振幅]
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��~�b�^�̍ő�o�̓Q�C�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l�� 10��-4.8��i-96dB�ɑ����j�A�ő�l��10��2.4��i48dB�ɑ����j�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにリミッターの最大出力ゲインを指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は 10の-4.8乗（-96dBに相当）、最大値は10の2.4乗（48dBに相当）です。
  */
 #define CRIATOMEXASR_LIMITER_PARAMETER_OUTPUT_GAIN						(3)
 
 /*JP
- * \brief �T���E���h�����N�̋���
+ * \brief サラウンドリンクの強さ
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��~�b�^�̃T���E���h�����N�̋������w�肵�܂��B<br>
- * �T���E���h�����N�@�\�Ƃ́A�S�`�����l�����ōŒ�̐U���l��p���Ĉ��k���|���鋭����ω�������@�\�ł��B<br>
- * 1.0f�̎��ɑS�`�����l�����ōŒ�̐U���l�����S�Ɏg�p���A0.0f�ŃT���E���h�����N�@�\��OFF�ɂȂ�܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにリミッターのサラウンドリンクの強さを指定します。<br>
+ * サラウンドリンク機能とは、全チャンネル内で最低の振幅値を用いて圧縮を掛ける強さを変化させる機能です。<br>
+ * 1.0fの時に全チャンネル内で最低の振幅値を完全に使用し、0.0fでサラウンドリンク機能がOFFになります。
  */
 #define CRIATOMEXASR_LIMITER_PARAMETER_SURROUND_LINK					(4)
 
 /*JP
- * \brief �U�����o�l�^�C�v
+ * \brief 振幅検出値タイプ
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��~�b�^�̐U�����o�l�^�C�v���w�肵�܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにリミッターの振幅検出値タイプを指定します。
  * \sa CRIATOMEXASR_LIMITER_TYPE_PEAK, CRIATOMEXASR_LIMITER_TYPE_RMS
  */
 #define CRIATOMEXASR_LIMITER_PARAMETER_TYPE								(5)
 
 /*JP
- * \brief ���~�b�^�̃p�����[�^�[��
+ * \brief リミッターのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_LIMITER_NUM_PARAMETERS								(6)
-																	
+
 /*JP
- * \brief ���~�b�^���������g�̐U���v�����ʂɂ�蓮�삳����ۂ̐ݒ�l
+ * \brief リミッターを自分自身の振幅計測結果により動作させる際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_LIMITER_MODE_NORMAL								(0)
 
 /*JP
- * \brief ���~�b�^���T�C�h�`�F�C���ɂ�蓮�삳����ۂ̐ݒ�l
+ * \brief リミッターをサイドチェインにより動作させる際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_LIMITER_MODE_SIDE_CHAIN							(1)
 
 /*JP
- * \brief ���~�b�^�̐U�����m�^�C�v���s�[�N�l�ɂ���ۂ̐ݒ�l
+ * \brief リミッターの振幅検知タイプをピーク値にする際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_LIMITER_TYPE_PEAK									(0)
 
 /*JP
- * \brief ���~�b�^�̐U�����m�^�C�v��RMS�ɂ���ۂ̐ݒ�l
+ * \brief リミッターの振幅検知タイプをRMSにする際の設定値
  * \ingroup CRIATOMASR_DSP_PARAM_COMPRESSOR
  */
 #define CRIATOMEXASR_LIMITER_TYPE_RMS									(1)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_DELAY �f�B���C�E�G�R�[�E�}���`�^�b�v�f�B���C�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_DELAY ディレイ・エコー・マルチタップディレイのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �f�B���C�E�G�R�[�E�}���`�^�b�v�f�B���C�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief ディレイ・エコー・マルチタップディレイで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �x������[ms]
+ * \brief 遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀf�B���C�̒x�����Ԃ��w�肵�܂��B<br>
- * �ő�f�B���C���Ԃ̔����̒l�ŏ���������܂��B �p�����[�^�[�̍ŏ��l��50.0f�A�ő�l��1000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにディレイの遅延時間を指定します。<br>
+ * 最大ディレイ時間の半分の値で初期化されます。 パラメーターの最小値は50.0f、最大値は1000.0fです。
  */
 #define CRIATOMEXASR_DELAY_PARAMETER_DELAY_TIME_MS						(0)
 
 /*JP
- * \brief �f�B���C�̃p�����[�^�[��
+ * \brief ディレイのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_DELAY_NUM_PARAMETERS								(1)
 
 /*JP
- * \brief �f�B���C�Őݒ�\�ȍŏ��̒x������[ms]
+ * \brief ディレイで設定可能な最小の遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_DELAY_PARAMETER_MIN_DELAY_TIME_MS					(50.0f)
 
 /*JP
- * \brief �f�B���C�Őݒ�\�ȍő�̒x������[ms]
+ * \brief ディレイで設定可能な最大の遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \attention �R���t�B�O�ݒ肵���l�ȏ�ɐݒ肵�Ă��A������̒l���D�悵�Đ�������܂��B
+ * \attention コンフィグ設定した値以上に設定しても、こちらの値が優先して制限されます。
  */
 #define CRIATOMEXASR_DELAY_PARAMETER_MAX_DELAY_TIME_MS					(1000.0f)
 
 /*JP
- * \brief �x������[ms]
+ * \brief 遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃG�R�[�̒x�����Ԃ��w�肵�܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにエコーの遅延時間を指定します。
  */
 #define CRIATOMEXASR_ECHO_PARAMETER_DELAY_TIME_MS						(0)
 
 /*JP
- * \brief �t�B�[�h�o�b�N�Q�C��
+ * \brief フィードバックゲイン
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃG�R�[�̃t�B�[�h�o�b�N�Q�C�����w�肵�܂��B<br>
- * �t�B�[�h�o�b�N�Q�C�����傫�����ɂ��G�R�[���͍Đ����~���Ă��~�܂�Ȃ��_�ɒ��ӂ��ĉ������B�܂��A�t�B�[�h�o�b�N�Q�C���̐�Βl�̍ő�l��1.0f�ł����A�����I�ɂ�0.99f�ɐ؂�l�߂���ׁA�����U�����Ă��܂��i�G�R�[�������Ȃ��j���͂���܂���B
- * \par ����:
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��-0.99f�A�ő�l��0.99f�ł��B��L�̐����ɂ��A1.0f��ݒ肵���ꍇ�ł������������܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにエコーのフィードバックゲインを指定します。<br>
+ * フィードバックゲインが大きい事によるエコー音は再生を停止しても止まらない点に注意して下さい。また、フィードバックゲインの絶対値の最大値は1.0fですが、内部的には0.99fに切り詰められる為、持続振動してしまう（エコーが消えない）事はありません。
+ * \par 説明:
+ * パラメーターの初期値は0.0f、最小値は-0.99f、最大値は0.99fです。上記の制限により、1.0fを設定した場合でも減衰が生じます。
  */
 #define CRIATOMEXASR_ECHO_PARAMETER_FB_GAIN								(1)
 
 /*JP
- * \brief �G�R�[�̃p�����[�^�[��
+ * \brief エコーのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_ECHO_NUM_PARAMETERS								(2)
 
 /*JP
- * \brief �G�R�[�Őݒ�\�ȍŏ��̒x������[ms]
+ * \brief エコーで設定可能な最小の遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_ECHO_PARAMETER_MIN_DELAY_TIME_MS					(0.0f)
 
 /*JP
- * \brief �G�R�[�Őݒ�\�ȍő�̒x������[ms]
+ * \brief エコーで設定可能な最大の遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \attention �R���t�B�O�Őݒ肵���ő�x�����Ԃ����A������̒l���D�悵�Đ�������܂��B
+ * \attention コンフィグで設定した最大遅延時間よりも、こちらの値が優先して制限されます。
  */
 #define CRIATOMEXASR_ECHO_PARAMETER_MAX_DELAY_TIME_MS					(1000.0f)
 
 /*JP
- * \brief �G�R�[�Őݒ�\�ȍŏ��̃t�B�[�h�o�b�N�Q�C��
+ * \brief エコーで設定可能な最小のフィードバックゲイン
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_ECHO_PARAMETER_MIN_FB_GAIN							(-0.99f)
 
 /*JP
- * \brief �G�R�[�Őݒ�\�ȍő�̃t�B�[�h�o�b�N�Q�C��
+ * \brief エコーで設定可能な最大のフィードバックゲイン
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_ECHO_PARAMETER_MAX_FB_GAIN							(0.99f)
 
 /*JP
- * \brief �}���`�^�b�v�f�B���C�̃^�b�v��
+ * \brief マルチタップディレイのタップ数
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_NUM_TAPS							(4)
 
 /*JP
- * \brief �}���`�^�b�v�f�B���C�̏o�̓`�����l����
+ * \brief マルチタップディレイの出力チャンネル数
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \par ����:
- * �ʏ��4�`�����l���iL, R, �T���E���hL, �T���E���hR�j�ɐݒ肳��܂��B
+ * \par 説明:
+ * 通常は4チャンネル（L, R, サラウンドL, サラウンドR）に設定されます。
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_NUM_CHANNELS						(4)
 
 /*JP
- * \brief �}���`�^�b�v�f�B���C�Őݒ�\�ȍő�̒x������[ms]
+ * \brief マルチタップディレイで設定可能な最大の遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \attention �R���t�B�O�ł��̒l�ȏ�ɐݒ肵�Ă��A������̒l���D�悵�Đ�������܂��B
+ * \attention コンフィグでこの値以上に設定しても、こちらの値が優先して制限されます。
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_PARAMETER_MAX_DELAY_TIME_MS			(10000.0f)
 
 /*JP
- * \brief �}���`�^�b�v�f�B���C��1�^�b�v������̃p�����[�^�[��
+ * \brief マルチタップディレイの1タップ当たりのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETER_PAR_TAP				(4)
 
 /*JP
- * \brief �}���`�^�b�v�f�B���C�̃t�B�[�h�o�b�N�ʑ��a����l
+ * \brief マルチタップディレイのフィードバック量総和上限値
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \par ����:
- * �}���`�^�b�v�f�B���C�ł͊e�^�b�v�Ńt�B�[�h�o�b�N���s���̂ŁA�o�͂����U���Ă��܂��ꍇ������܂��B�S�^�b�v�̃t�B�[�h�o�b�N���a����l��p���āA���U���Ȃ�ׂ�������܂��B
- * \attention ���̏���l��p���Ă��o�͂����U����ꍇ������܂��B
+ * \par 説明:
+ * マルチタップディレイでは各タップでフィードバックを行うので、出力が発散してしまう場合があります。全タップのフィードバック総和上限値を用いて、発散をなるべく回避します。
+ * \attention この上限値を用いても出力が発散する場合があります。
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_PARAMETER_MAX_SUM_FEEDBACK_GAIN		(0.90f)
 
 /*JP
- * \brief �}���`�^�b�v�f�B���C�̃p�����[�^�[��
+ * \brief マルチタップディレイのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETERS \
-	(CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETER_PAR_TAP * CRIATOMEXASR_MULTITAP_DELAY_NUM_TAPS)	
+	(CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETER_PAR_TAP * CRIATOMEXASR_MULTITAP_DELAY_NUM_TAPS + 4)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_DISTORTION �f�B�X�g�[�V�����̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_DISTORTION ディストーションのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �f�B�X�g�[�V�����Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief ディストーションで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �c�݂̋���[dB]
+ * \brief 歪みの強さ[dB]
  * \ingroup CRIATOMASR_DSP_PARAM_DISTORTION
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀf�B�X�g�[�V�����̘c�݂̋����i�h���C�u�j���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.5f�A�ŏ��l��0.0f�A�ő�l��48.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにディストーションの歪みの強さ（ドライブ）を指定します。<br>
+ * パラメーターの初期値は0.5f、最小値は0.0f、最大値は48.0fです。
  */
 #define CRIATOMEXASR_DISTORTION_PARAMETER_DRIVE_DB						(0)
 
 /*JP
- * \brief dry�����̊���
+ * \brief dry成分の割合
  * \ingroup CRIATOMASR_DSP_PARAM_DISTORTION
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀf�B�X�g�[�V������dry�i�����j�������~�b�N�X���銄�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.71f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにディストーションのdry（原音）成分をミックスする割合を指定します。<br>
+ * パラメーターの初期値は0.71f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_DISTORTION_PARAMETER_DRY_MIX						(1)
 
 /*JP
- * \brief wet�����̊���
+ * \brief wet成分の割合
  * \ingroup CRIATOMASR_DSP_PARAM_DISTORTION
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀf�B�X�g�[�V������wet�i�c�݁j�������~�b�N�X���銄�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.71f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにディストーションのwet（歪み）成分をミックスする割合を指定します。<br>
+ * パラメーターの初期値は0.71f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_DISTORTION_PARAMETER_WET_MIX						(2)
 
 /*JP
- * \brief �ŏI�o�̓��x��[�U��]
+ * \brief 最終出力レベル[振幅]
  * \ingroup CRIATOMASR_DSP_PARAM_DISTORTION
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀf�B�X�g�[�V�����̍ŏI�o�̓��x�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.5f�A�ŏ��l��0.0f�A�ő�l��10��2.4��i48dB�ɑ�������l�j�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにディストーションの最終出力レベルを指定します。<br>
+ * パラメーターの初期値は0.5f、最小値は0.0f、最大値は10の2.4乗（48dBに相当する値）です。
  */
 #define CRIATOMEXASR_DISTORTION_PARAMETER_OUTPUT_GAIN					(3)
 
 /*JP
- * \brief �f�B�X�g�[�V�����̃p�����[�^�[��
+ * \brief ディストーションのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_DISTORTION
  */
 #define CRIATOMEXASR_DISTORTION_NUM_PARAMETERS							(4)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB I3DL2���o�[�u�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB I3DL2リバーブのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief I3DL2���o�[�u�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief I3DL2リバーブで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
- * \attention �v���Z�b�g�̓p�����[�^�[�C���f�b�N�X0-10�܂ł̏�񂪕��񂾔z��ł���A
- *			  �C���f�b�N�X11-13�ɂ��Ă͎w��ł��܂���B
+ * \attention プリセットはパラメーターインデックス0-10までの情報が並んだ配列であり、
+ *			  インデックス11-13については指定できません。
  */
 /*JP
- * \brief �G�t�F�N�g�S�̂̏o�̓{�����[��[mB]
+ * \brief エフェクト全体の出力ボリューム[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̍ŏI�o�̓{�����[�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��-1000.0f�A�ŏ��l��-10000.0f�A�ő�l��0.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの最終出力ボリュームを指定します。<br>
+ * パラメーターの初期値は-1000.0f、最小値は-10000.0f、最大値は0.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_ROOM						(0)
 
 /*JP
- * \brief �Q�Ǝ��g���i����j�����̃{�����[��[mB]
+ * \brief 参照周波数（高域）成分のボリューム[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̎Q�Ǝ��g���i����j�����̃{�����[�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��-100.0f�A�ŏ��l��-10000.0f�A�ő�l��0.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの参照周波数（高域）成分のボリュームを指定します。<br>
+ * パラメーターの初期値は-100.0f、最小値は-10000.0f、最大値は0.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_ROOM_HF						(1)
 
 /*JP
- * \brief �㕔�c�����̌�������[sec]
+ * \brief 後部残響音の減衰時間[sec]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̌㕔�c�����̌������Ԃ��w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.49f�A�ŏ��l��0.1f�A�ő�l��20.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの後部残響音の減衰時間を指定します。<br>
+ * パラメーターの初期値は1.49f、最小値は0.1f、最大値は20.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_DECAY_TIME					(2)
 
 /*JP
- * \brief �㕔�c�����̒���g�������ɑ΂��鍂���g�����̔�
+ * \brief 後部残響音の低周波数減衰に対する高周波減衰の比
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̌㕔�c�����ɂ�����A����g�����ɑ΂��鍂���g�����̔䗦���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.83f�A�ŏ��l��0.1f�A�ő�l��2.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの後部残響音における、低周波減衰に対する高周波減衰の比率を指定します。<br>
+ * パラメーターの初期値は0.83f、最小値は0.1f、最大値は2.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_DECAY_HF_RATIO				(3)
 
 /*JP
- * \brief �������ˉ��̃{�����[��[mB]
+ * \brief 初期反射音のボリューム[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̏������ˉ��̃{�����[�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��-2602f�A�ŏ��l��-10000.0f�A�ő�l��1000.0�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの初期反射音のボリュームを指定します。<br>
+ * パラメーターの初期値は-2602f、最小値は-10000.0f、最大値は1000.0です。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_REFLECTIONS					(4)
 
 /*JP
- * \brief �������ˉ��̒x������[sec]
+ * \brief 初期反射音の遅延時間[sec]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̏������ˉ��̃{�����[�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.007f�A�ŏ��l��0.0f�A�ő�l��0.3f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの初期反射音のボリュームを指定します。<br>
+ * パラメーターの初期値は0.007f、最小値は0.0f、最大値は0.3fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_REFLECTIONS_DELAY			(5)
 
 /*JP
- * \brief �㕔�c�����̃{�����[��[mB]
+ * \brief 後部残響音のボリューム[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̌㕔�c�����̃{�����[�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��200f�A�ŏ��l��-10000.0f�A�ő�l��2000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの後部残響音のボリュームを指定します。<br>
+ * パラメーターの初期値は200f、最小値は-10000.0f、最大値は2000.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_REVERB						(6)
 
 /*JP
- * \brief �㕔�c�����̒x������[sec]
+ * \brief 後部残響音の遅延時間[sec]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̌㕔�c�����̒x�����Ԃ��w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.011f�A�ŏ��l��0.0f�A�ő�l��0.1f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの後部残響音の遅延時間を指定します。<br>
+ * パラメーターの初期値は0.011f、最小値は0.0f、最大値は0.1fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_REVERB_DELAY				(7)
 
 /*JP
- * \brief �㕔�c�����̃G�R�[���x[%]
+ * \brief 後部残響音のエコー密度[%]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̌㕔�c�����̃G�R�[���x���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��100.0f�A�ŏ��l��0.0f�A�ő�l��100.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの後部残響音のエコー密度を指定します。<br>
+ * パラメーターの初期値は100.0f、最小値は0.0f、最大値は100.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_DIFFUSION					(8)
 
 /*JP
- * \brief �㕔�c�����̃��[�_�����x[%]
+ * \brief 後部残響音のモーダル密度[%]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̌㕔�c�����̃��[�_�����x���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��100.0f�A�ŏ��l��0.0f�A�ő�l��100.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブの後部残響音のモーダル密度を指定します。<br>
+ * パラメーターの初期値は100.0f、最小値は0.0f、最大値は100.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_DENSITY						(9)
 
 /*JP
- * \brief RoomHF�̎Q�Ǝ��g���i����j[Hz]
+ * \brief RoomHFの参照周波数（高域）[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u��RoomHF�̎Q�Ǝ��g���i����j���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��5000.0f�A�ŏ��l��20.0f�A�ő�l��20000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブのRoomHFの参照周波数（高域）を指定します。<br>
+ * パラメーターの初期値は5000.0f、最小値は20.0f、最大値は20000.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_HF_REFERENCE				(10)
 
 /*JP
- * \brief �t�����g�����̓��̓��x��[mB]
+ * \brief フロント成分の入力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̃t�����g�iL,R�`�����l���j�����̓��̓��x�����w�肵�܂��B<br>
- * I3DL2���o�[�u�̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��-10000.0f�A�ő�l��0.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブのフロント（L,Rチャンネル）成分の入力レベルを指定します。<br>
+ * I3DL2リバーブのプリセットでは指定できない事に注意して下さい。<br>
+ * パラメーターの初期値は0.0f、最小値は-10000.0f、最大値は0.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_FRONT_INPUT					(11)
 
 /*JP
- * \brief ���A�����̓��̓��x��[mB]
+ * \brief リア成分の入力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̃��A�i�T���E���hL,�T���E���hR�`�����l���j�����̓��̓��x�����w�肵�܂��B<br>
- * I3DL2���o�[�u�̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��-10000.0f�A�ő�l��0.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブのリア（サラウンドL,サラウンドRチャンネル）成分の入力レベルを指定します。<br>
+ * I3DL2リバーブのプリセットでは指定できない事に注意して下さい。<br>
+ * パラメーターの初期値は0.0f、最小値は-10000.0f、最大値は0.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_REAR_INPUT					(12)
 
 /*JP
- * \brief �Z���^�[�����̓��̓��x��[mB]
+ * \brief センター成分の入力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̃Z���^�[�iC�`�����l���j�����̓��̓��x�����w�肵�܂��B<br>
- * I3DL2���o�[�u�̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B<br>
- * �p�����[�^�[�̏����l��-10000.0f�A�ŏ��l��-10000.0f�A�ő�l��0.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブのセンター（Cチャンネル）成分の入力レベルを指定します。<br>
+ * I3DL2リバーブのプリセットでは指定できない事に注意して下さい。<br>
+ * パラメーターの初期値は-10000.0f、最小値は-10000.0f、最大値は0.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_CENTER_INPUT				(13)
 
 /*JP
- * \brief �t�����g�����̏o�̓��x��[mB]
+ * \brief フロント成分の出力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̃t�����g�iL,R�`�����l���j�����̏o�̓��x�����w�肵�܂��B<br>
- * I3DL2���o�[�u�̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��-10000.0f�A�ő�l��0.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブのフロント（L,Rチャンネル）成分の出力レベルを指定します。<br>
+ * I3DL2リバーブのプリセットでは指定できない事に注意して下さい。<br>
+ * パラメーターの初期値は0.0f、最小値は-10000.0f、最大値は0.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_FRONT_OUTPUT				(14)
 
 /*JP
- * \brief ���A�����̏o�̓��x��[mB]
+ * \brief リア成分の出力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̃��A�i�T���E���hL,�T���E���hR�`�����l���j�����̏o�̓��x�����w�肵�܂��B<br>
- * I3DL2���o�[�u�̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��-10000.0f�A�ő�l��0.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブのリア（サラウンドL,サラウンドRチャンネル）成分の出力レベルを指定します。<br>
+ * I3DL2リバーブのプリセットでは指定できない事に注意して下さい。<br>
+ * パラメーターの初期値は0.0f、最小値は-10000.0f、最大値は0.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_REAR_OUTPUT					(15)
 
 /*JP
- * \brief �Z���^�[�����̏o�̓��x��[mB]
+ * \brief センター成分の出力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��I3DL2���o�[�u�̃Z���^�[�iC�`�����l���j�����̏o�̓��x�����w�肵�܂��B<br>
- * I3DL2���o�[�u�̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B<br>
- * �p�����[�^�[�̏����l��-10000.0f�A�ŏ��l��-10000.0f�A�ő�l��0.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにI3DL2リバーブのセンター（Cチャンネル）成分の出力レベルを指定します。<br>
+ * I3DL2リバーブのプリセットでは指定できない事に注意して下さい。<br>
+ * パラメーターの初期値は-10000.0f、最小値は-10000.0f、最大値は0.0fです。
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PARAMETER_CENTER_OUTPUT				(16)
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[��
+ * \brief I3DL2リバーブのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_NUM_PARAMETERS						(17)
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: GENERIC
+ * \brief I3DL2リバーブのパラメーターのプリセット: GENERIC
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_GENERIC \
 	{ -1000,  -100, 1.49f, 0.83f,  -2602, 0.007f,    200, 0.011f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: PADDED CELL
+ * \brief I3DL2リバーブのパラメーターのプリセット: PADDED CELL
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_PADDEDCELL \
 	{ -1000, -6000, 0.17f, 0.10f,  -1204, 0.001f,    207, 0.002f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: ROOM
+ * \brief I3DL2リバーブのパラメーターのプリセット: ROOM
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_ROOM \
 	{ -1000,  -454, 0.40f, 0.83f,  -1646, 0.002f,     53, 0.003f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: BATH ROOM
+ * \brief I3DL2リバーブのパラメーターのプリセット: BATH ROOM
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_BATHROOM \
 	{ -1000, -1200, 1.49f, 0.54f,   -370, 0.007f,   1030, 0.011f, 100.0f,  60.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: LIVING ROOM
+ * \brief I3DL2リバーブのパラメーターのプリセット: LIVING ROOM
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_LIVINGROOM \
 	{ -1000, -6000, 0.50f, 0.10f,  -1376, 0.003f,  -1104, 0.004f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: STONE ROOM
+ * \brief I3DL2リバーブのパラメーターのプリセット: STONE ROOM
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_STONEROOM \
 	{ -1000,  -300, 2.31f, 0.64f,   -711, 0.012f,     83, 0.017f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: AUDITORIUM
+ * \brief I3DL2リバーブのパラメーターのプリセット: AUDITORIUM
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_AUDITORIUM \
 	{ -1000,  -476, 4.32f, 0.59f,   -789, 0.020f,   -289, 0.030f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: CONCERT HALL
+ * \brief I3DL2リバーブのパラメーターのプリセット: CONCERT HALL
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_CONCERTHALL \
 	{ -1000,  -500, 3.92f, 0.70f,  -1230, 0.020f,     -2, 0.029f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: CAVE
+ * \brief I3DL2リバーブのパラメーターのプリセット: CAVE
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_CAVE \
 	{ -1000,     0, 2.91f, 1.30f,   -602, 0.015f,   -302, 0.022f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: ARENA
+ * \brief I3DL2リバーブのパラメーターのプリセット: ARENA
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_ARENA \
 	{ -1000,  -698, 7.24f, 0.33f,  -1166, 0.020f,     16, 0.030f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: HANGER
+ * \brief I3DL2リバーブのパラメーターのプリセット: HANGER
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_HANGAR \
 	{ -1000, -1000, 10.05f, 0.23f,   -602, 0.020f,    198, 0.030f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: CARPETED HALL WAY
+ * \brief I3DL2リバーブのパラメーターのプリセット: CARPETED HALL WAY
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_CARPETEDHALLWAY \
 	{ -1000, -4000, 0.30f, 0.10f,  -1831, 0.002f,  -1630, 0.030f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: HALL WAY
+ * \brief I3DL2リバーブのパラメーターのプリセット: HALL WAY
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_HALLWAY \
 	{ -1000,  -300, 1.49f, 0.59f,  -1219, 0.007f,    441, 0.011f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: STONE CORRIDOR
+ * \brief I3DL2リバーブのパラメーターのプリセット: STONE CORRIDOR
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_STONECORRIDOR \
 	{ -1000,  -237, 2.70f, 0.79f,  -1214, 0.013f,    395, 0.020f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: ALLEY
+ * \brief I3DL2リバーブのパラメーターのプリセット: ALLEY
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_ALLEY \
 	{ -1000,  -270, 1.49f, 0.86f,  -1204, 0.007f,     -4, 0.011f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: FOREST
+ * \brief I3DL2リバーブのパラメーターのプリセット: FOREST
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_FOREST \
 	{ -1000, -3300, 1.49f, 0.54f,  -2560, 0.162f,   -613, 0.088f,  79.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: CITY
+ * \brief I3DL2リバーブのパラメーターのプリセット: CITY
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_CITY \
 	{ -1000,  -800, 1.49f, 0.67f,  -2273, 0.007f,  -2217, 0.011f,  50.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: MOUNTAINS
+ * \brief I3DL2リバーブのパラメーターのプリセット: MOUNTAINS
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_MOUNTAINS \
 	{ -1000, -2500, 1.49f, 0.21f,  -2780, 0.300f,  -2014, 0.100f,  27.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: QUARRY
+ * \brief I3DL2リバーブのパラメーターのプリセット: QUARRY
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_QUARRY \
 	{ -1000, -1000, 1.49f, 0.83f, -10000, 0.061f,    500, 0.025f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: PLAIN
+ * \brief I3DL2リバーブのパラメーターのプリセット: PLAIN
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_PLAIN \
 	{ -1000, -2000, 1.49f, 0.50f,  -2466, 0.179f,  -2514, 0.100f,  21.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: PARKING LOT
+ * \brief I3DL2リバーブのパラメーターのプリセット: PARKING LOT
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_PARKINGLOT \
 	{ -1000,     0, 1.65f, 1.50f,  -1363, 0.008f,  -1153, 0.012f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: SEWER PIPE
+ * \brief I3DL2リバーブのパラメーターのプリセット: SEWER PIPE
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_SEWERPIPE \
 	{ -1000, -1000, 2.81f, 0.14f,    429, 0.014f,    648, 0.021f,  80.0f,  60.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: UNDER WATER
+ * \brief I3DL2リバーブのパラメーターのプリセット: UNDER WATER
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_UNDERWATER \
 	{ -1000, -4000, 1.49f, 0.10f,   -449, 0.007f,   1700, 0.011f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: SMALL ROOM
+ * \brief I3DL2リバーブのパラメーターのプリセット: SMALL ROOM
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_SMALLROOM \
 	{ -1000,  -600, 1.10f, 0.83f,   -400, 0.005f,    500, 0.010f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: MEDIUM ROOM
+ * \brief I3DL2リバーブのパラメーターのプリセット: MEDIUM ROOM
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_MEDIUMROOM \
 	{ -1000,  -600, 1.30f, 0.83f,  -1000, 0.010f,   -200, 0.020f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: LARGE ROOM
+ * \brief I3DL2リバーブのパラメーターのプリセット: LARGE ROOM
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_LARGEROOM \
 	{ -1000,  -600, 1.50f, 0.83f,  -1600, 0.020f,  -1000, 0.040f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: MEDIUM HALL
+ * \brief I3DL2リバーブのパラメーターのプリセット: MEDIUM HALL
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_MEDIUMHALL \
 	{ -1000,  -600, 1.80f, 0.70f,  -1300, 0.015f,   -800, 0.030f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: LARGE HALL
+ * \brief I3DL2リバーブのパラメーターのプリセット: LARGE HALL
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_LARGEHALL \
 	{ -1000,  -600, 1.80f, 0.70f,  -2000, 0.030f,  -1400, 0.060f, 100.0f, 100.0f, 5000.0f}
 
 /*JP
- * \brief I3DL2���o�[�u�̃p�����[�^�[�̃v���Z�b�g: PLATE
+ * \brief I3DL2リバーブのパラメーターのプリセット: PLATE
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB
  */
 #define CRIATOMEXASR_I3DL2_REVERB_PRESET_PLATE \
 	{ -1000,  -200, 1.30f, 0.90f,      0, 0.002f,      0, 0.010f, 100.0f,  75.0f, 5000.0f}
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_MATRIX �}�g���N�X�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_MATRIX マトリクスのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �}�g���N�X�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief マトリクスで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 
 /*JP
- * \brief �}�g���N�X�̃f�t�H���g�̓��o�̓`�����l����
+ * \brief マトリクスのデフォルトの入出力チャンネル数
  * \ingroup CRIATOMASR_DSP_PARAM_MATRIX
- * \par ����:
- * �R���t�B�O�p�����^�ɂ����o�̓`�����l�������w�肳��Ȃ��ꍇ�Ɏw�肳��܂��B
+ * \par 説明:
+ * コンフィグパラメーターによる入出力チャンネル数が指定されない場合に指定されます。
  */
 #define CRIATOMEXASR_MATRIX_DEFAULT_NUM_CHANNELS							(8)
 
 /*JP
- * \brief �}�g���N�X�̓��o�̓`�����l�����f�t�H���g�Ŏw�肳�ꂽ�ꍇ�̓��쎞�p�����^��
+ * \brief マトリクスの入出力チャンネルがデフォルトで指定された場合の動作時パラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_MATRIX
- * \par ����:
- * �}�g���N�X�̓��o�̓`�����l�����Ƀf�t�H���g���w�肳�ꂽ�ۂ̓��쎞�p�����^���ł��B
+ * \par 説明:
+ * マトリクスの入出力チャンネル数にデフォルトが指定された際の動作時パラメーター数です。
  */
 #define CRIATOMEXASR_MATRIX_DEFAULT_NUM_PARAMETERS							\
 	(CRIATOMEXASR_MATRIX_DEFAULT_NUM_CHANNELS * CRIATOMEXASR_MATRIX_DEFAULT_NUM_CHANNELS)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ 3�o���h�C�R���C�U�E32�o���h�C�R���C�U�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ 3バンドイコライザー・32バンドイコライザーのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief 3�o���h�C�R���C�U�E32�o���h�C�R���C�U�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief 3バンドイコライザーー・32バンドイコライザーーで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 
 /*JP
- * \brief ���[�V�F���t�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ローシェルフフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_BAND_FILTER_TYPE_LOWSHELF 			(0)
 
 /*JP
- * \brief �n�C�V�F���t�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ハイシェルフフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_BAND_FILTER_TYPE_HIGHSHELF			(1)
 
 /*JP
- * \brief �s�[�L���O�t�B���^�[���w�肷�鎞�̃p�����[�^�[�̐ݒ�l
+ * \brief ピーキングフィルターを指定する時のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_BAND_FILTER_TYPE_PEAKING 			(2)
 
 /*JP
- * \brief 3�o���h�C�R���C�U/32�o���h�C�R���C�U��1�o���h������̃p�����[�^�[��
+ * \brief 3バンドイコライザーー/32バンドイコライザーーの1バンドあたりのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_NUM_PARAMETER_PAR_BAND 				(4)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER �s�b�`�V�t�^�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER ピッチシフターのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �s�b�`�V�t�^�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief ピッチシフターで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �s�b�`�ύX��[���V�I]
+ * \brief ピッチ変更量[レシオ]
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀs�b�`�V�t�^�̃s�b�`�ύX�ʂ��w�肵�܂��B<br>
- * �s�b�`�V�t�g�l�i�Z���g�l�j�̔䗦�i���V�I�j�ł��B�p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.25f�i-2400�Z���g�ɑ����j�A�ő�l��4.0f�i2400�Z���g�ɑ����j�B<br>
- * \note ���V�I�l����Z���g�l�ւ̕ϊ��̓��V�I�l�ɒꂪ2�̑ΐ���������l�ɁA1200.0f���悶�邱�ƂŎ擾�ł��܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにピッチシフターのピッチ変更量を指定します。<br>
+ * ピッチシフト値（セント値）の比率（レシオ）です。パラメーターの初期値は1.0f、最小値は0.25f（-2400セントに相当）、最大値は4.0f（2400セントに相当）。<br>
+ * \note レシオ値からセント値への変換はレシオ値に底が2の対数を取った値に、1200.0fを乗じることで取得できます。
  * \code
- * // �Z���g�l cent ���烌�V�I�l ratio �֕ϊ�
+ * // セント値 cent からレシオ値 ratio へ変換
  * ratio = powf(2.0f, cent / 1200.0f);
- * // ���V�I�l ratio ����Z���g�l cent �֕ϊ�
+ * // レシオ値 ratio からセント値 cent へ変換
  * cent = 1200.0f * log2f(ratio);
  * \endcode
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_PARAMETER_PITCH_RATIO				(0)
 
 /*JP
- * \brief �t�H���}���g�ύX��[���V�I]
+ * \brief フォルマント変更量[レシオ]
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀs�b�`�V�t�^�̃t�H���}���g�ύX�ʂ��w�肵�܂��B<br>
- * �s�b�`�V�t�g�l�i�Z���g�l�j�̔䗦�i���V�I�j�ł��B�p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.25f�i-2400�Z���g�ɑ����j�A�ő�l��4.0f�i2400�Z���g�ɑ����j�B<br>
- * \note ���V�I�l����Z���g�l�ւ̕ϊ��̓��V�I�l�ɒꂪ2�̑ΐ���������l�ɁA1200.0f���悶�邱�ƂŎ擾�ł��܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにピッチシフターのフォルマント変更量を指定します。<br>
+ * ピッチシフト値（セント値）の比率（レシオ）です。パラメーターの初期値は1.0f、最小値は0.25f（-2400セントに相当）、最大値は4.0f（2400セントに相当）。<br>
+ * \note レシオ値からセント値への変換はレシオ値に底が2の対数を取った値に、1200.0fを乗じることで取得できます。
  * \code
- * // �Z���g�l cent ���烌�V�I�l ratio �֕ϊ�
+ * // セント値 cent からレシオ値 ratio へ変換
  * ratio = powf(2.0f, cent / 1200.0f);
- * // ���V�I�l ratio ����Z���g�l cent �֕ϊ�
+ * // レシオ値 ratio からセント値 cent へ変換
  * cent = 1200.0f * log2f(ratio);
  * \endcode
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_PARAMETER_FORMANT_RATIO				(1)
 
 /*JP
- * \brief ���샂�[�h
+ * \brief 動作モード
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀs�b�`�V�t�^�̓��샂�[�h���w�肵�܂��B<br>
- * ��ʊ����d�����邩�ۂ��A�l�Ԃ̐����܂񂾉����i�s�b�`�̂��鉹���j���ۂ��œK�؂ȓ��샂�[�h���قȂ�܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにピッチシフターの動作モードを指定します。<br>
+ * 定位感を重視するか否か、人間の声を含んだ音声（ピッチのある音声）か否かで適切な動作モードが異なります。
  * \sa CRIATOMEXASR_PITCH_SHIFTER_MODE_MUSIC, CRIATOMEXASR_PITCH_SHIFTER_MODE_VOCAL, CRIATOMEXASR_PITCH_SHIFTER_MODE_SE, CRIATOMEXASR_PITCH_SHIFTER_MODE_SPEECH
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_PARAMETER_MODE						(2)
 
 /*JP
- * \brief ���͉����f�[�^�̃s�b�`���g��[Hz]
+ * \brief 入力音声データのピッチ周波数[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɓ��͉����f�[�^�̃s�b�`���g�����w�肵�܂��B<br>
- * �t�H���}���g��͂̍ۂ̃q���g���ɂȂ�܂����A���ۂ̉����f�[�^�ɂ������ꂽ�l���w�肷��Ɖ����ɎG�����t������邽�ߒ��ӂ��ĉ������B�w�肵�Ȃ������ꍇ�̓f�t�H���g�̃s�b�`�i459.375Hz�j�������Ŏg�p����܂��B
+ * \par 説明:
+ * 本パラメーターインデックスに入力音声データのピッチ周波数を指定します。<br>
+ * フォルマント解析の際のヒント情報になりますが、実際の音声データにかけ離れた値を指定すると音声に雑音が付加されるため注意して下さい。指定しなかった場合はデフォルトのピッチ（459.375Hz）が内部で使用されます。
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_PARAMETER_DATA_PITCH_FREQUENCY		(3)
 
 /*JP
- * \brief �s�b�`�V�t�^�̃p�����[�^�[��
+ * \brief ピッチシフターのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_NUM_PARAMETERS						(4)
 
 /*JP
- * \brief �s�b�`�V�t�^�̓��샂�[�h�ŉ��y���w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief ピッチシフターの動作モードで音楽を指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER 
- * \par ����:
- * LR��MS�ϊ��iL,Rch�̉�����M,Sch�ɕϊ����s���j���s���A�t�H���}���g�V�t�g���s���܂���B
+ * \par 説明:
+ * LR→MS変換（L,Rchの音声をM,Schに変換を行う）を行い、フォルマントシフトを行いません。
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_MODE_MUSIC							(0)
 
 /*JP
- * \brief �s�b�`�V�t�^�̓��샂�[�h�Ń{�[�J�����w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief ピッチシフターの動作モードでボーカルを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER 
- * \par ����:
- * LR��MS�ϊ����s���A���t�H���}���g�V�t�g���s���܂��B
+ * \par 説明:
+ * LR→MS変換を行い、かつフォルマントシフトを行います。
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_MODE_VOCAL							(1)
 
 /*JP
- * \brief �s�b�`�V�t�^�̓��샂�[�h��SE���w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief ピッチシフターの動作モードでSEを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER 
- * \par ����:
- * LR��MS�ϊ��͍s�킸�A�t�H���}���g�V�t�g���s���܂���B
+ * \par 説明:
+ * LR→MS変換は行わず、フォルマントシフトも行いません。
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_MODE_SE								(2)
 
 /*JP
- * \brief �s�b�`�V�t�^�̓��샂�[�h�ŃX�s�[�`���w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief ピッチシフターの動作モードでスピーチを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_PITCH_SHIFTER 
- * \par ����:
- * LR��MS�ϊ��͍s�킸�A�t�H���}���g�V�t�g�͍s���܂��B
+ * \par 説明:
+ * LR→MS変換は行わず、フォルマントシフトは行います。
  */
 #define CRIATOMEXASR_PITCH_SHIFTER_MODE_SPEECH							(3)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_REVERB ���o�[�u�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_REVERB リバーブのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief ���o�[�u�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief リバーブで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �c������[ms]
+ * \brief 残響時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��o�[�u�̎c�����Ԃ��w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��3000.0f�A�ŏ��l��1.0f�A�ő�l��20000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにリバーブの残響時間を指定します。<br>
+ * パラメーターの初期値は3000.0f、最小値は1.0f、最大値は20000.0fです。
  */
 #define CRIATOMEXASR_REVERB_PARAMETER_REVERB_TIME_MS					(0)
 
 /*JP
- * \brief ���[���T�C�Y[m]
+ * \brief ルームサイズ[m]
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��o�[�u�̃��[���T�C�Y���w�肵�܂��B<br>
- * �ő僋�[���T�C�Y�̔����̒l�ŏ���������܂��B�p�����[�^�[�̍ŏ��l��1.0f�A�ő�l��50.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにリバーブのルームサイズを指定します。<br>
+ * 最大ルームサイズの半分の値で初期化されます。パラメーターの最小値は1.0f、最大値は50.0fです。
  */
 #define CRIATOMEXASR_REVERB_PARAMETER_ROOM_SIZE_M						(1)
 
 /*JP
- * \brief �v���f�B���C����[ms]
+ * \brief プリディレイ時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��o�[�u�̃v���f�B���C���Ԃ��w�肵�܂��B<br>
- * �p�����[�^�[�̍ŏ��l��10.0f�A�ő�l��1000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにリバーブのプリディレイ時間を指定します。<br>
+ * パラメーターの最小値は10.0f、最大値は1000.0fです。
  */
 #define CRIATOMEXASR_REVERB_PARAMETER_PRE_DELAY_TIME_MS					(2)
 
 /*JP
- * \brief ���J�b�g�I�t���g��[Hz]
+ * \brief 低域カットオフ周波数[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��o�[�u�o�͂̒��J�b�g�I�t���g�����w�肵�܂��B<br>
- * �����l��0.0f�ł��B�p�����[�^�[�̍ŏ��l��0.0f�A�ő�l��24000.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにリバーブ出力の低域カットオフ周波数を指定します。<br>
+ * 初期値は0.0fです。パラメーターの最小値は0.0f、最大値は24000.0fです。
  */
 #define CRIATOMEXASR_REVERB_PARAMETER_LOW_COF							(3)
 
 /*JP
- * \brief ����J�b�g�I�t���g��[Hz]
+ * \brief 高域カットオフ周波数[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ��o�[�u�o�͂̍���J�b�g�I�t���g�����w�肵�܂��B<br>
- * �����l��8000.0f�ł��B�p�����[�^�[�̍ŏ��l��8000.0f�A�ő�l��24000.f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにリバーブ出力の高域カットオフ周波数を指定します。<br>
+ * 初期値は8000.0fです。パラメーターの最小値は8000.0f、最大値は24000.fです。
  */
 #define CRIATOMEXASR_REVERB_PARAMETER_HIGH_COF							(4)
 
 /*JP
- * \brief ���o�[�u�̃p�����[�^�[��
+ * \brief リバーブのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB
  */
 #define CRIATOMEXASR_REVERB_NUM_PARAMETERS								(5)
 
 /*JP
- * \brief ���o�[�u�̓��샂�[�h�ŃT���E���h���w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief リバーブの動作モードでサラウンドを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB 
- * \par ����:
- * �SCh�̓��͂����m�����փ~�b�N�X���A�o��Ch�ɍ��킹�ă}�g���N�X�T���E���h�ɓW�J���s���܂��B<br>
+ * \par 説明:
+ * 全Chの入力をモノラルへミックスし、出力Chに合わせてマトリクスサラウンドに展開を行います。<br>
  * 
- *  - �o��Ch��5Ch�ȉ��̏ꍇ�́A�X�e���I�o�͂��s���܂��B
- *  - �o��Ch��6Ch�ȏ�̏ꍇ�́A�T���E���hCh�i�T���E���hL,RCh�j�Ƀ��ACh�i���AL,RCh�j��
- *    �t�ʑ��̐M�����o�͂��܂��B
+ *  - 出力Chが5Ch以下の場合は、ステレオ出力を行います。
+ *  - 出力Chが6Ch以上の場合は、サラウンドCh（サラウンドL,RCh）にリアCh（リアL,RCh）の
+ *    逆位相の信号を出力します。
  *
- * \attention �Z���^�[Ch��LFE�̏o�͖͂����ɂȂ�܂��B
+ * \attention センターChとLFEの出力は無音になります。
  */
 #define CRIATOMEXASR_REVERB_MODE_DEF_SURROUND							(0)
 
 /*JP
- * \brief ���o�[�u�̓��샂�[�h�ŃX�e���I���w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief リバーブの動作モードでステレオを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB 
- * \par ����:
- * 2Ch�œ��o�͂��s���܂��B
+ * \par 説明:
+ * 2Chで入出力を行います。
  */
 #define CRIATOMEXASR_REVERB_MODE_DEF_STEREO								(1)
 
 /*JP
- * \brief ���o�[�u�̓��샂�[�h�Ń��A�݂̂��w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief リバーブの動作モードでリアのみを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB 
- * \par ����:
- * ���ACh�i���AL,RCh�j�݂̂œ��o�͂��s���܂��B
+ * \par 説明:
+ * リアCh（リアL,RCh）のみで入出力を行います。
  */
 #define CRIATOMEXASR_REVERB_MODE_DEF_REAR_ONLY							(2)
 
 /*JP
- * \brief ���o�[�u�̓��샂�[�h�ŃZ���^�[�݂̂��w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief リバーブの動作モードでセンターのみを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_REVERB 
- * \par ����:
- * �Z���^�[Ch�݂̂œ��o�͂��s���܂��B
+ * \par 説明:
+ * センターChのみで入出力を行います。
  */
 #define CRIATOMEXASR_REVERB_MODE_DEF_CENTER_ONLY						(3)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_SURROUNDER �T���E���_�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_SURROUNDER サラウンダーのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �T���E���_�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief サラウンダーで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief ���샂�[�h
+ * \brief 動作モード
  * \ingroup CRIATOMASR_DSP_PARAM_SURROUNDER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃT���E���_�̓��샂�[�h���w�肵�܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにサラウンダーの動作モードを指定します。
  * \sa CRIATOMEXASR_SURROUNDER_MODE_STRAIGHT, CRIATOMEXASR_SURROUNDER_MODE_CROSS, CRIATOMEXASR_SURROUNDER_MODE_MATRIX
  */
 #define CRIATOMEXASR_SURROUNDER_PARAMETER_MODE							(0)
 
 /*JP
- * \brief �T���E���h�����̒x������[ms]
+ * \brief サラウンド成分の遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_SURROUNDER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃT���E���_�̃T���E���h�`�����l�������̒x�����Ԃ��w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��500.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにサラウンダーのサラウンドチャンネル成分の遅延時間を指定します。<br>
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は500.0fです。
  */
 #define CRIATOMEXASR_SURROUNDER_PARAMETER_DELAY_TIME_MS					(1)
 
 /*JP
- * \brief �T���E���h�����̃Q�C��[�U��]
+ * \brief サラウンド成分のゲイン[振幅]
  * \ingroup CRIATOMASR_DSP_PARAM_SURROUNDER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃT���E���_�̃T���E���h�`�����l�������̏o�̓Q�C�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.0f�A�ő�l��10��2.4��i48dB�ɑ����j�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにサラウンダーのサラウンドチャンネル成分の出力ゲインを指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.0f、最大値は10の2.4乗（48dBに相当）です。
  */
 #define CRIATOMEXASR_SURROUNDER_PARAMETER_GAIN							(2)
 
 /*JP
- * \brief �T���E���_�̃p�����[�^�[��
+ * \brief サラウンダーのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_SURROUNDER
  */
 #define CRIATOMEXASR_SURROUNDER_NUM_PARAMETERS							(3)
 
 
 /*JP
- * \brief �T���E���_�̓��샂�[�h�ŃX�g���[�g���w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief サラウンダーの動作モードでストレートを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_SURROUNDER
- * \par ����:
- * ���͂�LCh���T���E���hLCh�ɁARCh���T���E���hRCh�ɓW�J���܂��B
+ * \par 説明:
+ * 入力のLChをサラウンドLChに、RChをサラウンドRChに展開します。
  */
 #define CRIATOMEXASR_SURROUNDER_MODE_STRAIGHT							(0)
 
 /*JP
- * \brief �T���E���_�̓��샂�[�h�ŃN���X���w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief サラウンダーの動作モードでクロスを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_SURROUNDER
- * \par ����:
- * ���͂�LCh���T���E���hRCh�ɁARCh���T���E���hLCh�ɓW�J���܂��B
+ * \par 説明:
+ * 入力のLChをサラウンドRChに、RChをサラウンドLChに展開します。
  */
 #define CRIATOMEXASR_SURROUNDER_MODE_CROSS								(1)
 
 /*JP
- * \brief �T���E���_�̓��샂�[�h�Ń}�g���N�X���w�肷��ۂ̃p�����[�^�[�̐ݒ�l
+ * \brief サラウンダーの動作モードでマトリクスを指定する際のパラメーターの設定値
  * \ingroup CRIATOMASR_DSP_PARAM_SURROUNDER
- * \par ����:
- * ���͂�LCh - RCh�iLCh���͂���RCh���͂��������������́j���T���E���hLCh�ɁARCh - LCh���T���E���hRCh�ɓW�J���܂��B
+ * \par 説明:
+ * 入力のLCh - RCh（LCh入力からRCh入力を差し引いたもの）をサラウンドLChに、RCh - LChをサラウンドRChに展開します。
  */
 #define CRIATOMEXASR_SURROUNDER_MODE_MATRIX								(2)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER �r�b�g�N���b�V���[�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER ビットクラッシャーのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �r�b�g�N���b�V���[�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief ビットクラッシャーで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �c�݂̋���[dB]
+ * \brief 歪みの強さ[dB]
  * \ingroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀr�b�g�N���b�V���[�̘c�݂̋����i�h���C�u�j���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.5f�A�ŏ��l��0.0f�A�ő�l��48.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにビットクラッシャーの歪みの強さ（ドライブ）を指定します。<br>
+ * パラメーターの初期値は0.5f、最小値は0.0f、最大値は48.0fです。
  */
 #define CRIATOMEXASR_BIT_CRUSHER_PARAMETER_DRIVE_DB						(0)
 
 /*JP
- * \brief �ʎq���r�b�g��
+ * \brief 量子化ビット数
  * \ingroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀr�b�g�N���b�V���[�̗ʎq���r�b�g�����w�肵�܂��B<br>
- * �������ݒ肷��قǐU����Lo-Fi�ɂȂ�܂��B<br>
- * �p�����[�^�[�̏����l��8�A�ŏ��l��1�A�ő�l��24�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにビットクラッシャーの量子化ビット数を指定します。<br>
+ * 小さく設定するほど振幅がLo-Fiになります。<br>
+ * パラメーターの初期値は8、最小値は1、最大値は24です。
  */
 #define CRIATOMEXASR_BIT_CRUSHER_PARAMETER_DEPTH_BITS					(1)
 
 /*JP
- * \brief �_�E���T���v�����O
+ * \brief ダウンサンプリング
  * \ingroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀr�b�g�N���b�V���[�̃_�E���T���v�����O���w�肵�܂��B<br>
- * �傫���ݒ肷��قǎ��Ԃ�Lo-Fi�ɂȂ�܂��B<br>
- * �p�����[�^�[�̏����l��8�A�ŏ��l��1�A�ő�l��100�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにビットクラッシャーのダウンサンプリングを指定します。<br>
+ * 大きく設定するほど時間がLo-Fiになります。<br>
+ * パラメーターの初期値は8、最小値は1、最大値は100です。
  */
 #define CRIATOMEXASR_BIT_CRUSHER_PARAMETER_DOWN_SAMPLING				(2)
 
 /*JP
- * \brief dry�����̊���
+ * \brief dry成分の割合
  * \ingroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀr�b�g�N���b�V���[��dry�i�����j�������~�b�N�X���銄�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.71f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにビットクラッシャーのdry（原音）成分をミックスする割合を指定します。<br>
+ * パラメーターの初期値は0.71f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_BIT_CRUSHER_PARAMETER_DRY_MIX						(3)
 
 /*JP
- * \brief wet�����̊���
+ * \brief wet成分の割合
  * \ingroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀr�b�g�N���b�V���[��wet�i�c�݁j�������~�b�N�X���銄�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.71f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにビットクラッシャーのwet（歪み）成分をミックスする割合を指定します。<br>
+ * パラメーターの初期値は0.71f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_BIT_CRUSHER_PARAMETER_WET_MIX						(4)
 
 /*JP
- * \brief �ŏI�o�̓��x��[�U��]
+ * \brief 最終出力レベル[振幅]
  * \ingroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀr�b�g�N���b�V���[�̍ŏI�o�̓��x�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.5f�A�ŏ��l��0.0f�A�ő�l��10��2.4��i48dB�ɑ�������l�j�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにビットクラッシャーの最終出力レベルを指定します。<br>
+ * パラメーターの初期値は0.5f、最小値は0.0f、最大値は10の2.4乗（48dBに相当する値）です。
  */
 #define CRIATOMEXASR_BIT_CRUSHER_PARAMETER_OUTPUT_GAIN					(5)
 
 /*JP
- * \brief �r�b�g�N���b�V���[�̃p�����[�^�[��
+ * \brief ビットクラッシャーのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_BIT_CRUSHER
  */
 #define CRIATOMEXASR_BIT_CRUSHER_NUM_PARAMETERS							(6)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_PHASER �t�F�[�U�[�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_PHASER フェーザーのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �t�F�[�U�[�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief フェーザーで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �x������[ms]
+ * \brief 遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_PHASER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�F�[�U�[�̃t�F�C�W���O���ʂ̋������w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��8�A�ŏ��l��4�A�ő�l��12�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフェーザーのフェイジング効果の強さを指定します。<br>
+ * パラメーターの初期値は8、最小値は4、最大値は12です。
  */
 #define CRIATOMEXASR_PHASER_PARAMETER_STAGES							(0)
 
 /*JP
- * \brief �[���iLFO�U���j
+ * \brief 深さ（LFO振幅）
  * \ingroup CRIATOMASR_DSP_PARAM_PHASER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�F�[�U�[�̐[�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.5f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフェーザーの深さを指定します。<br>
+ * パラメーターの初期値は0.5f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_PHASER_PARAMETER_DEPTH								(1)
 
 /*JP
- * \brief ���[�g�i�X�s�[�h�ALFO���g���j[Hz]
+ * \brief レート（スピード、LFO周波数）[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_PHASER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�F�[�U�[��LFO�̃��[�g���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.01f�A�ő�l��100.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフェーザーのLFOのレートを指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.01f、最大値は100.0fです。
  */
 #define CRIATOMEXASR_PHASER_PARAMETER_RATE								(2)
 
 /*JP
- * \brief �t�B�[�h�o�b�N�Q�C��
+ * \brief フィードバックゲイン
  * \ingroup CRIATOMASR_DSP_PARAM_PHASER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�F�[�U�[�̃t�B�[�h�o�b�N�Q�C�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフェーザーのフィードバックゲインを指定します。<br>
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_PHASER_PARAMETER_FEEDBACK							(3)
 
 /*JP
- * \brief dry�����̃~�b�N�X
+ * \brief dry成分のミックス
  * \ingroup CRIATOMASR_DSP_PARAM_PHASER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�F�[�U�[��dry�i�����j�����̃~�b�N�X�������w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.71f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフェーザーのdry（原音）成分のミックス割合を指定します。<br>
+ * パラメーターの初期値は0.71f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_PHASER_PARAMETER_DRY_MIX							(4)
 
 /*JP
- * \brief wet�����̃~�b�N�X
+ * \brief wet成分のミックス
  * \ingroup CRIATOMASR_DSP_PARAM_PHASER
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀt�F�[�U�[��wet�i�����j�����̃~�b�N�X�������w�肵�܂��B
- * �p�����[�^�[�̏����l��0.71f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \par 説明:
+ * 本パラメーターインデックスにフェーザーのwet（原音）成分のミックス割合を指定します。
+ * パラメーターの初期値は0.71f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_PHASER_PARAMETER_WET_MIX							(5)
 
 /*JP
- * \brief �t�F�[�U�[�̃p�����[�^�[��
+ * \brief フェーザーのパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_PHASER
  */
 #define CRIATOMEXASR_PHASER_NUM_PARAMETERS								(6)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_HEADPHONE_VIRTUAL_SURROUND �w�b�h�t�H���o�[�`�����T���E���h�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_HEADPHONE_VIRTUAL_SURROUND ヘッドフォンバーチャルサラウンドのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief �w�b�h�t�H���o�[�`�����T���E���h�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief ヘッドフォンバーチャルサラウンドで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �Q�C��
+ * \brief ゲイン
  * \ingroup CRIATOMASR_DSP_PARAM_HEADPHONE_VIRTUAL_SURROUND
- * \par ����:
- * �S�̂̉��ʂɑ΂���{���B�P�ʂ�dB�B
+ * \par 説明:
+ * 全体の音量に対する倍率。単位はdB。
  */
 #define CRIATOMEXASR_HEADPHONE_VIRTUAL_SURROUND_GAIN					(0)
 
 /*JP
- * \brief �o�����X
+ * \brief バランス
  * \ingroup CRIATOMASR_DSP_PARAM_HEADPHONE_VIRTUAL_SURROUND
- * \par ����:
- * �t�����g�����̃��A�A�T���E���h�����ɑ΂��鑊�΃{�����[���B�P�ʂ�dB�B
+ * \par 説明:
+ * フロント成分のリア、サラウンド成分に対する相対ボリューム。単位はdB。
  */
 #define CRIATOMEXASR_HEADPHONE_VIRTUAL_SURROUND_BALANCE					(1)
 
 /*JP
- * \brief �o�[�`�����T���E���h���쎞�Ɏw��\�ȃp�����[�^�[��
+ * \brief バーチャルサラウンド動作時に指定可能なパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_HEADPHONE_VIRTUAL_SURROUND
  */
 #define CRIATOMEXASR_HEADPHONE_VIRTUAL_SURROUND_NUM_PARAMETERS			(2)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_IR_REVERB IR���o�[�u�̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_IR_REVERB IRリバーブのパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief IR���o�[�u�Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief IRリバーブで設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �h���C�����̃Q�C��(0 ~ 1)
+ * \brief ドライ成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * �h���C�����̃~�b�N�X�Q�C���ł��B
- * ���̃G�t�F�N�g��K�p�������̓h���C�����ł�Atom�̃T�[�o�[���g��1V�̒x�����������܂��B
- * �x�����N���e�B�J���ȏꍇ�A���̃p�����[�^�[��0�ɐݒ肵�ʃo�X�Ńh���C�������~�b�N�X���Ă��������B
+ * \par 説明:
+ * ドライ成分のミックスゲインです。
+ * このエフェクトを適用した音はドライ成分でもAtomのサーバー周波数1Vの遅延が発生します。
+ * 遅延がクリティカルな場合、このパラメーターを0に設定し別バスでドライ成分をミックスしてください。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_DRY_GAIN						(0)
 
 /*JP
- * \brief �E�F�b�g�����̃Q�C��(0 ~ 1)
+ * \brief ウェット成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * �E�F�b�g�����̃~�b�N�X�Q�C���ł��B
- * ���ɋ����Ă���c�����܂߁A�G�t�F�N�g���o�͂���S�ẴE�F�b�g�����ɓK�p����܂��B
+ * \par 説明:
+ * ウェット成分のミックスゲインです。
+ * 既に響いている残響を含め、エフェクトが出力する全てのウェット成分に適用されます。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_WET_GAIN						(1)
 
 /*JP
- * \brief �c���̃Q�C��(0 ~ 1)
+ * \brief 残響のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * �c���𐶐����鎞�ɓK�p�����Q�C���ł��B
- * �E�F�b�g�Q�C���ƈقȂ�A�ȍ~��������c���ɂ̂ݓK�p����܂��B
- * ���ɋ����Ă�c���ɂ͓K�p����܂���BIR�̐ؑ֎��ɍX�V���邱�ƂŁAIR���Ƃ̎c���̌��݂𒲐��ł��܂��B
+ * \par 説明:
+ * 残響を生成する時に適用されるゲインです。
+ * ウェットゲインと異なり、以降発生する残響にのみ適用されます。
+ * 既に響いてる残響には適用されません。IRの切替時に更新することで、IRごとの残響の厚みを調整できます。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_REVERB_GAIN					(2)
 
 /*JP
- * \brief ���͐M���̃X�e���I�~�b�N�X���̍��E�����x(0 ~ 1)
+ * \brief 入力信号のステレオミックス時の左右分離度(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * ���͐M������ݍ��݂̂��߂ɃX�e���I�~�b�N�X���鎞�A���E�̕����x���w�肵�܂��B
- * ���̃p�����[�^�[��0�̏ꍇ�A���͐M�������m�����~�b�N�X����IR�Ə􍞂݂��s���܂��B
- * 1�̏ꍇ�A���͐M���̍�����(L, SL, SBL)�ƉE����(R, SR, SBR)�����ꂼ��X�e���I��L��R�Ƀ~�b�N�X���܂��B
- * ���m����IR�ɑ΂����̃p�����[�^�[��0�̏ꍇ�A���E�ɑS�������c������������邱�Ƃɂ����ӂ��������B
+ * \par 説明:
+ * 入力信号を畳み込みのためにステレオミックスする時、左右の分離度を指定します。
+ * このパラメーターが0の場合、入力信号をモノラルミックスしてIRと畳込みを行います。
+ * 1の場合、入力信号の左成分(L, SL, SBL)と右成分(R, SR, SBR)をそれぞれステレオのLとRにミックスします。
+ * モノラルIRに対しこのパラメーターが0の場合、左右に全く同じ残響が生成されることにご注意ください。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_INPUT_SEPARATION_RATIO			(3)
 
 /*JP
- * \brief ���͐M���̃X�e���I�~�b�N�X���̃t�����g�����̃Q�C��(0 ~ 1)
+ * \brief 入力信号のステレオミックス時のフロント成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * ���͐M�����X�e���I�~�b�N�X���邽�߂̃t�����g�����̃Q�C�����w�肵�܂��B
+ * \par 説明:
+ * 入力信号をステレオミックスするためのフロント成分のゲインを指定します。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_FRONT_INPUT_GAIN				(4)
 
 /*JP
- * \brief ���͐M���̃X�e���I�~�b�N�X���̃Z���^�[�����̃Q�C��(0 ~ 1)
+ * \brief 入力信号のステレオミックス時のセンター成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * ���͐M�����X�e���I�~�b�N�X���邽�߂̃Z���^�[�����̃Q�C�����w�肵�܂��B
+ * \par 説明:
+ * 入力信号をステレオミックスするためのセンター成分のゲインを指定します。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_CENTER_INPUT_GAIN				(5)
 
 /*JP
- * \brief ���͐M���̃X�e���I�~�b�N�X���̃T���E���h�����̃Q�C��(0 ~ 1)
+ * \brief 入力信号のステレオミックス時のサラウンド成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * ���͐M�����X�e���I�~�b�N�X���邽�߂̃T���E���h�����̃Q�C�����w�肵�܂��B
+ * \par 説明:
+ * 入力信号をステレオミックスするためのサラウンド成分のゲインを指定します。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_SURROUND_INPUT_GAIN			(6)
 
 /*JP
- * \brief ���͐M���̃X�e���I�~�b�N�X���̃T���E���h�o�b�N�����̃Q�C��(0 ~ 1)
+ * \brief 入力信号のステレオミックス時のサラウンドバック成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * ���͐M�����X�e���I�~�b�N�X���邽�߂̃T���E���h�o�b�N�����̃Q�C�����w�肵�܂��B
+ * \par 説明:
+ * 入力信号をステレオミックスするためのサラウンドバック成分のゲインを指定します。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_SURROUND_BACK_INPUT_GAIN		(7)
 
 /*JP
- * \brief �E�F�b�g�����̃A�b�v�~�b�N�X���̃t�����g�����̃Q�C��(0 ~ 1)
+ * \brief ウェット成分のアップミックス時のフロント成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * �������ꂽ�X�e���I�̃E�F�b�g�����i�c���j����͐M���Ɠ����`�����l�����Ƀ~�b�N�X���邽�߂̃t�����g�����̃Q�C�����w�肵�܂��B
+ * \par 説明:
+ * 生成されたステレオのウェット成分（残響）を入力信号と同じチャンネル数にミックスするためのフロント成分のゲインを指定します。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_FRONT_OUTPUT_GAIN				(8)
 
 /*JP
- * \brief �E�F�b�g�����̃A�b�v�~�b�N�X���̃Z���^�[�����̃Q�C��(0 ~ 1)
+ * \brief ウェット成分のアップミックス時のセンター成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * �������ꂽ�X�e���I�̃E�F�b�g�����i�c���j����͐M���Ɠ����`�����l�����Ƀ~�b�N�X���邽�߂̃Z���^�[�����̃Q�C�����w�肵�܂��B
+ * \par 説明:
+ * 生成されたステレオのウェット成分（残響）を入力信号と同じチャンネル数にミックスするためのセンター成分のゲインを指定します。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_CENTER_OUTPUT_GAIN				(9)
 
 /*JP
- * \brief �E�F�b�g�����̃A�b�v�~�b�N�X���̃T���E���h�����̃Q�C��(0 ~ 1)
+ * \brief ウェット成分のアップミックス時のサラウンド成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * �������ꂽ�X�e���I�̃E�F�b�g�����i�c���j����͐M���Ɠ����`�����l�����Ƀ~�b�N�X���邽�߂̃T���E���h�����̃Q�C�����w�肵�܂��B
+ * \par 説明:
+ * 生成されたステレオのウェット成分（残響）を入力信号と同じチャンネル数にミックスするためのサラウンド成分のゲインを指定します。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_SURROUND_OUTPUT_GAIN			(10)
 
 /*JP
- * \brief �E�F�b�g�����̃A�b�v�~�b�N�X���̃T���E���h�o�b�N�����̃Q�C��(0 ~ 1)
+ * \brief ウェット成分のアップミックス時のサラウンドバック成分のゲイン(0 ~ 1)
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * �������ꂽ�X�e���I�̃E�F�b�g�����i�c���j����͐M���Ɠ����`�����l�����Ƀ~�b�N�X���邽�߂̃T���E���h�o�b�N�����̃Q�C�����w�肵�܂��B
+ * \par 説明:
+ * 生成されたステレオのウェット成分（残響）を入力信号と同じチャンネル数にミックスするためのサラウンドバック成分のゲインを指定します。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_SURROUND_BACK_OUTPUT_GAIN		(11)
 
 /*JP
- * \brief IR�̃C���f�b�N�X�ԍ�
+ * \brief IRのインデックス番号
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
- * \par ����:
- * IR�̃��X�g����􍞂݂ɗp����IR���w�肷��C���f�b�N�X�ԍ��ł��B
- * �͈͊O��IR���w�肵���ꍇ�A0�Ԗڂ̎w�肵�܂��B
- * ���̃p�����[�^�[�Ŏw�肵��IR�͐V�������̎c���ɂ̂ݓK�p����܂��B
- * ��x�������ꂽ���̎c���́A�c�����I���܂Ŕ�������IR���K�p����܂��B
+ * \par 説明:
+ * IRのリストから畳込みに用いるIRを指定するインデックス番号です。
+ * 範囲外のIRを指定した場合、0番目の指定します。
+ * このパラメーターで指定したIRは新しい音の残響にのみ適用されます。
+ * 一度発音された音の残響は、残響が終わるまで発音時のIRが適用されます。
  */
 #define CRIATOMEXASR_IR_REVERB_PARAMETER_CURRENT_IR_INDEX				(12)
 
 /*JP
- * \brief IR���o�[�u�̃G�t�F�N�g�p�����[�^��
+ * \brief IRリバーブのエフェクトパラメータ数
  * \ingroup CRIATOMASR_DSP_PARAM_IR_REVERB
  */
 #define CRIATOMEXASR_IR_REVERB_NUM_PARAMETERS							(13)
 
 /*JP
- * \defgroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2 I3DL2���o�[�u Ver.2 �̃p�����[�^�[
+ * \defgroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2 I3DL2リバーブ Ver.2 のパラメーター
  * \ingroup CRIATOMASR_DSP_PARAM
- * \brief I3DL2���o�[�u Ver.2 �Őݒ肷��p�����[�^�[�̒�`�ł��B
+ * \brief I3DL2リバーブ Ver.2 で設定するパラメーターの定義です。
  * \sa criAtomExAsrRack_SetEffectParameter, criAtomExAsrRack_GetEffectParameter
  */
 /*JP
- * \brief �G�t�F�N�g�S�̂̏o�̓{�����[��[mB]
+ * \brief エフェクト全体の出力ボリューム[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̍ŏI�o�̓{�����[�����w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の最終出力ボリュームを指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_ROOM						(0)
 
 /*JP
- * \brief �Q�Ǝ��g���i����j�����̃{�����[��[mB]
+ * \brief 参照周波数（高域）成分のボリューム[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̎Q�Ǝ��g���i����j�����̃{�����[�����w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の参照周波数（高域）成分のボリュームを指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_ROOM_HF					(1)
 
 /*JP
- * \brief �㕔�c�����̌�������[sec]
+ * \brief 後部残響音の減衰時間[sec]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̌㕔�c�����̌������Ԃ��w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の後部残響音の減衰時間を指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_DECAY_TIME					(2)
 
 /*JP
- * \brief �㕔�c�����̒���g�������ɑ΂��鍂���g�����̔�
+ * \brief 後部残響音の低周波数減衰に対する高周波減衰の比
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̌㕔�c�����ɂ�����A����g�����ɑ΂��鍂���g�����̓����w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の後部残響音における、低周波減衰に対する高周波減衰の日を指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_DECAY_HF_RATIO				(3)
 
 /*JP
- * \brief �������ˉ��̃{�����[��[mB]
+ * \brief 初期反射音のボリューム[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̏������ˉ��̃{�����[�����w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の初期反射音のボリュームを指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_REFLECTIONS				(4)
 
 /*JP
- * \brief �������ˉ��̒x������[sec]
+ * \brief 初期反射音の遅延時間[sec]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̏������ˉ��̃{�����[�����w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の初期反射音のボリュームを指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_REFLECTIONS_DELAY			(5)
 
 /*JP
- * \brief �㕔�c�����̃{�����[��[mB]
+ * \brief 後部残響音のボリューム[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̌㕔�c�����̃{�����[�����w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の後部残響音のボリュームを指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_REVERB						(6)
 
 /*JP
- * \brief �㕔�c�����̒x������[sec]
+ * \brief 後部残響音の遅延時間[sec]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̌㕔�c�����̒x�����Ԃ��w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の後部残響音の遅延時間を指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_REVERB_DELAY				(7)
 
 /*JP
- * \brief �㕔�c�����̃G�R�[���x[%]
+ * \brief 後部残響音のエコー密度[%]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̌㕔�c�����̃G�R�[���x���w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の後部残響音のエコー密度を指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_DIFFUSION					(8)
 
 /*JP
- * \brief �㕔�c�����̃��[�_�����x[%]
+ * \brief 後部残響音のモーダル密度[%]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̌㕔�c�����̃��[�_�����x���w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 の後部残響音のモーダル密度を指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_DENSITY					(9)
 
 /*JP
- * \brief RoomHF�̎Q�Ǝ��g���i����j[Hz]
+ * \brief RoomHFの参照周波数（高域）[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 ��RoomHF�̎Q�Ǝ��g���i����j���w�肵�܂��B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 のRoomHFの参照周波数（高域）を指定します。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_HF_REFERENCE				(10)
 
 /*JP
- * \brief �t�����g�����̓��̓��x��[mB]
+ * \brief フロント成分の入力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̃t�����g�iL,R�`�����l���j�����̓��̓��x�����w�肵�܂��BI3DL2���o�[�u Ver.2 �̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 のフロント（L,Rチャンネル）成分の入力レベルを指定します。I3DL2リバーブ Ver.2 のプリセットでは指定できない事に注意して下さい。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_FRONT_INPUT				(11)
 
 /*JP
- * \brief ���A�����̓��̓��x��[mB]
+ * \brief リア成分の入力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̃��A�i�T���E���hL,�T���E���hR�`�����l���j�����̓��̓��x�����w�肵�܂��BI3DL2���o�[�u Ver.2 �̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 のリア（サラウンドL,サラウンドRチャンネル）成分の入力レベルを指定します。I3DL2リバーブ Ver.2 のプリセットでは指定できない事に注意して下さい。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_REAR_INPUT					(12)
 
 /*JP
- * \brief �Z���^�[�����̓��̓��x��[mB]
+ * \brief センター成分の入力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̃Z���^�[�iC�`�����l���j�����̓��̓��x�����w�肵�܂��BI3DL2���o�[�u Ver.2 �̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 のセンター（Cチャンネル）成分の入力レベルを指定します。I3DL2リバーブ Ver.2 のプリセットでは指定できない事に注意して下さい。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_CENTER_INPUT				(13)
 
 /*JP
- * \brief �t�����g�����̏o�̓��x��[mB]
+ * \brief フロント成分の出力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̃t�����g�iL,R�`�����l���j�����̏o�̓��x�����w�肵�܂��BI3DL2���o�[�u Ver.2 �̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 のフロント（L,Rチャンネル）成分の出力レベルを指定します。I3DL2リバーブ Ver.2 のプリセットでは指定できない事に注意して下さい。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_FRONT_OUTPUT				(14)
 
 /*JP
- * \brief ���A�����̏o�̓��x��[mB]
+ * \brief リア成分の出力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̃��A�i�T���E���hL,�T���E���hR�`�����l���j�����̏o�̓��x�����w�肵�܂��BI3DL2���o�[�u Ver.2 �̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 のリア（サラウンドL,サラウンドRチャンネル）成分の出力レベルを指定します。I3DL2リバーブ Ver.2 のプリセットでは指定できない事に注意して下さい。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_REAR_OUTPUT				(15)
 
 /*JP
- * \brief �Z���^�[�����̏o�̓��x��[mB]
+ * \brief センター成分の出力レベル[mB]
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
- * \par ����:
- * I3DL2���o�[�u Ver.2 �̃Z���^�[�iC�`�����l���j�����̏o�̓��x�����w�肵�܂��BI3DL2���o�[�u Ver.2 �̃v���Z�b�g�ł͎w��ł��Ȃ����ɒ��ӂ��ĉ������B
+ * \par 説明:
+ * I3DL2リバーブ Ver.2 のセンター（Cチャンネル）成分の出力レベルを指定します。I3DL2リバーブ Ver.2 のプリセットでは指定できない事に注意して下さい。
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_PARAMETER_CENTER_OUTPUT				(16)
 
 /*JP
- * \brief I3DL2���o�[�u Ver.2 �̃p�����[�^�[��
+ * \brief I3DL2リバーブ Ver.2 のパラメーター数
  * \ingroup CRIATOMASR_DSP_PARAM_I3DL2_REVERB2
  */
 #define CRIATOMEXASR_I3DL2_REVERB2_NUM_PARAMETERS						(17)
 /***************************************************************************
- *      �����}�N��
+ *      処理マクロ
  *      Macro Functions
  ***************************************************************************/
 /*==========================================================================
  *      CRI AtomEx ASR API
  *=========================================================================*/
 /*JP
- * \brief ASR�̏������R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * \brief ASRの初期化コンフィグ構造体にデフォルト値をセット
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ::criAtomExAsr_Initialize �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomExAsrConfig �j�ɁA�f�t�H���g�l���Z�b�g���܂��B<br>
+ * \par 説明:
+ * ::criAtomExAsr_Initialize 関数に設定するコンフィグ構造体
+ * （ ::CriAtomExAsrConfig ）に、デフォルト値をセットします。<br>
  * \sa criAtomExAsr_Initialize, CriAtomExAsrConfig
  */
 #define criAtomExAsr_SetDefaultConfig(p_config)	\
@@ -2093,11 +2093,11 @@
 }
 
 /*JP
- * \brief ���x������@�\�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * \brief レベル測定機能コンフィグ構造体にデフォルト値をセット
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ::criAtomExAsr_AttachBusAnalyzerByName �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomExAsrBusAnalyzerConfig �j�ɁA�f�t�H���g�l���Z�b�g���܂��B<br>
+ * \par 説明:
+ * ::criAtomExAsr_AttachBusAnalyzerByName 関数に設定するコンフィグ構造体
+ * （ ::CriAtomExAsrBusAnalyzerConfig ）に、デフォルト値をセットします。<br>
  * \sa criAtomExAsr_AttachBusAnalyzerByName, CriAtomExAsrBusAnalyzerConfig
  */
 #define criAtomExAsr_SetDefaultConfigForBusAnalyzer(p_config) \
@@ -2110,12 +2110,12 @@
  *      CRI AtomEx ASR Rack API
  *=========================================================================*/
 /*JP
- * \brief CriAtomAsrConfig�ւ̃f�t�H���g�p�����[�^�[���Z�b�g
+ * \brief CriAtomAsrConfigへのデフォルトパラメーターをセット
  * \ingroup ATOMLIB_ASR
- * \param[out]	p_config	�������p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomAsr_Initialize �֐��ɐݒ肷��R���t�B�O�\���́i ::CriAtomAsrConfig �j�ɁA
- * �f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomAsr_Initialize 関数に設定するコンフィグ構造体（ ::CriAtomAsrConfig ）に、
+ * デフォルトの値をセットします。<br>
  * \sa
  * CriAtomAsrConfig
 */
@@ -2131,16 +2131,63 @@
 	(p_config)->context = NULL;\
 }
 
+/*JP
+ * \brief CriAtomExAsrRackSpatialChannelConfigへのデフォルトパラメーターをセット
+ * \ingroup ATOMLIB_ASR
+ * \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ChannelBasedAudio再生用ASRラック拡張コンフィグ構造体（ ::CriAtomExAsrRackSpatialChannelConfig ）に、
+ * デフォルトの値をセットします。<br>
+ * \sa
+ * CriAtomExAsrRackSpatialChannelConfig
+*/
+#define criAtomExAsrRackSpatialChannel_SetDefaultConfig(p_config) \
+{\
+	(p_config)->context = NULL;\
+}
+
+/*JP
+ * \brief CriAtomExAsrRackSpatialAmbisonicsConfigへのデフォルトパラメーターをセット
+ * \ingroup ATOMLIB_ASR
+ * \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * Ambisonics再生用ASRラック拡張コンフィグ構造体（ ::CriAtomExAsrRackSpatialAmbisonicsConfig ）に、
+ * デフォルトの値をセットします。<br>
+ * \sa
+ * CriAtomExAsrRackSpatialAmbisonicsConfig
+*/
+#define criAtomExAsrRackSpatialAmbisonics_SetDefaultConfig(p_config) \
+{\
+	(p_config)->context = NULL;\
+}
+
+/*JP
+ * \brief CriAtomExAsrRackSpatialObjectConfigへのデフォルトパラメーターをセット
+ * \ingroup ATOMLIB_ASR
+ * \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ObjectBasedAudio再生用ASRラック拡張コンフィグ構造体（ ::CriAtomExAsrRackSpatialObjectConfig ）に、
+ * デフォルトの値をセットします。<br>
+ * \sa
+ * CriAtomExAsrRackSpatialObjectConfig
+*/
+#define criAtomExAsrRackSpatialObject_SetDefaultConfig(p_config) \
+{\
+	(p_config)->fallback_rack_id = CRIATOMEXASR_RACK_ILLEGAL_ID;\
+	(p_config)->context = NULL;\
+}
+
+
 /*==========================================================================
  *      CRI Atom ASR API
  *=========================================================================*/
 /*JP
- * \brief CriAtomAsrConfig�ւ̃f�t�H���g�p�����[�^�[���Z�b�g
+ * \brief CriAtomAsrConfigへのデフォルトパラメーターをセット
  * \ingroup ATOMLIB_ASR
- * \param[out]	p_config	�������p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomAsr_Initialize �֐��ɐݒ肷��R���t�B�O�\���́i ::CriAtomAsrConfig �j�ɁA
- * �f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomAsr_Initialize 関数に設定するコンフィグ構造体（ ::CriAtomAsrConfig ）に、
+ * デフォルトの値をセットします。<br>
  * \sa
  * CriAtomAsrConfig
 */
@@ -2161,12 +2208,12 @@
  *      CRI AtomEx API
  *=========================================================================*/
 /*JP
-* \brief ���C�u�����������p�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+* \brief ライブラリ初期化用コンフィグ構造体にデフォルト値をセット
 * \ingroup ATOMEXLIB_GLOBAL
-* \param[out]	p_config	�������p�R���t�B�O�\���̂ւ̃|�C���^
-* \par ����:
-* ::criAtomEx_InitializeForUserPcmOutput �֐��ɐݒ肷��R���t�B�O�\����
-* �i ::CriAtomExConfigForUserPcmOutput �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+* \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+* \par 説明:
+* ::criAtomEx_InitializeForUserPcmOutput 関数に設定するコンフィグ構造体
+* （ ::CriAtomExConfigForUserPcmOutput ）に、デフォルトの値をセットします。<br>
 * \sa CriAtomExConfigForUserPcmOutput
 */
 #define criAtomEx_SetDefaultConfigForUserPcmOutput(p_config)			\
@@ -2180,12 +2227,12 @@
  *      CRI Atom Player API
  *=========================================================================*/
  /*JP
-  * \brief CriAtomPlayerConfig_ASR�ւ̃f�t�H���g�p�����[�^�[�̃Z�b�g
+  * \brief CriAtomPlayerConfig_ASRへのデフォルトパラメーターのセット
   * \ingroup ATOMLIB_ASR
-  * \param[in]	p_config	�v���[���[�쐬�p�R���t�B�O�\���̂ւ̃|�C���^
-  * \par ����:
-  * �v���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̃R���t�B�O�\����
-  * �i ::CriAtomPlayerConfig_ASR �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+  * \param[in]	p_config	プレーヤー作成用コンフィグ構造体へのポインタ
+  * \par 説明:
+  * プレーヤーを作成する際に、動作仕様を指定するためのコンフィグ構造体
+  * （ ::CriAtomPlayerConfig_ASR ）に、デフォルトの値をセットします。<br>
   * \sa CriAtomPlayerConfig_ASR
   */
 #define criAtomPlayer_SetDefaultConfig_ASR(p_config)				\
@@ -2194,503 +2241,515 @@
 }
 
 /*==========================================================================
- *      CRI ASR�o�X�G�t�F�N�g �p�����[�^�[�C���f�b�N�X�A�N�Z�X�}�N��
+ *      CRI ASRバスエフェクト パラメーターインデックスアクセスマクロ
  *=========================================================================*/
 /*JP
- * \brief wet�����̃~�b�N�X
+ * \brief wet成分のミックス
  * \ingroup CRIATOMASR_DSP_PARAM_CHORUS
- * \param[in] tap_index	�ݒ�Ώۂ̃��W�����[�^�^�b�v�̃C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�ɃR�[���X��wet�i�t�B�[�h�o�b�N�j�����̃~�b�N�X���������W�����[�^�̃C���f�b�N�X�ɂ��w�肵�܂��B<br>
- * �S�Ẵ^�b�v�Ńp�����[�^�[�̏����l��0.5f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \param[in] tap_index	設定対象のモジュレータタップのインデックス
+ * \par 説明:
+ * 本パラメーターインデックスにコーラスのwet（フィードバック）成分のミックス割合をモジュレータのインデックスにより指定します。<br>
+ * 全てのタップでパラメーターの初期値は0.5f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_CHORUS_PARAMETER_WET_MIX(tap_index)				\
 	((tap_index) + 5)
 
 /*JP
- * \brief �Z���h���x��[�U��]
- * \param[in] input_ch	�ݒ�Ώۂ̓��̓`�����l��
- * \param[in] output_ch	�ݒ�Ώۂ̏o�̓`�����l��
+ * \brief センドレベル[振幅]
+ * \param[in] input_ch	設定対象の入力チャンネル
+ * \param[in] output_ch	設定対象の出力チャンネル
  * \ingroup CRIATOMASR_DSP_PARAM_MATRIX
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ}�g���N�X�̃Z���h���x������o�̓`�����l������p���Ďw�肵�܂��B<br>
- * �p�����[�^�[�̍ŏ��l��0.0f�A�ő�l��1.0f�ł��B�����l�ɂ�input_ch == output_ch�̗v�f�ɂ�1.0f�A����ȊO�ɂ�0.0f���Z�b�g����܂��B
- * �{�p�����[�^�[�C���f�b�N�X�� 8 x 8 ch �̃}�g���N�X��ΏۂƂ��Ă��܂��B���̂��߁A����ȊO�̃T�C�Y�ō쐬���ꂽ�}�g���N�X�ł͑z��Ƃ͈قȂ铮������鋰�ꂪ����܂��B
+ * \par 説明:
+ * 本パラメーターインデックスにマトリクスのセンドレベルを入出力チャンネル数を用いて指定します。<br>
+ * パラメーターの最小値は0.0f、最大値は1.0fです。初期値にはinput_ch == output_chの要素には1.0f、それ以外には0.0fがセットされます。
+ * 本パラメーターインデックスは 8 x 8 ch のマトリクスを対象としています。そのため、それ以外のサイズで作成されたマトリクスでは想定とは異なる動作をする恐れがあります。
  */
 #define CRIATOMEXASR_MATRIX_PARAMETER_LEVELS(input_ch, output_ch)		\
 	((input_ch) * CRIATOMEXASR_MATRIX_DEFAULT_NUM_CHANNELS + (output_ch))
 
 /*JP
- * \brief �e�o���h�̃t�B���^�[�^�C�v
+ * \brief 各バンドのフィルタータイプ
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
- * \param[in] band_index	�ݒ�Ώۂ̃o���h�C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��3�o���h�C�R���C�U�E32�o���h�C�R���C�U�̊e�o���h�̃t�B���^�[�̃^�C�v���w�肵�܂��B<br>
- * �e�o���h�̃t�B���^�[�̓o�C�N�A�b�h�t�B���^�[����\������܂��B
- * \attention 32�o���h�C�R���C�U�ł́A�c�[����ŗL���ɂ����o���h�̃t�B���^�[�݂̂��L���ɂȂ�A�o���h�����L���ɂȂ��Ă���o���h���݂̂ɐ�������܂��B
+ * \param[in] band_index	設定対象のバンドインデックス
+ * \par 説明:
+ * 本パラメーターインデックスに3バンドイコライザー・32バンドイコライザーの各バンドのフィルターのタイプを指定します。<br>
+ * 各バンドのフィルターはバイクアッドフィルターから構成されます。
+ * \attention 32バンドイコライザーでは、ツール上で有効にしたバンドのフィルターのみが有効になり、バンド数も有効になっているバンド数のみに制限されます。
  * \sa CRIATOMEXASR_MULTIBANDS_EQ_BAND_FILTER_TYPE_LOWSHELF, CRIATOMEXASR_MULTIBANDS_EQ_BAND_FILTER_TYPE_HIGHSHELF, CRIATOMEXASR_MULTIBANDS_EQ_BAND_FILTER_TYPE_PEAKING
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_PARAMETER_TYPE(band_index)			\
 	(CRIATOMEXASR_MULTIBANDS_EQ_NUM_PARAMETER_PAR_BAND * (band_index))
 
 /*JP
- * \brief �e�o���h�̒��S���g��[Hz]
+ * \brief 各バンドの中心周波数[Hz]
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
- * \param[in] band_index	�ݒ�Ώۂ̃o���h�C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��3�o���h�C�R���C�U�E32�o���h�C�R���C�U�̊e�o���h�̃t�B���^�[�̒��S���g�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��24.0f�A�ŏ��l��24.0f�A�ő�l��24000.f�ł��B
+ * \param[in] band_index	設定対象のバンドインデックス
+ * \par 説明:
+ * 本パラメーターインデックスに3バンドイコライザー・32バンドイコライザーの各バンドのフィルターの中心周波数を指定します。<br>
+ * パラメーターの初期値は24.0f、最小値は24.0f、最大値は24000.fです。
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_PARAMETER_FREQUENCY(band_index)		\
 	(CRIATOMEXASR_MULTIBANDS_EQ_NUM_PARAMETER_PAR_BAND * (band_index) + 1)	
 
 /*JP
- * \brief �e�o���h��Q�l
+ * \brief 各バンドのQ値
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
- * \param[in] band_index	�ݒ�Ώۂ̃o���h�C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��3�o���h�C�R���C�U�E32�o���h�C�R���C�U�̊e�o���h��Q�l�i��s�x�A�N�I���e�B�t�@�N�^�j���w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.0f�A�ő�l��10.0f�ł��B<br>
- * �o���h�p�X�t�B���^�[�ȊO�ł͐M�������̍ۂɍŏ��l��0.001f�ɐ�������܂��B
+ * \param[in] band_index	設定対象のバンドインデックス
+ * \par 説明:
+ * 本パラメーターインデックスに3バンドイコライザー・32バンドイコライザーの各バンドのQ値（尖鋭度、クオリティファクタ）を指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.0f、最大値は10.0fです。<br>
+ * バンドパスフィルター以外では信号処理の際に最小値は0.001fに制限されます。
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_PARAMETER_QUALITY_FACTOR(band_index)	\
 	(CRIATOMEXASR_MULTIBANDS_EQ_NUM_PARAMETER_PAR_BAND * (band_index) + 2)	
 
 /*JP
- * \brief �e�o���h�̏o�̓Q�C��[�U��]
+ * \brief 各バンドの出力ゲイン[振幅]
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
- * \param[in] band_index	�ݒ�Ώۂ̃o���h�C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X��3�o���h�C�R���C�U�E32�o���h�C�R���C�U�̊e�o���h�̏o�̓Q�C�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��1.0f�A�ŏ��l��0.0f�A�ő�l��5.0f�ł��B<br>
- * ���[�V�F���t�A�n�C�V�F���t�A�s�[�L���O�t�B���^�[�̏ꍇ�͐M�������̍ۂɍŏ��l�� ��1/65536.0f�ɐ�������܂��B
+ * \param[in] band_index	設定対象のバンドインデックス
+ * \par 説明:
+ * 本パラメーターインデックスに3バンドイコライザー・32バンドイコライザーの各バンドの出力ゲインを指定します。<br>
+ * パラメーターの初期値は1.0f、最小値は0.0f、最大値は5.0fです。<br>
+ * ローシェルフ、ハイシェルフ、ピーキングフィルターの場合は信号処理の際に最小値が √1/65536.0fに制限されます。
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_PARAMETER_GAIN(band_index)			\
 	(CRIATOMEXASR_MULTIBANDS_EQ_NUM_PARAMETER_PAR_BAND * (band_index) + 3)	
 
 /*JP
- * \brief 3�o���h�C�R���C�U�E32�o���h�C�R���C�U�̑S�p�����[�^�[�����A�o���h���w��ɂ��v�Z���܂��B
+ * \brief 3バンドイコライザー・32バンドイコライザーの全パラメーター数を、バンド数指定により計算します。
  * \ingroup CRIATOMASR_DSP_PARAM_MULTIBANDS_EQ
- * \param[in] num_bands	�o���h��
+ * \param[in] num_bands	バンド数
  */
 #define CRIATOMEXASR_MULTIBANDS_EQ_NUM_PARAMETERS(num_bands)			\
 	((num_bands) * CRIATOMEXASR_MULTIBANDS_EQ_NUM_PARAMETER_PAR_BAND)
 
 /*JP
- * \brief �x������[ms]
+ * \brief 遅延時間[ms]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \param[in] i_tap	�ݒ�Ώۂ̃^�b�v�̃C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ}���`�^�b�v�f�B���C�̊e�^�b�v�̒x�����Ԃ��w�肵�܂��B<br>
- * �p�����[�^�[�̏����l�͍ő�f�B���C���Ԃ̔����̒l�A�ő�l��10000.0f�A�ŏ��l��4�̃^�b�v1,2,3,4���ꂼ���20.0f�A40.0f�A60.0f�A80.0f�ɐ�������܂��B
+ * \param[in] i_tap	設定対象のタップのインデックス
+ * \par 説明:
+ * 本パラメーターインデックスにマルチタップディレイの各タップの遅延時間を指定します。<br>
+ * パラメーターの初期値は最大ディレイ時間の半分の値、最大値は10000.0f、最小値は4つのタップ1,2,3,4それぞれで20.0f、40.0f、60.0f、80.0fに制限されます。
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_PARAMETER_DELAY_TIME_MS(i_tap)		\
 	(0 + (i_tap) * CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETER_PAR_TAP)
 
 /*JP
- * \brief �o�̓��x��[�U��]
+ * \brief 出力レベル[振幅]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \param[in] i_tap	�ݒ�Ώۂ̃^�b�v�̃C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ}���`�^�b�v�f�B���C�̊e�^�b�v�̏o�̓��x�����w�肵�܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l��1.0f�ł��B
+ * \param[in] i_tap	設定対象のタップのインデックス
+ * \par 説明:
+ * 本パラメーターインデックスにマルチタップディレイの各タップの出力レベルを指定します。<br>
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は1.0fです。
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_PARAMETER_LEVEL(i_tap)				\
 	(1 + (i_tap) * CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETER_PAR_TAP)
 
 /*JP
- * \brief �����i�p���j�p�x[��]
+ * \brief 方向（パン）角度[°]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \param[in] i_tap	�ݒ�Ώۂ̃^�b�v�̃C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ}���`�^�b�v�f�B���C�̊e�^�b�v�̐��������̊p�x���w�肵�܂��B<br>
- * ���̊p�x���w�肷�邱�ƂŁA���������ɍL������������x��������\���ł��܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��-180.0f�A�ő�l��180.f�ł��B
+ * \param[in] i_tap	設定対象のタップのインデックス
+ * \par 説明:
+ * 本パラメーターインデックスにマルチタップディレイの各タップの水平方向の角度を指定します。<br>
+ * この角度を指定することで、水平方向に広がりを持った遅延音声を表現できます。<br>
+ * パラメーターの初期値は0.0f、最小値は-180.0f、最大値は180.fです。
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_PARAMETER_AZIMUTH(i_tap)			\
 	(2 + (i_tap) * CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETER_PAR_TAP)
 
 /*JP
- * \brief �t�B�[�h�o�b�N�Q�C��
+ * \brief 仰角[°]
  * \ingroup CRIATOMASR_DSP_PARAM_DELAY
- * \param[in] i_tap	�ݒ�Ώۂ̃^�b�v�̃C���f�b�N�X
- * \par ����:
- * �{�p�����[�^�[�C���f�b�N�X�Ƀ}���`�^�b�v�f�B���C�̃t�B�[�h�o�b�N�Q�C�����w�肵�܂��B
- * \attention �t�B�[�h�o�b�N�Q�C�����傫������Əo�͂����U���܂��B<br>
- * �p�����[�^�[�̏����l��0.0f�A�ŏ��l��0.0f�A�ő�l�͊e�^�b�v��1.0f�ł����A�S�^�b�v�̑��a��0.90f�ɂȂ�悤�ɐ�������܂��B
+ * \param[in] i_tap	設定対象のタップのインデックス
+ * \par 説明:
+ * 本パラメーターインデックスにマルチタップディレイの各タップの垂直方向の角度を指定します。<br>
+ * この角度を指定することで、垂直方向にも広がりを持った遅延音声を表現できます。<br>
+ * パラメーターの初期値は0.0f、最小値は-90.0f、最大値は90.fです。
+ */
+#define CRIATOMEXASR_MULTITAP_DELAY_PARAMETER_ELEVATION(i_tap)			\
+	(4 * CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETER_PAR_TAP + (i_tap))
+
+/*JP
+ * \brief フィードバックゲイン
+ * \ingroup CRIATOMASR_DSP_PARAM_DELAY
+ * \param[in] i_tap	設定対象のタップのインデックス
+ * \par 説明:
+ * 本パラメーターインデックスにマルチタップディレイのフィードバックゲインを指定します。
+ * \attention フィードバックゲインが大きすぎると出力が発散します。<br>
+ * パラメーターの初期値は0.0f、最小値は0.0f、最大値は各タップで1.0fですが、全タップの総和が0.90fになるように制限されます。
  */
 #define CRIATOMEXASR_MULTITAP_DELAY_PARAMETER_FEEDBACK(i_tap)			\
 	(3 + (i_tap) * CRIATOMEXASR_MULTITAP_DELAY_NUM_PARAMETER_PAR_TAP)
 
 /***************************************************************************
- *      �f�[�^�^�錾
+ *      データ型宣言
  *      Data Type Declarations
  ***************************************************************************/
 /*==========================================================================
  *      CRI AtomEx ASR API
  *=========================================================================*/
 /*JP
- * \brief ASR�������p�R���t�B�O�\����
+ * \brief ASR初期化用コンフィグ構造体
  * \ingroup ATOMEXLIB_ASR
- * ASR�iAtom Sound Renderer�j�̓���d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomExAsr_Initialize �֐��̈����Ɏw�肵�܂��B<br>
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtomExAsr_SetDefaultConfig �}�N����
- * �\���̂Ƀf�t�H���g�p�����[�^�[���Z�b�g������A ::criAtomExAsr_Initialize �֐�
- * �ɍ\���̂��w�肵�Ă��������B<br>
+ * ASR（Atom Sound Renderer）の動作仕様を指定するための構造体です。<br>
+ * ::criAtomExAsr_Initialize 関数の引数に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomExAsr_SetDefaultConfig マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomExAsr_Initialize 関数
+ * に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomExAsr_SetDefaultConfig 
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomExAsr_SetDefaultConfig 
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomExAsr_Initialize, criAtomExAsr_SetDefaultConfig
  */
 typedef struct CriAtomExAsrConfigTag {
 	/*JP
-		\brief �T�[�o�[�����̎��s�p�x
-		\par ����:
-		�T�[�o�[���������s����p�x���w�肵�܂��B<br>
+		\brief サーバー処理の実行頻度
+		\par 説明:
+		サーバー処理を実行する頻度を指定します。<br>
 		\attention
-		Atom���C�u�������������Ɏw�肵���l�i ::CriAtomExConfig �\���̂�
-		server_frequency �j�ƁA�����l���Z�b�g����K�v������܂��B<br>
+		Atomライブラリ初期化時に指定した値（ ::CriAtomExConfig 構造体の
+		server_frequency ）と、同じ値をセットする必要があります。<br>
 		\sa CriAtomConfig
 	*/
 	CriFloat32 server_frequency;
 
 	/*JP
-		\brief �o�X��
-		\par ����:
-		ASR���쐬����o�X�̐����w�肵�܂��B<br>
-		�o�X�̓T�E���h�̃~�b�N�X��A�G�t�F�N�g�̊Ǘ������s���܂��B<br>
-		�}�X�^�[�o�X�̗̈��1���܂߂邽�߁A�K��1�ȏ�̒l��ݒ肵�ĉ������B<br>
+		\brief バス数
+		\par 説明:
+		ASRが作成するバスの数を指定します。<br>
+		バスはサウンドのミックスや、エフェクトの管理等を行います。<br>
+		マスターバスの領域を1つ分含めるため、必ず1以上の値を設定して下さい。<br>
 	*/
 	CriSint32 num_buses;
 
 	/*JP
-		\brief �o�̓`�����l����
-		\par ����:
-		ASR�̏o�̓`�����l�������w�肵�܂��B<br>
-		�p��3D��������3D�|�W�V���j���O�@�\���g�p����ꍇ��6ch�ȏ���w�肵�܂��B<br>
+		\brief 出力チャンネル数
+		\par 説明:
+		ASRの出力チャンネル数を指定します。<br>
+		パン3Dもしくは3Dポジショニング機能を使用する場合は6ch以上を指定します。<br>
 	*/
 	CriSint32 output_channels;
 
 	/*JP
-		\brief �~�L�T�[�̃X�s�[�J�[�}�b�s���O
-		\par ����:
-		ASR���b�N�̃X�s�[�J�[�}�b�s���O���w�肵�܂��B<br>
+		\brief ミキサーのスピーカーマッピング
+		\par 説明:
+		ASRラックのスピーカーマッピングを指定します。<br>
 	*/
 	CriAtomSpeakerMapping speaker_mapping;
 	
 	/*JP
-		\brief �o�̓T���v�����O���[�g
-		\par ����:
-		�o�͂���я����ߒ��̃T���v�����O���[�g���w�肵�܂��B<br>
-		�ʏ�A�^�[�Q�b�g�@�̃T�E���h�f�o�C�X�̃T���v�����O���[�g���w�肵�܂��B<br>
-		\par ���l:
-		�Ⴍ����Ə������ׂ������邱�Ƃ��ł��܂��������������܂��B<br>
+		\brief 出力サンプリングレート
+		\par 説明:
+		出力および処理過程のサンプリングレートを指定します。<br>
+		通常、ターゲット機のサウンドデバイスのサンプリングレートを指定します。<br>
+		\par 備考:
+		低くすると処理負荷を下げることができますが音質が落ちます。<br>
 	*/
 	CriSint32 output_sampling_rate;
 	
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		ASR�̏o�͐�T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		ASRの出力先サウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
 		\attention
-		CRIATOM_SOUND_RENDERER_ASR�����CRIATOM_SOUND_RENDERER_DEFAULT�͎w�肵�Ȃ��ł��������B
+		CRIATOM_SOUND_RENDERER_ASRおよびCRIATOM_SOUND_RENDERER_DEFAULTは指定しないでください。
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[��ASR���b�N���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでASRラックを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 	
 	/*JP
-		\brief ASR���b�N�̍ő吔
-		\par ����:
-		�쐬�\��ASR���b�N�̍ő���ł��B<br>
+		\brief ASRラックの最大数
+		\par 説明:
+		作成可能なASRラックの最大個数です。<br>
 	*/
 	CriSint32 max_racks;
 
 	/*JP
-		\brief Ambisonics�̃I�[�_�[�^�C�v�i�p�~�j
-		\par ����:
-		���̃����o�[�ϐ��͍폜�\��ł���A�g�p���Ȃ��ł��������B<br>
-		Ambisonics���Đ����邽�߂ɂ� CRIATOM_SOUND_RENDERER_AMBISONICS ���g�p���܂��B<br>
-		�ڂ����̓}�j���A�����Q�Ƃ��Ă��������B
+		\brief Ambisonicsのオーダータイプ（廃止）
+		\par 説明:
+		このメンバー変数は削除予定であり、使用しないでください。<br>
+		Ambisonicsを再生するためには CRIATOM_SOUND_RENDERER_AMBISONICS を使用します。<br>
+		詳しくはマニュアルを参照してください。
 	 */
 	CriAtomAmbisonicsOrderType ambisonics_order_type;
 } CriAtomExAsrConfig;
 
 /*JP
- * \brief ���x������@�\�A�^�b�`�p�R���t�B�O�\����
+ * \brief レベル測定機能アタッチ用コンフィグ構造体
  * \ingroup ATOMEXLIB_ASR
- * ���x������@�\���o�X�ɃA�^�b�`���邽�߂̍\���̂ł��B<br>
- * ::criAtomExAsr_AttachBusAnalyzerByName �֐��̈����Ɏw�肵�܂��B<br>
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtomExAsr_SetDefaultConfigForBusAnalyzer �}�N����
- * �\���̂Ƀf�t�H���g�p�����[�^�[���Z�b�g������A ::criAtomExAsr_AttachBusAnalyzerByName �֐�
- * �ɍ\���̂��w�肵�Ă��������B<br>
+ * レベル測定機能をバスにアタッチするための構造体です。<br>
+ * ::criAtomExAsr_AttachBusAnalyzerByName 関数の引数に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomExAsr_SetDefaultConfigForBusAnalyzer マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomExAsr_AttachBusAnalyzerByName 関数
+ * に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomExAsr_SetDefaultConfigForBusAnalyzer
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomExAsr_SetDefaultConfigForBusAnalyzer
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomExAsr_AttachBusAnalyzerByName
  */
 typedef struct {
 	/*JP
-		\brief ����Ԋu�i�~���b�P�ʁj
-		\par ����:
-		���茋�ʂ��X�V����Ԋu�ł��B<br>
+		\brief 測定間隔（ミリ秒単位）
+		\par 説明:
+		測定結果を更新する間隔です。<br>
 	*/
 	CriSint32 interval;
 
 	/*JP
-		\brief �s�[�N�z�[���h���ԁi�~���b�P�ʁj
-		\par ����:
-		�s�[�N�l�����傫���l�ōX�V���ꂽ�Ƃ��A������Ȃ��悤�Ƀz�[���h���鎞�Ԃł��B<br>
+		\brief ピークホールド時間（ミリ秒単位）
+		\par 説明:
+		ピーク値がより大きい値で更新されたとき、下がらないようにホールドする時間です。<br>
 	*/
 	CriSint32 peak_hold_time;
 } CriAtomExAsrBusAnalyzerConfig;
 
 /*JP
- * \brief ���x��������
- * \par ����:
- * �o�X�̃��x����������擾���邽�߂̍\���̂ł��B<br>
- * ::criAtomExAsr_GetBusAnalyzerInfo �֐��ŗ��p���܂��B
- * \par ���l:
- * �e���x���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �ȉ��̃R�[�h�Ńf�V�x���\�L�ɕϊ����邱�Ƃ��ł��܂��B<br>
+ * \brief レベル測定情報
+ * \par 説明:
+ * バスのレベル測定情報を取得するための構造体です。<br>
+ * ::criAtomExAsr_GetBusAnalyzerInfo 関数で利用します。
+ * \par 備考:
+ * 各レベル値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 以下のコードでデシベル表記に変換することができます。<br>
  * dB = 10.0f * log10f(level);
  * \sa criAtomExAsr_GetBusAnalyzerInfo
  */
 typedef struct CriAtomExAsrBusAnalyzerInfoTag {
 	/*JP
-		\brief �L���`�����l����
-		\par ����:
-		���茋�ʂ��L���ȃ`�����l�����ł��B<br>
+		\brief 有効チャンネル数
+		\par 説明:
+		測定結果が有効なチャンネル数です。<br>
 	*/
 	CriSint32 num_channels;
 	
 	/*JP
-		\brief RMS���x��
-		\par ����:
-		����Ԋu�Ԃ̉����U����RMS�i��敽�ϕ������j���v�Z�����l�ł��B<br>
-		�������x���Ƃ��Ĉ����܂��B
+		\brief RMSレベル
+		\par 説明:
+		測定間隔間の音声振幅のRMS（二乗平均平方根）を計算した値です。<br>
+		音圧レベルとして扱われます。
 	*/
 	CriFloat32 rms_levels[CRIATOMEXASR_MAX_CHANNELS];
 	
 	/*JP
-		\brief �s�[�N���x��
-		\par ����:
-		����Ԋu�Ԃ̉����U���̍ő�l�ł��B<br>
+		\brief ピークレベル
+		\par 説明:
+		測定間隔間の音声振幅の最大値です。<br>
 	*/
 	CriFloat32 peak_levels[CRIATOMEXASR_MAX_CHANNELS];
 	
 	/*JP
-		\brief �s�[�N�z�[���h���x��
-		\par ����:
-		�z�[���h���Ă���s�[�N���x���l�ł��B<br>
+		\brief ピークホールドレベル
+		\par 説明:
+		ホールドしているピークレベル値です。<br>
 	*/
 	CriFloat32 peak_hold_levels[CRIATOMEXASR_MAX_CHANNELS];
 } CriAtomExAsrBusAnalyzerInfo;
 
 /*JP
- * \brief �p�����\����
+ * \brief パン情報構造体
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * �o�X�ɂ�����p�������܂Ƃ߂��\���̂ł��B<br>
- * �o�X�̃p�����̐ݒ��擾�Ɏg�p���܂��B
+ * \par 説明:
+ * バスにおけるパン情報をまとめた構造体です。<br>
+ * バスのパン情報の設定や取得に使用します。
  * \sa criAtomExAsr_SetBusPanInfoByName, criAtomExAsr_GetBusPanInfoByName, criAtomExAsrRack_SetBusPanInfoByName, criAtomExAsrRack_GetBusPanInfoByName
  */
 typedef struct CriAtomExAsrBusPanInfoTag {
 	/*JP
-		\brief ����
-		\par ����:
-		�p���ɂ����鉹�ʂł��B<br>
-		0.0f �` 1.0f�͈̔͂Őݒ�E�擾����܂��B<br>
-		�܂��A�ʏ�̉��ʂƊ|�����킳��܂��B
+		\brief 音量
+		\par 説明:
+		パンにおける音量です。<br>
+		0.0f ～ 1.0fの範囲で設定・取得されます。<br>
+		また、通常の音量と掛け合わされます。
 	*/
 	CriFloat32 volume;
 	/*JP
-		\brief �p�x
-		\par ����:
-		�p���ɂ�����p�x�ł��B<br>
-		0.0f �𐳖ʂƂ��� -180.0f �` 180.0f�͈̔͂Őݒ�E�擾����܂��B
+		\brief 角度
+		\par 説明:
+		パンにおける角度です。<br>
+		0.0f を正面とした -180.0f ～ 180.0fの範囲で設定・取得されます。
 	*/
 	CriFloat32 angle;
 	/*JP
-		\brief �C���e���A����
-		\par ����:
-		�p���ɂ�����C���e���A�����ł��B<br>
-		0.0f �` 1.0f�͈̔͂Őݒ�E�擾����܂��B
+		\brief インテリア距離
+		\par 説明:
+		パンにおけるインテリア距離です。<br>
+		0.0f ～ 1.0fの範囲で設定・取得されます。
 	*/
 	CriFloat32 distance;
 	/*JP
-		\brief �}���`�`�����l�������̍L����
-		\par ����:
-		�}���`�`�����l�������̊p�x�ɑ΂���{���ł��B<br>
-		0.0f �` 1.0f�͈̔͂Őݒ�E�擾����܂��B
+		\brief マルチチャンネル音声の広がり
+		\par 説明:
+		マルチチャンネル音源の角度に対する倍率です。<br>
+		0.0f ～ 1.0fの範囲で設定・取得されます。
 	*/
 	CriFloat32 wideness;
 	/*JP
-		\brief �X�v���b�h
-		\par ����:
-		�p���ɂ�����X�v���b�h�ł��B<br>
-		0.0f �` 1.0f�͈̔͂Őݒ�E�擾����܂��B
+		\brief スプレッド
+		\par 説明:
+		パンにおけるスプレッドです。<br>
+		0.0f ～ 1.0fの範囲で設定・取得されます。
 	*/
 	CriFloat32 spread;
 } CriAtomExAsrBusPanInfo;
 
 /*JP
- * \brief �g�`�t�B���^�[�R�[���o�b�N�֐�
- * \ingroup ATOMEXLIB_PLAYER
- * \par ����:
- * \param[in]		obj				���[�U�w��I�u�W�F�N�g
- * \param[in]		format			PCM�̌`��
- * \param[in]		num_channels	�`�����l����
- * \param[in]		num_samples		�T���v����
- * \param[in,out]	data			PCM�f�[�^�̃`�����l���z��
- * \return							�Ȃ�
- * \par ����:
- * �o�X�ɓo�^���邱�Ƃ��ł��� PCM �f�[�^���󂯎��R�[���o�b�N�֐��ł��B<br>
+ * \brief 波形フィルターコールバック関数
+ * \ingroup ATOMEXLIB_ASR
+ * \par 説明:
+ * \param[in]		obj				ユーザ指定オブジェクト
+ * \param[in]		format			PCMの形式
+ * \param[in]		num_channels	チャンネル数
+ * \param[in]		num_samples		サンプル数
+ * \param[in,out]	data			PCMデータのチャンネル配列
+ * \return							なし
+ * \par 説明:
+ * バスに登録することができる PCM データを受け取るコールバック関数です。<br>
  * <br>
- * �R�[���o�b�N�֐��̓o�^�ɂ� ::criAtomExAsr_SetBusFilterCallback �֐����g�p���܂��B<br>
- * �R�[���o�b�N�֐���o�^����ƁA�T�E���h�����_���������������s���x�ɁA
- * �R�[���o�b�N�֐������s�����悤�ɂȂ�܂��B<br>
+ * コールバック関数の登録には ::criAtomExAsr_SetBusFilterCallback 関数を使用します。<br>
+ * コールバック関数を登録すると、サウンドレンダラが音声処理を行う度に、
+ * コールバック関数が実行されるようになります。<br>
  * <br>
- * �t�B���^�[�R�[���o�b�N�֐��ɂ́A PCM �f�[�^�̃t�H�[�}�b�g��`�����l�����A
- * �Q�Ɖ\�ȃT���v�����A PCM �f�[�^���i�[�����̈�̃A�h���X���Ԃ���܂��B<br>
- * �R�[���o�b�N���ł� PCM �f�[�^�̒l�𒼐ڎQ�Ɖ\�ɂȂ�̂ŁA
- * �Đ����̉����̐U�����`�F�b�N����Ƃ������p�r�ɗ��p�\�ł��B<br>
+ * フィルターコールバック関数には、 PCM データのフォーマットやチャンネル数、
+ * 参照可能なサンプル数、 PCM データを格納した領域のアドレスが返されます。<br>
+ * コールバック内では PCM データの値を直接参照可能になるので、
+ * 再生中の音声の振幅をチェックするといった用途に利用可能です。<br>
  * <br>
- * �܂��A�R�[���o�b�N�֐����� PCM �f�[�^�����H����ƁA�Đ����ɔ��f����邽�߁A
- * PCM �f�[�^�ɑ΂��ă��[�U�Ǝ��̃G�t�F�N�g�������邱�Ƃ��\�ł��B<br>
- * �i�������A�^�C���X�g���b�`�����̂悤�ȃf�[�^�ʂ�����������H���s�����Ƃ͂ł��܂���B�j<br>
- * \par ���l:
- * PCM �f�[�^�̓`�����l���P�ʂŕ�������Ă��܂��B<br>
- * �i�C���^�[���[�u����Ă��܂���B�j<br>
- * �T���v������32�̔{���ŁA������32�A�����256�ƂȂ�܂��B<br>
- * �܂��A�T���v�����̓v���b�g�t�H�[���f�o�C�X�̏o�͂̐i���ɉ����ĕω����܂��B<br>
- * �� 6 �����i data �z��j�ɂ́A�e�`�����l���� PCM �f�[�^�z��̐擪�A�h���X���i�[����Ă��܂��B<br>
- * �i�񎟌��z��̐擪�A�h���X�ł͂Ȃ��A�`�����l�����Ƃ� PCM �f�[�^�z��̐擪�A�h���X���i�[����
- * �ꎟ���̃|�C���^�z��ł��B�j<br>
- * �i�[����Ă��� PCM �f�[�^�̓o�X�ɐݒ肳��Ă���G�t�F�N�g�̏�����̉����ł��B<br>
+ * また、コールバック関数内で PCM データを加工すると、再生音に反映されるため、
+ * PCM データに対してユーザ独自のエフェクトをかけることも可能です。<br>
+ * （ただし、タイムストレッチ処理のようなデータ量が増減する加工を行うことはできません。）<br>
+ * \par 備考:
+ * PCM データはチャンネル単位で分離されています。<br>
+ * （インターリーブされていません。）<br>
+ * サンプル数は32の倍数で、下限は32、上限は256となります。<br>
+ * また、サンプル数はプラットフォームデバイスの出力の進捗に応じて変化します。<br>
+ * 第 6 引数（ data 配列）には、各チャンネルの PCM データ配列の先頭アドレスが格納されています。<br>
+ * （二次元配列の先頭アドレスではなく、チャンネルごとの PCM データ配列の先頭アドレスを格納した
+ * 一次元のポインタ配列です。）<br>
+ * 格納されてくる PCM データはバスに設定されているエフェクトの処理後の音声です。<br>
  * <br>
- * �v���b�g�t�H�[���ɂ���āA PCM �f�[�^�̃t�H�[�}�b�g�͈قȂ�܂��B<br>
- * ���s���̃f�[�^�t�H�[�}�b�g�ɂ��ẮA�� 3 �����i format �j�Ŕ��ʉ\�ł��B<br>
- * PCM �f�[�^�̃t�H�[�}�b�g�� 16 bit �����^�̏ꍇ�A format �� CRIATOM_PCM_FORMAT_SINT16 �ƂȂ�A
- * PCM �f�[�^�̃t�H�[�}�b�g�� 32 bit ���������_���^�̏ꍇ�A format �� CRIATOM_PCM_FORMAT_FLOAT32 �ƂȂ�܂��B<br>
- * ���ꂼ��̃P�[�X�� PCM �f�[�^�̒l��͈قȂ�܂��̂ł����ӂ��������B<br>
- * - CRIATOM_PCM_FORMAT_SINT16 ���� -32768 �` +32767
- * - CRIATOM_PCM_FORMAT_FLOAT32 ���� -1.0f �` +1.0f
+ * プラットフォームによって、 PCM データのフォーマットは異なります。<br>
+ * 実行環境のデータフォーマットについては、第 3 引数（ format ）で判別可能です。<br>
+ * PCM データのフォーマットが 16 bit 整数型の場合、 format は CRIATOM_PCM_FORMAT_SINT16 となり、
+ * PCM データのフォーマットが 32 bit 浮動小数点数型の場合、 format は CRIATOM_PCM_FORMAT_FLOAT32 となります。<br>
+ * それぞれのケースで PCM データの値域は異なりますのでご注意ください。<br>
+ * - CRIATOM_PCM_FORMAT_SINT16 時は -32768 ～ +32767
+ * - CRIATOM_PCM_FORMAT_FLOAT32 時は -1.0f ～ +1.0f
  * 
- * �i���d�����̃~�L�V���O��O�i�̃G�t�F�N�g�ɂ���Ă͏�L�͈͂𒴂����l���o��\��������܂��B�j<br>
+ * （多重音声のミキシングや前段のエフェクトによっては上記範囲を超えた値が出る可能性があります。）<br>
  * \attention
  * <br>
- * �{�R�[���o�b�N�֐����ŁAAtom���C�u������API�����s���Ȃ��ł��������B<br>
- * �R�[���o�b�N�֐���Atom���C�u�������̃T�[�o�[����������s����܂��B<br>
- * ���̂��߁A�T�[�o�[�����ւ̊��荞�݂��l�����Ȃ�API�����s�����ꍇ�A
- * �G���[������������A�f�b�h���b�N����������\��������܂��B<br>
+ * 本コールバック関数内で、AtomライブラリのAPIを実行しないでください。<br>
+ * コールバック関数はAtomライブラリ内のサーバー処理から実行されます。<br>
+ * そのため、サーバー処理への割り込みを考慮しないAPIを実行した場合、
+ * エラーが発生したり、デッドロックが発生する可能性があります。<br>
  * <br>
- * �R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖�肪��������\��������܂��B<br>
+ * コールバック関数内で長時間処理をブロックすると、音切れ等の問題が発生する可能性があります。<br>
  * \sa criAtomExAsr_SetBusFilterCallback
  */
 typedef void (*CriAtomExAsrBusFilterCbFunc)(void *obj, CriAtomPcmFormat format,
 	CriSint32 num_channels, CriSint32 num_samples, void *data[]);
 
 /*JP
- * \brief �G�t�F�N�g�C���^�[�t�F�[�X�\���̂̕s���S�^
- * \par ����:
- * �G�t�F�N�g�C���^�[�t�F�[�X�o�^�֐��̈����^�ł��B
+ * \brief エフェクトインターフェース構造体の不完全型
+ * \par 説明:
+ * エフェクトインターフェース登録関数の引数型です。
  * \sa criAtomExAsr_RegisterEffectInterface, criAtomExAsr_UnregisterEffectInterface
  */
 typedef const struct CriAfxInterfaceWithVersionTag* CriAtomExAsrAfxInterfaceWithVersionPtr;
 
 /*JP
- * \brief IR���o�[�u�G�t�F�N�g�̕��׌v���\����
+ * \brief IRリバーブエフェクトの負荷計測構造体
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * IR���o�[�u�̕��׌v���œ���������܂Ƃ߂��\���̂ł��B
- * IR���o�[�u�͈��T���v����1�u���b�N�Ƃ��Ĕ񓯊��ŏ������A�u���b�N�P�ʂŕ��ׂ��v�����܂��B
+ * \par 説明:
+ * IRリバーブの負荷計測で得られる情報をまとめた構造体です。
+ * IRリバーブは一定サンプルを1ブロックとして非同期で処理し、ブロック単位で負荷を計測します。
  * \attention
- * �v���b�g�t�H�[���ɂ���Čv���������e���قȂ�ꍇ������܂��B<br>
- * �ڂ����͊e�v���b�g�t�H�[����CRI ADX �}�j���A���� IR ���o�[�u���Q�Ƃ��Ă��������B
+ * プラットフォームによって計測される内容が異なる場合があります。<br>
+ * 詳しくは各プラットフォームのCRI ADX マニュアルの IR リバーブを参照してください。
  * \sa criAtomExAsr_GetIrReverbPerformanceInfo
  */
 typedef struct CriAtomExAsrIrReverbPerformanceInfoTag {
 	/*JP
-		\brief �u���b�N�T�C�Y
-		\par ����:
-		Craft�Őݒ�\��IR���o�[�u��1�u���b�N�̃T���v�����ł��B
-		\par ���l:
-		����IR���o�[�u�̃u���b�N�T�C�Y��512,1024�݂̂��T�|�[�g���܂��B<br>
-		�o�X��IR���o�[�u�G�t�F�N�g�����݂��Ȃ��ꍇ�A0��Ԃ��܂��B
+		\brief ブロックサイズ
+		\par 説明:
+		Craftで設定可能なIRリバーブの1ブロックのサンプル数です。
+		\par 備考:
+		現在IRリバーブのブロックサイズは512,1024のみをサポートします。<br>
+		バスにIRリバーブエフェクトが存在しない場合、0を返します。
     */
 	CriUint32 blocksize;
 	
 	/*JP
-		\brief �T���v�����O���[�g
-		\par ����:
-		IR���o�[�u�����T���v�����O���[�g�ł��B
-		\par ���l:
-		���݌���IR���o�[�u�̃T���v�����O���[�g��48000Hz�݂̂��T�|�[�g���܂��B<br>
-		�o�X��IR���o�[�u�G�t�F�N�g�����݂��Ȃ��ꍇ�A0��Ԃ��܂��B
+		\brief サンプリングレート
+		\par 説明:
+		IRリバーブ内部サンプリングレートです。
+		\par 備考:
+		現在現在IRリバーブのサンプリングレートは48000Hzのみをサポートします。<br>
+		バスにIRリバーブエフェクトが存在しない場合、0を返します。
     */
 	CriUint32 sampling_rate;
 	
 	/*JP
-		\brief ������
-		\par ����:
-		IR���o�[�u��1�u���b�N�̏����񐔂ł��B
+		\brief 処理回数
+		\par 説明:
+		IRリバーブの1ブロックの処理回数です。
     */
 	CriUint32 process_count;
 
 	/*JP
-		\brief �ŐV�������ԁi�}�C�N���b�j
-		\par ����:
-		IR���o�[�u�̍ŐV��1�u���b�N�̏����ɂ����������Ԃł��B
+		\brief 最新処理時間（マイクロ秒）
+		\par 説明:
+		IRリバーブの最新の1ブロックの処理にかかった時間です。
 	*/
 	CriUint32 last_process_time;
 
 	/*JP
-		\brief �ő又�����ԁi�}�C�N���b�j
-		\par ����:
-		IR���o�[�u�̌v�����Z�b�g����擾���_�܂łōł�����1�u���b�N�̏������Ԃł��B
+		\brief 最大処理時間（マイクロ秒）
+		\par 説明:
+		IRリバーブの計測リセットから取得時点までで最も長い1ブロックの処理時間です。
 	*/
 	CriUint32 max_process_time;
 
 	/*JP
-		\brief ���Ϗ������ԁi�}�C�N���b�j
-		\par ����:
-		IR���o�[�u�̌v�����Z�b�g����擾���_�܂ł�1�u���b�N�̕��Ϗ������Ԃł��B
+		\brief 平均処理時間（マイクロ秒）
+		\par 説明:
+		IRリバーブの計測リセットから取得時点までの1ブロックの平均処理時間です。
 	*/
 	CriUint32 average_process_time;
 
 	/*JP
-		\brief �ŐV�����C���^�[�o���i�}�C�N���b�j
-		\par ����:
-		IR���o�[�u�̍ŐV��1�u���b�N�̏����Ԋu�ł��B
+		\brief 最新処理インターバル（マイクロ秒）
+		\par 説明:
+		IRリバーブの最新の1ブロックの処理間隔です。
 	*/
 	CriUint32 last_process_interval;
 
 	/*JP
-		\brief �ő又���C���^�[�o���i�}�C�N���b�j
-		\par ����:
-		IR���o�[�u�̌v�����Z�b�g����擾���_�܂łōł�����1�u���b�N�̏����C���^�[�o���ł��B
+		\brief 最大処理インターバル（マイクロ秒）
+		\par 説明:
+		IRリバーブの計測リセットから取得時点までで最も長い1ブロックの処理インターバルです。
 	*/
 	CriUint32 max_process_interval;
 
 	/*JP
-		\brief ���Ϗ����C���^�[�o���i�}�C�N���b�j
-		\par ����:
-		IR���o�[�u�̌v�����Z�b�g����擾���_�܂ł�1�u���b�N�̕��Ϗ����C���^�[�o���ł��B
+		\brief 平均処理インターバル（マイクロ秒）
+		\par 説明:
+		IRリバーブの計測リセットから取得時点までの1ブロックの平均処理インターバルです。
 	*/
 	CriUint32 average_process_interval;
 
@@ -2701,222 +2760,305 @@ typedef struct CriAtomExAsrIrReverbPerformanceInfoTag {
  *=========================================================================*/
 
 /*JP
- * \brief ASR���b�NID
+ * \brief ASRラックID
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ASR���b�N�Ǘ��p��ID�^�ł��B<br>
- * ::criAtomExAsrRack_Create �֐���ASR���b�N���쐬����Ǝ擾�ł��܂��B<br>
+ * \par 説明:
+ * ASRラック管理用のID型です。<br>
+ * ::criAtomExAsrRack_Create 関数でASRラックを作成すると取得できます。<br>
  * \sa criAtomExAsrRack_Create, criAtomExAsrRack_AttachDspBusSetting
  */
 typedef CriSint32 CriAtomExAsrRackId;
 
 /*JP
- * \brief ASR���b�N�쐬�p�R���t�B�O�\����
+ * \brief ASRラック作成用コンフィグ構造体
  * \ingroup ATOMEXLIB_ASR
- * ASR�iAtom Sound Renderer�j�̓���d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomExAsrRack_Create �֐��̈����Ɏw�肵�܂��B<br>
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtomExAsrRack_SetDefaultConfig �}�N����
- * �\���̂Ƀf�t�H���g�p�����[�^�[���Z�b�g������A ::criAtomExAsrRack_Create �֐�
- * �ɍ\���̂��w�肵�Ă��������B<br>
+ * ASR（Atom Sound Renderer）の動作仕様を指定するための構造体です。<br>
+ * ::criAtomExAsrRack_Create 関数の引数に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomExAsrRack_SetDefaultConfig マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomExAsrRack_Create 関数
+ * に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomExAsrRack_SetDefaultConfig 
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomExAsrRack_SetDefaultConfig 
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomExAsrRack_Create, criAtomExAsrRack_SetDefaultConfig
  */
 typedef struct CriAtomExAsrRackConfigTag {
 	/*JP
-		\brief �T�[�o�[�����̎��s�p�x
-		\par ����:
-		�T�[�o�[���������s����p�x���w�肵�܂��B<br>
+		\brief サーバー処理の実行頻度
+		\par 説明:
+		サーバー処理を実行する頻度を指定します。<br>
 		\attention
-		Atom���C�u�������������Ɏw�肵���l�i ::CriAtomExConfig �\���̂�
-		server_frequency �j�ƁA�����l���Z�b�g����K�v������܂��B<br>
+		Atomライブラリ初期化時に指定した値（ ::CriAtomExConfig 構造体の
+		server_frequency ）と、同じ値をセットする必要があります。<br>
 		\sa CriAtomConfig
 	*/
 	CriFloat32 server_frequency;
 	
 	/*JP
-		\brief �o�X��
-		\par ����:
-		ASR���쐬����o�X�̐����w�肵�܂��B<br>
-		�o�X�̓T�E���h�̃~�b�N�X��A�G�t�F�N�g�̊Ǘ������s���܂��B<br>
+		\brief バス数
+		\par 説明:
+		ASRが作成するバスの数を指定します。<br>
+		バスはサウンドのミックスや、エフェクトの管理等を行います。<br>
 	*/
 	CriSint32 num_buses;
 
 	/*JP
-		\brief �o�̓`�����l����
-		\par ����:
-		ASR���b�N�̏o�̓`�����l�������w�肵�܂��B<br>
-		�p��3D��������3D�|�W�V���j���O�@�\���g�p����ꍇ��6ch�ȏ���w�肵�܂��B<br>
+		\brief 出力チャンネル数
+		\par 説明:
+		ASRラックの出力チャンネル数を指定します。<br>
+		パン3Dもしくは3Dポジショニング機能を使用する場合は6ch以上を指定します。<br>
 	*/
 	CriSint32 output_channels;
 
 	/*JP
-		\brief �~�L�T�[�̃X�s�[�J�[�}�b�s���O
-		\par ����:
-		ASR���b�N�̃X�s�[�J�[�}�b�s���O���w�肵�܂��B<br>
+		\brief ミキサーのスピーカーマッピング
+		\par 説明:
+		ASRラックのスピーカーマッピングを指定します。<br>
 	*/
 	CriAtomSpeakerMapping speaker_mapping;
 	
 	/*JP
-		\brief �o�̓T���v�����O���[�g
-		\par ����:
-		ASR���b�N�̏o�͂���я����ߒ��̃T���v�����O���[�g���w�肵�܂��B<br>
-		�ʏ�A�^�[�Q�b�g�@�̃T�E���h�f�o�C�X�̃T���v�����O���[�g���w�肵�܂��B<br>
-		\par ���l:
-		�Ⴍ����Ə������ׂ������邱�Ƃ��ł��܂��������������܂��B<br>
+		\brief 出力サンプリングレート
+		\par 説明:
+		ASRラックの出力および処理過程のサンプリングレートを指定します。<br>
+		通常、ターゲット機のサウンドデバイスのサンプリングレートを指定します。<br>
+		\par 備考:
+		低くすると処理負荷を下げることができますが音質が落ちます。<br>
 	*/
 	CriSint32 output_sampling_rate;
 	
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		ASR���b�N�̏o�͐�T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		ASRラックの出力先サウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 
 	/*JP
-		\brief �o�͐�ASR���b�NID
-		\par ����:
-		ASR���b�N�̏o�͐�ASR���b�NID���w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_ASR ���w�肵���ꍇ�̂ݗL���ł��B<br>
+		\brief 出力先ASRラックID
+		\par 説明:
+		ASRラックの出力先ASRラックIDを指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_ASR を指定した場合のみ有効です。<br>
 	*/
 	CriAtomExAsrRackId output_rack_id;
 
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[��ASR���b�N���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでASRラックを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 } CriAtomExAsrRackConfig;
 
 /*JP
- * \brief �p�t�H�[�}���X���
+ * \brief ChannelBasedAudio再生用ASRラック拡張コンフィグ構造体
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * �p�t�H�[�}���X�����擾���邽�߂̍\���̂ł��B<br>
- * ::criAtomExAsrRack_GetPerformanceInfo �֐��ŗ��p���܂��B
+ * ChannelBasedAudio再生ASRラックを作成する際にプラットフォーム固有機能を使用し、<br>
+ * ::criAtomExAsrRackConfig の context に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomExAsrRackSpatialChannel_SetDefaultConfig マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomExAsrRackConfig の context に構造体を指定してください。<br>
+ * \attention
+ * 将来的にメンバが増える可能性があるため、 ::criAtomExAsrRackSpatialChannel_SetDefaultConfig
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
+ * \sa CriAtomExAsrRackConfig, criAtomExAsrRackSpatialChannel_SetDefaultConfig
+ */
+typedef struct CriAtomExAsrRackSpatialChannelConfigTag {
+	/*JP
+		\brief プラットフォーム固有パラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
+	*/
+	void *context;
+} CriAtomExAsrRackSpatialChannelConfig;
+
+/*JP
+ * \brief Ambisonics再生ASRラック拡張コンフィグ構造体
+ * \ingroup ATOMEXLIB_ASR
+ * Ambisonics再生ASRラックを作成する際にプラットフォーム固有機能を使用し、<br>
+ * ::criAtomExAsrRackConfig の context に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomExAsrRackSpatialAmbisonics_SetDefaultConfig マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomExAsrRackConfig の context に構造体を指定してください。<br>
+ * \attention
+ * 将来的にメンバが増える可能性があるため、 ::criAtomExAsrRackSpatialAmbisonics_SetDefaultConfig
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
+ * \sa CriAtomExAsrRackConfig, criAtomExAsrRackSpatialAmbisonics_SetDefaultConfig
+ */
+typedef struct CriAtomExAsrRackSpatialAmbisonicsConfigTag {
+	/*JP
+		\brief プラットフォーム固有パラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
+	*/
+	void *context;
+} CriAtomExAsrRackSpatialAmbisonicsConfig;
+
+/*JP
+ * \brief ObjectBasedAudio再生ASRラック拡張コンフィグ構造体
+ * \ingroup ATOMEXLIB_ASR
+ * ObjectBasedAudio再生ASRラックを作成する際にプラットフォーム固有機能を使用し、<br>
+ * ::criAtomExAsrRackConfig の context に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomExAsrRackSpatialObject_SetDefaultConfig マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomExAsrRackConfig の context に構造体を指定してください。<br>
+ * \attention
+ * 将来的にメンバが増える可能性があるため、 ::criAtomExAsrRackSpatialObject_SetDefaultConfig
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
+ * \sa CriAtomExAsrRackConfig, criAtomExAsrRackSpatialObject_SetDefaultConfig
+ */
+typedef struct CriAtomExAsrRackSpatialObjectConfigTag {
+	/*JP
+		\brief フォールバック先ASRラックID
+		\par 説明:
+		ObjectBasedAudio再生できなかった際に代わりに再生するASRラックIDを指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_OBJECT を指定した場合のみ有効です。<br>
+	*/
+	CriAtomExAsrRackId fallback_rack_id;
+
+	/*JP
+		\brief プラットフォーム固有パラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
+	*/
+	void *context;
+} CriAtomExAsrRackSpatialObjectConfig;
+
+/*JP
+ * \brief パフォーマンス情報
+ * \ingroup ATOMEXLIB_ASR
+ * \par 説明:
+ * パフォーマンス情報を取得するための構造体です。<br>
+ * ::criAtomExAsrRack_GetPerformanceInfo 関数で利用します。
  * \sa criAtomExAsrRack_GetPerformanceInfo
  */
 typedef struct CriAtomExAsrRackPerformanceInfoTag {
-	CriUint32 process_count;			/*JP<�M������������							*/
-	CriUint32 last_process_time;		/*JP<�������Ԃ̍ŏI�v���l�i�}�C�N���b�P�ʁj		*/
-	CriUint32 max_process_time;			/*JP<�������Ԃ̍ő�l�i�}�C�N���b�P�ʁj			*/
-	CriUint32 average_process_time;		/*JP<�������Ԃ̕��ϒl�i�}�C�N���b�P�ʁj			*/
-	CriUint32 last_process_interval;	/*JP<�����Ԋu�̍ŏI�v���l�i�}�C�N���b�P�ʁj		*/
-	CriUint32 max_process_interval;		/*JP<�����Ԋu�̍ő�l�i�}�C�N���b�P�ʁj			*/
-	CriUint32 average_process_interval;	/*JP<�����Ԋu�̕��ϒl�i�}�C�N���b�P�ʁj			*/
-	CriUint32 last_process_samples;		/*JP<�P�ʏ����Ő������ꂽ�T���v�����̍ŏI�v���l	*/
-	CriUint32 max_process_samples;		/*JP<�P�ʏ����Ő������ꂽ�T���v�����̍ő�l		*/
-	CriUint32 average_process_samples;	/*JP<�P�ʏ����Ő������ꂽ�T���v�����̕��ϒl		*/
+	CriUint32 process_count;			/*JP<信号生成処理回数							*/
+	CriUint32 last_process_time;		/*JP<処理時間の最終計測値（マイクロ秒単位）		*/
+	CriUint32 max_process_time;			/*JP<処理時間の最大値（マイクロ秒単位）			*/
+	CriUint32 average_process_time;		/*JP<処理時間の平均値（マイクロ秒単位）			*/
+	CriUint32 last_process_interval;	/*JP<処理間隔の最終計測値（マイクロ秒単位）		*/
+	CriUint32 max_process_interval;		/*JP<処理間隔の最大値（マイクロ秒単位）			*/
+	CriUint32 average_process_interval;	/*JP<処理間隔の平均値（マイクロ秒単位）			*/
+	CriUint32 last_process_samples;		/*JP<単位処理で生成されたサンプル数の最終計測値	*/
+	CriUint32 max_process_samples;		/*JP<単位処理で生成されたサンプル数の最大値		*/
+	CriUint32 average_process_samples;	/*JP<単位処理で生成されたサンプル数の平均値		*/
 } CriAtomExAsrRackPerformanceInfo;
 
 /*==========================================================================
  *      CRI Atom ASR API
  *=========================================================================*/
 /*JP
- * \brief ASR�������p�R���t�B�O�\����
+ * \brief ASR初期化用コンフィグ構造体
  * \ingroup ATOMLIB_ASR
- * ASR�iAtom Sound Renderer�j�̓���d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomAsr_Initialize �֐��̈����Ɏw�肵�܂��B<br>
- * \par ���l:
- * �f�t�H���g�ݒ���g�p����ꍇ�A ::criAtomAsr_SetDefaultConfig �}�N����
- * �\���̂Ƀf�t�H���g�p�����[�^�[���Z�b�g������A ::criAtomAsr_Initialize �֐�
- * �ɍ\���̂��w�肵�Ă��������B<br>
+ * ASR（Atom Sound Renderer）の動作仕様を指定するための構造体です。<br>
+ * ::criAtomAsr_Initialize 関数の引数に指定します。<br>
+ * \par 備考:
+ * デフォルト設定を使用する場合、 ::criAtomAsr_SetDefaultConfig マクロで
+ * 構造体にデフォルトパラメーターをセットした後、 ::criAtomAsr_Initialize 関数
+ * に構造体を指定してください。<br>
  * \attention
- * �����I�Ƀ����o��������\�������邽�߁A ::criAtomAsr_SetDefaultConfig 
- * �}�N�����g�p���Ȃ��ꍇ�ɂ́A�g�p�O�ɕK���\���̂��[���N���A���Ă��������B<br>
- * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+ * 将来的にメンバが増える可能性があるため、 ::criAtomAsr_SetDefaultConfig 
+ * マクロを使用しない場合には、使用前に必ず構造体をゼロクリアしてください。<br>
+ * （構造体のメンバに不定値が入らないようご注意ください。）
  * \sa criAtomAsr_Initialize, criAtomAsr_SetDefaultConfig
  */
 typedef struct CriAtomAsrConfigTag {
 	/*JP
-		\brief �T�[�o�[�����̎��s�p�x
-		\par ����:
-		�T�[�o�[���������s����p�x���w�肵�܂��B<br>
+		\brief サーバー処理の実行頻度
+		\par 説明:
+		サーバー処理を実行する頻度を指定します。<br>
 		\attention
-		Atom���C�u�������������Ɏw�肵���l�i ::CriAtomConfig �\���̂�
-		server_frequency �j�ƁA�����l���Z�b�g����K�v������܂��B<br>
+		Atomライブラリ初期化時に指定した値（ ::CriAtomConfig 構造体の
+		server_frequency ）と、同じ値をセットする必要があります。<br>
 		\sa CriAtomConfig
 	*/
 	CriFloat32 server_frequency;
 	
 	/*JP
-		\brief �o�X��
-		\par ����:
-		ASR���쐬����o�X�̐����w�肵�܂��B<br>
-		�o�X�̓T�E���h�̃~�b�N�X��A�G�t�F�N�g�̊Ǘ������s���܂��B<br>
+		\brief バス数
+		\par 説明:
+		ASRが作成するバスの数を指定します。<br>
+		バスはサウンドのミックスや、エフェクトの管理等を行います。<br>
 	*/
 	CriSint32 num_buses;
 
 	/*JP
-		\brief �o�̓`�����l����
-		\par ����:
-		ASR�̏o�̓`�����l�������w�肵�܂��B<br>
-		�p��3D��������3D�|�W�V���j���O�@�\���g�p����ꍇ��6ch�ȏ���w�肵�܂��B<br>
+		\brief 出力チャンネル数
+		\par 説明:
+		ASRの出力チャンネル数を指定します。<br>
+		パン3Dもしくは3Dポジショニング機能を使用する場合は6ch以上を指定します。<br>
 	*/
 	CriSint32 output_channels;
 	
 	/*JP
-		\brief �~�L�T�[�̃X�s�[�J�[�}�b�s���O
-		\par ����:
-		ASR���b�N�̃X�s�[�J�[�}�b�s���O���w�肵�܂��B<br>
+		\brief ミキサーのスピーカーマッピング
+		\par 説明:
+		ASRラックのスピーカーマッピングを指定します。<br>
 	*/
 	CriAtomSpeakerMapping speaker_mapping;
 	
 	/*JP
-		\brief �o�̓T���v�����O���[�g
-		\par ����:
-		�o�͂���я����ߒ��̃T���v�����O���[�g���w�肵�܂��B<br>
-		�ʏ�A�^�[�Q�b�g�@�̃T�E���h�f�o�C�X�̃T���v�����O���[�g���w�肵�܂��B<br>
-		\par ���l:
-		�Ⴍ����Ə������ׂ������邱�Ƃ��ł��܂��������������Ȃ�܂��B<br>
+		\brief 出力サンプリングレート
+		\par 説明:
+		出力および処理過程のサンプリングレートを指定します。<br>
+		通常、ターゲット機のサウンドデバイスのサンプリングレートを指定します。<br>
+		\par 備考:
+		低くすると処理負荷を下げることができますが音質が悪くなります。<br>
 	*/
 	CriSint32 output_sampling_rate;
 	
 	/*JP
-		\brief �T�E���h�����_���^�C�v
-		\par ����:
-		ASR�̏o�͐�T�E���h�����_���̎�ʂ��w�肵�܂��B<br>
-		sound_renderer_type �� CRIATOM_SOUND_RENDERER_NATIVE ���w�肵���ꍇ�A
-		�����f�[�^�̓f�t�H���g�ݒ�̊e�v���b�g�t�H�[���̃T�E���h�o�͂ɓ]������܂��B<br>
+		\brief サウンドレンダラタイプ
+		\par 説明:
+		ASRの出力先サウンドレンダラの種別を指定します。<br>
+		sound_renderer_type に CRIATOM_SOUND_RENDERER_NATIVE を指定した場合、
+		音声データはデフォルト設定の各プラットフォームのサウンド出力に転送されます。<br>
 		\attention
-		CRIATOM_SOUND_RENDERER_ASR�����CRIATOM_SOUND_RENDERER_DEFAULT�͎w�肵�Ȃ��ł��������B
+		CRIATOM_SOUND_RENDERER_ASRおよびCRIATOM_SOUND_RENDERER_DEFAULTは指定しないでください。
 	*/
 	CriAtomSoundRendererType sound_renderer_type;
 	
 	/*JP
-		\brief �v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^
-		\par ����:
-		�v���b�g�t�H�[���ŗL�̃p�����[�^�[�ւ̃|�C���^���w�肵�܂��B
-		NULL���w�肵���ꍇ�A�v���b�g�t�H�[�����̃f�t�H���g�p�����[�^�[��ASR���b�N���쐬���܂��B<br>
-		�p�����[�^�[�\���̂͊e�v���b�g�t�H�[���ŗL�w�b�_�[�ɒ�`����Ă��܂��B
-		�p�����[�^�[�\���̂���`����Ă��Ȃ��v���b�g�t�H�[���ł́A���NULL���w�肵�Ă��������B
+		\brief プラットフォーム固有のパラメーターへのポインタ
+		\par 説明:
+		プラットフォーム固有のパラメーターへのポインタを指定します。
+		NULLを指定した場合、プラットフォーム毎のデフォルトパラメーターでASRラックを作成します。<br>
+		パラメーター構造体は各プラットフォーム固有ヘッダーに定義されています。
+		パラメーター構造体が定義されていないプラットフォームでは、常にNULLを指定してください。
 	*/
 	void *context;
 
 	/*JP
-		\brief ASR���b�N�̍ő吔
-		\par ����:
-		�쐬�\��ASR���b�N�̍ő���ł��B<br>
+		\brief ASRラックの最大数
+		\par 説明:
+		作成可能なASRラックの最大個数です。<br>
 	*/
 	CriSint32 max_racks;
 
 	/*JP
-		\brief Ambisonics�̃I�[�_�[�^�C�v
-		\par ����:
-		Atom���C�u������Ambisonics�̍Đ����s���ہA�ǂ̃I�[�_�[�^�C�v���g�p���邩�ݒ肵�܂��B<br>
-		\par ���l:
-		Ambisonics�̍Đ��ɔ�Ή��̃v���b�g�t�H�[���ł́A���̒l�͖�������܂��B<br>
-		�܂��A ::CRIATOMAMBISONICS_ORDER_TYPE_NONE ���w�肵���ꍇ�AAmbisonics�̍Đ����s���܂���B<br>
+		\brief Ambisonicsのオーダータイプ
+		\par 説明:
+		AtomライブラリがAmbisonicsの再生を行う際、どのオーダータイプを使用するか設定します。<br>
+		\par 備考:
+		Ambisonicsの再生に非対応のプラットフォームでは、この値は無視されます。<br>
+		また、 ::CRIATOMAMBISONICS_ORDER_TYPE_NONE を指定した場合、Ambisonicsの再生を行いません。<br>
 	 */
 	CriAtomAmbisonicsOrderType ambisonics_order_type;
 } CriAtomAsrConfig;
@@ -2925,46 +3067,46 @@ typedef struct CriAtomAsrConfigTag {
 *      CRI AtomEx API
 *=========================================================================*/
 /*JP
-* \brief Atom���C�u�����������p�R���t�B�O�\����
+* \brief Atomライブラリ初期化用コンフィグ構造体
 * \ingroup ATOMLIB_PC
-* CRI Atom���C�u�����̓���d�l���w�肷�邽�߂̍\���̂ł��B<br>
-* ::criAtomEx_InitializeForUserPcmOutput �֐��̈����Ɏw�肵�܂��B<br>
+* CRI Atomライブラリの動作仕様を指定するための構造体です。<br>
+* ::criAtomEx_InitializeForUserPcmOutput 関数の引数に指定します。<br>
 * \sa criAtomEx_InitializeForUserPcmOutput, criAtomEx_SetDefaultConfigForUserPcmOutput
 */
 typedef struct CriAtomExConfigForUserPcmOutputTag {
-	CriAtomExConfig			atom_ex;	/*JP< AtomEx�������p�R���t�B�O�\����	*/
-	CriAtomExAsrConfig		asr;		/*JP< ASR�������p�R���t�B�O			*/
-	CriAtomExHcaMxConfig	hca_mx;		/*JP< HCA-MX�������p�R���t�B�O�\����	*/
+	CriAtomExConfig			atom_ex;	/*JP< AtomEx初期化用コンフィグ構造体	*/
+	CriAtomExAsrConfig		asr;		/*JP< ASR初期化用コンフィグ			*/
+	CriAtomExHcaMxConfig	hca_mx;		/*JP< HCA-MX初期化用コンフィグ構造体	*/
 } CriAtomExConfigForUserPcmOutput;
 
 /*==========================================================================
  *      CRI Atom Player API
  *=========================================================================*/
  /*JP
-  * �v���[���[�쐬�p�R���t�B�O�\����
+  * プレーヤー作成用コンフィグ構造体
   * \ingroup ATOMEXLIB_ASR
-  * \par ����:
-  * �v���[���[���쐬����ۂɁA����d�l���w�肷�邽�߂̍\���̂ł��B<br>
-  * �e�R�[�f�b�N���� CriAtomXXXPlayerConfig ���� context �Ɏw�肵�܂��B<br>
-  * �� XXX �̓R�[�f�b�N��
+  * \par 説明:
+  * プレーヤーを作成する際に、動作仕様を指定するための構造体です。<br>
+  * 各コーデック毎の CriAtomXXXPlayerConfig 内の context に指定します。<br>
+  * ※ XXX はコーデック名
   * \attention
-  * �{�\���̂� ::CRIATOM_SOUND_RENDERER_ASR ���g�p�����ꍇ�̂ݎQ�Ƃ���܂��B<br>
+  * 本構造体は ::CRIATOM_SOUND_RENDERER_ASR を使用した場合のみ参照されます。<br>
   * <br>
-  * �����I�Ƀ����o��������\�������邽�߁A
-  * ::criAtomPlayer_SetDefaultConfig_ASR �}�N���ŕK���\���̂����������Ă��������B<br>
-  * �i�\���̂̃����o�ɕs��l������Ȃ��悤�����ӂ��������B�j
+  * 将来的にメンバが増える可能性があるため、
+  * ::criAtomPlayer_SetDefaultConfig_ASR マクロで必ず構造体を初期化してください。<br>
+  * （構造体のメンバに不定値が入らないようご注意ください。）
   */
 typedef struct {
-	CriSint32 max_routes;				/*JP< �Z���h�\�o�X�� */
+	CriSint32 max_routes;				/*JP< センド可能バス数 */
 } CriAtomPlayerConfig_ASR;
 
 /***************************************************************************
- *      �ϐ��錾
+ *      変数宣言
  *      Prototype Variables
  ***************************************************************************/
 
 /***************************************************************************
- *      �֐��錾
+ *      関数宣言
  *      Prototype Functions
  ***************************************************************************/
 #ifdef __cplusplus
@@ -2974,266 +3116,266 @@ extern "C" {
  *      CRI AtomEx ASR API
  *=========================================================================*/
 /*JP
- * \brief ASR�������p���[�N�̈�T�C�Y�̌v�Z
+ * \brief ASR初期化用ワーク領域サイズの計算
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	config	ASR�������p�R���t�B�O�\����
- * \par ����:
- * ASR�iAtom Sound Renderer�j�̏������ɕK�v�ȃ��[�N�̈�̃T�C�Y���擾���܂��B<br>
- * ::criAtomEx_SetUserAllocator �}�N���ɂ��A���P�[�^�[�o�^���s�킸��
- * ::criAtomExAsr_Initialize �֐���ASR�̏��������s���ꍇ�A
- * �{�֐��Ōv�Z�����T�C�Y���̃����������[�N�̈�Ƃ��ēn���K�v������܂��B<br>
+ * \param[in]	config	ASR初期化用コンフィグ構造体
+ * \par 説明:
+ * ASR（Atom Sound Renderer）の初期化に必要なワーク領域のサイズを取得します。<br>
+ * ::criAtomEx_SetUserAllocator マクロによるアロケーター登録を行わずに
+ * ::criAtomExAsr_Initialize 関数でASRの初期化を行う場合、
+ * 本関数で計算したサイズ分のメモリをワーク領域として渡す必要があります。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * ASR�̏������ɕK�v�ȃ��[�N�������̃T�C�Y�́AASR�������p�R���t�B�O
- * �\���́i ::CriAtomExAsrConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * ASRの初期化に必要なワークメモリのサイズは、ASR初期化用コンフィグ
+ * 構造体（ ::CriAtomExAsrConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomExAsr_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomExAsr_SetDefaultConfig 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \sa criAtomEx_SetUserAllocator, criAtomExAsr_Initialize
  */
 CriSint32 CRIAPI criAtomExAsr_CalculateWorkSize(const CriAtomExAsrConfig *config);
 
 /*JP
- * \brief ���[�N�̈�T�C�Y�v�Z�p�R���t�B�O�\���̂̐ݒ�
+ * \brief ワーク領域サイズ計算用コンフィグ構造体の設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	config	ASR�������p�R���t�B�O�\����
- * \par ����:
- * ���[�N�̈�T�C�Y�̌v�Z�p�ɁAASR�������p�R���t�B�O�\����
- * �i ::CriAtomExAsrConfig �\���́j�����o�^���܂��B<br>
+ * \param[in]	config	ASR初期化用コンフィグ構造体
+ * \par 説明:
+ * ワーク領域サイズの計算用に、ASR初期化用コンフィグ構造体
+ * （ ::CriAtomExAsrConfig 構造体）を仮登録します。<br>
  * <br>
- * �G�t�F�N�g�̃A�^�b�`�ɕK�v�ȃ��[�N�̈�̃T�C�Y�́A
- * ASR���������i ::criAtomExAsr_Initialize �֐����s���j
- * �ɐݒ肷��\���̂̃p�����[�^�[�ɂ���ĕω����܂��B<br>
- * ���̂��߁A�ʏ�̓G�t�F�N�g�̃A�^�b�`�ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z����O�ɁA
- * ASR������������K�v������܂��B<br>
- * �{�֐����g�p����ASR�������p�R���t�B�O�\���̂�o�^�����ꍇ�A
- * �G�t�F�N�g�̃A�^�b�`�ɕK�v�ȃ��[�N�̈�̃T�C�Y���A
- * �����������Ȃ��Ɍv�Z�\�ɂȂ�܂��B<br>
- * �i ::criAtomEx_CalculateWorkSizeForDspBusSettingFromAcfData
- * �֐������s�\�ƂȂ�܂��B�j<br>
- * \par ���l:
- * �����i config �j�� NULL ���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomExAsr_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B<br>
+ * エフェクトのアタッチに必要なワーク領域のサイズは、
+ * ASR初期化時（ ::criAtomExAsr_Initialize 関数実行時）
+ * に設定する構造体のパラメーターによって変化します。<br>
+ * そのため、通常はエフェクトのアタッチに必要なワーク領域サイズを計算する前に、
+ * ASRを初期化する必要があります。<br>
+ * 本関数を使用してASR初期化用コンフィグ構造体を登録した場合、
+ * エフェクトのアタッチに必要なワーク領域のサイズを、
+ * 初期化処理なしに計算可能になります。<br>
+ * （ ::criAtomEx_CalculateWorkSizeForDspBusSettingFromAcfData
+ * 関数が実行可能となります。）<br>
+ * \par 備考:
+ * 引数（ config ）に NULL を指定した場合、デフォルト設定
+ * （ ::criAtomExAsr_SetDefaultConfig 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。<br>
  * <br>
- * ����A�{�֐��ň�U�R���t�B�O�\���̂�ݒ肷��ƁA
- * �ݒ�O�̏�ԁi����������Ԃł̃��[�N�̈�T�C�Y�v�Z���G���[�Ƃ��铮��j
- * �ɖ߂����Ƃ��ł��Ȃ��Ȃ�܂��B<br>
- * �i�֐����ēx���s���ăp�����[�^�[���㏑�����邱�Ƃ͉\�ł��B�j<br>
+ * 現状、本関数で一旦コンフィグ構造体を設定すると、
+ * 設定前の状態（未初期化状態でのワーク領域サイズ計算をエラーとする動作）
+ * に戻すことができなくなります。<br>
+ * （関数を再度実行してパラメーターを上書きすることは可能です。）<br>
  * \attention
- * �{�֐��œo�^�����������p�R���t�B�O�\���̂́A
- * ASR����������Ԃł̃��[�N�̈�T�C�Y�v�Z�ɂ����g�p����܂���B<br>
- * ASR��������ɂ͖{�֐��ɐݒ肵���p�����[�^�[�ł͂Ȃ��A
- * ���������Ɏw�肳�ꂽ�p�����[�^�[�����[�N�̈�T�C�Y�̌v�Z�Ɏg�p����܂��B<br>
- * �i�{�֐��œo�^����\���̂̃p�����[�^�[�ƁA
- * ASR�̏������Ɏg�p����\���̂̃p�����[�^�[���قȂ�ꍇ�A
- * ���[�N�̈�T�C�Y���s�����A�n���h���̍쐬�Ɏ��s���鋰�ꂪ����܂��B�j<br>
+ * 本関数で登録した初期化用コンフィグ構造体は、
+ * ASR未初期化状態でのワーク領域サイズ計算にしか使用されません。<br>
+ * ASR初期化後には本関数に設定したパラメーターではなく、
+ * 初期化時に指定されたパラメーターがワーク領域サイズの計算に使用されます。<br>
+ * （本関数で登録する構造体のパラメーターと、
+ * ASRの初期化に使用する構造体のパラメーターが異なる場合、
+ * ワーク領域サイズが不足し、ハンドルの作成に失敗する恐れがあります。）<br>
  * <br>
- * �{�֐������s�����ꍇ�ł��A ::criAtomEx_CalculateWorkSizeForDspBusSetting 
- * �֐��͎g�p�ł��܂���B<br>
- * DSP�o�X�ݒ�A�^�b�`�p���[�N�̈�T�C�Y�̌v�Z�ɂ́A
+ * 本関数を実行した場合でも、 ::criAtomEx_CalculateWorkSizeForDspBusSetting 
+ * 関数は使用できません。<br>
+ * DSPバス設定アタッチ用ワーク領域サイズの計算には、
  * ::criAtomEx_CalculateWorkSizeForDspBusSettingFromAcfData 
- * �֐����g�p���Ă��������B�j<br>
- * \par ��:
+ * 関数を使用してください。）<br>
+ * \par 例:
  * \code
  * 	CriAtomExAsrConfig asr_config;
  * 	
- * 	// ���[�N�̈�v�Z�p��ASR�������ݒ�����o�^
+ * 	// ワーク領域計算用にASR初期化設定を仮登録
  * 	criAtomExAsr_SetDefaultConfig(&asr_config);
  * 	criAtomExAsr_SetConfigForWorkSizeCalculation(&asr_config);
  * 	
- * 	// DSP�o�X�ݒ�A�^�b�`�p���[�N�̈�T�C�Y�̌v�Z
+ * 	// DSPバス設定アタッチ用ワーク領域サイズの計算
  * 	dsp_work_size = criAtomEx_CalculateWorkSizeForDspBusSettingFromAcfData(
  * 		acf_data, acf_data_size, "DspBusSetting_0");
- * 		�F
+ * 		：
  * \endcode
  * \sa criAtomEx_CalculateWorkSizeForDspBusSettingFromAcfData
  */
 void CRIAPI criAtomExAsr_SetConfigForWorkSizeCalculation(const CriAtomExAsrConfig *config);
 
 /*JP
- * \brief ASR�̏�����
+ * \brief ASRの初期化
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	config		ASR�������p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \par ����:
- * ASR�iAtom Sound Renderer�j�̏��������s���܂��B<br>
- * �{�֐������s���邱�Ƃ�ASR���N����ASR���b�N��1�ǉ�����A�����_�����O���ʂ̏o�͂��J�n���܂��B<br>
- * \par ���l:
- * ASR�̏������ɕK�v�ȃ��[�N�������̃T�C�Y�́AASR�������p�R���t�B�O
- * �\���́i ::CriAtomExAsrConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * \param[in]	config		ASR初期化用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \par 説明:
+ * ASR（Atom Sound Renderer）の初期化を行います。<br>
+ * 本関数を実行することでASRが起動しASRラックが1個追加され、レンダリング結果の出力を開始します。<br>
+ * \par 備考:
+ * ASRの初期化に必要なワークメモリのサイズは、ASR初期化用コンフィグ
+ * 構造体（ ::CriAtomExAsrConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�<br>
- * �i ::criAtomExAsr_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j�ŏ������������s���܂��B<br>
+ * 引数にNULLを指定した場合、デフォルト設定<br>
+ * （ ::criAtomExAsr_SetDefaultConfig 適用時と同じパラメーター）で初期化処理を行います。<br>
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B<br>
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。
  * <br>
- * �{�֐������s��A�K���΂ɂȂ� ::criAtomExAsr_Finalize �֐������s���Ă��������B<br>
- * �܂��A ::criAtomExAsr_Finalize �֐������s����܂ł́A�{�֐����ēx���s���Ȃ��ł��������B<br>
+ * 本関数を実行後、必ず対になる ::criAtomExAsr_Finalize 関数を実行してください。<br>
+ * また、 ::criAtomExAsr_Finalize 関数を実行するまでは、本関数を再度実行しないでください。<br>
  * \sa criAtomEx_SetUserAllocator, criAtomExAsr_Finalize, criAtomExAsrRack_Create
  */
 void CRIAPI criAtomExAsr_Initialize(
 	const CriAtomExAsrConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ASR�̏I��
+ * \brief ASRの終了
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ASR�iAtom Sound Renderer�j�̏I���������s���܂��B<br>
- * �{�֐������s���邱�ƂŁA�����_�����O���ʂ̏o�͂���~����܂��B<br>
- * ::criAtomEx_SetUserAllocator �}�N�����g�p���ăA���P�[�^�[��o�^�ς݂̏ꍇ�A
- * ASR���������Ɋm�ۂ��ꂽ�������̈悪�������܂��B<br>
- * �iASR���������Ƀ��[�N�̈��n�����ꍇ�A�{�֐����s��ł����
- * ���[�N�̈������\�ł��B�j<br>
+ * \par 説明:
+ * ASR（Atom Sound Renderer）の終了処理を行います。<br>
+ * 本関数を実行することで、レンダリング結果の出力が停止されます。<br>
+ * ::criAtomEx_SetUserAllocator マクロを使用してアロケーターを登録済みの場合、
+ * ASR初期化時に確保されたメモリ領域が解放されます。<br>
+ * （ASR初期化時にワーク領域を渡した場合、本関数実行後であれば
+ * ワーク領域を解放可能です。）<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A<br>
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、<br>
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。<br>
  * \sa criAtomEx_SetUserAllocator, criAtomExAsr_Initialize
  */
 void CRIAPI criAtomExAsr_Finalize(void);
 
 /*JP
- * \brief �o�X�̃{�����[���̐ݒ�
+ * \brief バスのボリュームの設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \param[in]	volume		�{�����[���l
- * \par ����:
- * �o�X�̃{�����[����ݒ肵�܂��B<br>
- * �Z���h�^�C�v���|�X�g�{�����[���A�|�X�g�p���̃Z���h��ɗL���ł��B<br>
+ * \param[in]	bus_name	バス名
+ * \param[in]	volume		ボリューム値
+ * \par 説明:
+ * バスのボリュームを設定します。<br>
+ * センドタイプがポストボリューム、ポストパンのセンド先に有効です。<br>
  * <br>
- * �{�����[���l�ɂ́A0.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * �{�����[���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃{�����[���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B<br>
- * �{�����[���̃f�t�H���g�l��CRI Atom Craft�Őݒ肵���l�ł��B<br>
+ * ボリューム値には、0.0f～1.0fの範囲で実数値を指定します。<br>
+ * ボリューム値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのボリュームで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。<br>
+ * ボリュームのデフォルト値はCRI Atom Craftで設定した値です。<br>
  */
 void CRIAPI criAtomExAsr_SetBusVolumeByName(const CriChar8* bus_name, CriFloat32 volume);
 
 /*JP
- * \brief �o�X�̃{�����[���̎擾
+ * \brief バスのボリュームの取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \param[in]	volume		�{�����[���l
- * \par ����:
- * �o�X�̃{�����[����ݒ肵�܂��B<br>
- * �Z���h�^�C�v���|�X�g�{�����[���A�|�X�g�p���̃Z���h��ɗL���ł��B<br>
+ * \param[in]	bus_name	バス名
+ * \param[in]	volume		ボリューム値
+ * \par 説明:
+ * バスのボリュームを設定します。<br>
+ * センドタイプがポストボリューム、ポストパンのセンド先に有効です。<br>
  * <br>
- * �{�����[���l�͎����l�œ����܂��B<br>
- * �{�����[���̃f�t�H���g�l��CRI Atom Craft�Őݒ肵���l�ł��B<br>
+ * ボリューム値は実数値で得られます。<br>
+ * ボリュームのデフォルト値はCRI Atom Craftで設定した値です。<br>
  */
 void CRIAPI criAtomExAsr_GetBusVolumeByName(const CriChar8* bus_name, CriFloat32 *volume);
 
 /*JP
- * \brief �o�X�̃p�����̐ݒ�
+ * \brief バスのパン情報の設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \param[in]	pan_info	�p�����
- * \par ����:
- * �o�X�̃p������ݒ肵�܂��B<br>
- * �Z���h�^�C�v���|�X�g�p���̃Z���h��ɗL���ł��B
- * \par ���l:
- * �{�֐��̓f�t�H���g�� ASR ���b�N�� DSP �o�X�ݒ���Q�Ƃ��܂��B<br>
- * �C�ӂ� ASR ���b�N�� DSP �o�X�ݒ���Q�Ƃ���ꍇ�A ::criAtomExAsrRack_SetBusPanInfoByName �֐����g�p���Ă��������B<br>
+ * \param[in]	bus_name	バス名
+ * \param[in]	pan_info	パン情報
+ * \par 説明:
+ * バスのパン情報を設定します。<br>
+ * センドタイプがポストパンのセンド先に有効です。
+ * \par 備考:
+ * 本関数はデフォルトの ASR ラックの DSP バス設定を参照します。<br>
+ * 任意の ASR ラックの DSP バス設定を参照する場合、 ::criAtomExAsrRack_SetBusPanInfoByName 関数を使用してください。<br>
  * <br>
- * �p�����̃f�t�H���g�l��CRI Atom Craft�Őݒ肵���l�ł��B
+ * パン情報のデフォルト値はCRI Atom Craftで設定した値です。
  */
 void CRIAPI criAtomExAsr_SetBusPanInfoByName(const CriChar8 *bus_name, const CriAtomExAsrBusPanInfo *pan_info);
 
 /*JP
- * \brief �o�X�̃p�����̎擾
+ * \brief バスのパン情報の取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \param[out]	pan_info	�p�����
- * \par ����:
- * �o�X�̃p�������擾���܂��B
- * \par ���l:
- * �{�֐��̓f�t�H���g�� ASR ���b�N�� DSP �o�X�ݒ���Q�Ƃ��܂��B<br>
- * �C�ӂ� ASR ���b�N�� DSP �o�X�ݒ���Q�Ƃ���ꍇ�A ::criAtomExAsrRack_GetBusPanInfoByName �֐����g�p���Ă��������B
+ * \param[in]	bus_name	バス名
+ * \param[out]	pan_info	パン情報
+ * \par 説明:
+ * バスのパン情報を取得します。
+ * \par 備考:
+ * 本関数はデフォルトの ASR ラックの DSP バス設定を参照します。<br>
+ * 任意の ASR ラックの DSP バス設定を参照する場合、 ::criAtomExAsrRack_GetBusPanInfoByName 関数を使用してください。
  */
 void CRIAPI criAtomExAsr_GetBusPanInfoByName(const CriChar8 *bus_name, CriAtomExAsrBusPanInfo *pan_info);
 
 /*JP
- * \brief �o�X�̃��x���s��̐ݒ�
+ * \brief バスのレベル行列の設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name		�o�X��
- * \param[in]	input_channels	���̓`�����l����
- * \param[in]	output_channels	�o�̓`�����l����
- * \param[in]	matrix			���x���s���1�����ɕ\�������x���l�̔z��
- * \par ����:
- * �o�X�̃��x���s���ݒ肵�܂��B<br>
- * �Z���h�^�C�v���|�X�g�p���̃Z���h��ɗL���ł��B<br>
+ * \param[in]	bus_name		バス名
+ * \param[in]	input_channels	入力チャンネル数
+ * \param[in]	output_channels	出力チャンネル数
+ * \param[in]	matrix			レベル行列を1次元に表したレベル値の配列
+ * \par 説明:
+ * バスのレベル行列を設定します。<br>
+ * センドタイプがポストパンのセンド先に有効です。<br>
  * <br>
- * ���x���}�g���b�N�X�́A�����f�[�^�̊e�`�����l���̉������A�ǂ̃X�s�[�J�[����
- * �ǂ̒��x�̉��ʂŏo�͂��邩���w�肷�邽�߂̎d�g�݂ł��B<br>
- * matrix��[input_channels * output_channels]�̔z��ł��B<br>
- * ���̓`�����l��ch_in����o�̓`�����l��ch_out�ɃZ���h����郌�x����
- * matrix[ch_in * output_channels + ch_out]�ɃZ�b�g���܂��B<br>
- * ���x���s��̃f�t�H���g�l�͒P�ʍs��ł��B<br>
+ * レベルマトリックスは、音声データの各チャンネルの音声を、どのスピーカーから
+ * どの程度の音量で出力するかを指定するための仕組みです。<br>
+ * matrixは[input_channels * output_channels]の配列です。<br>
+ * 入力チャンネルch_inから出力チャンネルch_outにセンドされるレベルは
+ * matrix[ch_in * output_channels + ch_out]にセットします。<br>
+ * レベル行列のデフォルト値は単位行列です。<br>
  * <br>
- * ���x���l�ɂ́A0.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * ���x���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃��x���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B<br>
+ * レベル値には、0.0f～1.0fの範囲で実数値を指定します。<br>
+ * レベル値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのレベルで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。<br>
  */
 void CRIAPI criAtomExAsr_SetBusMatrixByName(const CriChar8* bus_name, 
 	CriSint32 input_channels, CriSint32 output_channels, const CriFloat32 matrix[]);
 
 /*JP
- * \brief �o�X�̃Z���h���x���̐ݒ�
+ * \brief バスのセンドレベルの設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name 		�o�X��
- * \param[in]	sendto_bus_name �Z���h��̃o�X��
- * \param[in]	level			���x���l
- * \par ����:
- * �Z���h��o�X�ɉ����f�[�^�𑗂�ۂ̃��x����ݒ肵�܂��B<br>
+ * \param[in]	bus_name 		バス名
+ * \param[in]	sendto_bus_name センド先のバス名
+ * \param[in]	level			レベル値
+ * \par 説明:
+ * センド先バスに音声データを送る際のレベルを設定します。<br>
  * <br>
- * ���x���l�ɂ́A0.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * ���x���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃��x���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B<br>
- * ���x���̃f�t�H���g�l��CRI Atom Craft�Őݒ肵���l�ł��B<br>
+ * レベル値には、0.0f～1.0fの範囲で実数値を指定します。<br>
+ * レベル値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのレベルで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。<br>
+ * レベルのデフォルト値はCRI Atom Craftで設定した値です。<br>
  */
 void CRIAPI criAtomExAsr_SetBusSendLevelByName(
 	const CriChar8* bus_name, const CriChar8* sendto_bus_name, CriFloat32 level);
 
 /*JP
- * \brief �G�t�F�N�g���쎞�p�����[�^�[�̐ݒ�
+ * \brief エフェクト動作時パラメーターの設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name		�o�X��
- * \param[in]	effect_name		�G�t�F�N�g��
- * \param[in]	parameter_index	�G�t�F�N�g���쎞�p�����[�^�[�C���f�b�N�X
- * \param[in]	parameter_value �G�t�F�N�g���쎞�p�����[�^�[�ݒ�l
- * \par ����:
- * �f�t�H���g��ASR���b�NID���g�p���ăG�t�F�N�g�̓��쎞�p�����[�^�[��ݒ肵�܂��B<br>
- * ���쎞�p�����[�^�[��ݒ肷��ۂ́A�{�֐��Ăяo���O�ɂ��炩����
- * ::criAtomEx_AttachDspBusSetting �֐��Ńo�X���\�z����Ă���K�v������܂��B<br>
- * �ǂ̃o�X�ɂǂ̃G�t�F�N�g�����݂��邩�́A�A�^�b�`����DSP�o�X�ݒ�Ɉˑ����܂��B<br>
- * �w�肵���o�X�Ɏw�肵��ID�̃G�t�F�N�g�����݂��Ȃ��ꍇ�A�֐��͎��s���܂��B<br>
- * �Z�b�g�����p�����[�^�[��criAtomExAsr_UpdateParameter�֐����ĂԂ܂Ŏ��ۂɃG�t�F�N�g�ɔ��f����܂���B<br>
- * �p�����[�^�[�C���f�b�N�X�Ǝ��ۂ̃p�����[�^�[�̑Ή��ɂ��ẮA�e�G�t�F�N�g�̃p�����[�^�[�C���f�b�N�X�i \ref CRIATOMASR_DSP_PARAM �j�����Q�Ɖ������B
+ * \param[in]	bus_name		バス名
+ * \param[in]	effect_name		エフェクト名
+ * \param[in]	parameter_index	エフェクト動作時パラメーターインデックス
+ * \param[in]	parameter_value エフェクト動作時パラメーター設定値
+ * \par 説明:
+ * デフォルトのASRラックIDを使用してエフェクトの動作時パラメーターを設定します。<br>
+ * 動作時パラメーターを設定する際は、本関数呼び出し前にあらかじめ
+ * ::criAtomEx_AttachDspBusSetting 関数でバスが構築されている必要があります。<br>
+ * どのバスにどのエフェクトが存在するかは、アタッチしたDSPバス設定に依存します。<br>
+ * 指定したバスに指定したIDのエフェクトが存在しない場合、関数は失敗します。<br>
+ * セットしたパラメーターはcriAtomExAsr_UpdateParameter関数を呼ぶまで実際にエフェクトに反映されません。<br>
+ * パラメーターインデックスと実際のパラメーターの対応については、各エフェクトのパラメーターインデックス（ \ref CRIATOMASR_DSP_PARAM ）をご参照下さい。
  * \sa criAtomEx_AttachDspBusSetting, criAtomExAsr_UpdateEffectParameters
  */
 void CRIAPI criAtomExAsr_SetEffectParameter(
@@ -3241,103 +3383,103 @@ void CRIAPI criAtomExAsr_SetEffectParameter(
 	CriUint32 parameter_index, CriFloat32 parameter_value);
 
 /*JP
- * \brief �G�t�F�N�g���쎞�p�����[�^�[�̔��f
+ * \brief エフェクト動作時パラメーターの反映
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name		�o�X��
- * \param[in]	effect_name		�G�t�F�N�g��
- * \par ����:
- * �f�t�H���g��ASR���b�NID���g�p���ăG�t�F�N�g�̓��쎞�p�����[�^�[�𔽉f���܂��B<br>
- * ���쎞�p�����[�^�[�����ۂɔ��f����ɂ́AcriAtomExAsr_SetEffectParameter �̑��ɂ��{�֐����Ăяo���ĉ������B
+ * \param[in]	bus_name		バス名
+ * \param[in]	effect_name		エフェクト名
+ * \par 説明:
+ * デフォルトのASRラックIDを使用してエフェクトの動作時パラメーターを反映します。<br>
+ * 動作時パラメーターを実際に反映するには、criAtomExAsr_SetEffectParameter の他にも本関数を呼び出して下さい。
  * \sa criAtomEx_AttachDspBusSetting, criAtomExAsr_SetEffectParameter
  */
 void CRIAPI criAtomExAsr_UpdateEffectParameters(const CriChar8* bus_name, const CriChar8* effect_name);
 
 /*JP
- * \brief �G�t�F�N�g���쎞�p�����[�^�[�̎擾
+ * \brief エフェクト動作時パラメーターの取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]		bus_name		�o�X��
- * \param[in]		effect_name		�G�t�F�N�g��
- * \param[in]		parameter_index	�G�t�F�N�g���쎞�p�����[�^�[�C���f�b�N�X
- * \return �w�肵���p�����[�^�[�C���f�b�N�X�̃G�t�F�N�g���쎞�p�����[�^�[�l��Ԃ��܂��B
- * \par ����:
- * �f�t�H���g��ASR���b�NID���g�p���ăG�t�F�N�g�̓��쎞�p�����[�^�[���擾���܂��B<br>
- * ���쎞�p�����[�^�[���擾����ۂ́A�{�֐��Ăяo���O�ɂ��炩����
- * ::criAtomEx_AttachDspBusSetting �֐��Ńo�X���\�z����Ă���K�v������܂��B<br>
- * �ǂ̃o�X�ɂǂ̃G�t�F�N�g�����݂��邩�́A�A�^�b�`����DSP�o�X�ݒ�Ɉˑ����܂��B�w�肵���o�X�Ɏw�肵�����O�̃G�t�F�N�g�����݂��Ȃ��ꍇ�A�֐��͎��s���܂��B<br>
- * ���쎞�p�����[�^�[�̏ڍׂɂ��ẮA�e�G�t�F�N�g�̃p�����[�^�[�C���f�b�N�X�i \ref CRIATOMASR_DSP_PARAM �j�����Q�Ɖ������B
+ * \param[in]		bus_name		バス名
+ * \param[in]		effect_name		エフェクト名
+ * \param[in]		parameter_index	エフェクト動作時パラメーターインデックス
+ * \return 指定したパラメーターインデックスのエフェクト動作時パラメーター値を返します。
+ * \par 説明:
+ * デフォルトのASRラックIDを使用してエフェクトの動作時パラメーターを取得します。<br>
+ * 動作時パラメーターを取得する際は、本関数呼び出し前にあらかじめ
+ * ::criAtomEx_AttachDspBusSetting 関数でバスが構築されている必要があります。<br>
+ * どのバスにどのエフェクトが存在するかは、アタッチしたDSPバス設定に依存します。指定したバスに指定した名前のエフェクトが存在しない場合、関数は失敗します。<br>
+ * 動作時パラメーターの詳細については、各エフェクトのパラメーターインデックス（ \ref CRIATOMASR_DSP_PARAM ）をご参照下さい。
  * \sa criAtomEx_AttachDspBusSetting
  */
 CriFloat32 CRIAPI criAtomExAsr_GetEffectParameter(
 	const CriChar8* bus_name, const CriChar8* effect_name, CriUint32 parameter_index);
 
 /*JP
- * \brief �G�t�F�N�g�̃o�C�p�X�ݒ�
+ * \brief エフェクトのバイパス設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \param[in]	effect_name	�G�t�F�N�g��
- * \param[in]	bypass		�o�C�p�X�ݒ�iCRI_TRUE:�o�C�p�X���s��, CRI_FALSE:�o�C�p�X���s��Ȃ��j
- * \par ����:
- * �G�t�F�N�g�̃o�C�p�X�ݒ���s���܂��B<br>
- * �o�C�p�X�ݒ肳�ꂽ�G�t�F�N�g�͉��������̍ہA�X���[�����悤�ɂȂ�܂��B<br>
- * �G�t�F�N�g�̃o�C�p�X�ݒ������ۂ́A�{�֐��Ăяo���O�ɂ��炩����
- * ::criAtomEx_AttachDspBusSetting �֐��Ńo�X���\�z����Ă���K�v������܂��B<br>
- * �ǂ̃o�X�ɂǂ̃G�t�F�N�g�����݂��邩�́A�A�^�b�`����DSP�o�X�ݒ�Ɉˑ����܂��B�w�肵���o�X�Ɏw�肵��ID�̃G�t�F�N�g�����݂��Ȃ��ꍇ�A�֐��͎��s���܂��B<br>
+ * \param[in]	bus_name	バス名
+ * \param[in]	effect_name	エフェクト名
+ * \param[in]	bypass		バイパス設定（CRI_TRUE:バイパスを行う, CRI_FALSE:バイパスを行わない）
+ * \par 説明:
+ * エフェクトのバイパス設定を行います。<br>
+ * バイパス設定されたエフェクトは音声処理の際、スルーされるようになります。<br>
+ * エフェクトのバイパス設定をする際は、本関数呼び出し前にあらかじめ
+ * ::criAtomEx_AttachDspBusSetting 関数でバスが構築されている必要があります。<br>
+ * どのバスにどのエフェクトが存在するかは、アタッチしたDSPバス設定に依存します。指定したバスに指定したIDのエフェクトが存在しない場合、関数は失敗します。<br>
  * \attention
- * �����Đ����Ƀo�C�p�X�ݒ���s���ƃm�C�Y���������邱�Ƃ�����܂��B<br>
+ * 音声再生中にバイパス設定を行うとノイズが発生することがあります。<br>
  * \sa criAtomEx_AttachDspBusSetting
  */
 void CRIAPI criAtomExAsr_SetEffectBypass(
 	const CriChar8* bus_name, const CriChar8* effect_name, CriBool bypass);
 
 /*JP
- * \brief ���x������@�\�̒ǉ�
+ * \brief レベル測定機能の追加
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \param[in]	config		���x������@�\�̃R���t�B�O�\����
- * \par ����:
- * �o�X�Ƀ��x������@�\��ǉ����A���x�����菈�����J�n���܂��B<br>
- * �{�֐������s��A ::criAtomExAsr_GetBusAnalyzerInfo �֐������s���邱�ƂŁA
- * RMS���x���i�����j�A�s�[�N���x���i�ő�U���j�A�s�[�N�z�[���h���x����
- * �擾���邱�Ƃ��\�ł��B
- * �����o�X�̃��x�����v������ɂ́A�o�X���Ƃɖ{�֐����Ăяo���K�v������܂��B
- * \par ��:
+ * \param[in]	bus_name	バス名
+ * \param[in]	config		レベル測定機能のコンフィグ構造体
+ * \par 説明:
+ * バスにレベル測定機能を追加し、レベル測定処理を開始します。<br>
+ * 本関数を実行後、 ::criAtomExAsr_GetBusAnalyzerInfo 関数を実行することで、
+ * RMSレベル（音圧）、ピークレベル（最大振幅）、ピークホールドレベルを
+ * 取得することが可能です。
+ * 複数バスのレベルを計測するには、バスごとに本関数を呼び出す必要があります。
+ * \par 例:
  * \code
- * 	// ���x��������擾�p�\����
+ * 	// レベル測定情報取得用構造体
  * 	CriAtomExAsrBusAnalyzerInfo info;
  * 	
- * 	// 0�ԃo�X�i�}�X�^�[�o�X�j�Ƀ��x������@�\�̒ǉ�
+ * 	// 0番バス（マスターバス）にレベル測定機能の追加
  * 	criAtomExAsr_AttachBusAnalyzer(0, NULL);
  * 	
- * 	�@�@�F
+ * 	　　：
  * 	
- * 	// ���x��������̎擾
+ * 	// レベル測定情報の取得
  * 	criAtomExAsr_GetBusAnalyzerInfo(0, &info);
  * 	
- * 	// �v�����ʂ̕\��
+ * 	// 計測結果の表示
  *  for (i = 0; i < CRIATOMEXASR_MAX_CHANNELS; i++) {
  * 	    printf("[%d] RMS: %1.6f, Peak: %1.6f, Hold: %1.6f", 
  * 	        i, info.rms_levels[i], info.peak_levels[i], info.peak_hold_levels[i]);
  *  }
  * \endcode
  * \attention
- * �{�֐��� ::criAtomEx_AttachDspBusSetting �֐��Ɠ���̃��\�[�X�𑀍삵�܂��B<br>
- * ���̂��߁A����� ::criAtomEx_AttachDspBusSetting �֐������s����ƁA
- * ::criAtomExAsr_GetBusAnalyzerInfo �֐��ɂ����擾���ł��Ȃ��Ȃ�܂��B<br>
- * �{�֐��� ::criAtomEx_AttachDspBusSetting �֐��𕹗p����ۂɂ́A
- * ::criAtomEx_AttachDspBusSetting �֐������s����O�Ɉ�U
- * ::criAtomExAsr_DetachBusAnalyzer �֐��Ń��x������@�\�𖳌������A
- * ::criAtomEx_AttachDspBusSetting �֐����s��ɍēx�{�֐������s���Ă��������B<br>
+ * 本関数は ::criAtomEx_AttachDspBusSetting 関数と同一のリソースを操作します。<br>
+ * そのため、現状は ::criAtomEx_AttachDspBusSetting 関数を実行すると、
+ * ::criAtomExAsr_GetBusAnalyzerInfo 関数による情報取得ができなくなります。<br>
+ * 本関数と ::criAtomEx_AttachDspBusSetting 関数を併用する際には、
+ * ::criAtomEx_AttachDspBusSetting 関数を実行する前に一旦
+ * ::criAtomExAsr_DetachBusAnalyzer 関数でレベル測定機能を無効化し、
+ * ::criAtomEx_AttachDspBusSetting 関数実行後に再度本関数を実行してください。<br>
  * \code
- * 		�F
- * 	// DSP�o�X�ݒ�̕ύX�O�Ɉ�U���x������@�𖳌���
+ * 		：
+ * 	// DSPバス設定の変更前に一旦レベル測定機を無効化
  * 	criAtomExAsr_DetachBusAnalyzer(0);
  * 	
- * 	// DSP�o�X�ݒ�̍X�V
+ * 	// DSPバス設定の更新
  * 	criAtomEx_AttachDspBusSetting("DspBusSetting_0", NULL, 0);
  * 	
- * 	// ���x������@�̍ăA�^�b�`
+ * 	// レベル測定機の再アタッチ
  * 	criAtomExAsr_AttachBusAnalyzer(0, NULL);
- * 		�F
+ * 		：
  * \endcode
  * \sa criAtomExAsr_GetBusAnalyzerInfo, criAtomExAsr_DetachBusAnalyzer
  */
@@ -3345,129 +3487,130 @@ void CRIAPI criAtomExAsr_AttachBusAnalyzerByName(
 	const CriChar8* bus_name, const CriAtomExAsrBusAnalyzerConfig* config);
 
 /*JP
- * \brief ���x������@�\�̍폜
+ * \brief レベル測定機能の削除
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \par ����:
- * �o�X���烌�x������@�\���폜���܂��B
+ * \param[in]	bus_name	バス名
+ * \par 説明:
+ * バスからレベル測定機能を削除します。
  * \sa criAtomExAsr_AttachBusAnalyzerByName
  */
 void CRIAPI criAtomExAsr_DetachBusAnalyzerByName(const CriChar8* bus_name);
 
 /*JP
- * \brief ���x�����茋�ʂ̎擾
+ * \brief レベル測定結果の取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \param[out]	info		���x�����茋�ʂ̍\����
- * \par ����:
- * �o�X���烌�x������@�\�̌��ʂ��擾���܂��B
+ * \param[in]	bus_name	バス名
+ * \param[out]	info		レベル測定結果の構造体
+ * \par 説明:
+ * バスからレベル測定機能の結果を取得します。<br>
+ * 本関数呼び出し前に ::criAtomExAsr_AttachBusAnalyzerByName 関数を呼び出す必要があります。
  * \sa criAtomExAsr_AttachBusAnalyzerByName
  */
 void CRIAPI criAtomExAsr_GetBusAnalyzerInfoByName(
 	const CriChar8* bus_name, CriAtomExAsrBusAnalyzerInfo *info);
 
 /*JP
- * \brief �g�`�t�B���^�[�R�[���o�b�N�֐��̓o�^
+ * \brief 波形フィルターコールバック関数の登録
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	bus_name	�o�X��
- * \param[in]	pre_func	�G�t�F�N�g�����O�̃t�B���^�[�R�[���o�b�N�֐�
- * \param[in]	post_func	�G�t�F�N�g������̃t�B���^�[�R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �o�X�ɗ���Ă��� PCM �f�[�^���󂯎��R�[���o�b�N�֐���o�^���܂��B<br>
- * �o�^���ꂽ�R�[���o�b�N�֐��́A�T�E���h�����_���������������s�����^�C�~���O�ŌĂяo����܂��B<br>
- * �G�t�F�N�g�����O�ƃG�t�F�N�g�������2��ނ̎g�p���Ȃ��ق���NULL�w�肪�\�ł��B<br>
+ * \param[in]	bus_name	バス名
+ * \param[in]	pre_func	エフェクト処理前のフィルターコールバック関数
+ * \param[in]	post_func	エフェクト処理後のフィルターコールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * バスに流れている PCM データを受け取るコールバック関数を登録します。<br>
+ * 登録されたコールバック関数は、サウンドレンダラが音声処理を行ったタイミングで呼び出されます。<br>
+ * エフェクト処理前とエフェクト処理後の2種類の使用しないほうはNULL指定が可能です。<br>
  * \attention
- * �R�[���o�b�N�֐����ŁAAtom���C�u������API�����s���Ȃ��ł��������B<br>
- * �R�[���o�b�N�֐���Atom���C�u�������̃T�[�o�[����������s����܂��B<br>
- * ���̂��߁A�T�[�o�[�����ւ̊��荞�݂��l�����Ȃ�API�����s�����ꍇ�A
- * �G���[������������A�f�b�h���b�N����������\��������܂��B<br>
+ * コールバック関数内で、AtomライブラリのAPIを実行しないでください。<br>
+ * コールバック関数はAtomライブラリ内のサーバー処理から実行されます。<br>
+ * そのため、サーバー処理への割り込みを考慮しないAPIを実行した場合、
+ * エラーが発生したり、デッドロックが発生する可能性があります。<br>
  * <br>
- * �g�`�t�B���^�[�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖��
- * ���������܂��̂ŁA�����ӂ��������B<br>
+ * 波形フィルターコールバック関数内で長時間処理をブロックすると、音切れ等の問題
+ * が発生しますので、ご注意ください。<br>
  * \sa CriAtomExPlayerFilterCbFunc
  */
 void CRIAPI criAtomExAsr_SetBusFilterCallbackByName(const CriChar8* bus_name, 
 	CriAtomExAsrBusFilterCbFunc pre_func, CriAtomExAsrBusFilterCbFunc post_func, void *obj);
 
 /*JP
- * \brief �ő�o�X�����擾
+ * \brief 最大バス数を取得
  * \ingroup ATOMEXLIB_ASR
- * \return						�ő�o�X��
- * \par ����:
- * ���p�\�ȍő�o�X�����擾���܂��B
+ * \return						最大バス数
+ * \par 説明:
+ * 利用可能な最大バス数を取得します。
  * <br>
- * �f�t�H���g�ݒ�ł� ::CRIATOMEXASR_DEFAULT_NUM_BUSES ��Ԃ��܂��B
+ * デフォルト設定では ::CRIATOMEXASR_DEFAULT_NUM_BUSES を返します。
  * <br>
- * �ő�o�X����ύX����ɂ́ACriAtomExAsrConfig::num_buses ��ύX����
- * ASR���b�N���쐬���Ă��������B
+ * 最大バス数を変更するには、CriAtomExAsrConfig::num_buses を変更して
+ * ASRラックを作成してください。
  * \sa CriAtomExAsrConfig, criAtomExAsr_Create, criAtomExAsr_SetDefaultConfig
  */
 CriSint32 CRIAPI criAtomExAsr_GetNumBuses(void);
 
 /*JP
- * \brief ���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�̓o�^
+ * \brief ユーザ定義エフェクトインターフェースの登録
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	afx_interface	���[�U��`�G�t�F�N�g�̃o�[�W�������t���C���^�[�t�F�[�X
- * \return						�o�^�ɐ����������H�iCRI_TRUE:�o�^�ɐ�������, CRI_FALSE:�o�^�Ɏ��s�����j
- * \par ����:
- * ���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X��ASR�ɓo�^���܂��B<br>
- * ���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X��o�^�����G�t�F�N�g��DSP�o�X�ݒ���A�^�b�`����ۂɎg�p�ł���悤�ɂȂ�܂��B<br>
- * �ȉ��̏����ɊY������ꍇ�́A���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�̓o�^�Ɏ��s���A�G���[�R�[���o�b�N���Ԃ�܂�:
- *  - ����̃G�t�F�N�g���������[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�����ɓo�^����Ă���
- *  - Atom���g�p���Ă��郆�[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�ƈقȂ�
- *  - ���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�̓o�^������i ::CRIATOMEXASR_MAX_NUM_USER_EFFECT_INTERFACES �j�ɒB����
+ * \param[in]	afx_interface	ユーザ定義エフェクトのバージョン情報付きインターフェース
+ * \return						登録に成功したか？（CRI_TRUE:登録に成功した, CRI_FALSE:登録に失敗した）
+ * \par 説明:
+ * ユーザ定義エフェクトインターフェースをASRに登録します。<br>
+ * ユーザ定義エフェクトインターフェースを登録したエフェクトはDSPバス設定をアタッチする際に使用できるようになります。<br>
+ * 以下の条件に該当する場合は、ユーザ定義エフェクトインターフェースの登録に失敗し、エラーコールバックが返ります:
+ *  - 同一のエフェクト名を持つユーザ定義エフェクトインターフェースが既に登録されている
+ *  - Atomが使用しているユーザ定義エフェクトインターフェースと異なる
+ *  - ユーザ定義エフェクトインターフェースの登録数上限（ ::CRIATOMEXASR_MAX_NUM_USER_EFFECT_INTERFACES ）に達した
  * \attention
- * �{�֐���CRI ADX Audio Effect Plugin SDK�ō쐬�������[�U��`�G�t�F�N�g��o�^����ꍇ�ɂ̂ݎg�p���ĉ������B<br>
- * ���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�́A���[�U��`�G�t�F�N�g���܂�DSP�o�X�ݒ���A�^�b�`����O��<br>
- * �{�֐��ɂ���ēo�^���s���ĉ������B<br>
- * ACF�Ƀf�t�H���gDSP�o�X�ݒ肪���݂���ꍇ�AACF�̓o�^�i ::criAtomEx_RegisterAcfFile, ::criAtomEx_RegisterAcfData �֐��j�ɂ���Ă�DSP�o�X�ݒ肪�A�^�b�`����邽�߁A<br>
- * ���[�U��`�G�t�F�N�g���f�t�H���gDSP�o�X�ݒ�Ɋ܂܂�Ă���ꍇ��ACF��o�^����O�Ƀ��[�U��`�G�t�F�N�g�C���^�[�t�F�[�X��o�^���ĉ������B<br>
- * ��x�o�^���s�����C���^�[�t�F�[�X�̃|�C���^�́ADSP�o�X�ݒ���A�^�b�`���Ă���ԎQ�Ƃ��ꑱ���܂��B<br>
- * Atom���C�u�����g�p���ɃC���^�[�t�F�[�X�̓o�^�������s���ꍇ�́A ::criAtomExAsr_UnregisterEffectInterface ���g�p���ĉ������B
+ * 本関数はCRI ADX Audio Effect Plugin SDKで作成したユーザ定義エフェクトを登録する場合にのみ使用して下さい。<br>
+ * ユーザ定義エフェクトインターフェースは、ユーザ定義エフェクトを含むDSPバス設定をアタッチする前に<br>
+ * 本関数によって登録を行って下さい。<br>
+ * ACFにデフォルトDSPバス設定が存在する場合、ACFの登録（ ::criAtomEx_RegisterAcfFile, ::criAtomEx_RegisterAcfData 関数）によってもDSPバス設定がアタッチされるため、<br>
+ * ユーザ定義エフェクトがデフォルトDSPバス設定に含まれている場合はACFを登録する前にユーザ定義エフェクトインターフェースを登録して下さい。<br>
+ * 一度登録を行ったインターフェースのポインタは、DSPバス設定をアタッチしている間参照され続けます。<br>
+ * Atomライブラリ使用中にインターフェースの登録解除を行う場合は、 ::criAtomExAsr_UnregisterEffectInterface を使用して下さい。
  * \sa criAtomExAsr_UnregisterEffectInterface, criAtomEx_AttachDspBusSetting, criAtomEx_DetachDspBusSetting, criAtomEx_RegisterAcfFile, criAtomEx_RegisterAcfData 
  */
 CriBool CRIAPI criAtomExAsr_RegisterEffectInterface(CriAtomExAsrAfxInterfaceWithVersionPtr afx_interface);
 
 /*JP
- * \brief ���[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�̓o�^����
+ * \brief ユーザ定義エフェクトインターフェースの登録解除
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	afx_interface	���[�U��`�G�t�F�N�g�̃o�[�W�������t���C���^�[�t�F�[�X
- * \par ����:
- * �G�t�F�N�g�C���^�[�t�F�[�X�̓o�^���������܂��B<br>
- * �o�^�����������G�t�F�N�g��DSP�o�X�ݒ���A�^�b�`����ۂɎg�p�ł��Ȃ��Ȃ�܂��B<br>
- * �o�^�������s���Ă��Ȃ��G�t�F�N�g�C���^�[�t�F�[�X�̓o�^���������邱�Ƃ͂ł��܂���i�G���[�R�[���o�b�N���Ԃ�܂��j�B
+ * \param[in]	afx_interface	ユーザ定義エフェクトのバージョン情報付きインターフェース
+ * \par 説明:
+ * エフェクトインターフェースの登録を解除します。<br>
+ * 登録を解除したエフェクトはDSPバス設定をアタッチする際に使用できなくなります。<br>
+ * 登録処理を行っていないエフェクトインターフェースの登録を解除することはできません（エラーコールバックが返ります）。
  * \attention
- * �{�֐���CRI ADX Audio Effect Plugin SDK�ō쐬�������[�U��`�G�t�F�N�g��o�^��������ꍇ�ɂ̂ݎg�p���ĉ������B<br>
- * �o�^���s�������[�U��`�G�t�F�N�g�C���^�[�t�F�[�X��DSP�o�X�ݒ肪�A�^�b�`����Ă���ԎQ�Ƃ��ꑱ���邽�߁A<br>
- * �{�֐��͕K�� ::criAtomEx_DetachDspBusSetting �̌Ăяo���̌�ɍs���ĉ������B<br>
- * Atom���C�u�����̏I�����i::criAtomEx_Finalize �֐��̌Ăяo�����j�ɂ͑S�Ẵ��[�U��`�G�t�F�N�g�C���^�[�t�F�[�X�̓o�^����������܂��B
+ * 本関数はCRI ADX Audio Effect Plugin SDKで作成したユーザ定義エフェクトを登録解除する場合にのみ使用して下さい。<br>
+ * 登録を行ったユーザ定義エフェクトインターフェースはDSPバス設定がアタッチされている間参照され続けるため、<br>
+ * 本関数は必ず ::criAtomEx_DetachDspBusSetting の呼び出しの後に行って下さい。<br>
+ * Atomライブラリの終了時（::criAtomEx_Finalize 関数の呼び出し時）には全てのユーザ定義エフェクトインターフェースの登録が解除されます。
  * \sa criAtomExAsr_RegisterEffectInterface, criAtomEx_AttachDspBusSetting, criAtomEx_DetachDspBusSetting
  */
 void CRIAPI criAtomExAsr_UnregisterEffectInterface(CriAtomExAsrAfxInterfaceWithVersionPtr afx_interface);
 
 /*JP
- * \brief IR���o�[�u�G�t�F�N�g�̕��׌v�����Z�b�g
+ * \brief IRリバーブエフェクトの負荷計測リセット
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ASR�G�t�F�N�g��IR���o�[�u�̕��׌v�������Z�b�g���܂��B
- * \par ���l:
- * DSP�o�X��IR���o�[�u�G�t�F�N�g���Z�b�g����Ă��Ȃ��Ă��{�֐����Ăяo�����Ƃ͉\�ł����A������������܂���B
+ * \par 説明:
+ * ASRエフェクトのIRリバーブの負荷計測をリセットします。
+ * \par 備考:
+ * DSPバスにIRリバーブエフェクトがセットされていなくても本関数を呼び出すことは可能ですが、何も処理されません。
  * \sa criAtomExAsr_GetIrReverbPerformanceInfo
  */
 void CRIAPI criAtomExAsr_ResetIrReverbPerformanceInfo(void);
 
 /*JP
- * \brief IR���o�[�u�G�t�F�N�g�̕��׌v��
+ * \brief IRリバーブエフェクトの負荷計測
  * \ingroup ATOMEXLIB_ASR
- * \param[out]	info	IR���o�[�u�̕��׌v�����\����
- * \par ����:
- * DSP�o�X���IR���o�[�u�G�t�F�N�g�̕��ׂ��܂Ƃ߂Čv�����܂��B<br>
- * \par ���l:
- * DSP�o�X��IR���o�[�u�G�t�F�N�g���Z�b�g����Ă��Ȃ��Ă��{�֐����Ăяo�����Ƃ͉\�ł����A������������܂���B
+ * \param[out]	info	IRリバーブの負荷計測情報構造体
+ * \par 説明:
+ * DSPバス上のIRリバーブエフェクトの負荷をまとめて計測します。<br>
+ * \par 備考:
+ * DSPバスにIRリバーブエフェクトがセットされていなくても本関数を呼び出すことは可能ですが、何も処理されません。
  * \attention
- * �v���b�g�t�H�[���ɂ���Čv���������e���قȂ�ꍇ������܂��B<br>
- * �ڂ����͊e�v���b�g�t�H�[����CRI ADX �}�j���A���� IR ���o�[�u���Q�Ƃ��Ă��������B
+ * プラットフォームによって計測される内容が異なる場合があります。<br>
+ * 詳しくは各プラットフォームのCRI ADX マニュアルの IR リバーブを参照してください。
  * \sa criAtomExAsr_ResetIrReverbPerformanceInfo
  */
 void CRIAPI criAtomExAsr_GetIrReverbPerformanceInfo(CriAtomExAsrIrReverbPerformanceInfo *info);
@@ -3476,72 +3619,72 @@ void CRIAPI criAtomExAsr_GetIrReverbPerformanceInfo(CriAtomExAsrIrReverbPerforma
  *      CRI AtomEx ASR Rack API
  *=========================================================================*/
 /*JP
- * \brief ASR���b�N�쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief ASRラック作成用ワーク領域サイズの計算
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	config	ASR�������p�R���t�B�O�\����
- * \par ����:
- * ASR���b�N�̍쐬�ɕK�v�ȃ��[�N�̈�̃T�C�Y���擾���܂��B<br>
- * ::criAtomEx_SetUserAllocator �}�N���ɂ��A���P�[�^�[�o�^���s�킸��
- * ::criAtomExAsrRack_Create �֐���ASR�̏��������s���ꍇ�A
- * �{�֐��Ōv�Z�����T�C�Y���̃����������[�N�̈�Ƃ��ēn���K�v������܂��B<br>
+ * \param[in]	config	ASR初期化用コンフィグ構造体
+ * \par 説明:
+ * ASRラックの作成に必要なワーク領域のサイズを取得します。<br>
+ * ::criAtomEx_SetUserAllocator マクロによるアロケーター登録を行わずに
+ * ::criAtomExAsrRack_Create 関数でASRの初期化を行う場合、
+ * 本関数で計算したサイズ分のメモリをワーク領域として渡す必要があります。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * ASR���b�N�̏������ɕK�v�ȃ��[�N�������̃T�C�Y�́AASR���b�N�������p�R���t�B�O
- * �\���́i ::CriAtomExAsrRackConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * ASRラックの初期化に必要なワークメモリのサイズは、ASRラック初期化用コンフィグ
+ * 構造体（ ::CriAtomExAsrRackConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomExAsr_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomExAsr_SetDefaultConfig 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \sa criAtomEx_SetUserAllocator, criAtomExAsrRack_Create
  */
 CriSint32 CRIAPI criAtomExAsrRack_CalculateWorkSize(const CriAtomExAsrRackConfig *config);
 
 /*JP
- * \brief DSP�o�X�ݒ�̃A�^�b�`�p���[�N�T�C�Y�̌v�Z
+ * \brief DSPバス設定のアタッチ用ワークサイズの計算
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	config		ASR���b�N�쐬�p�R���t�B�O�\����
- * \param[in]	setting		DSP�o�X�ݒ�̖��O
- * \return		CriSint32	�K�v���[�N�̈�T�C�Y
- * \par ����:
- * DSP�o�X�ݒ肩��o�X���\�z����̂ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * �{�֐������s����ɂ́A���炩����::criAtomEx_RegisterAcfConfig �֐���ACF����
- * �o�^���Ă����K�v������܂�<br>
- * config�ɂ� ::criAtomExAsrRack_Create �֐��Ɏw�肷����̂Ɠ����\���̂��w�肵�Ă��������B<br>
+ * \param[in]	config		ASRラック作成用コンフィグ構造体
+ * \param[in]	setting		DSPバス設定の名前
+ * \return		CriSint32	必要ワーク領域サイズ
+ * \par 説明:
+ * DSPバス設定からバスを構築するのに必要なワーク領域サイズを計算します。<br>
+ * 本関数を実行するには、あらかじめ::criAtomEx_RegisterAcfConfig 関数でACF情報を
+ * 登録しておく必要があります<br>
+ * configには ::criAtomExAsrRack_Create 関数に指定するものと同じ構造体を指定してください。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * DSP�o�X�ݒ�̃A�^�b�`�ɕK�v�ȃ��[�N�������̃T�C�Y�́ACRI Atom Craft�ō쐬����
- * DSP�o�X�ݒ�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * DSPバス設定のアタッチに必要なワークメモリのサイズは、CRI Atom Craftで作成した
+ * DSPバス設定の内容によって変化します。<br>
  * \sa criAtomExAsrRack_AttachDspBusSetting, criAtomEx_RegisterAcfConfig
  */
 CriSint32 CRIAPI criAtomExAsrRack_CalculateWorkSizeForDspBusSettingFromConfig(
 	const CriAtomExAsrRackConfig *config, const CriChar8 *setting);
 
 /*JP
- * \brief DSP�o�X�ݒ�̃A�^�b�`�p���[�N�T�C�Y�̌v�Z
+ * \brief DSPバス設定のアタッチ用ワークサイズの計算
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	acf_data		ACF�f�[�^
- * \param[in]	acf_data_size	ACF�f�[�^�T�C�Y
- * \param[in]	rack_config		ASR���b�N�쐬�p�R���t�B�O�\����
- * \param[in]	setting			DSP�o�X�ݒ�̖��O
- * \return		CriSint32		�K�v���[�N�̈�T�C�Y
- * \par ����:
- * DSP�o�X�ݒ肩��o�X���\�z����̂ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * ::criAtomExAsrRack_CalculateWorkSizeForDspBusSettingFromConfig �֐��ƈႢ�A
- * ��������Ƀ��[�h�ς݂�ACF�f�[�^���g�p���ă��[�N�������T�C�Y�̌v�Z���\�ł��B<br>
+ * \param[in]	acf_data		ACFデータ
+ * \param[in]	acf_data_size	ACFデータサイズ
+ * \param[in]	rack_config		ASRラック作成用コンフィグ構造体
+ * \param[in]	setting			DSPバス設定の名前
+ * \return		CriSint32		必要ワーク領域サイズ
+ * \par 説明:
+ * DSPバス設定からバスを構築するのに必要なワーク領域サイズを計算します。<br>
+ * ::criAtomExAsrRack_CalculateWorkSizeForDspBusSettingFromConfig 関数と違い、
+ * メモリ上にロード済みのACFデータを使用してワークメモリサイズの計算が可能です。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * DSP�o�X�ݒ�̃A�^�b�`�ɕK�v�ȃ��[�N�������̃T�C�Y�́ACRI Atom Craft�ō쐬����
- * DSP�o�X�ݒ�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * DSPバス設定のアタッチに必要なワークメモリのサイズは、CRI Atom Craftで作成した
+ * DSPバス設定の内容によって変化します。<br>
  * \sa criAtomExAsrRack_AttachDspBusSetting, criAtomEx_RegisterAcfConfig
  */
 CriSint32 CRIAPI criAtomExAsrRack_CalculateWorkSizeForDspBusSettingFromAcfDataAndConfig(
@@ -3549,322 +3692,335 @@ CriSint32 CRIAPI criAtomExAsrRack_CalculateWorkSizeForDspBusSettingFromAcfDataAn
 	const CriAtomExAsrRackConfig *rack_config, const CriChar8 *setting);
 
 /*JP
- * \brief ASR���b�N�̍쐬
+ * \brief ASRラックの作成
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	config				ASR�������p�R���t�B�O�\����
- * \param[in]	work				���[�N�̈�
- * \param[in]	work_size			���[�N�̈�T�C�Y
- * \return		CriAtomExAsrRackId 	ASR���b�NID
- * \par ����:
- * ASR���b�N�̍쐬���s���܂��B<br>
- * ASR���b�N�Ƃ̓o�X�̏W���̂̂��ƂŁADSP�o�X�ݒ���A�^�b�`���邱�Ƃ��ł��܂��B<br>
- * �{�֐������s���邱�Ƃ�ASR��ASR���b�N���ǉ�����A�����_�����O���ʂ̏o�͂��J�n���܂��B<br>
- * ���̊֐��Œǉ�����ASR���b�N�͏o�͐��I�����邱�Ƃ��ł��A�v���b�g�t�H�[���l�C�e�B�u��
- * �T�E���h�����_�����AASR��I�����邱�Ƃő���ASR���b�N�ɏo�͂��邱�Ƃ��\�ł��B<br>
- * \par ���l:
- * ::criAtomExAsr_Initialize �֐������s����ƁA�f�t�H���g��ASR���b�N���ǉ�����܂��B<br>
- * criAtomExAsr_*** �֐��̓f�t�H���g��ASR���b�N�𑀍삷��API�ɂȂ�܂��B<br>
+ * \param[in]	config				ASR初期化用コンフィグ構造体
+ * \param[in]	work				ワーク領域
+ * \param[in]	work_size			ワーク領域サイズ
+ * \return		CriAtomExAsrRackId 	ASRラックID
+ * \par 説明:
+ * ASRラックの作成を行います。<br>
+ * ASRラックとはバスの集合体のことで、DSPバス設定をアタッチすることができます。<br>
+ * 本関数を実行することでASRにASRラックが追加され、レンダリング結果の出力を開始します。<br>
+ * この関数で追加したASRラックは出力先を選択することができ、プラットフォームネイティブの
+ * サウンドレンダラか、ASRを選択することで他のASRラックに出力することも可能です。<br>
+ * \par 備考:
+ * ::criAtomExAsr_Initialize 関数を実行すると、デフォルトのASRラックが追加されます。<br>
+ * criAtomExAsr_*** 関数はデフォルトのASRラックを操作するAPIになります。<br>
  * <br>
- * ASR�̏������ɕK�v�ȃ��[�N�������̃T�C�Y�́AASR�������p�R���t�B�O
- * �\���́i ::CriAtomExAsrConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ASRの初期化に必要なワークメモリのサイズは、ASR初期化用コンフィグ
+ * 構造体（ ::CriAtomExAsrConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�<br>
- * �i ::criAtomExAsr_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j�ŏ������������s���܂��B<br>
+ * 引数にNULLを指定した場合、デフォルト設定<br>
+ * （ ::criAtomExAsr_SetDefaultConfig 適用時と同じパラメーター）で初期化処理を行います。<br>
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B<br>
- * ASR���b�N�̐����ɐ��������ꍇ�́A�{�֐��͐�������ASR���b�NID��Ԃ��܂��B
- * �����Ɏ��s�����ꍇ�� -1 ��Ԃ��܂��B<br>
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。<br>
+ * ASRラックの生成に成功した場合は、本関数は生成したASRラックIDを返します。
+ * 生成に失敗した場合は -1 を返します。<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。
  * \sa criAtomEx_SetUserAllocator, criAtomExAsrRack_Destroy, criAtomExAsrRack_AttachDspBusSetting
  */
 CriAtomExAsrRackId CRIAPI criAtomExAsrRack_Create(
 	const CriAtomExAsrRackConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ASR���b�N�̔j��
+ * \brief ASRラックの破棄
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ASR���b�N�̔j�����s���܂��B<br>
- * �{�֐������s���邱�ƂŁA�����_�����O���ʂ̏o�͂���~����܂��B<br>
- * ::criAtomEx_SetUserAllocator �}�N�����g�p���ăA���P�[�^�[��o�^�ς݂̏ꍇ�A
- * ASR���b�N�쐬���Ɋm�ۂ��ꂽ�������̈悪�������܂��B<br>
- * �iASR���b�N�쐬���Ƀ��[�N�̈��n�����ꍇ�A�{�֐����s��ł����
- * ���[�N�̈������\�ł��B�j<br>
+ * \par 説明:
+ * ASRラックの破棄を行います。<br>
+ * 本関数を実行することで、レンダリング結果の出力が停止されます。<br>
+ * ::criAtomEx_SetUserAllocator マクロを使用してアロケーターを登録済みの場合、
+ * ASRラック作成時に確保されたメモリ領域が解放されます。<br>
+ * （ASRラック作成時にワーク領域を渡した場合、本関数実行後であれば
+ * ワーク領域を解放可能です。）<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A<br>
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、<br>
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。<br>
  * \sa criAtomEx_SetUserAllocator, criAtomExAsrRack_Create
  */
 void CRIAPI criAtomExAsrRack_Destroy(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief ASR���b�N�̑������_�����O�ʂ̎擾
+ * \brief ASRラックの総レンダリング量の取得
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * ASR���b�N�̃����_�����O�ς݃T���v�����ƃT���v�����O���[�g���擾���܂��B<br>
+ * \par 説明:
+ * ASRラックのレンダリング済みサンプル数とサンプリングレートを取得します。<br>
  * \attention
- * �{�֐��̃����_�����O�ς݃T���v�����̑����p�^�[���͎��s���̃v���b�g�t�H�[����o�̓f�o�C�X�ɂ���ĕω�����\��������܂��B<br>
+ * 本関数のレンダリング済みサンプル数の増加パターンは実行中のプラットフォームや出力デバイスによって変化する可能性があります。<br>
  */
 void CRIAPI criAtomExAsrRack_GetNumRenderedSamples(CriAtomExAsrRackId rack_id, CriSint64 *num_samples, CriSint32 *sampling_rate);
 
 /*JP
- * \brief �p�t�H�[�}���X���j�^�[�̃��Z�b�g
+ * \brief パフォーマンスモニターのリセット
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \par ����:
- * ���݂܂ł̌v�����ʂ�j�����܂��B<br>
- * �p�t�H�[�}���X���j�^�[�́A
- * ASR���b�N�쐬���ォ��p�t�H�[�}���X���̎擾���J�n���A�v�����ʂ�ݐς��܂��B<br>
- * �ȑO�̌v�����ʂ��ȍ~�̌v�����ʂɊ܂߂����Ȃ��ꍇ�ɂ́A
- * �{�֐������s���A�ݐς��ꂽ�v�����ʂ���U�j������K�v������܂��B
+ * \param[in]	rack_id		ASRラックID
+ * \par 説明:
+ * 現在までの計測結果を破棄します。<br>
+ * パフォーマンスモニターは、
+ * ASRラック作成直後からパフォーマンス情報の取得を開始し、計測結果を累積します。<br>
+ * 以前の計測結果を以降の計測結果に含めたくない場合には、
+ * 本関数を実行し、累積された計測結果を一旦破棄する必要があります。
  */
 void CRIAPI criAtomExAsrRack_ResetPerformanceMonitor(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief �p�t�H�[�}���X���̎擾
+ * \brief パフォーマンス情報の取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[out]	info		�p�t�H�[�}���X���
- * \par ����:
- * �p�t�H�[�}���X�����擾���܂��B<br>
- * �{�֐��́A�w�肳�ꂽASR���b�N�̃����_�����O���ׂ݂̂��v�����܂��B<br>
- * \par ���l:
- * �X���b�h���f����CRIATOMEX_THREAD_MODEL_MULTI_WITH_SONICSYNC���w�肵�Ȃ��ꍇ�A
- * �{�֐����g�p����K�v�͂���܂���B<br>
- * �iCRIATOMEX_THREAD_MODEL_MULTI_WITH_SONICSYNC�ȊO�̃X���b�h���f�����g�p���Ă���ꍇ�A
- * �{�֐��̏������ׂ́A ::CriAtomExPerformanceInfo �ɕ�܂���Ă��܂��B�j<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[out]	info		パフォーマンス情報
+ * \par 説明:
+ * パフォーマンス情報を取得します。<br>
+ * 本関数は、指定されたASRラックのレンダリング負荷のみを計測します。<br>
+ * \par 備考:
+ * スレッドモデルにCRIATOMEX_THREAD_MODEL_MULTI_WITH_SONICSYNCを指定しない場合、
+ * 本関数を使用する必要はありません。<br>
+ * （CRIATOMEX_THREAD_MODEL_MULTI_WITH_SONICSYNC以外のスレッドモデルを使用している場合、
+ * 本関数の処理負荷は、 ::CriAtomExPerformanceInfo に包含されています。）<br>
  * \sa CriAtomExAsrRackPerformanceInfo
  */
 void CRIAPI criAtomExAsrRack_GetPerformanceInfo(CriAtomExAsrRackId rack_id, CriAtomExAsrRackPerformanceInfo *info);
 
 /*JP
- * \brief DSP�o�X�ݒ�̃A�^�b�`�p���[�N�T�C�Y�̌v�Z
+ * \brief DSPバス設定のアタッチ用ワークサイズの計算
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	setting		DSP�o�X�ݒ�̖��O
- * \return		CriSint32	�K�v���[�N�̈�T�C�Y
- * \par ����:
- * DSP�o�X�ݒ肩��o�X���\�z����̂ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * �{�֐������s����ɂ́A���炩����::criAtomEx_RegisterAcfConfig �֐���ACF����
- * �o�^���Ă����K�v������܂�<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	setting		DSPバス設定の名前
+ * \return		CriSint32	必要ワーク領域サイズ
+ * \par 説明:
+ * DSPバス設定からバスを構築するのに必要なワーク領域サイズを計算します。<br>
+ * 本関数を実行するには、あらかじめ::criAtomEx_RegisterAcfConfig 関数でACF情報を
+ * 登録しておく必要があります<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * DSP�o�X�ݒ�̃A�^�b�`�ɕK�v�ȃ��[�N�������̃T�C�Y�́ACRI Atom Craft�ō쐬����
- * DSP�o�X�ݒ�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * DSPバス設定のアタッチに必要なワークメモリのサイズは、CRI Atom Craftで作成した
+ * DSPバス設定の内容によって変化します。<br>
  * \sa criAtomExAsrRack_AttachDspBusSetting, criAtomEx_RegisterAcfConfig
  */
 CriSint32 CRIAPI criAtomExAsrRack_CalculateWorkSizeForDspBusSetting(
 	CriAtomExAsrRackId rack_id, const CriChar8 *setting);
 
 /*JP
- * \brief DSP�o�X�ݒ�̃A�^�b�`
+ * \brief DSPバス設定のアタッチ
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	setting		DSP�o�X�ݒ�̖��O
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \par ����:
- * DSP�o�X�ݒ肩��o�X���\�z����ASR���b�N�ɃA�^�b�`���܂��B<br>
- * �{�֐������s����ɂ́A���炩����::criAtomEx_RegisterAcfConfig �֐���ACF����
- * �o�^���Ă����K�v������܂�<br>
- * \par ���l:
- * DSP�o�X�ݒ�̃A�^�b�`�ɕK�v�ȃ��[�N�������̃T�C�Y�́A
- * CRI Atom Craft�ō쐬����DSP�o�X�ݒ�̓��e�ɂ���ĕω����܂��B<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	setting		DSPバス設定の名前
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \par 説明:
+ * DSPバス設定からバスを構築してASRラックにアタッチします。<br>
+ * 本関数を実行するには、あらかじめ::criAtomEx_RegisterAcfConfig 関数でACF情報を
+ * 登録しておく必要があります<br>
+ * \par 備考:
+ * DSPバス設定のアタッチに必要なワークメモリのサイズは、
+ * CRI Atom Craftで作成したDSPバス設定の内容によって変化します。<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。<br>
  * \sa criAtomExAsrRack_DetachDspBusSetting, criAtomEx_RegisterAcfConfig
  */
 void CRIAPI criAtomExAsrRack_AttachDspBusSetting(CriAtomExAsrRackId rack_id,
 	const CriChar8 *setting, void *work, CriSint32 work_size);
 
 /*JP
- * \brief DSP�o�X�ݒ�̃f�^�b�`
+ * \brief アタッチ済みのDSPバス設定の名前取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \par ����:
- * DSP�o�X�ݒ��ASR���b�N����f�^�b�`���܂��B<br>
- * ::criAtomEx_SetUserAllocator �}�N�����g�p���ăA���P�[�^�[��o�^�ς݂̏ꍇ�A
- * DSP�o�X�ݒ�A�^�b�`���Ɋm�ۂ��ꂽ�������̈悪�������܂��B<br>
- * �iDSP�o�X�ݒ�A�^�b�`���Ƀ��[�N�̈��n�����ꍇ�A�{�֐����s��ł����
- * ���[�N�̈������\�ł��B�j<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[out]	setting_name アタッチ済み DSP バス設定の名前
+ * \par 説明:
+ * ASRラックにアタッチされている DSP バス設定の名前が取得できます。<br>
+ * 本関数を実行するには、あらかじめ::criAtomEx_RegisterAcfConfig 関数でACF情報を
+ * 登録しておく必要があります<br>
+ * \sa criAtomExAsrRack_AttachDspBusSetting, criAtomExAsrRack_DetachDspBusSetting, criAtomEx_RegisterAcfConfig
+ */
+const CriChar8* CRIAPI criAtomExAsrRack_GetAttachedDspBusSettingName(CriAtomExAsrRackId rack_id);
+
+/*JP
+ * \brief DSPバス設定のデタッチ
+ * \ingroup ATOMEXLIB_ASR
+ * \param[in]	rack_id		ASRラックID
+ * \par 説明:
+ * DSPバス設定をASRラックからデタッチします。<br>
+ * ::criAtomEx_SetUserAllocator マクロを使用してアロケーターを登録済みの場合、
+ * DSPバス設定アタッチ時に確保されたメモリ領域が解放されます。<br>
+ * （DSPバス設定アタッチ時にワーク領域を渡した場合、本関数実行後であれば
+ * ワーク領域を解放可能です。）<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。
  * \sa criAtomExAsrRack_AttachDspBusSetting
  */
 void CRIAPI criAtomExAsrRack_DetachDspBusSetting(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief DSP�o�X�X�i�b�v�V���b�g�̓K�p
+ * \brief DSPバススナップショットの適用
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	snapshot_name	�X�i�b�v�V���b�g��
- * \param[in]	time_ms			���ԁi�~���b�j
- * \par ����:
- * DSP�o�X�X�i�b�v�V���b�g��K�p���܂��B<br>
- * �{�֐����Ăяo���ƁA�X�i�b�v�V���b�g�Őݒ肵���p�����[�^�[�� time_ms �|���ĕω����܂��B<br>
- * ���� snapshot_name �� CRI_NULL ���w�肷��ƁA����DSP�o�X�ݒ�̏�ԁi�X�i�b�v�V���b�g���K�p����Ă��Ȃ���ԁj�ɖ߂�܂��B<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	snapshot_name	スナップショット名
+ * \param[in]	time_ms			時間（ミリ秒）
+ * \par 説明:
+ * DSPバススナップショットを適用します。<br>
+ * 本関数を呼び出すと、スナップショットで設定したパラメーターに time_ms 掛けて変化します。<br>
+ * 引数 snapshot_name に CRI_NULL を指定すると、元のDSPバス設定の状態（スナップショットが適用されていない状態）に戻ります。<br>
  * \sa criAtomExAsrRack_AttachDspBusSetting
  */
 void CRIAPI criAtomExAsrRack_ApplyDspBusSnapshot(CriAtomExAsrRackId rack_id,
 	const CriChar8 *snapshot_name, CriSint32 time_ms);
 
 /*JP
- * \brief �K�p����DSP�o�X�X�i�b�v�V���b�g���̎擾
+ * \brief 適用中のDSPバススナップショット名の取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \par ����:
- * ASR���b�NID���w�肵�ēK�p����DSP�o�X�X�i�b�v�V���b�g�����擾���܂��B
- * �X�i�b�v�V���b�g���K�p����Ă��Ȃ��ꍇ��CRI_NULL���Ԃ�܂��B
+ * \param[in]	rack_id		ASRラックID
+ * \par 説明:
+ * ASRラックIDを指定して適用中のDSPバススナップショット名を取得します。
+ * スナップショットが適用されていない場合はCRI_NULLが返ります。
  * \sa criAtomExAsrRack_ApplyDspBusSnapshot
  */
 const CriChar8* CRIAPI criAtomExAsrRack_GetAppliedDspBusSnapshotName(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief �o�X�̃{�����[���̐ݒ�
+ * \brief バスのボリュームの設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	bus_name	�o�X��
- * \param[in]	volume		�{�����[���l
- * \par ����:
- * �o�X�̃{�����[����ݒ肵�܂��B<br>
- * �Z���h�^�C�v���|�X�g�{�����[���A�|�X�g�p���̃Z���h��ɗL���ł��B<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	bus_name	バス名
+ * \param[in]	volume		ボリューム値
+ * \par 説明:
+ * バスのボリュームを設定します。<br>
+ * センドタイプがポストボリューム、ポストパンのセンド先に有効です。<br>
  * <br>
- * �{�����[���l�ɂ́A0.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * �{�����[���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃{�����[���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B<br>
- * �{�����[���̃f�t�H���g�l��CRI Atom Craft�Őݒ肵���l�ł��B<br>
+ * ボリューム値には、0.0f～1.0fの範囲で実数値を指定します。<br>
+ * ボリューム値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのボリュームで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。<br>
+ * ボリュームのデフォルト値はCRI Atom Craftで設定した値です。<br>
  */
 void CRIAPI criAtomExAsrRack_SetBusVolumeByName(CriAtomExAsrRackId rack_id, 
 	const CriChar8* bus_name, CriFloat32 volume);
 
 /*JP
- * \brief �o�X�̃{�����[���̎擾
+ * \brief バスのボリュームの取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	bus_name	�o�X��
- * \param[in]	volume		�{�����[���l
- * \par ����:
- * �o�X�̃{�����[����ݒ肵�܂��B<br>
- * �Z���h�^�C�v���|�X�g�{�����[���A�|�X�g�p���̃Z���h��ɗL���ł��B<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	bus_name	バス名
+ * \param[in]	volume		ボリューム値
+ * \par 説明:
+ * バスのボリュームを設定します。<br>
+ * センドタイプがポストボリューム、ポストパンのセンド先に有効です。<br>
  * <br>
- * �{�����[���l�͎����l�œ����܂��B<br>
- * �{�����[���̃f�t�H���g�l��CRI Atom Craft�Őݒ肵���l�ł��B<br>
+ * ボリューム値は実数値で得られます。<br>
+ * ボリュームのデフォルト値はCRI Atom Craftで設定した値です。<br>
  */
 void CRIAPI criAtomExAsrRack_GetBusVolumeByName(CriAtomExAsrRackId rack_id, 
 	const CriChar8* bus_name, CriFloat32* volume);
 
 /*JP
- * \brief �o�X�̃p�����̐ݒ�
+ * \brief バスのパン情報の設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR ���b�N ID
- * \param[in]	bus_name	�o�X��
- * \param[in]	pan_info	�p�����
- * \par ����:
- * �o�X�̃p������ݒ肵�܂��B<br>
- * �Z���h�^�C�v���|�X�g�p���̃Z���h��ɗL���ł��B<br>
+ * \param[in]	rack_id		ASR ラック ID
+ * \param[in]	bus_name	バス名
+ * \param[in]	pan_info	パン情報
+ * \par 説明:
+ * バスのパン情報を設定します。<br>
+ * センドタイプがポストパンのセンド先に有効です。<br>
  * <br>
- * �p�����̃f�t�H���g�l�� CRI Atom Craft �Őݒ肵���l�ł��B
+ * パン情報のデフォルト値は CRI Atom Craft で設定した値です。
  */
 void CRIAPI criAtomExAsrRack_SetBusPanInfoByName(CriAtomExAsrRackId rack_id, const CriChar8 *bus_name,
 	const CriAtomExAsrBusPanInfo *pan_info);
 
 /*JP
- * \brief �o�X�̃p�����̎擾
+ * \brief バスのパン情報の取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR ���b�N ID
- * \param[in]	bus_name	�o�X��
- * \param[out]	pan_info	�p�����
- * \par ����:
- * �o�X�̃p�������擾���܂��B
+ * \param[in]	rack_id		ASR ラック ID
+ * \param[in]	bus_name	バス名
+ * \param[out]	pan_info	パン情報
+ * \par 説明:
+ * バスのパン情報を取得します。
  */
 void CRIAPI criAtomExAsrRack_GetBusPanInfoByName(CriAtomExAsrRackId rack_id, const CriChar8 *bus_name,
 	CriAtomExAsrBusPanInfo *pan_info);
 
 /*JP
- * \brief �o�X�̃��x���s��̐ݒ�
+ * \brief バスのレベル行列の設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	bus_name		�o�X��
- * \param[in]	input_channels	���̓`�����l����
- * \param[in]	output_channels	�o�̓`�����l����
- * \param[in]	matrix			���x���s���1�����ɕ\�������x���l�̔z��
- * \par ����:
- * �o�X�̃��x���s���ݒ肵�܂��B<br>
- * �Z���h�^�C�v���|�X�g�p���̃Z���h��ɗL���ł��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	bus_name		バス名
+ * \param[in]	input_channels	入力チャンネル数
+ * \param[in]	output_channels	出力チャンネル数
+ * \param[in]	matrix			レベル行列を1次元に表したレベル値の配列
+ * \par 説明:
+ * バスのレベル行列を設定します。<br>
+ * センドタイプがポストパンのセンド先に有効です。<br>
  * <br>
- * ���x���}�g���b�N�X�́A�����f�[�^�̊e�`�����l���̉������A�ǂ̃X�s�[�J�[����
- * �ǂ̒��x�̉��ʂŏo�͂��邩���w�肷�邽�߂̎d�g�݂ł��B<br>
- * matrix��[input_channels * output_channels]�̔z��ł��B<br>
- * ���̓`�����l��ch_in����o�̓`�����l��ch_out�ɃZ���h����郌�x����
- * matrix[ch_in * output_channels + ch_out]�ɃZ�b�g���܂��B<br>
- * ���x���s��̃f�t�H���g�l�͒P�ʍs��ł��B<br>
+ * レベルマトリックスは、音声データの各チャンネルの音声を、どのスピーカーから
+ * どの程度の音量で出力するかを指定するための仕組みです。<br>
+ * matrixは[input_channels * output_channels]の配列です。<br>
+ * 入力チャンネルch_inから出力チャンネルch_outにセンドされるレベルは
+ * matrix[ch_in * output_channels + ch_out]にセットします。<br>
+ * レベル行列のデフォルト値は単位行列です。<br>
  * <br>
- * ���x���l�ɂ́A0.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * ���x���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃��x���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B<br>
+ * レベル値には、0.0f～1.0fの範囲で実数値を指定します。<br>
+ * レベル値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのレベルで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。<br>
  */
 void CRIAPI criAtomExAsrRack_SetBusMatrixByName(
 	CriAtomExAsrRackId rack_id, const CriChar8* bus_name, CriSint32 input_channels, 
 	CriSint32 output_channels, const CriFloat32 matrix[]);
 
 /*JP
- * \brief �o�X�̃Z���h���x���̐ݒ�
+ * \brief バスのセンドレベルの設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	bus_name		�o�X��
- * \param[in]	sendto_bus_name	�Z���h��̃o�X��
- * \param[in]	level			���x���l
- * \par ����:
- * �Z���h��o�X�ɉ����f�[�^�𑗂�ۂ̃��x����ݒ肵�܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	bus_name		バス名
+ * \param[in]	sendto_bus_name	センド先のバス名
+ * \param[in]	level			レベル値
+ * \par 説明:
+ * センド先バスに音声データを送る際のレベルを設定します。<br>
  * <br>
- * ���x���l�ɂ́A0.0f�`1.0f�͈̔͂Ŏ����l���w�肵�܂��B<br>
- * ���x���l�͉����f�[�^�̐U���ɑ΂���{���ł��i�P�ʂ̓f�V�x���ł͂���܂���j�B<br>
- * �Ⴆ�΁A1.0f���w�肵���ꍇ�A�����͂��̂܂܂̃��x���ŏo�͂���܂��B<br>
- * 0.5f���w�肵���ꍇ�A�����g�`�̐U���𔼕��ɂ����f�[�^�Ɠ������ʁi-6dB�j��
- * �������o�͂���܂��B<br>
- * 0.0f���w�肵���ꍇ�A�����̓~���[�g����܂��i�����ɂȂ�܂��j�B<br>
- * ���x���̃f�t�H���g�l��CRI Atom Craft�Őݒ肵���l�ł��B<br>
+ * レベル値には、0.0f～1.0fの範囲で実数値を指定します。<br>
+ * レベル値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、原音はそのままのレベルで出力されます。<br>
+ * 0.5fを指定した場合、原音波形の振幅を半分にしたデータと同じ音量（-6dB）で
+ * 音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。<br>
+ * レベルのデフォルト値はCRI Atom Craftで設定した値です。<br>
  */
 void CRIAPI criAtomExAsrRack_SetBusSendLevelByName(CriAtomExAsrRackId rack_id,
 	const CriChar8* bus_name, const CriChar8* sendto_bus_name, CriFloat32 level);
 
 /*JP
- * \brief �G�t�F�N�g���쎞�p�����[�^�[�̐ݒ�
+ * \brief エフェクト動作時パラメーターの設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	bus_name		�o�X��
- * \param[in]	effect_name		�G�t�F�N�g��
- * \param[in]	parameter_index	�G�t�F�N�g���쎞�p�����[�^�[�C���f�b�N�X
- * \param[in]	parameter_value �G�t�F�N�g�p�����[�^�[�ݒ�l
- * \par ����:
- * �G�t�F�N�g�̓��쎞�p�����[�^�[��ݒ肵�܂��B<br>
- * �G�t�F�N�g�p�����[�^�[��ݒ肷��ۂ́A�{�֐��Ăяo���O�ɂ��炩����
- * ::criAtomEx_AttachDspBusSetting �֐��Ńo�X���\�z����Ă���K�v������܂��B<br>
- * �ǂ̃o�X�ɂǂ̃G�t�F�N�g�����݂��邩�́A�A�^�b�`����DSP�o�X�ݒ�Ɉˑ����܂��B�w�肵���o�X�Ɏw�肵�����O�̃G�t�F�N�g�����݂��Ȃ��ꍇ�A�֐��͎��s���܂��B<br>
- * �܂��A
- * �G�t�F�N�g�̃p�����[�^�[�́A�e�G�t�F�N�g�̃p�����[�^�[�C���f�b�N�X�i \ref CRIATOMASR_DSP_PARAM �j�����Q�Ɖ������B
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	bus_name		バス名
+ * \param[in]	effect_name		エフェクト名
+ * \param[in]	parameter_index	エフェクト動作時パラメーターインデックス
+ * \param[in]	parameter_value エフェクトパラメーター設定値
+ * \par 説明:
+ * エフェクトの動作時パラメーターを設定します。<br>
+ * エフェクトパラメーターを設定する際は、本関数呼び出し前にあらかじめ
+ * ::criAtomEx_AttachDspBusSetting 関数でバスが構築されている必要があります。<br>
+ * どのバスにどのエフェクトが存在するかは、アタッチしたDSPバス設定に依存します。指定したバスに指定した名前のエフェクトが存在しない場合、関数は失敗します。<br>
+ * また、
+ * エフェクトのパラメーターは、各エフェクトのパラメーターインデックス（ \ref CRIATOMASR_DSP_PARAM ）をご参照下さい。
  * \sa criAtomEx_AttachDspBusSetting, criAtomExAsrRack_UpdateEffectParameters
  */
 void CRIAPI criAtomExAsrRack_SetEffectParameter(CriAtomExAsrRackId rack_id,
@@ -3872,33 +4028,33 @@ void CRIAPI criAtomExAsrRack_SetEffectParameter(CriAtomExAsrRackId rack_id,
 	const CriUint32 parameter_index, const CriFloat32 parameter_value);
 
 /*JP
- * \brief �G�t�F�N�g�̓��쎞�p�����[�^�[�̔��f
+ * \brief エフェクトの動作時パラメーターの反映
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	bus_name		�o�X��
- * \param[in]	effect_name		�G�t�F�N�g��
- * \par ����:
- * �G�t�F�N�g�̓��쎞�p�����[�^�[�𔽉f���܂��B<br>
- * ���쎞�p�����[�^�[�����ۂɔ��f����ɂ́AcriAtomExAsrRack_SetEffectParameter �̑��ɂ��{�֐����Ăяo���ĉ������B
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	bus_name		バス名
+ * \param[in]	effect_name		エフェクト名
+ * \par 説明:
+ * エフェクトの動作時パラメーターを反映します。<br>
+ * 動作時パラメーターを実際に反映するには、criAtomExAsrRack_SetEffectParameter の他にも本関数を呼び出して下さい。
  * \sa criAtomEx_AttachDspBusSetting, criAtomExAsrRack_SetEffectParameter
  */
 void CRIAPI criAtomExAsrRack_UpdateEffectParameters(CriAtomExAsrRackId rack_id,
 	const CriChar8* bus_name, const CriChar8* effect_name);
 
 /*JP
- * \brief �G�t�F�N�g�̓��쎞�p�����[�^�[�̎擾
+ * \brief エフェクトの動作時パラメーターの取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]		rack_id			ASR���b�NID
- * \param[in]		bus_name		�o�X��
- * \param[in]		effect_name		�G�t�F�N�g��
- * \param[in]		parameter_index	�G�t�F�N�g�̓��쎞�p�����[�^�[�C���f�b�N�X
- * \return �w�肵���p�����[�^�[�C���f�b�N�X�l�̃G�t�F�N�g�p�����[�^�[�l��Ԃ��܂��B
- * \par ����:
- * �G�t�F�N�g�̓��쎞�p�����[�^�[���擾���܂��B<br>
- * ���쎞�p�����[�^�[���擾����ۂ́A�{�֐��Ăяo���O�ɂ��炩����
- * ::criAtomEx_AttachDspBusSetting �֐��Ńo�X���\�z����Ă���K�v������܂��B<br>
- * �ǂ̃o�X�ɂǂ̃G�t�F�N�g�����݂��邩�́A�A�^�b�`����DSP�o�X�ݒ�Ɉˑ����܂��B�w�肵���o�X�Ɏw�肵�����O�̃G�t�F�N�g�����݂��Ȃ��ꍇ�A�֐��͎��s���܂��B<br>
- * �G�t�F�N�g�̓��쎞�p�����[�^�[�̏ڍׂ́A�e�G�t�F�N�g�̃p�����[�^�[�C���f�b�N�X�i \ref CRIATOMASR_DSP_PARAM �j�����Q�Ɖ������B
+ * \param[in]		rack_id			ASRラックID
+ * \param[in]		bus_name		バス名
+ * \param[in]		effect_name		エフェクト名
+ * \param[in]		parameter_index	エフェクトの動作時パラメーターインデックス
+ * \return 指定したパラメーターインデックス値のエフェクトパラメーター値を返します。
+ * \par 説明:
+ * エフェクトの動作時パラメーターを取得します。<br>
+ * 動作時パラメーターを取得する際は、本関数呼び出し前にあらかじめ
+ * ::criAtomEx_AttachDspBusSetting 関数でバスが構築されている必要があります。<br>
+ * どのバスにどのエフェクトが存在するかは、アタッチしたDSPバス設定に依存します。指定したバスに指定した名前のエフェクトが存在しない場合、関数は失敗します。<br>
+ * エフェクトの動作時パラメーターの詳細は、各エフェクトのパラメーターインデックス（ \ref CRIATOMASR_DSP_PARAM ）をご参照下さい。
  * \sa criAtomEx_AttachDspBusSetting
  */
 CriFloat32 CRIAPI criAtomExAsrRack_GetEffectParameter(CriAtomExAsrRackId rack_id,
@@ -3906,113 +4062,113 @@ CriFloat32 CRIAPI criAtomExAsrRack_GetEffectParameter(CriAtomExAsrRackId rack_id
 	const CriUint32 parameter_index);
 
 /*JP
- * \brief �G�t�F�N�g�̃o�C�p�X�ݒ�
+ * \brief エフェクトのバイパス設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	bus_name	�o�X��
- * \param[in]	effect_name	�G�t�F�N�g��
- * \param[in]	bypass		�o�C�p�X�ݒ�iCRI_TRUE:�o�C�p�X���s��, CRI_FALSE:�o�C�p�X���s��Ȃ��j
- * \par ����:
- * �G�t�F�N�g�̃o�C�p�X�ݒ���s���܂��B<br>
- * �o�C�p�X�ݒ肳�ꂽ�G�t�F�N�g�͉��������̍ہA�X���[�����悤�ɂȂ�܂��B<br>
- * �G�t�F�N�g�̃o�C�p�X�ݒ������ۂ́A�{�֐��Ăяo���O�ɂ��炩����
- * ::criAtomEx_AttachDspBusSetting �֐��Ńo�X���\�z����Ă���K�v������܂��B<br>
- * �ǂ̃o�X�ɂǂ̃G�t�F�N�g�����݂��邩�́A�A�^�b�`����DSP�o�X�ݒ�Ɉˑ����܂��B�w�肵���o�X�Ɏw�肵�����O�̃G�t�F�N�g�����݂��Ȃ��ꍇ�A�֐��͎��s���܂��B<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	bus_name	バス名
+ * \param[in]	effect_name	エフェクト名
+ * \param[in]	bypass		バイパス設定（CRI_TRUE:バイパスを行う, CRI_FALSE:バイパスを行わない）
+ * \par 説明:
+ * エフェクトのバイパス設定を行います。<br>
+ * バイパス設定されたエフェクトは音声処理の際、スルーされるようになります。<br>
+ * エフェクトのバイパス設定をする際は、本関数呼び出し前にあらかじめ
+ * ::criAtomEx_AttachDspBusSetting 関数でバスが構築されている必要があります。<br>
+ * どのバスにどのエフェクトが存在するかは、アタッチしたDSPバス設定に依存します。指定したバスに指定した名前のエフェクトが存在しない場合、関数は失敗します。<br>
  * \attention
- * �����Đ����Ƀo�C�p�X�ݒ���s���ƃm�C�Y���������邱�Ƃ�����܂��B<br>
+ * 音声再生中にバイパス設定を行うとノイズが発生することがあります。<br>
  * \sa criAtomEx_AttachDspBusSetting
  */
 void CRIAPI criAtomExAsrRack_SetEffectBypass(CriAtomExAsrRackId rack_id,
 	const CriChar8* bus_name, const CriChar8* effect_name, const CriBool bypass);
 
 /*JP
- * \brief �G�t�F�N�g�̃o�C�p�X�ݒ�̎擾
+ * \brief エフェクトのバイパス設定の取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	bus_name	�o�X��
- * \param[in]	effect_name	�G�t�F�N�g��
- * \return CriBool �o�C�p�X�ݒ肳��Ă��邩�H�iCRI_TRUE:�o�C�p�X���s��, CRI_FALSE:�o�C�p�X���s��Ȃ��j
- * \par ����:
- * �G�t�F�N�g�̃o�C�p�X�ݒ���擾���܂��B<br>
- * �o�C�p�X�ݒ肳�ꂽ�G�t�F�N�g�͉��������̍ہA�X���[�����悤�ɂȂ�܂��B<br>
- * �G�t�F�N�g�̃o�C�p�X�ݒ������ۂ́A�{�֐��Ăяo���O�ɂ��炩����
- * ::criAtomEx_AttachDspBusSetting �֐��Ńo�X���\�z����Ă���K�v������܂��B<br>
- * �ǂ̃o�X�ɂǂ̃G�t�F�N�g�����݂��邩�́A�A�^�b�`����DSP�o�X�ݒ�Ɉˑ����܂��B�w�肵���o�X�Ɏw�肵�����O�̃G�t�F�N�g�����݂��Ȃ��ꍇ�A�֐���CRI_FALSE��ԋp���܂��B<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	bus_name	バス名
+ * \param[in]	effect_name	エフェクト名
+ * \return CriBool バイパス設定されているか？（CRI_TRUE:バイパスを行う, CRI_FALSE:バイパスを行わない）
+ * \par 説明:
+ * エフェクトのバイパス設定を取得します。<br>
+ * バイパス設定されたエフェクトは音声処理の際、スルーされるようになります。<br>
+ * エフェクトのバイパス設定をする際は、本関数呼び出し前にあらかじめ
+ * ::criAtomEx_AttachDspBusSetting 関数でバスが構築されている必要があります。<br>
+ * どのバスにどのエフェクトが存在するかは、アタッチしたDSPバス設定に依存します。指定したバスに指定した名前のエフェクトが存在しない場合、関数はCRI_FALSEを返却します。<br>
  * \sa criAtomExAsrRack_SetEffectBypass
  */
 CriBool CRIAPI criAtomExAsrRack_GetEffectBypass(CriAtomExAsrRackId rack_id,
 	const CriChar8* bus_name, const CriChar8* effect_name);
 
 /*JP
- * \brief ���x������@�\�̒ǉ�
+ * \brief レベル測定機能の追加
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	bus_name	�o�X��
- * \param[in]	config		���x������@�\�̃R���t�B�O�\����
- * \par ����:
- * �o�X�Ƀ��x������@�\��ǉ����A���x�����菈�����J�n���܂��B<br>
- * �{�֐������s��A ::criAtomExAsrRack_GetBusAnalyzerInfo �֐������s���邱�ƂŁA
- * RMS���x���i�����j�A�s�[�N���x���i�ő�U���j�A�s�[�N�z�[���h���x����
- * �擾���邱�Ƃ��\�ł��B
- * �����o�X�̃��x�����v������ɂ́A�o�X���Ƃɖ{�֐����Ăяo���K�v������܂��B
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	bus_name	バス名
+ * \param[in]	config		レベル測定機能のコンフィグ構造体
+ * \par 説明:
+ * バスにレベル測定機能を追加し、レベル測定処理を開始します。<br>
+ * 本関数を実行後、 ::criAtomExAsrRack_GetBusAnalyzerInfo 関数を実行することで、
+ * RMSレベル（音圧）、ピークレベル（最大振幅）、ピークホールドレベルを
+ * 取得することが可能です。
+ * 複数バスのレベルを計測するには、バスごとに本関数を呼び出す必要があります。
  * \attention
- * �{�֐��� ::criAtomExAsrRack_AttachDspBusSetting �֐��Ɠ���̃��\�[�X�𑀍삵�܂��B<br>
- * ���̂��߁A����� ::criAtomExAsrRack_AttachDspBusSetting �֐������s����ƁA
- * ::criAtomExAsrRack_GetBusAnalyzerInfo �֐��ɂ����擾���ł��Ȃ��Ȃ�܂��B<br>
- * �{�֐��� ::criAtomExAsrRack_AttachDspBusSetting �֐��𕹗p����ۂɂ́A
- * ::criAtomExAsrRack_AttachDspBusSetting �֐������s����O�Ɉ�U
- * ::criAtomExAsrRack_DetachBusAnalyzer �֐��Ń��x������@�\�𖳌������A
- * ::criAtomExAsrRack_AttachDspBusSetting �֐����s��ɍēx�{�֐������s���Ă��������B<br>
+ * 本関数は ::criAtomExAsrRack_AttachDspBusSetting 関数と同一のリソースを操作します。<br>
+ * そのため、現状は ::criAtomExAsrRack_AttachDspBusSetting 関数を実行すると、
+ * ::criAtomExAsrRack_GetBusAnalyzerInfo 関数による情報取得ができなくなります。<br>
+ * 本関数と ::criAtomExAsrRack_AttachDspBusSetting 関数を併用する際には、
+ * ::criAtomExAsrRack_AttachDspBusSetting 関数を実行する前に一旦
+ * ::criAtomExAsrRack_DetachBusAnalyzer 関数でレベル測定機能を無効化し、
+ * ::criAtomExAsrRack_AttachDspBusSetting 関数実行後に再度本関数を実行してください。<br>
  * \sa criAtomExAsrRack_GetBusAnalyzerInfo, criAtomExAsrRack_DetachBusAnalyzer
  */
 void CRIAPI criAtomExAsrRack_AttachBusAnalyzerByName(CriAtomExAsrRackId rack_id, 
 	const CriChar8* bus_name, const CriAtomExAsrBusAnalyzerConfig* config);
 
 /*JP
- * \brief ���x������@�\�̍폜
+ * \brief レベル測定機能の削除
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	bus_name	�o�X��
- * \par ����:
- * �o�X���烌�x������@�\���폜���܂��B
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	bus_name	バス名
+ * \par 説明:
+ * バスからレベル測定機能を削除します。
  * \sa criAtomExAsrRack_AttachBusAnalyzer
  */
 void CRIAPI criAtomExAsrRack_DetachBusAnalyzerByName(
 	CriAtomExAsrRackId rack_id, const CriChar8* bus_name);
 
 /*JP
- * \brief ���x�����茋�ʂ̎擾
+ * \brief レベル測定結果の取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	bus_name	�o�X��
- * \param[out]	info		���x�����茋�ʂ̍\����
- * \par ����:
- * �o�X���烌�x������@�\�̌��ʂ��擾���܂��B
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	bus_name	バス名
+ * \param[out]	info		レベル測定結果の構造体
+ * \par 説明:
+ * バスからレベル測定機能の結果を取得します。
  * \sa criAtomExAsrRack_AttachBusAnalyzer
  */
 void CRIAPI criAtomExAsrRack_GetBusAnalyzerInfoByName(CriAtomExAsrRackId rack_id, 
 	const CriChar8* bus_name, CriAtomExAsrBusAnalyzerInfo *info);
 
 /*JP
- * \brief �g�`�t�B���^�[�R�[���o�b�N�֐��̓o�^
+ * \brief 波形フィルターコールバック関数の登録
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id		ASR���b�NID
- * \param[in]	bus_name	�o�X��
- * \param[in]	pre_func	�G�t�F�N�g�����O�̃t�B���^�[�R�[���o�b�N�֐�
- * \param[in]	post_func	�G�t�F�N�g������̃t�B���^�[�R�[���o�b�N�֐�
- * \param[in]	obj			���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �o�X�ɗ���Ă��� PCM �f�[�^���󂯎��R�[���o�b�N�֐���o�^���܂��B<br>
- * �o�^���ꂽ�R�[���o�b�N�֐��́A�T�E���h�����_���������������s�����^�C�~���O�ŌĂяo����܂��B<br>
- * �G�t�F�N�g�����O�ƃG�t�F�N�g�������2��ނ̎g�p���Ȃ��ق���NULL�w�肪�\�ł��B<br>
+ * \param[in]	rack_id		ASRラックID
+ * \param[in]	bus_name	バス名
+ * \param[in]	pre_func	エフェクト処理前のフィルターコールバック関数
+ * \param[in]	post_func	エフェクト処理後のフィルターコールバック関数
+ * \param[in]	obj			ユーザ指定オブジェクト
+ * \par 説明:
+ * バスに流れている PCM データを受け取るコールバック関数を登録します。<br>
+ * 登録されたコールバック関数は、サウンドレンダラが音声処理を行ったタイミングで呼び出されます。<br>
+ * エフェクト処理前とエフェクト処理後の2種類の使用しないほうはNULL指定が可能です。<br>
  * \attention
- * �R�[���o�b�N�֐����ŁAAtom���C�u������API�����s���Ȃ��ł��������B<br>
- * �R�[���o�b�N�֐���Atom���C�u�������̃T�[�o�[����������s����܂��B<br>
- * ���̂��߁A�T�[�o�[�����ւ̊��荞�݂��l�����Ȃ�API�����s�����ꍇ�A
- * �G���[������������A�f�b�h���b�N����������\��������܂��B<br>
+ * コールバック関数内で、AtomライブラリのAPIを実行しないでください。<br>
+ * コールバック関数はAtomライブラリ内のサーバー処理から実行されます。<br>
+ * そのため、サーバー処理への割り込みを考慮しないAPIを実行した場合、
+ * エラーが発生したり、デッドロックが発生する可能性があります。<br>
  * <br>
- * �g�`�t�B���^�[�R�[���o�b�N�֐����Œ����ԏ������u���b�N����ƁA���؂ꓙ�̖��
- * ���������܂��̂ŁA�����ӂ��������B<br>
+ * 波形フィルターコールバック関数内で長時間処理をブロックすると、音切れ等の問題
+ * が発生しますので、ご注意ください。<br>
  * \sa CriAtomExPlayerFilterCbFunc
  */
 void CRIAPI criAtomExAsrRack_SetBusFilterCallbackByName(CriAtomExAsrRackId rack_id, 
@@ -4020,494 +4176,497 @@ void CRIAPI criAtomExAsrRack_SetBusFilterCallbackByName(CriAtomExAsrRackId rack_
 	CriAtomExAsrBusFilterCbFunc post_func, void *obj);
 
 /*JP
- * \brief ���ASR���b�NID�̐ݒ�
+ * \brief 代替ASRラックIDの設定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	alt_rack_id		���ASR���b�NID
- * \par ����:
- * �w�肵��ID��ASR���b�N�����݂��Ȃ��ꍇ�ɁA����ɂȂ�ASR���b�N��ID��ݒ肵�܂��B<br>
- * �i rack_id ��ASR���b�N�����݂��Ȃ��ꍇ�ɁA���̉����� alt_rack_id ��ASR���b�N�o�R�ŏo�͂��܂��B�j<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	alt_rack_id		代替ASRラックID
+ * \par 説明:
+ * 指定したIDのASRラックが存在しない場合に、代わりになるASRラックのIDを設定します。<br>
+ * （ rack_id のASRラックが存在しない場合に、その音声を alt_rack_id のASRラック経由で出力します。）<br>
  * <br>
- * �f�t�H���g�ݒ�� ::CRIATOMEXASR_RACK_DEFAULT_ID
- * �i�w�肵��ID��ASR���b�N���Ȃ���΃f�t�H���gASR����o�͂���j�ł��B<br>
- * \par ���l:
- * ���݂��Ȃ�ASR���b�N�ւ̏o�͂��G���[�Ƃ��Ĉ��������ꍇ�A
- * alt_rack_id �� rack_id �Ɠ����l��ݒ肵�Ă��������B<br>
+ * デフォルト設定は ::CRIATOMEXASR_RACK_DEFAULT_ID
+ * （指定したIDのASRラックがなければデフォルトASRから出力する）です。<br>
+ * \par 備考:
+ * 存在しないASRラックへの出力をエラーとして扱いたい場合、
+ * alt_rack_id に rack_id と同じ値を設定してください。<br>
  */
 void CRIAPI criAtomExAsrRack_SetAlternateRackId(
 	CriAtomExAsrRackId rack_id, CriAtomExAsrRackId alt_rack_id);
 
 /*JP
- * \brief �ő�o�X�����擾
+ * \brief 最大バス数を取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id			ASR���b�NID
- * \return						�ő�o�X��
- * \par ����:
- * �w�肵��ID��ASR���b�N�ŗ��p�\�ȍő�o�X�����擾���܂��B
+ * \param[in]	rack_id			ASRラックID
+ * \return						最大バス数
+ * \par 説明:
+ * 指定したIDのASRラックで利用可能な最大バス数を取得します。
  * <br>
- * �f�t�H���g�ݒ�ł� ::CRIATOMEXASR_DEFAULT_NUM_BUSES ��Ԃ��܂��B
+ * デフォルト設定では ::CRIATOMEXASR_DEFAULT_NUM_BUSES を返します。
  * <br>
- * �ő�o�X����ύX����ɂ́ACriAtomExAsrRackConfig::num_buses ��ύX����
- * ASR���b�N���쐬���Ă��������B
+ * 最大バス数を変更するには、CriAtomExAsrRackConfig::num_buses を変更して
+ * ASRラックを作成してください。
  * \sa CriAtomExAsrRackConfig, criAtomExAsrRack_Create, criAtomExAsrRack_SetDefaultConfig
  */
 CriSint32 CRIAPI criAtomExAsrRack_GetNumBuses(CriAtomExAsrRackId rack_id);
 
 /*JP
-* \brief PCM�f�[�^�̎擾
+* \brief PCMデータの取得
 * \ingroup ATOMEXLIB_ASR
-* \param[in]	output_channels		�o�̓o�b�t�@�[�̃`�����l����
-* \param[in]	output_samples		�o�̓o�b�t�@�[�Ɋi�[�\�ȃT���v����
-* \param[out]	output_buffer		�o�̓o�b�t�@�[
-* \return		CriSint32			�擾�ł����T���v����
-* \retval		0�ȏ�				�擾�ł����T���v����
-* \retval		���l				�G���[������
-* \par ����:
-* Atom���C�u�����̏o��PCM�f�[�^���擾���܂��B<br>
+* \param[in]	output_channels		出力バッファーのチャンネル数
+* \param[in]	output_samples		出力バッファーに格納可能なサンプル数
+* \param[out]	output_buffer		出力バッファー
+* \return		CriSint32			取得できたサンプル数
+* \retval		0以上				取得できたサンプル数
+* \retval		負値				エラーが発生
+* \par 説明:
+* Atomライブラリの出力PCMデータを取得します。<br>
 * <br>
-* �{�֐����g�p����ɂ́A���O�� ::criAtomEx_InitializeForUserPcmOutput
-* �֐����g�p���ă��C�u���������������Ă����K�v������܂��B<br>
+* 本関数を使用するには、事前に ::criAtomEx_InitializeForUserPcmOutput
+* 関数を使用してライブラリを初期化しておく必要があります。<br>
 * \attention
-* �{�֐��̌Ăяo���́A�Ɨ������X���b�h��Œ���I�ɍs���K�v������܂��B<br>
-* ����AAtom���C�u������API�ɂ́A
-* PCM�f�[�^���o�͂����܂ŏ�����Ԃ��Ȃ����̂����������݂��܂��B<br>
-* �i�{�C�X�v�[���̔j���������B�j<br>
-* �����������֐��Ɩ{�֐��Ƃ𓯈�X���b�h��ŏ��ԂɌĂяo���ƁA
-* ���YAPI��PCM�f�[�^�̏o�͂��i���ɑ҂�������`�ɂȂ�A
-* ���������A���Ȃ��Ȃ�\��������܂��B<br>
+* 本関数の呼び出しは、独立したスレッド上で定期的に行う必要があります。<br>
+* 現状、AtomライブラリのAPIには、
+* PCMデータが出力されるまで処理を返さないものがいくつか存在します。<br>
+* （ボイスプールの破棄処理等。）<br>
+* こういった関数と本関数とを同一スレッド上で順番に呼び出すと、
+* 当該APIがPCMデータの出力を永遠に待ち続ける形になり、
+* 処理が復帰しなくなる可能性があります。<br>
 * \sa criAtomEx_InitializeForUserPcmOutput
 */
 CriSint32 CRIAPI criAtomExAsr_GetPcmDataFloat32(
 	CriSint32 output_channels, CriSint32 output_samples, CriFloat32 *output_buffer[]);
 
 /*JP
-* \brief PCM�f�[�^�c�ʂ̎擾
+* \brief PCMデータ残量の取得
 * \ingroup ATOMEXLIB_ASR
-* \return CriSint32 PCM�f�[�^�c�ʁi�T���v�����P�ʁj
-* \par ����:
-* ::criAtomExAsr_GetPcmDataFloat32 �֐��Ŏ擾�\�ȃT���v������Ԃ��܂��B<br>
+* \return CriSint32 PCMデータ残量（サンプル数単位）
+* \par 説明:
+* ::criAtomExAsr_GetPcmDataFloat32 関数で取得可能なサンプル数を返します。<br>
 * \sa criAtomExAsr_GetPcmDataFloat32
 */
 CriSint32 CRIAPI criAtomExAsr_GetNumBufferedSamples(void);
 
 /*JP
- * \brief PCM�o�b�t�@�[�T�C�Y�̎w��
+ * \brief PCMバッファーサイズの指定
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	num_samples	PCM�o�b�t�@�[�T�C�Y�i�T���v�����P�ʁj
- * \par ����:
- * Atom���C�u��������PCM�f�[�^�̕ۑ��Ɏg�p����o�b�t�@�[�̃T�C�Y���w�肵�܂��B<br>
- * �i�T�C�Y�̓T���v�����P�ʂŎw�肵�܂��B�j<br>
+ * \param[in]	num_samples	PCMバッファーサイズ（サンプル数単位）
+ * \par 説明:
+ * Atomライブラリ内でPCMデータの保存に使用するバッファーのサイズを指定します。<br>
+ * （サイズはサンプル数単位で指定します。）<br>
  * <br>
- * �o�b�t�@�[�T�C�Y�� 0 ���w�肵���ꍇ�A2V���̃o�b�t�@�[���쐬����܂��B<br>
+ * バッファーサイズに 0 を指定した場合、2V分のバッファーが作成されます。<br>
  * <br>
- * �{�֐��ɂĐݒ肵���l�� ::criAtomExAsr_GetPcmBufferSize �֐��ɂĎ擾���邱�Ƃ��ł��܂��B
- * \par ���l:
- * ���[�UPCM�o�͕�����Atom���C�u�����������������ꍇ�A
- * Atom���C�u������ASR�̏o�͌��ʂ����C�u�������̃o�b�t�@�[�iPCM�o�b�t�@�[�j�ɕێ����܂��B<br>
- * �f�t�H���g��Ԃł́APCM�o�b�t�@�[�̃T�C�Y�̓��C�u�������������̃p�����[�^�[�ɉ����Ď����I�Ɍ��肳��܂����A
- * �{�֐������s���邱�ƂŁAPCM�o�b�t�@�[�̃T�C�Y��C�ӂ̃T�C�Y�ɕύX���邱�Ƃ��\�ł��B<br>
+ * 本関数にて設定した値は ::criAtomExAsr_GetPcmBufferSize 関数にて取得することができます。
+ * \par 備考:
+ * ユーザPCM出力方式でAtomライブラリを初期化した場合、
+ * AtomライブラリはASRの出力結果をライブラリ内のバッファー（PCMバッファー）に保持します。<br>
+ * デフォルト状態では、PCMバッファーのサイズはライブラリ初期化時のパラメーターに応じて自動的に決定されますが、
+ * 本関数を実行することで、PCMバッファーのサイズを任意のサイズに変更することが可能です。<br>
  * \attention
- * PCM�o�b�t�@�[�̊m�ۂ� ::criAtomEx_InitializeForUserPcmOutput �֐����ōs���܂��B<br>
- * ���̂��߁A�{�֐��� ::criAtomEx_InitializeForUserPcmOutput
- * �֐�������Ɏ��s����K�v������܂��B<br>
+ * PCMバッファーの確保は ::criAtomEx_InitializeForUserPcmOutput 関数内で行われます。<br>
+ * そのため、本関数は ::criAtomEx_InitializeForUserPcmOutput
+ * 関数よりも先に実行する必要があります。<br>
  * <br>
- * PCM�o�b�t�@�[�ɒ~������PCM�f�[�^�̃T���v�������A
- * ���[�U��PCM�f�[�^���擾����Ԋu��菭�Ȃ��ꍇ�A
- * ���r�؂ꓙ�̖�肪��������\��������܂��B<br>
- * �t�ɁAPCM�o�b�t�@�[�̃T�C�Y���傫������ꍇ�A
- * �����J�n����T�E���h�o�͂܂ł̒x�����傫���Ȃ�\��������܂��B<br>
+ * PCMバッファーに蓄えられるPCMデータのサンプル数が、
+ * ユーザがPCMデータを取得する間隔より少ない場合、
+ * 音途切れ等の問題が発生する可能性があります。<br>
+ * 逆に、PCMバッファーのサイズが大きすぎる場合、
+ * 発音開始からサウンド出力までの遅延が大きくなる可能性があります。<br>
  * <br>
- * PC���ł́APCM�o�b�t�@�[�T�C�Y�������������ꍇ�ɍĐ����������s���邩�ǂ������A
- * �T�E���h�f�o�C�X�̐��\�ɂ����E����܂��B<br>
- * �����̊��ŉ��r�؂�Ȃ��Đ����s�������ꍇ�ɂ́A
- * PCM�o�b�t�@�[�T�C�Y�ɂ�����x�傫�߂̒l���w�肷�邩�A
- * �܂��͉\�Ȍ���Z���Ԋu�� ::criAtomExAsr_GetPcmDataFloat32 �֐������s���Ă��������B<br>
+ * PC環境では、PCMバッファーサイズを小さくした場合に再生が正しく行えるかどうかが、
+ * サウンドデバイスの性能にも左右されます。<br>
+ * 多くの環境で音途切れなく再生を行いたい場合には、
+ * PCMバッファーサイズにある程度大きめの値を指定するか、
+ * または可能な限り短い間隔で ::criAtomExAsr_GetPcmDataFloat32 関数を実行してください。<br>
  * \sa criAtomExAsr_GetPcmBufferSize
  */
 void CRIAPI criAtomExAsr_SetPcmBufferSize(CriSint32 num_samples);
 
 /*JP
- * \brief PCM�o�b�t�@�[�T�C�Y�̎擾
+ * \brief PCMバッファーサイズの取得
  * \ingroup ATOMEXLIB_ASR
- * \par ����:
- * Atom���C�u�������Őݒ肳��Ă���PCM�f�[�^�̕ۑ��Ɏg�p����o�b�t�@�[�̃T�C�Y���擾���܂��B<br>
- * �i�T�C�Y�̓T���v�����P�ʂŎ擾���܂��B�j<br>
- * \par ���l:
- * ::criAtomExAsr_SetPcmBufferSize �֐��ɂĐݒ���s���Ă��Ȃ��ꍇ�A 0 ���ԋp����܂��B
+ * \par 説明:
+ * Atomライブラリ内で設定されているPCMデータの保存に使用するバッファーのサイズを取得します。<br>
+ * （サイズはサンプル数単位で取得します。）<br>
+ * \par 備考:
+ * ::criAtomExAsr_SetPcmBufferSize 関数にて設定を行っていない場合、 0 が返却されます。
  * \sa criAtomExAsr_SetPcmBufferSize
  */
 CriSint32 CRIAPI criAtomExAsr_GetPcmBufferSize(void);
 
 /*JP
-* \brief ASR���b�N��PCM�f�[�^�̎擾
+* \brief ASRラックのPCMデータの取得
 * \ingroup ATOMEXLIB_ASR
-* \param[in]	rack_id			ASR���b�NID
-* \param[in]	output_channels		�o�̓o�b�t�@�[�̃`�����l����
-* \param[in]	output_samples		�o�̓o�b�t�@�[�Ɋi�[�\�ȃT���v����
-* \param[out]	output_buffer		�o�̓o�b�t�@�[
-* \return		CriSint32			�擾�ł����T���v����
-* \retval		0�ȏ�				�擾�ł����T���v����
-* \retval		���l				�G���[������
-* \par ����:
-* ASR���b�N�̏o��PCM�f�[�^���擾���܂��B<br>
+* \param[in]	rack_id			ASRラックID
+* \param[in]	output_channels		出力バッファーのチャンネル数
+* \param[in]	output_samples		出力バッファーに格納可能なサンプル数
+* \param[out]	output_buffer		出力バッファー
+* \return		CriSint32			取得できたサンプル数
+* \retval		0以上				取得できたサンプル数
+* \retval		負値				エラーが発生
+* \par 説明:
+* ASRラックの出力PCMデータを取得します。<br>
 * <br>
-* �{�֐����g�p����ɂ́A���O�� ::criAtomEx_InitializeForUserPcmOutput
-* �֐����g�p���ă��C�u���������������Ă����K�v������܂��B<br>
+* 本関数を使用するには、事前に ::criAtomEx_InitializeForUserPcmOutput
+* 関数を使用してライブラリを初期化しておく必要があります。<br>
 * \attention
-* �{�֐��̌Ăяo���́A�Ɨ������X���b�h��Œ���I�ɍs���K�v������܂��B<br>
-* ����AAtom���C�u������API�ɂ́A
-* PCM�f�[�^���o�͂����܂ŏ�����Ԃ��Ȃ����̂����������݂��܂��B<br>
-* �i�{�C�X�v�[���̔j���������B�j<br>
-* �����������֐��Ɩ{�֐��Ƃ𓯈�X���b�h��ŏ��ԂɌĂяo���ƁA
-* ���YAPI��PCM�f�[�^�̏o�͂��i���ɑ҂�������`�ɂȂ�A
-* ���������A���Ȃ��Ȃ�\��������܂��B<br>
+* 本関数の呼び出しは、独立したスレッド上で定期的に行う必要があります。<br>
+* 現状、AtomライブラリのAPIには、
+* PCMデータが出力されるまで処理を返さないものがいくつか存在します。<br>
+* （ボイスプールの破棄処理等。）<br>
+* こういった関数と本関数とを同一スレッド上で順番に呼び出すと、
+* 当該APIがPCMデータの出力を永遠に待ち続ける形になり、
+* 処理が復帰しなくなる可能性があります。<br>
 * \sa criAtomEx_InitializeForUserPcmOutput
 */
 CriSint32 CRIAPI criAtomExAsrRack_GetPcmDataFloat32(CriAtomExAsrRackId rack_id,
 	CriSint32 output_channels, CriSint32 output_samples, CriFloat32 *output_buffer[]);
 
 /*JP
-* \brief ASR���b�N��PCM�f�[�^�c�ʂ̎擾
+* \brief ASRラックのPCMデータ残量の取得
 * \ingroup ATOMEXLIB_ASR
-* \return CriSint32 PCM�f�[�^�c�ʁi�T���v�����P�ʁj
-* \par ����:
-* ::criAtomExAsrRack_GetPcmDataFloat32 �֐��Ŏ擾�\�ȃT���v������Ԃ��܂��B<br>
+* \return CriSint32 PCMデータ残量（サンプル数単位）
+* \par 説明:
+* ::criAtomExAsrRack_GetPcmDataFloat32 関数で取得可能なサンプル数を返します。<br>
 * \sa criAtomExAsrRack_GetPcmDataFloat32
 */
 CriSint32 CRIAPI criAtomExAsrRack_GetNumBufferedSamples(CriAtomExAsrRackId rack_id);
 
 /*JP
-* \brief �w�肵���o�X�̐U����͊�̉�͌��ʎ擾
+* \brief 指定したバスの振幅解析器の解析結果取得
 * \ingroup ATOMEXLIB_ASR
-* \param[in]	rack_id				ASR���b�NID
-* \param[in]	bus_no				�o�X�ԍ�
-* \param[out]	rms					�U�����ʏo�̓o�b�t�@�[
-* \param[in]	num_channels		�U�����ʏo�̓o�b�t�@�[�̃`�����l����
-* \return	CriBool �擾�ɐ����������H�iCRI_TRUE:�擾�ɐ�������, CRI_FALSE:�擾�Ɏ��s�����j
-* \par ����:
-* �U����͊�̌��݂̉�͌��ʁiRMS�l�j���擾���܂��B
-* �w�肵���o�X�ɐU����͊킪�Ȃ��ꍇ��A�w�肵���`�����l������ASR�o�X���������ꍇ�A�擾�Ɏ��s���܂��B
+* \param[in]	rack_id				ASRラックID
+* \param[in]	bus_no				バス番号
+* \param[out]	rms					振幅結果出力バッファー
+* \param[in]	num_channels		振幅結果出力バッファーのチャンネル数
+* \return	CriBool 取得に成功したか？（CRI_TRUE:取得に成功した, CRI_FALSE:取得に失敗した）
+* \par 説明:
+* 振幅解析器の現在の解析結果（RMS値）を取得します。
+* 指定したバスに振幅解析器がない場合や、指定したチャンネル数がASRバスよりも多い場合、取得に失敗します。
 */
 CriBool CRIAPI criAtomExAsrRack_GetAmplitudeAnalyzerRms(CriAtomExAsrRackId rack_id,
 	CriSint32 bus_no, CriFloat32* rms, CriUint32 num_channels);
 
 /*JP
-* \brief �w�肵���o�X�̐U����͊�̉�͌��ʎ擾
+* \brief 指定したバスの振幅解析器の解析結果取得
 * \ingroup ATOMEXLIB_ASR
-* \param[in]	rack_id				ASR���b�NID
-* \param[in]	bus_name			�o�X��
-* \param[out]	rms					�U�����ʏo�̓o�b�t�@�[
-* \param[in]	num_channels		�U�����ʏo�̓o�b�t�@�[�̃`�����l����
-* \return	CriBool �擾�ɐ����������H�iCRI_TRUE:�擾�ɐ�������, CRI_FALSE:�擾�Ɏ��s�����j
-* \par ����:
-* �U����͊�̌��݂̉�͌��ʁiRMS�l�j���擾���܂��B<br>
-* �w�肵���o�X�ɐU����͊킪�Ȃ��ꍇ��A�w�肵���`�����l������ASR�o�X���������ꍇ�A�擾�Ɏ��s���܂��B
+* \param[in]	rack_id				ASRラックID
+* \param[in]	bus_name			バス名
+* \param[out]	rms					振幅結果出力バッファー
+* \param[in]	num_channels		振幅結果出力バッファーのチャンネル数
+* \return	CriBool 取得に成功したか？（CRI_TRUE:取得に成功した, CRI_FALSE:取得に失敗した）
+* \par 説明:
+* 振幅解析器の現在の解析結果（RMS値）を取得します。<br>
+* 指定したバスに振幅解析器がない場合や、指定したチャンネル数がASRバスよりも多い場合、取得に失敗します。
 */
 CriBool CRIAPI criAtomExAsrRack_GetAmplitudeAnalyzerRmsByName(CriAtomExAsrRackId rack_id,
 	const CriChar8* bus_name, CriFloat32* rms, CriUint32 num_channels);
 
 /*JP
-* \brief �w�肵���o�X�̃R���v���b�T�[�̐U����Z�l�擾
+* \brief 指定したバスのコンプレッサーの振幅乗算値取得
 * \ingroup ATOMEXLIB_ASR
-* \param[in]	rack_id				ASR���b�NID
-* \param[in]	bus_no				�o�X�ԍ�
-* \param[out]	gain				�U����Z�l�o�̓o�b�t�@�[
-* \param[in]	num_channels		�U����Z�l�o�̓o�b�t�@�[�̃`�����l����
-* \return	CriBool �擾�ɐ����������H�iCRI_TRUE:�擾�ɐ�������, CRI_FALSE:�擾�Ɏ��s�����j
-* \par ����:
-* �R���v���b�T�[�����͔g�`�ɏ�Z����l���擾���܂��B<br>
-* �w�肵���o�X�ɃR���v���b�T�[���Ȃ��ꍇ��A�w�肵���`�����l������ASR�o�X���������ꍇ�A�擾�Ɏ��s���܂��B
+* \param[in]	rack_id				ASRラックID
+* \param[in]	bus_no				バス番号
+* \param[out]	gain				振幅乗算値出力バッファー
+* \param[in]	num_channels		振幅乗算値出力バッファーのチャンネル数
+* \return	CriBool 取得に成功したか？（CRI_TRUE:取得に成功した, CRI_FALSE:取得に失敗した）
+* \par 説明:
+* コンプレッサーが入力波形に乗算する値を取得します。<br>
+* 指定したバスにコンプレッサーがない場合や、指定したチャンネル数がASRバスよりも多い場合、取得に失敗します。
 */
 CriBool CRIAPI criAtomExAsrRack_GetCompressorGain(CriAtomExAsrRackId rack_id,
 	CriSint32 bus_no, CriFloat32* gain, CriUint32 num_channels);
 
 /*JP
-* \brief �w�肵���o�X�̃R���v���b�T�[�̐U����Z�l�擾
+* \brief 指定したバスのコンプレッサーの振幅乗算値取得
 * \ingroup ATOMEXLIB_ASR
-* \param[in]	rack_id				ASR���b�NID
-* \param[in]	bus_name			�o�X��
-* \param[out]	gain				�U����Z�l�o�̓o�b�t�@�[
-* \param[in]	num_channels		�U����Z�l�o�̓o�b�t�@�[�̃`�����l����
-* \return	CriBool �擾�ɐ����������H�iCRI_TRUE:�擾�ɐ�������, CRI_FALSE:�擾�Ɏ��s�����j
-* \par ����:
-* �R���v���b�T�[�����͔g�`�ɏ�Z����l���擾���܂��B<br>
-* �w�肵���o�X�ɃR���v���b�T�[���Ȃ��ꍇ��A�w�肵���`�����l������ASR�o�X���������ꍇ�A�擾�Ɏ��s���܂��B
+* \param[in]	rack_id				ASRラックID
+* \param[in]	bus_name			バス名
+* \param[out]	gain				振幅乗算値出力バッファー
+* \param[in]	num_channels		振幅乗算値出力バッファーのチャンネル数
+* \return	CriBool 取得に成功したか？（CRI_TRUE:取得に成功した, CRI_FALSE:取得に失敗した）
+* \par 説明:
+* コンプレッサーが入力波形に乗算する値を取得します。<br>
+* 指定したバスにコンプレッサーがない場合や、指定したチャンネル数がASRバスよりも多い場合、取得に失敗します。
 */
 CriBool CRIAPI criAtomExAsrRack_GetCompressorGainByName(CriAtomExAsrRackId rack_id,
 	const CriChar8* bus_name, CriFloat32* gain, CriUint32 num_channels);
 
 /*JP
-* \brief �w�肵���o�X�̃R���v���b�T�[�̐U���l�擾
+* \brief 指定したバスのコンプレッサーの振幅値取得
 * \ingroup ATOMEXLIB_ASR
-* \param[in]	rack_id				ASR���b�NID
-* \param[in]	bus_no				�o�X�ԍ�
-* \param[out]	rms					�U����Z�l�o�̓o�b�t�@�[
-* \param[in]	num_channels		�U����Z�l�o�̓o�b�t�@�[�̃`�����l����
-* \return	CriBool �擾�ɐ����������H�iCRI_TRUE:�擾�ɐ�������, CRI_FALSE:�擾�Ɏ��s�����j
-* \par ����:
-* �R���v���b�T�[�ɓK�p����Ă���U���l���擾���܂��B<br>
-* �w�肵���o�X�ɃR���v���b�T�[���Ȃ��ꍇ��A�w�肵���`�����l������ASR�o�X���������ꍇ�A�擾�Ɏ��s���܂��B
+* \param[in]	rack_id				ASRラックID
+* \param[in]	bus_no				バス番号
+* \param[out]	rms					振幅乗算値出力バッファー
+* \param[in]	num_channels		振幅乗算値出力バッファーのチャンネル数
+* \return	CriBool 取得に成功したか？（CRI_TRUE:取得に成功した, CRI_FALSE:取得に失敗した）
+* \par 説明:
+* コンプレッサーに適用されている振幅値を取得します。<br>
+* 指定したバスにコンプレッサーがない場合や、指定したチャンネル数がASRバスよりも多い場合、取得に失敗します。
 */
 CriBool CRIAPI criAtomExAsrRack_GetCompressorRms(CriAtomExAsrRackId rack_id,
 	CriSint32 bus_no, CriFloat32* rms, CriUint32 num_channels);
 
 /*JP
-* \brief �w�肵���o�X�̃R���v���b�T�[�̐U���l�擾
+* \brief 指定したバスのコンプレッサーの振幅値取得
 * \ingroup ATOMEXLIB_ASR
-* \param[in]	rack_id				ASR���b�NID
-* \param[in]	bus_name			�o�X��
-* \param[out]	rms					�U���l�o�̓o�b�t�@�[
-* \param[in]	num_channels		�U���l�o�̓o�b�t�@�[�̃`�����l����
-* \return	CriBool �擾�ɐ����������H�iCRI_TRUE:�擾�ɐ�������, CRI_FALSE:�擾�Ɏ��s�����j
-* \par ����:
-* �R���v���b�T�[�ɓK�p����Ă���U���l���擾���܂��B<br>
-* �w�肵���o�X�ɃR���v���b�T�[���Ȃ��ꍇ��A�w�肵���`�����l������ASR�o�X���������ꍇ�A�擾�Ɏ��s���܂��B
+* \param[in]	rack_id				ASRラックID
+* \param[in]	bus_name			バス名
+* \param[out]	rms					振幅値出力バッファー
+* \param[in]	num_channels		振幅値出力バッファーのチャンネル数
+* \return	CriBool 取得に成功したか？（CRI_TRUE:取得に成功した, CRI_FALSE:取得に失敗した）
+* \par 説明:
+* コンプレッサーに適用されている振幅値を取得します。<br>
+* 指定したバスにコンプレッサーがない場合や、指定したチャンネル数がASRバスよりも多い場合、取得に失敗します。
 */
 CriBool CRIAPI criAtomExAsrRack_GetCompressorRmsByName(CriAtomExAsrRackId rack_id,
 	const CriChar8* bus_name, CriFloat32* rms, CriUint32 num_channels);
 
 /*JP
- * \brief �w�肵��ASR���b�N��AISAC�R���g���[���ɒl��K�p�i�R���g���[��ID�w��j
+ * \brief 指定したASRラックのAISACコントロールに値を適用（コントロールID指定）
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id				ASR���b�NID
- * \param[in]	control_id			AISAC�R���g���[��ID
- * \param[in]	control_value		AISAC�R���g���[���l
- * \return	CriBool �K�p�ɐ����������H�iCRI_TRUE:�K�p�ɐ�������, CRI_FALSE:�K�p�Ɏ��s�����j
- * \par ����:
- * �w�肵��ASR���b�N�ɃA�^�b�`����Ă���DSP�o�X�ݒ��AISAC�R���g���[���ɒl���Z�b�g���܂��B<br>
- * ���s�����ꍇ�A�G���[�R�[���o�b�N���Ԃ���܂��B
+ * \param[in]	rack_id				ASRラックID
+ * \param[in]	control_id			AISACコントロールID
+ * \param[in]	control_value		AISACコントロール値
+ * \return	CriBool 適用に成功したか？（CRI_TRUE:適用に成功した, CRI_FALSE:適用に失敗した）
+ * \par 説明:
+ * 指定したASRラックにアタッチされているDSPバス設定のAISACコントロールに値をセットします。<br>
+ * 失敗した場合、エラーコールバックが返されます。
  */
 CriBool CRIAPI criAtomExAsrRack_SetAisacControlById(CriAtomExAsrRackId rack_id,
 	CriAtomExAisacControlId control_id, CriFloat32 control_value);
 
 /*JP
- * \brief �w�肵��ASR���b�N��AISAC�R���g���[���ɒl��K�p�i�R���g���[�����w��j
+ * \brief 指定したASRラックのAISACコントロールに値を適用（コントロール名指定）
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id				ASR���b�NID
- * \param[in]	control_name		AISAC�R���g���[����
- * \param[in]	control_value		AISAC�R���g���[���l
- * \return	CriBool �K�p�ɐ����������H�iCRI_TRUE:�K�p�ɐ�������, CRI_FALSE:�K�p�Ɏ��s�����j
- * \par ����:
- * �w�肵��ASR���b�N�ɃA�^�b�`����Ă���DSP�o�X�ݒ��AISAC�R���g���[���ɒl���Z�b�g���܂��B<br>
- * ���s�����ꍇ�A�G���[�R�[���o�b�N���Ԃ���܂��B
+ * \param[in]	rack_id				ASRラックID
+ * \param[in]	control_name		AISACコントロール名
+ * \param[in]	control_value		AISACコントロール値
+ * \return	CriBool 適用に成功したか？（CRI_TRUE:適用に成功した, CRI_FALSE:適用に失敗した）
+ * \par 説明:
+ * 指定したASRラックにアタッチされているDSPバス設定のAISACコントロールに値をセットします。<br>
+ * 失敗した場合、エラーコールバックが返されます。
  */
 CriBool CRIAPI criAtomExAsrRack_SetAisacControlByName(CriAtomExAsrRackId rack_id,
 	const CriChar8* control_name, CriFloat32 control_value);
 
 /*JP
- * \brief �w�肵��ASR���b�N��AISAC�R���g���[���ɒl���擾�i�R���g���[��ID�w��j
+ * \brief 指定したASRラックのAISACコントロールに値を取得（コントロールID指定）
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id				ASR���b�NID
- * \param[in]	control_id			AISAC�R���g���[��ID
- * \param[out]	control_value		AISAC�R���g���[���l
- * \return	CriBool �擾�ɐ����������H�iCRI_TRUE:�擾�ɐ�������, CRI_FALSE:�擾�Ɏ��s�����j
- * \par ����:
- * �w�肵��ASR���b�N�ɃA�^�b�`����Ă���DSP�o�X�ݒ��AISAC�R���g���[���ɒl���擾���܂��B<br>
- * ���s�����ꍇ�A�G���[�R�[���o�b�N���Ԃ���܂��B
+ * \param[in]	rack_id				ASRラックID
+ * \param[in]	control_id			AISACコントロールID
+ * \param[out]	control_value		AISACコントロール値
+ * \return	CriBool 取得に成功したか？（CRI_TRUE:取得に成功した, CRI_FALSE:取得に失敗した）
+ * \par 説明:
+ * 指定したASRラックにアタッチされているDSPバス設定のAISACコントロールに値を取得します。<br>
+ * 失敗した場合、エラーコールバックが返されます。
  */
 CriBool CRIAPI criAtomExAsrRack_GetAisacControlById(CriAtomExAsrRackId rack_id,
 	CriAtomExAisacControlId control_id, CriFloat32 *control_value);
 
 /*JP
- * \brief �w�肵��ASR���b�N��AISAC�R���g���[���ɒl���擾�i�R���g���[�����w��j
+ * \brief 指定したASRラックのAISACコントロールに値を取得（コントロール名指定）
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id				ASR���b�NID
- * \param[in]	control_name		AISAC�R���g���[����
- * \param[out]	control_value		AISAC�R���g���[���l
- * \return	CriBool �擾�ɐ����������H�iCRI_TRUE:�擾�ɐ�������, CRI_FALSE:�擾�Ɏ��s�����j
- * \par ����:
- * �w�肵��ASR���b�N�ɃA�^�b�`����Ă���DSP�o�X�ݒ��AISAC�R���g���[���ɒl���擾���܂��B<br>
- * ���s�����ꍇ�A�G���[�R�[���o�b�N���Ԃ���܂��B
+ * \param[in]	rack_id				ASRラックID
+ * \param[in]	control_name		AISACコントロール名
+ * \param[out]	control_value		AISACコントロール値
+ * \return	CriBool 取得に成功したか？（CRI_TRUE:取得に成功した, CRI_FALSE:取得に失敗した）
+ * \par 説明:
+ * 指定したASRラックにアタッチされているDSPバス設定のAISACコントロールに値を取得します。<br>
+ * 失敗した場合、エラーコールバックが返されます。
  */
 CriBool CRIAPI criAtomExAsrRack_GetAisacControlByName(CriAtomExAsrRackId rack_id,
 	const CriChar8* control_name, CriFloat32 *control_value);
 
 /*JP
- * \brief �w�肵��ASR���b�N�̏o�̓f�o�C�X�^�C�v���擾
+ * \brief 指定したASRラックの出力デバイスタイプを取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	rack_id				ASR���b�NID
- * \return	CriAtomDeviceType	�o�̓f�o�C�X�̃^�C�v
- * \par ����:
- * �w�肵��ASR���b�N���o�͂��Ă���f�o�C�X�̃^�C�v���擾���܂��B<br>
- * \par ���l:
- * �f�o�C�X�^�C�v���擾�ł��Ȃ��v���b�g�t�H�[���ł͏�� CRIATOM_DEVICE_TYPE_UNKNOWN ���Ԃ���܂��B
- * �܂��A�v���b�g�t�H�[���ɂ���Ă͎擾�Ɏ��Ԃ�������ꍇ�����邽�߁A
- * ::criAtom_SetDeviceUpdateCallback �œo�^�����R�[���o�b�N�֐��̒��Ŏg�p���邱�Ƃ���������܂��B
+ * \param[in]	rack_id				ASRラックID
+ * \return	CriAtomDeviceType	出力デバイスのタイプ
+ * \par 説明:
+ * 指定したASRラックが出力しているデバイスのタイプを取得します。<br>
+ * \par 備考:
+ * デバイスタイプが取得できないプラットフォームでは常に CRIATOM_DEVICE_TYPE_UNKNOWN が返されます。
+ * また、プラットフォームによっては取得に時間がかかる場合があるため、
+ * ::criAtom_SetDeviceUpdateCallback で登録したコールバック関数の中で使用することが推奨されます。
  * \sa criAtom_SetDeviceUpdateCallback
  */
 CriAtomDeviceType CRIAPI criAtomExAsrRack_GetDeviceType(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief Ambisonics�Đ��pASR���b�NID���擾
+ * \brief Ambisonics再生用ASRラックIDを取得
  * \ingroup ATOMEXLIB_ASR
- * \return	CriSint32	ASR���b�NID
- * \par ����:
- * Ambisonics�Đ��݂̂��s��ASR���b�N��ID���擾���܂��B<br>
- * �쐬����Ă��Ȃ��ꍇ�ACRIATOMEXASR_RACK_ILLEGAL_ID���Ԃ���܂��B
+ * \return	CriAtomExAsrRackId	ASRラックID
+ * \par 説明:
+ * Ambisonics再生に使用するASRラックIDを取得します。<br>
+ * Ambisonics再生用ASRラックは、出力ポート「_ambisonics」の設定があるACFの登録により自動で作成されます。<br>
+ * 取得したASRラックIDはACF登録中のみ有効です。<br>
+ * ACFの登録を解除すると、Ambisonics再生用ASRラックも削除されるため取得したASRラックIDは無効になります。<br>
+ * Ambisonics再生用ASRラックが作成されていない場合、CRIATOMEXASR_RACK_ILLEGAL_IDを返します。
  */
-CriSint32 CRIAPI criAtomExAsrRack_GetAmbisonicRackId(void);
+CriAtomExAsrRackId CRIAPI criAtomExAsrRack_GetAmbisonicRackId(void);
 
 /*JP
- * \brief ASR���b�N�w�背�x�����[�^�[�@�\�p�̃��[�N�T�C�Y�̌v�Z
+ * \brief ASRラック指定レベルメーター機能用のワークサイズの計算
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	config			���x�����[�^�[�ǉ��p�̃R���t�B�O�\����
- * \return		CriSint32		�K�v�ȃ��[�N�̈�T�C�Y
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�ւ̃��x�����[�^�[�ǉ��ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ōv�Z����܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	config			レベルメーター追加用のコンフィグ構造体
+ * \return		CriSint32		必要なワーク領域サイズ
+ * \par 説明:
+ * rack_idで指定したASRラックへのレベルメーター追加に必要なワーク領域サイズを計算します。<br>
+ * config にNULLを指定するとデフォルト設定で計算されます。<br>
  * \sa criAtomExAsrRack_AttachLevelMeter
  */
 CriSint32 CRIAPI criAtomExAsrRack_CalculateWorkSizeForLevelMeter(CriAtomExAsrRackId rack_id, const CriAtomLevelMeterConfig *config);
 
 /*JP
- * \brief ASR���b�N�w�背�x�����[�^�[�@�\�̒ǉ�
+ * \brief ASRラック指定レベルメーター機能の追加
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	config			���x�����[�^�[�ǉ��p�̃R���t�B�O�\����
- * \param[in]	work			���[�N�̈�
- * \param[in]	work_size		���[�N�̈�T�C�Y
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�փ��x�����[�^�[�@�\��ǉ����܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ń��x�����[�^�[���ǉ�����܂��B<br>
- * work ��NULL�Awork_size ��0���w�肷��ƁA�o�^���ꂽ���[�U�A���P�[�^�[�ɂ����
- * ���[�N�̈悪�m�ۂ���܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	config			レベルメーター追加用のコンフィグ構造体
+ * \param[in]	work			ワーク領域
+ * \param[in]	work_size		ワーク領域サイズ
+ * \par 説明:
+ * rack_idで指定したASRラックへレベルメーター機能を追加します。<br>
+ * config にNULLを指定するとデフォルト設定でレベルメーターが追加されます。<br>
+ * work にNULL、work_size に0を指定すると、登録されたユーザアロケーターによって
+ * ワーク領域が確保されます。<br>
  * \sa criAtomExAsrRack_GetLevelInfo
  */
 void CRIAPI criAtomExAsrRack_AttachLevelMeter(CriAtomExAsrRackId rack_id, const CriAtomLevelMeterConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ASR���b�N�w�背�x�����[�^�[�@�\�̉���
+ * \brief ASRラック指定レベルメーター機能の解除
  * \ingroup ATOMLIB_METER
- * \param[out]	rack_id			ASR���b�NID
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�ɒǉ����ꂽ���x�����[�^�[�@�\���������܂��B<br>
+ * \param[out]	rack_id			ASRラックID
+ * \par 説明:
+ * rack_idで指定したASRラックに追加されたレベルメーター機能を解除します。<br>
  * \sa criAtomExAsrRack_AttachLevelMeter
  */
 void CRIAPI criAtomExAsrRack_DetachLevelMeter(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief ASR���b�N�w�背�x�����̎擾
+ * \brief ASRラック指定レベル情報の取得
  * \ingroup ATOMLIB_METER
- * \param[out]	rack_id			ASR���b�NID
- * \param[out]	info			���x�����̍\����
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�̃��x�����[�^�[�̌��ʂ��擾���܂��B<br>
- * �w�肷�郉�b�N�ɂ� ::criAtomExAsrRack_AttachLevelMeter �֐��ł��炩����
- * ���x�����[�^�[�@�\��ǉ����Ă����K�v������܂��B<br>
+ * \param[out]	rack_id			ASRラックID
+ * \param[out]	info			レベル情報の構造体
+ * \par 説明:
+ * rack_idで指定したASRラックのレベルメーターの結果を取得します。<br>
+ * 指定するラックには ::criAtomExAsrRack_AttachLevelMeter 関数であらかじめ
+ * レベルメーター機能を追加しておく必要があります。<br>
  * \sa criAtomExAsrRack_AttachLevelMeter
  */
 void CRIAPI criAtomExAsrRack_GetLevelInfo(CriAtomExAsrRackId rack_id, CriAtomLevelInfo *info);
 
 /*JP
- * \brief ASR���b�N�w�胉�E�h�l�X���[�^�[�@�\�p�̃��[�N�T�C�Y�̌v�Z
+ * \brief ASRラック指定ラウドネスメーター機能用のワークサイズの計算
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	config			���E�h�l�X���[�^�[�ǉ��p�̃R���t�B�O�\����
- * \return		CriSint32		�K�v�ȃ��[�N�̈�T�C�Y
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�ւ�ITU-R BS.1770-3�K�i�̃��E�h�l�X���[�^�[�ǉ��ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ōv�Z����܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	config			ラウドネスメーター追加用のコンフィグ構造体
+ * \return		CriSint32		必要なワーク領域サイズ
+ * \par 説明:
+ * rack_idで指定したASRラックへのITU-R BS.1770-3規格のラウドネスメーター追加に必要なワーク領域サイズを計算します。<br>
+ * config にNULLを指定するとデフォルト設定で計算されます。<br>
  * \sa criAtomExAsrRack_AttachLoudnessMeter
  */
 CriSint32 CRIAPI criAtomExAsrRack_CalculateWorkSizeForLoudnessMeter(CriAtomExAsrRackId rack_id, const CriAtomLoudnessMeterConfig *config);
 
 /*JP
- * \brief ASR���b�N�w�胉�E�h�l�X���[�^�[�@�\�̒ǉ�
+ * \brief ASRラック指定ラウドネスメーター機能の追加
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	config			���E�h�l�X���[�^�[�ǉ��p�̃R���t�B�O�\����
- * \param[in]	work			���[�N�̈�
- * \param[in]	work_size		���[�N�̈�T�C�Y
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N��ITU-R BS.1770-3�K�i�̃��E�h�l�X���[�^�[�@�\��ǉ����܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ń��E�h�l�X���[�^�[���ǉ�����܂��B<br>
- * work ��NULL�Awork_size ��0���w�肷��ƁA�o�^���ꂽ���[�U�A���P�[�^�[�ɂ����
- * ���[�N�̈悪�m�ۂ���܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	config			ラウドネスメーター追加用のコンフィグ構造体
+ * \param[in]	work			ワーク領域
+ * \param[in]	work_size		ワーク領域サイズ
+ * \par 説明:
+ * rack_idで指定したASRラックへITU-R BS.1770-3規格のラウドネスメーター機能を追加します。<br>
+ * config にNULLを指定するとデフォルト設定でラウドネスメーターが追加されます。<br>
+ * work にNULL、work_size に0を指定すると、登録されたユーザアロケーターによって
+ * ワーク領域が確保されます。<br>
  * \sa criAtomExAsrRack_GetLoudnessInfo
  */
 void CRIAPI criAtomExAsrRack_AttachLoudnessMeter(CriAtomExAsrRackId rack_id, const CriAtomLoudnessMeterConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ASR���b�N�w�胉�E�h�l�X���[�^�[�@�\�̉���
+ * \brief ASRラック指定ラウドネスメーター機能の解除
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�̃��E�h�l�X���[�^�[�@�\���������܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \par 説明:
+ * rack_idで指定したASRラックのラウドネスメーター機能を解除します。<br>
  * \sa criAtomExAsrRack_DetachLoudnessMeter
  */
 void CRIAPI criAtomExAsrRack_DetachLoudnessMeter(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief ASR���b�N�w�胉�E�h�l�X���[�^�[���̎擾
+ * \brief ASRラック指定ラウドネスメーター情報の取得
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \param[out]	info			���E�h�l�X���̍\����
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�̃��E�h�l�X���[�^�[�̌��ʂ��擾���܂��B<br>
- * �w�肷�郉�b�N�ɂ� ::criAtomExAsrRack_AttachLoudnessMeter �֐��ł��炩����
- * ���E�h�l�X���[�^�[�@�\��ǉ����Ă����K�v������܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[out]	info			ラウドネス情報の構造体
+ * \par 説明:
+ * rack_idで指定したASRラックのラウドネスメーターの結果を取得します。<br>
+ * 指定するラックには ::criAtomExAsrRack_AttachLoudnessMeter 関数であらかじめ
+ * ラウドネスメーター機能を追加しておく必要があります。<br>
  * \sa criAtomExAsrRack_AttachLoudnessMeter
  */
 void CRIAPI criAtomExAsrRack_GetLoudnessInfo(CriAtomExAsrRackId rack_id, CriAtomLoudnessInfo *info);
 
 /*JP
- * \brief ASR���b�N�w�胉�E�h�l�X���[�^�[�̃��Z�b�g
+ * \brief ASRラック指定ラウドネスメーターのリセット
  * \ingroup ATOMLIB_METER
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�̃��E�h�l�X���[�^�[�̒~�σf�[�^�����Z�b�g���܂��B
- * �{�֐����Ăяo���O�Ƀ��C�u�����փ��E�h�l�X���[�^�[��ǉ����Ă����K�v������܂��B
+ * \par 説明:
+ * rack_idで指定したASRラックのラウドネスメーターの蓄積データをリセットします。
+ * 本関数を呼び出す前にライブラリへラウドネスメーターを追加しておく必要があります。
  * \sa criAtomExAsrRack_AttachLoudnessMeter
  */
 void CRIAPI criAtomExAsrRack_ResetLoudnessMeter(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief ASR���b�N�w��g�D���[�s�[�N���[�^�[�@�\�p�̃��[�N�T�C�Y�̌v�Z
+ * \brief ASRラック指定トゥルーピークメーター機能用のワークサイズの計算
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	config			�g�D���[�s�[�N���[�^�[�ǉ��p�̃R���t�B�O�\����
- * \return		CriSint32		�K�v�ȃ��[�N�̈�T�C�Y
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�ւ�ITU-R BS.1770-3�K�i�̃g�D���[�s�[�N���[�^�[�ǉ��ɕK�v�ȃ��[�N�̈�T�C�Y���v�Z���܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ōv�Z����܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	config			トゥルーピークメーター追加用のコンフィグ構造体
+ * \return		CriSint32		必要なワーク領域サイズ
+ * \par 説明:
+ * rack_idで指定したASRラックへのITU-R BS.1770-3規格のトゥルーピークメーター追加に必要なワーク領域サイズを計算します。<br>
+ * config にNULLを指定するとデフォルト設定で計算されます。<br>
  * \sa criAtomExAsrRack_AttachTruePeakMeter
  */
 CriSint32 CRIAPI criAtomExAsrRack_CalculateWorkSizeForTruePeakMeter(CriAtomExAsrRackId rack_id, const CriAtomTruePeakMeterConfig *config);
 
 /*JP
- * \brief ASR���b�N�w��g�D���[�s�[�N���[�^�[�@�\�̒ǉ�
+ * \brief ASRラック指定トゥルーピークメーター機能の追加
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \param[in]	config			�g�D���[�s�[�N���[�^�[�ǉ��p�̃R���t�B�O�\����
- * \param[in]	work			���[�N�̈�
- * \param[in]	work_size		���[�N�̈�T�C�Y
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N��ITU-R BS.1770-3�K�i�̃g�D���[�s�[�N���[�^�[�@�\��ǉ����܂��B<br>
- * config ��NULL���w�肷��ƃf�t�H���g�ݒ�Ńg�D���[�s�[�N���[�^�[���ǉ�����܂��B<br>
- * work ��NULL�Awork_size ��0���w�肷��ƁA�o�^���ꂽ���[�U�A���P�[�^�[�ɂ����
- * ���[�N�̈悪�m�ۂ���܂��B<br>
+ * \param[in]	rack_id			ASRラックID
+ * \param[in]	config			トゥルーピークメーター追加用のコンフィグ構造体
+ * \param[in]	work			ワーク領域
+ * \param[in]	work_size		ワーク領域サイズ
+ * \par 説明:
+ * rack_idで指定したASRラックへITU-R BS.1770-3規格のトゥルーピークメーター機能を追加します。<br>
+ * config にNULLを指定するとデフォルト設定でトゥルーピークメーターが追加されます。<br>
+ * work にNULL、work_size に0を指定すると、登録されたユーザアロケーターによって
+ * ワーク領域が確保されます。<br>
  * \sa criAtomExAsrRack_GetTruePeakInfo
  */
 void CRIAPI criAtomExAsrRack_AttachTruePeakMeter(CriAtomExAsrRackId rack_id, const CriAtomTruePeakMeterConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ASR���b�N�w��g�D���[�s�[�N���[�^�[�@�\�̉���
- * \param[in]	rack_id			ASR���b�NID
+ * \brief ASRラック指定トゥルーピークメーター機能の解除
+ * \param[in]	rack_id			ASRラックID
  * \ingroup ATOMLIB_METER
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�ɒǉ������g�D���[�s�[�N���[�^�[�@�\���������܂��B<br>
+ * \par 説明:
+ * rack_idで指定したASRラックに追加したトゥルーピークメーター機能を解除します。<br>
  * \sa criAtomExAsrRack_AttachTruePeakMeter
  */
 void CRIAPI criAtomExAsrRack_DetachTruePeakMeter(CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief ASR���b�N�w��g�D���[�s�[�N���̎擾
+ * \brief ASRラック指定トゥルーピーク情報の取得
  * \ingroup ATOMLIB_METER
- * \param[in]	rack_id			ASR���b�NID
- * \param[out]	info		�g�D���[�s�[�N���̍\����
- * \par ����:
- * rack_id�Ŏw�肵��ASR���b�N�̃g�D���[�s�[�N���[�^�[�̑��茋�ʂ��擾���܂��B
- * �{�֐����Ăяo���O�Ƀ��C�u�����փg�D���[�s�[�N���[�^�[��ǉ����Ă����K�v������܂��B
+ * \param[in]	rack_id			ASRラックID
+ * \param[out]	info		トゥルーピーク情報の構造体
+ * \par 説明:
+ * rack_idで指定したASRラックのトゥルーピークメーターの測定結果を取得します。
+ * 本関数を呼び出す前にライブラリへトゥルーピークメーターを追加しておく必要があります。
  * \sa criAtomExAsrRack_AttachTruePeakMeter
  */
 void CRIAPI criAtomExAsrRack_GetTruePeakInfo(CriAtomExAsrRackId rack_id, CriAtomTruePeakInfo *info);
@@ -4516,104 +4675,123 @@ void CRIAPI criAtomExAsrRack_GetTruePeakInfo(CriAtomExAsrRackId rack_id, CriAtom
  *      CRI Atom ASR API
  *=========================================================================*/
 /*JP
- * \brief ASR�������p���[�N�̈�T�C�Y�̌v�Z
+ * \brief ASR初期化用ワーク領域サイズの計算
  * \ingroup ATOMLIB_ASR
- * \param[in]	config	ASR�������p�R���t�B�O�\����
- * \par ����:
- * ASR�iAtom Sound Renderer�j�̏������ɕK�v�ȃ��[�N�̈�̃T�C�Y���擾���܂��B<br>
- * ::criAtom_SetUserAllocator �}�N���ɂ��A���P�[�^�[�o�^���s�킸��
- * ::criAtomAsr_Initialize �֐���ASR�̏��������s���ꍇ�A
- * �{�֐��Ōv�Z�����T�C�Y���̃����������[�N�̈�Ƃ��ēn���K�v������܂��B<br>
+ * \param[in]	config	ASR初期化用コンフィグ構造体
+ * \par 説明:
+ * ASR（Atom Sound Renderer）の初期化に必要なワーク領域のサイズを取得します。<br>
+ * ::criAtom_SetUserAllocator マクロによるアロケーター登録を行わずに
+ * ::criAtomAsr_Initialize 関数でASRの初期化を行う場合、
+ * 本関数で計算したサイズ分のメモリをワーク領域として渡す必要があります。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * ASR�̏������ɕK�v�ȃ��[�N�������̃T�C�Y�́AASR�������p�R���t�B�O
- * �\���́i ::CriAtomAsrConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * ASRの初期化に必要なワークメモリのサイズは、ASR初期化用コンフィグ
+ * 構造体（ ::CriAtomAsrConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�
- * �i ::criAtomAsr_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j��
- * ���[�N�̈�T�C�Y���v�Z���܂��B
+ * 引数にNULLを指定した場合、デフォルト設定
+ * （ ::criAtomAsr_SetDefaultConfig 適用時と同じパラメーター）で
+ * ワーク領域サイズを計算します。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \sa criAtom_SetUserAllocator, criAtomAsr_Initialize
  */
 CriSint32 CRIAPI criAtomAsr_CalculateWorkSize(const CriAtomAsrConfig *config);
 
 /*JP
- * \brief ASR�̏�����
+ * \brief ASRの初期化
  * \ingroup ATOMLIB_ASR
- * \param[in]	config		ASR�������p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \par ����:
- * ASR�iAtom Sound Renderer�j�̏��������s���܂��B<br>
- * �{�֐������s���邱�Ƃ�ASR���N������A�����_�����O���ʂ̏o�͂��J�n���܂��B<br>
- * \par ���l:
- * ASR�̏������ɕK�v�ȃ��[�N�������̃T�C�Y�́AASR�������p�R���t�B�O
- * �\���́i ::CriAtomAsrConfig �j�̓��e�ɂ���ĕω����܂��B<br>
+ * \param[in]	config		ASR初期化用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \par 説明:
+ * ASR（Atom Sound Renderer）の初期化を行います。<br>
+ * 本関数を実行することでASRが起動され、レンダリング結果の出力を開始します。<br>
+ * \par 備考:
+ * ASRの初期化に必要なワークメモリのサイズは、ASR初期化用コンフィグ
+ * 構造体（ ::CriAtomAsrConfig ）の内容によって変化します。<br>
  * <br>
- * ������NULL���w�肵���ꍇ�A�f�t�H���g�ݒ�<br>
- * �i ::criAtomAsr_SetDefaultConfig �K�p���Ɠ����p�����[�^�[�j�ŏ������������s���܂��B<br>
+ * 引数にNULLを指定した場合、デフォルト設定<br>
+ * （ ::criAtomAsr_SetDefaultConfig 適用時と同じパラメーター）で初期化処理を行います。<br>
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B<br>
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。<br>
  * \attention
- * �{�֐������s����O�ɁA���C�u���������������Ă����K�v������܂��B<br>
+ * 本関数を実行する前に、ライブラリを初期化しておく必要があります。<br>
  * <br>
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。
  * <br>
- * �{�֐������s��A�K���΂ɂȂ� ::criAtomAsr_Finalize �֐������s���Ă��������B<br>
- * �܂��A ::criAtomAsr_Finalize �֐������s����܂ł́A�{�֐����ēx���s���Ȃ��ł��������B<br>
+ * 本関数を実行後、必ず対になる ::criAtomAsr_Finalize 関数を実行してください。<br>
+ * また、 ::criAtomAsr_Finalize 関数を実行するまでは、本関数を再度実行しないでください。<br>
  * \sa criAtom_SetUserAllocator, criAtomAsr_Finalize
  */
 void CRIAPI criAtomAsr_Initialize(
 	const CriAtomAsrConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ASR�̏I��
+ * \brief ASRの終了
  * \ingroup ATOMLIB_ASR
- * \par ����:
- * ASR�iAtom Sound Renderer�j�̏I���������s���܂��B<br>
- * �{�֐������s���邱�ƂŁA�����_�����O���ʂ̏o�͂���~����܂��B<br>
- * ::criAtom_SetUserAllocator �}�N�����g�p���ăA���P�[�^�[��o�^�ς݂̏ꍇ�A
- * ASR���������Ɋm�ۂ��ꂽ�������̈悪�������܂��B<br>
- * �iASR���������Ƀ��[�N�̈��n�����ꍇ�A�{�֐����s��ł����
- * ���[�N�̈������\�ł��B�j<br>
+ * \par 説明:
+ * ASR（Atom Sound Renderer）の終了処理を行います。<br>
+ * 本関数を実行することで、レンダリング結果の出力が停止されます。<br>
+ * ::criAtom_SetUserAllocator マクロを使用してアロケーターを登録済みの場合、
+ * ASR初期化時に確保されたメモリ領域が解放されます。<br>
+ * （ASR初期化時にワーク領域を渡した場合、本関数実行後であれば
+ * ワーク領域を解放可能です。）<br>
  * \attention
- * �{�֐��͊������A�^�̊֐��ł��B<br>
- * �{�֐������s����ƁA���΂炭�̊�Atom���C�u�����̃T�[�o�[�������u���b�N����܂��B<br>
- * �����Đ����ɖ{�֐������s����ƁA���r�؂ꓙ�̕s�����������\�������邽�߁A<br>
- * �{�֐��̌Ăяo���̓V�[���̐؂�ւ�蓙�A���וϓ������e�ł���^�C�~���O�ōs���Ă��������B<br>
+ * 本関数は完了復帰型の関数です。<br>
+ * 本関数を実行すると、しばらくの間Atomライブラリのサーバー処理がブロックされます。<br>
+ * 音声再生中に本関数を実行すると、音途切れ等の不具合が発生する可能性があるため、<br>
+ * 本関数の呼び出しはシーンの切り替わり等、負荷変動を許容できるタイミングで行ってください。<br>
  * \sa criAtom_SetUserAllocator, criAtomAsr_Initialize
  */
 void CRIAPI criAtomAsr_Finalize(void);
 
 /*JP
- * \brief �o�C�m�[�����C�U�[�̗L����
+ * \brief バイノーラライザーの有効化
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	enabled				�L���t���O
- * \par ����:
- * �o�C�m�[�����C�U�[�̗L�����w�肵�܂��B<br>
- * \par ���l:
- * �o�C�m�[�����C�U�[�� sound_renderer_type �� CRIATOM_SOUND_RENDERER_SPATIAL �ł���ASR���b�N�ł̂ݎg�p�\�ł��B
- * �o�C�m�[�����C�U�[�̃X�y�V�����C�U�[�C���^�t�F�[�X���o�^����Ă���ꍇ�A�o�^�����X�y�V�����C�U�[���g�p���܂��B
- * �o�^����Ă��Ȃ��ꍇ�AAtom�����̃X�y�V�����C�U�[���g�p���܂��B
+ * \param[in]	enabled				有効フラグ
+ * \par 説明:
+ * バイノーラライザーの有効を指定します。<br>
+ * \par 備考:
+ * バイノーラライザーは sound_renderer_type が CRIATOM_SOUND_RENDERER_SPATIAL であるASRラックでのみ使用可能です。
+ * バイノーラライザーのスペシャライザーインタフェースが登録されている場合、登録したスペシャライザーを使用します。
+ * 登録されていない場合、Atom内蔵のスペシャライザーを使用します。
  */
 void CRIAPI criAtomExAsr_EnableBinauralizer(CriBool enabled);
 
 /*JP
- * \brief �o�C�m�[�����C�U�[�̗L������Ԃ̎擾
+ * \brief バイノーラライザーのボリューム設定
  * \ingroup ATOMEXLIB_ASR
- * \return						�o�C�m�[�����C�U�[�̗L�����H�iCRI_TRUE:�L��, CRI_FALSE:�����j
- * \par ����:
- * �o�C�m�[�����C�U�[�̗L������Ԃ��擾���܂��B<br>
+ * \param[in]	volume		ボリューム値
+ * \par 説明:
+ * バイノーラライザーのボリュームを指定します。<br>
+ * 本関数を使用することで、バイノーラル処理を経由する音声の音量のみを制御することが可能です。<br>
+ * <br>
+ * ボリューム値は音声データの振幅に対する倍率です（単位はデシベルではありません）。<br>
+ * 例えば、1.0fを指定した場合、出力音声はデフォルトの音量で出力されます。<br>
+ * 0.5fを指定した場合、音声波形の振幅を半分にしたデータと同じ音量（-6dB）で音声が出力されます。<br>
+ * 0.0fを指定した場合、音声はミュートされます（無音になります）。<br>
+ * \attention
+ * 現状、本機能はAtom内蔵のスペシャライザーを使用する場合にのみ機能します。<br>
+ * ハードウェア固有のバイノーラライザーを使用する場合や、Sound xRプラグインを使用する場合、
+ * 本関数でバイノーラル音声の音量を変更することはできません。
+ */
+void CRIAPI criAtomExAsr_SetBinauralizerVolume(CriFloat32 volume);
+
+/*JP
+ * \brief バイノーラライザーの有効化状態の取得
+ * \ingroup ATOMEXLIB_ASR
+ * \return						バイノーラライザーの有効か？（CRI_TRUE:有効, CRI_FALSE:無効）
+ * \par 説明:
+ * バイノーラライザーの有効化状態を取得します。<br>
  */
 CriBool CRIAPI criAtomExAsr_IsEnabledBinauralizer(void);
 
@@ -4621,154 +4799,154 @@ CriBool CRIAPI criAtomExAsr_IsEnabledBinauralizer(void);
  *      CRI AtomEx Player API
  *=========================================================================*/
 /*JP
- * \brief �o�̓|�[�g�n���h���̒ǉ�
+ * \brief 出力ポートハンドルの追加
  * \ingroup ATOMEXLIB_PLAYER
- * \param[in]	player			AtomEx�v���[���[�n���h��
- * \param[in]	output_port		�o�̓|�[�g�n���h��
- * \par ����:
- * �v���[���[�ɏo�̓|�[�g��ǉ����܂��B<br>
- * ::CRIATOMEXPLAYER_MAX_OUTPUT_PORTS �ɒ�`���ꂽ�����̏o�̓|�[�g���w�肷�邱�Ƃ��\�ł��B<br>
- * \par ���l:
- * �{�p�����[�^�[�� ::criAtomExPlayer_ResetParameters �֐��܂��� ::criAtomExPlayer_ClearOutputPorts
- * �֐��ɂăN���A����܂��B
- * �܂��A::criAtomExPlayer_RemoveOutputPort �֐��œ���̃n���h���݂̂����O�����Ƃ��\�ł��B
+ * \param[in]	player			AtomExプレーヤーハンドル
+ * \param[in]	output_port		出力ポートハンドル
+ * \par 説明:
+ * プレーヤーに出力ポートを追加します。<br>
+ * ::CRIATOMEXPLAYER_MAX_OUTPUT_PORTS に定義された数分の出力ポートを指定することが可能です。<br>
+ * \par 備考:
+ * 本パラメーターは ::criAtomExPlayer_ResetParameters 関数または ::criAtomExPlayer_ClearOutputPorts
+ * 関数にてクリアされます。
+ * また、::criAtomExPlayer_RemoveOutputPort 関数で特定のハンドルのみを取り外すことも可能です。
  * <br>
- * �L���[�Đ����ɖ{�֐����Ăяo���ƁA�ȉ��̐ݒ�͑S��<b>����</b>����A�L���[�͑S�Ēǉ������o�̓|�[�g��ʂ��čĐ�����܂��B
- * - �f�[�^���ɐݒ肳��Ă���p�����[�^�[�p���b�g��ASR���b�NID�ݒ�
- * - ::criAtomExPlayer_SetAsrRackId �֐��y�� ::criAtomExPlayer_SetAsrRackIdArray �֐��Ŏw�肵��ASR���b�NID
- * - �f�[�^���ɐݒ肳��Ă���g���b�N�̏o�̓|�[�g��
+ * キュー再生時に本関数を呼び出すと、以下の設定は全て<b>無視</b>され、キューは全て追加した出力ポートを通して再生されます。
+ * - データ側に設定されているパラメーターパレットのASRラックID設定
+ * - ::criAtomExPlayer_SetAsrRackId 関数及び ::criAtomExPlayer_SetAsrRackIdArray 関数で指定したASRラックID
+ * - データ側に設定されているトラックの出力ポート名
  * <br>
- * �o�̓|�[�g�͍Đ��J�n�O�ɐݒ肷��K�v������܂��B<br>
- * ���ɍĐ����J�n���ꂽ�����ɑ΂��A�ォ��o�̓|�[�g��ύX���邱�Ƃ͂ł��܂���B<br>
+ * 出力ポートは再生開始前に設定する必要があります。<br>
+ * 既に再生が開始された音声に対し、後から出力ポートを変更することはできません。<br>
  * <br>
- * �����̏o�̓|�[�g���w�肵���v���[���[���Đ������ꍇ�A�{�C�X�͂��̎w�肳�ꂽ�o�̓|�[�g�̐������g�p����܂��B<br>
- * ���̂��߁A���O�Ɏw�肷��o�̓|�[�g�����̃{�C�X���m�ۂ��Ă����K�v������܂��B<br>
+ * 複数の出力ポートを指定したプレーヤーを再生した場合、ボイスはその指定された出力ポートの数だけ使用されます。<br>
+ * そのため、事前に指定する出力ポート数分のボイスを確保しておく必要があります。<br>
  * <br>
- * ::criAtomExPlayer_SetData �֐������g�p�����L���[�Đ��ȊO�̍Đ����ł́A�{�֐��ɂĎw�肵�������̏o�̓|�[�g�̓��A
- * 1�ڂɐݒ肵���o�̓|�[�g�݂̂��K�p����܂��B<br>
+ * ::criAtomExPlayer_SetData 関数等を使用したキュー再生以外の再生時では、本関数にて指定した複数の出力ポートの内、
+ * 1つ目に設定した出力ポートのみが適用されます。<br>
  * <br>
- * HCA-MX�p�ɃG���R�[�h���ꂽ�����f�[�^�ɂ́A�{�֐��̐ݒ肪�K�p����܂���B<br>
- * HCA-MX�p�ɃG���R�[�h���ꂽ�����f�[�^�ɂ��ďo�͐�ݒ肷��ꍇ�A
+ * HCA-MX用にエンコードされた音声データには、本関数の設定が適用されません。<br>
+ * HCA-MX用にエンコードされた音声データについて出力先設定する場合、
  * \attention
- * �{�֐��� �{�C�X�̃T�E���h�����_���^�C�v��ASR���g�p����ꍇ�ɂ̂݌��ʂ�����܂��B<br>
- * �i���̃{�C�X���g�p����ꍇ�A�{�֐��̐ݒ�l�͖�������܂��B�j<br>
- * ::criAtomExHcaMx_SetAsrRackId �֐����g�p���āAHCA-MX�~�L�T���̂̏o�͐�ASR���b�NID��ݒ肵�Ă��������B<br>
+ * 本関数は ボイスのサウンドレンダラタイプにASRを使用する場合にのみ効果があります。<br>
+ * （他のボイスを使用する場合、本関数の設定値は無視されます。）<br>
+ * ::criAtomExHcaMx_SetAsrRackId 関数を使用して、HCA-MXミキサ自体の出力先ASRラックIDを設定してください。<br>
  * \sa criAtomExOutputPort_Create, criAtomExPlayer_RemoveOutputPort, criAtomExPlayer_ClearOutputPorts
  */
 void CRIAPI criAtomExPlayer_AddOutputPort(CriAtomExPlayerHn player, CriAtomExOutputPortHn output_port);
 
 /*JP
- * \brief �o�̓|�[�g�n���h���̎��O��
+ * \brief 出力ポートハンドルの取り外し
  * \ingroup ATOMEXLIB_PLAYER
- * \param[in]	player			AtomEx�v���[���[�n���h��
- * \param[in]	output_port		�o�̓|�[�g�n���h��
- * \par ����:
- * �v���[���[�ɒǉ������o�̓|�[�g�����O���܂��B<br>
- * \par ���l:
- * �v���[���[�� ::criAtomExPlayer_AddOutputPort �֐��Œǉ���������̏o�̓|�[�g�n���h�������O���܂��B
- * �v���[���[�ɐݒ肳��Ă���o�̓|�[�g��S�Ă����O���ɂ� ::criAtomExPlayer_ClearOutputPorts �֐����g�p���Ă��������B<br>
+ * \param[in]	player			AtomExプレーヤーハンドル
+ * \param[in]	output_port		出力ポートハンドル
+ * \par 説明:
+ * プレーヤーに追加した出力ポートを取り外します。<br>
+ * \par 備考:
+ * プレーヤーに ::criAtomExPlayer_AddOutputPort 関数で追加した特定の出力ポートハンドルを取り外します。
+ * プレーヤーに設定されている出力ポートを全てを取り外すには ::criAtomExPlayer_ClearOutputPorts 関数を使用してください。<br>
  * \attention
- * ���ɍĐ����J�n���ꂽ�����ɑ΂��A�ォ��o�̓|�[�g��ύX���邱�Ƃ͂ł��܂���B<br>
+ * 既に再生が開始された音声に対し、後から出力ポートを変更することはできません。<br>
  * \sa criAtomExOutputPort_Create, criAtomExPlayer_AddOutputPort, criAtomExPlayer_ClearOutputPorts
  */
 void CRIAPI criAtomExPlayer_RemoveOutputPort(CriAtomExPlayerHn player, CriAtomExOutputPortHn output_port);
 
 /*JP
- * \brief �o�̓|�[�g�n���h���̃N���A
+ * \brief 出力ポートハンドルのクリア
  * \ingroup ATOMEXLIB_PLAYER
- * \param[in]	player			AtomEx�v���[���[�n���h��
- * \par ����:
- * �v���[���[�ɒǉ������o�̓|�[�g��S�ăN���A���܂��B<br>
- * \par ���l:
- * �v���[���[�� ::criAtomExPlayer_AddOutputPort �֐��Œǉ���������̏o�̓|�[�g�n���h����S�ăN���A���܂��B
- * ����̃n���h�������O�����߂ɂ� ::criAtomExPlayer_RemoveOutputPort �֐����g�p���Ă��������B<br>
+ * \param[in]	player			AtomExプレーヤーハンドル
+ * \par 説明:
+ * プレーヤーに追加した出力ポートを全てクリアします。<br>
+ * \par 備考:
+ * プレーヤーに ::criAtomExPlayer_AddOutputPort 関数で追加した特定の出力ポートハンドルを全てクリアします。
+ * 特定のハンドルを取り外すためには ::criAtomExPlayer_RemoveOutputPort 関数を使用してください。<br>
  * \attention
- * ���ɍĐ����J�n���ꂽ�����ɑ΂��A�ォ��o�̓|�[�g��ύX���邱�Ƃ͂ł��܂���B<br>
+ * 既に再生が開始された音声に対し、後から出力ポートを変更することはできません。<br>
  * \sa criAtomExOutputPort_Create, criAtomExPlayer_AddOutputPort, criAtomExPlayer_RemoveOutputPort
  */
 void CRIAPI criAtomExPlayer_ClearOutputPorts(CriAtomExPlayerHn player);
 
 /*JP
- * \brief �D��o�̓|�[�g�n���h���̒ǉ�
+ * \brief 優先出力ポートハンドルの追加
  * \ingroup ATOMEXLIB_PLAYER
- * \param[in]	player			AtomEx�v���[���[�n���h��
- * \param[in]	output_port		�o�̓|�[�g�n���h��
- * \par ����:
- * �v���[���[��ACF���̏o�̓|�[�g���D��I�ɎQ�Ƃ����o�̓|�[�g��ǉ����܂��B<br>
- * ::CRIATOMEXPLAYER_MAX_OUTPUT_PORTS �ɒ�`���ꂽ�����̏o�̓|�[�g���w�肷�邱�Ƃ��\�ł��B<br>
- * \par ���l:
- * �{�p�����[�^�[�� ::criAtomExPlayer_ResetParameters �֐��܂���
- * ::criAtomExPlayer_ClearPreferredOutputPorts �ɂăN���A����܂��B
- * �܂��A::criAtomExPlayer_RemovePreferredOutputPort �֐���
- * ::criAtomExPlayer_RemovePreferredOutputPortByName �֐��ɂē���̃n���h���݂̂����O�����Ƃ��\�ł��B
+ * \param[in]	player			AtomExプレーヤーハンドル
+ * \param[in]	output_port		出力ポートハンドル
+ * \par 説明:
+ * プレーヤーにACF内の出力ポートより優先的に参照される出力ポートを追加します。<br>
+ * ::CRIATOMEXPLAYER_MAX_OUTPUT_PORTS に定義された数分の出力ポートを指定することが可能です。<br>
+ * \par 備考:
+ * 本パラメーターは ::criAtomExPlayer_ResetParameters 関数または
+ * ::criAtomExPlayer_ClearPreferredOutputPorts にてクリアされます。
+ * また、::criAtomExPlayer_RemovePreferredOutputPort 関数や
+ * ::criAtomExPlayer_RemovePreferredOutputPortByName 関数にて特定のハンドルのみを取り外すことも可能です。
  * <br>
- * �o�̓|�[�g�����ݒ肳��Ă���g���b�N�����L���[���Đ������Ƃ��A�ʏ��ACF�o�^���Ɏ����������ꂽ
- * �o�̓|�[�g����o�͂���܂��B
- * �{�֐��Ńv���[���[�ɑ΂��ėD��o�̓|�[�g��ǉ������Ƃ��A
- * �O�q�����L���[���Đ������ۂɂ͒ǉ����ꂽ�����̗D��o�̓|�[�g����o�͂����悤�ɂȂ�܂��B
+ * 出力ポート名が設定されているトラックを持つキューを再生したとき、通常はACF登録時に自動生成された
+ * 出力ポートから出力されます。
+ * 本関数でプレーヤーに対して優先出力ポートを追加したとき、
+ * 前述したキューを再生した際には追加された同名の優先出力ポートから出力されるようになります。
  * \attention
- * �f�[�^���ɏo�̓|�[�g�����ݒ肳��Ă��Ȃ��g���b�N�̍Đ��ɂ͉e�����܂���B<br>
+ * データ側に出力ポート名が設定されていないトラックの再生には影響しません。<br>
  * <br>
- * �o�̓|�[�g�͍Đ��J�n�O�ɐݒ肷��K�v������܂��B<br>
- * ���ɍĐ����J�n���ꂽ�����ɑ΂��A�ォ��o�̓|�[�g��ύX���邱�Ƃ͂ł��܂���B<br>
+ * 出力ポートは再生開始前に設定する必要があります。<br>
+ * 既に再生が開始された音声に対し、後から出力ポートを変更することはできません。<br>
  * <br>
- * ��̃v���[���[�ɑ΂��A�������O�̗D��o�̓|�[�g��o�^���邱�Ƃ͂ł��܂���B
+ * 一つのプレーヤーに対し、同じ名前の優先出力ポートを登録することはできません。
  * <br>
- * ::criAtomExPlayer_SetData �֐������g�p�����L���[�Đ��ȊO�̍Đ����ł́A�{�֐��ɂĎw�肵�������̏o�̓|�[�g�̓��A
- * 1�ڂɐݒ肵���o�̓|�[�g�݂̂��K�p����܂��B<br>
+ * ::criAtomExPlayer_SetData 関数等を使用したキュー再生以外の再生時では、本関数にて指定した複数の出力ポートの内、
+ * 1つ目に設定した出力ポートのみが適用されます。<br>
  * <br>
- * ::criAtomExPlayer_SetAsrRackId �֐����s��ɖ{�֐������s����ƁA ::criAtomExPlayer_SetAsrRackId �֐��ɂ�
- * �ݒ肵��ASR���b�NID�ݒ�͏㏑������܂��B<br>
+ * ::criAtomExPlayer_SetAsrRackId 関数実行後に本関数を実行すると、 ::criAtomExPlayer_SetAsrRackId 関数にて
+ * 設定したASRラックID設定は上書きされます。<br>
  * <br>
- * HCA-MX�p�ɃG���R�[�h���ꂽ�����f�[�^�ɂ́A�{�֐��̐ݒ肪�K�p����܂���B<br>
+ * HCA-MX用にエンコードされた音声データには、本関数の設定が適用されません。<br>
  * \sa criAtomExPlayer_RemovePreferredOutputPort, criAtomExPlayer_RemovePreferredOutputPortByName, criAtomExPlayer_ClearPreferredOutputPorts
  */
 void CRIAPI criAtomExPlayer_AddPreferredOutputPort(CriAtomExPlayerHn player, CriAtomExOutputPortHn output_port);
 
 /*JP
- * \brief �D��o�̓|�[�g�n���h���̎��O��
+ * \brief 優先出力ポートハンドルの取り外し
  * \ingroup ATOMEXLIB_PLAYER
- * \param[in]	player			AtomEx�v���[���[�n���h��
- * \param[in]	output_port		�o�̓|�[�g�n���h��
- * \par ����:
- * �v���[���[�ɒǉ������D��o�̓|�[�g�����O���܂��B<br>
- * \par ���l:
- * �v���[���[�� ::criAtomExPlayer_AddPreferredOutputPort �֐��Œǉ���������̗D��o�̓|�[�g�n���h�������O���܂��B
- * �v���[���[�ɐݒ肳��Ă���o�̓|�[�g��S�Ď��O���ɂ� ::criAtomExPlayer_ClearOutputPorts �֐����g�p���Ă��������B<br>
+ * \param[in]	player			AtomExプレーヤーハンドル
+ * \param[in]	output_port		出力ポートハンドル
+ * \par 説明:
+ * プレーヤーに追加した優先出力ポートを取り外します。<br>
+ * \par 備考:
+ * プレーヤーに ::criAtomExPlayer_AddPreferredOutputPort 関数で追加した特定の優先出力ポートハンドルを取り外します。
+ * プレーヤーに設定されている出力ポートを全て取り外すには ::criAtomExPlayer_ClearOutputPorts 関数を使用してください。<br>
  * \attention
- * �D��o�̓|�[�g�����O���Ă��A���ɍĐ����J�n���ꂽ�����ɂ͉e�����܂���B<br>
+ * 優先出力ポートを取り外しても、既に再生が開始された音声には影響しません。<br>
  * \sa criAtomExPlayer_AddOutputPort, criAtomExPlayer_RemovePreferredOutputPortByName, criAtomExPlayer_ClearPreferredOutputPorts
  */
 void CRIAPI criAtomExPlayer_RemovePreferredOutputPort(CriAtomExPlayerHn player, CriAtomExOutputPortHn output_port);
 
 /*JP
- * \brief �D��o�̓|�[�g�n���h���̎��O���i���O�w��j
+ * \brief 優先出力ポートハンドルの取り外し（名前指定）
  * \ingroup ATOMEXLIB_PLAYER
- * \param[in]	player			AtomEx�v���[���[�n���h��
- * \param[in]	name			�o�̓|�[�g��
- * \par ����:
- * �v���[���[�ɒǉ������D��o�̓|�[�g�𖼑O���w�肵�Ď��O���܂��B<br>
- * \par ���l:
- * �v���[���[�� ::criAtomExPlayer_AddPreferredOutputPort �֐��Œǉ���������̗D��o�̓|�[�g�n���h�������O���܂��B
- * �v���[���[�ɐݒ肳��Ă���o�̓|�[�g��S�ăN���A���邽�߂ɂ� ::criAtomExPlayer_ClearOutputPorts �֐����g�p���Ă��������B<br>
+ * \param[in]	player			AtomExプレーヤーハンドル
+ * \param[in]	name			出力ポート名
+ * \par 説明:
+ * プレーヤーに追加した優先出力ポートを名前を指定して取り外します。<br>
+ * \par 備考:
+ * プレーヤーに ::criAtomExPlayer_AddPreferredOutputPort 関数で追加した特定の優先出力ポートハンドルを取り外します。
+ * プレーヤーに設定されている出力ポートを全てクリアするためには ::criAtomExPlayer_ClearOutputPorts 関数を使用してください。<br>
  * \attention
- * �D��o�̓|�[�g�����O���Ă��A���ɍĐ����J�n���ꂽ�����ɂ͉e�����܂���B<br>
+ * 優先出力ポートを取り外しても、既に再生が開始された音声には影響しません。<br>
  * \sa criAtomExPlayer_AddOutputPort, criAtomExPlayer_RemovePreferredOutputPort, criAtomExPlayer_ClearPreferredOutputPorts
  */
-void CRIAPI criAtomExPlayer_RemovePreferredOutputPortByName(CriAtomExPlayerHn player, CriChar8* name);
+void CRIAPI criAtomExPlayer_RemovePreferredOutputPortByName(CriAtomExPlayerHn player, const CriChar8* name);
 
 /*JP
- * \brief �D��o�̓|�[�g�n���h���̃N���A
+ * \brief 優先出力ポートハンドルのクリア
  * \ingroup ATOMEXLIB_PLAYER
- * \param[in]	player			AtomEx�v���[���[�n���h��
- * \par ����:
- * �v���[���[�ɒǉ������D��o�̓|�[�g��S�ăN���A���܂��B<br>
- * \par ���l:
- * �v���[���[�� ::criAtomExPlayer_AddPreferredOutputPort �֐��Œǉ������D��o�̓|�[�g�n���h����S�ăN���A���܂��B
- * ����̗D��o�̓|�[�g�����O�����߂ɂ́A::criAtomExPlayer_RemovePreferredOutputPort �֐��܂���
- * ::criAtomExPlayer_RemovePreferredOutputPortByName �֐����g�p���Ă��������B<br>
+ * \param[in]	player			AtomExプレーヤーハンドル
+ * \par 説明:
+ * プレーヤーに追加した優先出力ポートを全てクリアします。<br>
+ * \par 備考:
+ * プレーヤーに ::criAtomExPlayer_AddPreferredOutputPort 関数で追加した優先出力ポートハンドルを全てクリアします。
+ * 特定の優先出力ポートを取り外すためには、::criAtomExPlayer_RemovePreferredOutputPort 関数または
+ * ::criAtomExPlayer_RemovePreferredOutputPortByName 関数を使用してください。<br>
  * \attention
- * �D��o�̓|�[�g�����O���Ă��A���ɍĐ����J�n���ꂽ�����ɂ͉e�����܂���B<br>
+ * 優先出力ポートを取り外しても、既に再生が開始された音声には影響しません。<br>
  * \sa criAtomExPlayer_AddOutputPort, criAtomExPlayer_RemovePreferredOutputPort, criAtomExPlayer_RemovePreferredOutputPortByName
  */
 void CRIAPI criAtomExPlayer_ClearPreferredOutputPorts(CriAtomExPlayerHn player);
@@ -4777,180 +4955,176 @@ void CRIAPI criAtomExPlayer_ClearPreferredOutputPorts(CriAtomExPlayerHn player);
  *      CRI AtomEx Output Port API
  *=========================================================================*/
 /*JP
- * \brief �o�̓|�[�g�n���h���쐬�p���[�N�̈�T�C�Y�̌v�Z
+ * \brief 出力ポートハンドル作成用ワーク領域サイズの計算
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	config		�o�̓|�[�g�n���h���쐬�p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \retval		0�ȏ�		����ɏ���������
- * \retval		-1			�G���[������
- * \par ����:
- * �o�̓|�[�g�n���h���̍쐬�ɕK�v�ȃ��[�N�̈�̃T�C�Y���v�Z���܂��B<br>
- * ::criAtomEx_SetUserAllocator �}�N���ɂ��A���P�[�^�[�o�^���s�킸��
- * ::criAtomExOutputPort_Create �֐��ŏo�̓|�[�g�n���h�����쐬����ۂɂ́A
- * ::criAtomExOutputPort_Create �֐��ɖ{�֐����Ԃ��T�C�Y���̃����������[�N
- * �̈�Ƃ��ēn���K�v������܂��B<br>
+ * \param[in]	config		出力ポートハンドル作成用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \retval		0以上		正常に処理が完了
+ * \retval		-1			エラーが発生
+ * \par 説明:
+ * 出力ポートハンドルの作成に必要なワーク領域のサイズを計算します。<br>
+ * ::criAtomEx_SetUserAllocator マクロによるアロケーター登録を行わずに
+ * ::criAtomExOutputPort_Create 関数で出力ポートハンドルを作成する際には、
+ * ::criAtomExOutputPort_Create 関数に本関数が返すサイズ分のメモリをワーク
+ * 領域として渡す必要があります。<br>
  * <br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s����ƁA�{�֐��� -1 ��Ԃ��܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�Ɏ��s�������R�ɂ��ẮA�G���[�R�[���o�b�N�̃��b�Z�[�W�Ŋm�F�\�ł��B<br>
- * \par ���l:
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * ワーク領域サイズの計算に失敗すると、本関数は -1 を返します。<br>
+ * ワーク領域サイズの計算に失敗した理由については、エラーコールバックのメッセージで確認可能です。<br>
+ * \par 備考:
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ::CriAtomExOutputPortConfig::name �Ɏw�肷��o�̓|�[�g���̒����́A
- * ::CRIATOMEX_OUTPUT_PORT_MAX_NAME_LENGTH �ȉ��ł���K�v������܂��B
+ * ::CriAtomExOutputPortConfig::name に指定する出力ポート名の長さは、
+ * ::CRIATOMEX_OUTPUT_PORT_MAX_NAME_LENGTH 以下である必要があります。
  * \sa criAtomExOutputPort_Create
  */
 CriSint32 CRIAPI criAtomExOutputPort_CalculateWorkSize(const CriAtomExOutputPortConfig *config);
 
 /*JP
- * \brief �o�̓|�[�g�n���h���̍쐬
+ * \brief 出力ポートハンドルの作成
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	config					ASR�������p�R���t�B�O�\����
- * \param[in]	work					���[�N�̈�
- * \param[in]	work_size				���[�N�̈�T�C�Y
- * \return		CriAtomExOutputPortHn 	�o�̓|�[�g�n���h��
- * \par ����:
- * �o�̓|�[�g�n���h���̍쐬���s���܂��B<br>
- * �o�̓|�[�g��ASR���b�N�ƕR�t�����A�o�̓|�[�g���w�肳�ꂽ�{�C�X�͂��̏o�̓|�[�g�ɕR�t����ꂽ
- * ASR���b�N�ɂčĐ������悤�ɂȂ�܂��B<br>
- * \par ���l:
- * ACF�t�@�C���ɐݒ肳�ꂽ�o�̓|�[�g�n���h���� ::criAtomEx_RegisterAcfFile �֐��Ȃǂ�p����
- * ACF�t�@�C����o�^�����Ƃ��AACF���Ɏ����I�ɍ쐬����邽�߁A
- * �{�֐��ŐV���ɍ쐬����K�v�͂���܂���B<br>
- * ACF���̏o�̓|�[�g�n���h���� ::criAtomExAcf_GetOutputPortHnByName �֐��Ŏ擾�ł��܂��B<br>
- * ���̂��߁A�{�֐��̓A�v���P�[�V������ŐV���ɏo�̓|�[�g�n���h�����K�v�ɂȂ����ꍇ�Ɏg�p���Ă��������B
+ * \param[in]	config					ASR初期化用コンフィグ構造体
+ * \param[in]	work					ワーク領域
+ * \param[in]	work_size				ワーク領域サイズ
+ * \return		CriAtomExOutputPortHn 	出力ポートハンドル
+ * \par 説明:
+ * 出力ポートハンドルの作成を行います。<br>
+ * 出力ポートはASRラックと紐付けられ、出力ポートが指定されたボイスはその出力ポートに紐付けられた
+ * ASRラックにて再生されるようになります。<br>
+ * \par 備考:
+ * ACFファイルに設定された出力ポートハンドルは ::criAtomEx_RegisterAcfFile 関数などを用いて
+ * ACFファイルを登録したとき、ACF内に自動的に作成されるため、
+ * 本関数で新たに作成する必要はありません。<br>
+ * ACF内の出力ポートハンドルは ::criAtomExAcf_GetOutputPortHnByName 関数で取得できます。<br>
+ * そのため、本関数はアプリケーション上で新たに出力ポートハンドルが必要になった場合に使用してください。
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B<br>
- * �o�̓|�[�g�n���h���̐����ɐ��������ꍇ�́A�{�֐��͐��������o�̓|�[�g�n���h����Ԃ��܂��B
- * �����Ɏ��s�����ꍇ�� NULL ��Ԃ��܂��B<br>
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。<br>
+ * 出力ポートハンドルの生成に成功した場合は、本関数は生成した出力ポートハンドルを返します。
+ * 生成に失敗した場合は NULL を返します。<br>
  * \attention
- * �{�֐��ō쐬���ꂽ�o�̓|�[�g�n���h���ɂ́A::CriAtomExOutputPortConfig::type �Ŏw�肵���^�C�v�ɂ����
- * �ȉ���ASR���b�NID�������l�Ƃ��ăZ�b�g����Ă��܂��B<br>
- * - CRIATOMEX_OUTPUT_PORT_TYPE_AUDIO ���w��FCRIATOMEXASR_RACK_DEFAULT_ID
- * - CRIATOMEX_OUTPUT_PORT_TYPE_VIBRATION ���w��FCRIATOMEXASR_RACK_ILLEGAL_ID
+ * 本関数で作成された出力ポートハンドルには、::CriAtomExOutputPortConfig::type で指定したタイプによって
+ * 以下のASRラックIDが初期値としてセットされています。<br>
+ * - CRIATOMEX_OUTPUT_PORT_TYPE_AUDIO を指定：CRIATOMEXASR_RACK_DEFAULT_ID
+ * - CRIATOMEX_OUTPUT_PORT_TYPE_VIBRATION を指定：CRIATOMEXASR_RACK_ILLEGAL_ID
  * \par
- * �o�̓|�[�g�n���h�����g�p����O�ɁA�K�� ::criAtomExOutputPort_SetAsrRackId 
- * �֐��œK�؂�ASR���b�N��ݒ肵�Ă��������B<br>
+ * 出力ポートハンドルを使用する前に、必ず ::criAtomExOutputPort_SetAsrRackId 
+ * 関数で適切なASRラックを設定してください。<br>
  * \sa criAtomExOutputPort_Destroy, criAtomExAcf_GetOutputPortHnByName, criAtomExPlayer_AddOutputPort, criAtomExPlayer_AddPreferredOutputPort
  */
 CriAtomExOutputPortHn CRIAPI criAtomExOutputPort_Create(const CriAtomExOutputPortConfig *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief �o�̓|�[�g�n���h���̔j���\�̔���
+ * \brief 出力ポートハンドルの破棄可能の判定
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	output_port				�o�̓|�[�g�n���h��
- * \return		CriBool					�j���\���H�iCRI_TRUE = �\, CRI_FALSE = �s�\�j
- * \par ����:
- * �o�̓|�[�g�n���h���̔j�����\�����肵�܂��B<br>
- * \par ���l:
- * ::criAtomExPlayer_AddOutputPort �֐��܂��� ::criAtomExPlayer_AddPreferredOutputPort �֐����g�p����
- * �v���[���[�ɒǉ����̏o�̓|�[�g�n���h���͔j�����邱�Ƃ��ł��܂���B<br>
- * ::criAtomExPlayer_RemoveOutputPort �֐��܂��� ::criAtomExPlayer_RemovePreferredOutputPort �֐����g�p����
- * �v���[���[������O���Ă���j�����Ă��������B<br>
- * �܂��AACF�t�@�C���̏�񂩂�쐬���ꂽACF���̏o�̓|�[�g�n���h���͔j�����邱�Ƃ��ł��܂���B
+ * \param[in]	output_port				出力ポートハンドル
+ * \return		CriBool					破棄可能か？（CRI_TRUE = 可能, CRI_FALSE = 不可能）
+ * \par 説明:
+ * 出力ポートハンドルの破棄が可能か判定します。<br>
+ * \par 備考:
+ * ::criAtomExPlayer_AddOutputPort 関数または ::criAtomExPlayer_AddPreferredOutputPort 関数を使用して
+ * プレーヤーに追加中の出力ポートハンドルは破棄することができません。<br>
+ * ::criAtomExPlayer_RemoveOutputPort 関数または ::criAtomExPlayer_RemovePreferredOutputPort 関数を使用して
+ * プレーヤーから取り外してから破棄してください。<br>
+ * また、ACFファイルの情報から作成されたACF内の出力ポートハンドルは破棄することができません。
  * \sa criAtomExOutputPort_Destroy
  */
 CriBool CRIAPI criAtomExOutputPort_IsDestroyable(CriAtomExOutputPortHn output_port);
 
 /*JP
- * \brief �o�̓|�[�g�n���h���̔j��
+ * \brief 出力ポートハンドルの破棄
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	output_port				�o�̓|�[�g�n���h��
- * \par ����:
- * �o�̓|�[�g�n���h���̔j�����s���܂��B<br>
- * \par ���l:
- * �A���A ::criAtomExPlayer_AddOutputPort �֐��܂��� ::criAtomExPlayer_AddPreferredOutputPort �֐����g�p����
- * �v���[���[�ɒǉ����̏o�̓|�[�g�n���h���͔j�����邱�Ƃ��ł��܂���B<br>
- * ::criAtomExPlayer_RemoveOutputPort �֐��܂��� ::criAtomExPlayer_RemovePreferredOutputPort �֐����g�p����
- * �v���[���[������O���Ă���j�����Ă��������B<br>
- * �܂��AACF�t�@�C���̏�񂩂�쐬���ꂽACF���̏o�̓|�[�g�n���h���͔j�����邱�Ƃ��ł��܂���B
- * \sa criAtomExOutputPort_Create
+ * \param[in]	output_port				出力ポートハンドル
+ * \par 説明:
+ * 出力ポートハンドルの破棄を行います。<br>
+ * \par 備考:
+ * ::criAtomExOutputPort_IsDestroyable 関数を使用することでハンドルが破棄できるか調べることができます。
+ * \sa criAtomExOutputPort_Create, criAtomExOutputPort_IsDestroyable
  */
 void CRIAPI criAtomExOutputPort_Destroy(CriAtomExOutputPortHn output_port);
 
 /*JP
- * \brief ASR���b�NID�̎w��
+ * \brief ASRラックIDの指定
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	output_port		�o�̓|�[�g�n���h��
- * \param[in]	rack_id		ASR���b�NID
- * \par ����:
- * �o�̓|�[�g��ASR���b�N�w�肵�܂��B<br>
- * �o�̓|�[�g���w�肳�ꂽ�{�C�X�́A���̏o�̓|�[�g�Ɏw�肳��Ă���ASR���b�N�ōĐ�����܂��B
- * \par ���l:
- * ACF�t�@�C���o�^���ɍ쐬���ꂽ�o�̓|�[�g�n���h���� ::criAtomExOutputPort_Create �֐��ō쐬���ꂽ
- * �o�̓|�[�g�n���h���ɂ́A�K���{�֐��œK�؂�ASR���b�N���w�肷��K�v������܂��B
+ * \param[in]	output_port		出力ポートハンドル
+ * \param[in]	rack_id		ASRラックID
+ * \par 説明:
+ * 出力ポートにASRラック指定します。<br>
+ * 出力ポートが指定されたボイスは、その出力ポートに指定されているASRラックで再生されます。
+ * \par 備考:
+ * ACFファイル登録時に作成された出力ポートハンドルや ::criAtomExOutputPort_Create 関数で作成された
+ * 出力ポートハンドルには、必ず本関数で適切なASRラックを指定する必要があります。
  * <br>
- * �o�̓|�[�g�̃^�C�v�Ȃǂɂ���āA�w��ł���ASR���b�N�ɐ���������ꍇ������܂��B
- * �ڍׂɊւ��܂��Ă̓}�j���A�����Q�Ƃ��Ă��������B
+ * 出力ポートのタイプなどによって、指定できるASRラックに制限がある場合があります。
+ * 詳細に関しましてはマニュアルを参照してください。
  * \attention
- * �{�֐��ŏo�̓|�[�g��ASR���b�NID��ύX���Ă��A���ɍĐ�����Ă��鉹���ɂ͉e�����܂���B
+ * 本関数で出力ポートのASRラックIDを変更しても、既に再生されている音声には影響しません。
  * \sa criAtomExOutputPort_Create, criAtomExAcf_GetOutputPortHnByName
  */
 void CRIAPI criAtomExOutputPort_SetAsrRackId(CriAtomExOutputPortHn output_port, CriAtomExAsrRackId rack_id);
 
 /*JP
- * \brief �U���^�C�v�̏o�̓|�[�g�̃`�����l�����x���̐ݒ�
+ * \brief 振動タイプの出力ポートのチャンネルレベルの設定
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	output_port			�o�̓|�[�g�n���h��
- * \param[in]	channel				�`�����l���C���f�b�N�X�i0 = L, 1 = R�j
- * \param[in]	level				���x��(0 ~ 2.0)
- * \par ����:
- * �U���^�C�v�̏o�̓|�[�g�ɑ΂��A�U���f�o�C�X�̊e�`�����l���ւ̏o�̓��x����ݒ肵�܂��B<br>
- * \par ���l:
- * �U���^�C�v�̏o�̓|�[�g�͂Q�`�����l���œ��삵�Ă���A�ŏI�o�̓f�o�C�X�����m�����̏ꍇ-3dB�̃_�E���~�b�N�X���K�p����܂��B
- * ���̊֐��Őݒ肵���l�́A�����Đ����ł��������f����܂��B
+ * \param[in]	output_port			出力ポートハンドル
+ * \param[in]	channel				チャンネルインデックス（0 = L, 1 = R）
+ * \param[in]	level				レベル(0 ~ 2.0)
+ * \par 説明:
+ * 振動タイプの出力ポートに対し、振動デバイスの各チャンネルへの出力レベルを設定します。<br>
+ * \par 備考:
+ * 振動タイプの出力ポートは２チャンネルで動作しており、最終出力デバイスがモノラルの場合-3dBのダウンミックスが適用されます。
+ * この関数で設定した値は、音が再生中でも即時反映されます。
  * \sa criAtomExOutputPort_SetMonauralMix
  */
 void CRIAPI criAtomExOutputPort_SetVibrationChannelLevel(CriAtomExOutputPortHn output_port, CriSint32 channel, CriFloat32 level);
 
 /*JP
- * \brief �U���^�C�v�̏o�̓|�[�g�̃��m�����~�b�N�X�L���ݒ�
+ * \brief 振動タイプの出力ポートのモノラルミックス有無設定
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	output_port			�o�̓|�[�g�n���h��
- * \param[in]	monaural_mix			���m�����~�b�N�X�L���iCRI_TRUE = �L��, CRI_FALSE = �����j
- * \par ����:
- * �U���^�C�v�̏o�̓|�[�g�͂Q�`�����l���œ��삷�邽�߁A���͂����{�C�X���X�e���I�ȏ�̉����f�[�^���A
- * 3D�p�����ݒ肳��Ă���ꍇ�A���̌��ʂ��U���f�o�C�X�̍��E�ɓ`���܂��B
- * ���m�����~�b�N�X��L���ɂ���ƁA�U���f�o�C�X�֏o�͂���O�Ɉ�x���m�����Ƀ_�E���~�b�N�X���s�����Ƃł����̉e�����Ȃ������Ƃ��ł��܂��B
- * ::criAtomExOutputPort_SetVibrationChannelLevel �֐����g�p���āA���m�����~�b�N�X��U���f�o�C�X�֑����郌�x����ݒ肷�邱�Ƃ��\�ł��B<br>
- * \par ���l:
- * ���̊֐��Őݒ肵���l�́A�����Đ����ł��������f����܂��B
+ * \param[in]	output_port			出力ポートハンドル
+ * \param[in]	monaural_mix			モノラルミックス有無（CRI_TRUE = 有効, CRI_FALSE = 無効）
+ * \par 説明:
+ * 振動タイプの出力ポートは２チャンネルで動作するため、入力されるボイスがステレオ以上の音声データか、
+ * 3Dパンが設定されている場合、その結果が振動デバイスの左右に伝わります。
+ * モノラルミックスを有効にすると、振動デバイスへ出力する前に一度モノラルにダウンミックスを行うことでそれらの影響をなくすことができます。
+ * ::criAtomExOutputPort_SetVibrationChannelLevel 関数を使用して、モノラルミックス後振動デバイスへ送られるレベルを設定することも可能です。<br>
+ * \par 備考:
+ * この関数で設定した値は、音が再生中でも即時反映されます。
  * \sa criAtomExOutputPort_SetVibrationChannelLevel
  */
 void CRIAPI criAtomExOutputPort_SetMonauralMix(CriAtomExOutputPortHn output_port, CriBool monaural_mix);
 
 /*JP
- * \brief �o�̓|�[�g���w��J�e�S���̃p�����[�^�𖳎����邩�̐ݒ�
+ * \brief 出力ポートが指定カテゴリのパラメータを無視するかの設定
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	output_port_hn			�o�̓|�[�g�n���h��
- * \param[in]	category_id				�J�e�S��ID
- * \param[in]	ignore_parameters		�����ݒ�p�����[�^ �iCRI_TRUE:��������, CRI_FALSE:�������Ȃ��j
- * \par ����:
- * �o�̓|�[�g�ɑ΂��Ďw�肵���J�e�S��ID�̃p�����[�^�𖳎����邩��ݒ肵�܂��B<br>
- * \par ���l:
- * �o�̓|�[�g�ɑ΂��Ďw�肵���J�e�S��ID�̃p�����[�^�𖳎������邱�ƂŃJ�e�S���̉e�����Ȃ������Ƃ��ł��܂��B
- * �����J�e�S��ID���w�肵�āA�J�e�S���𖳎�����E�������Ȃ���ύX���邱�Ƃ��\�ł��B<br>
- * �ݒ�ł���J�e�S���͍ő�4�܂łł��B4�ݒ肵�Ă����Ԃł��̊֐������s����ƌx�����������A�����͍s���܂���B<br>
- * \par ���l:
- * ���̊֐��Őݒ�͍Đ����ɔ��f����܂��B
+ * \param[in]	output_port_hn			出力ポートハンドル
+ * \param[in]	category_id				カテゴリID
+ * \param[in]	ignore_parameters		無視設定パラメータ （CRI_TRUE:無視する, CRI_FALSE:無視しない）
+ * \par 説明:
+ * 出力ポートに対して指定したカテゴリIDのパラメータを無視するかを設定します。<br>
+ * \par 備考:
+ * 出力ポートに対して指定したカテゴリIDのパラメータを無視させることでカテゴリの影響をなくすことができます。
+ * 同じカテゴリIDを指定して、カテゴリを無視する・無視しないを変更することも可能です。<br>
+ * 設定できるカテゴリは最大4つまでです。4つ設定している状態でこの関数を実行すると警告が発生し、処理は行われません。<br>
+ * \par 備考:
+ * この関数で設定は再生時に反映されます。
  * \sa criAtomExOutputPort_Create, criAtomExAcf_GetOutputPortHnByName
  */
 void CRIAPI criAtomExOutputPort_IgnoreCategoryParametersById(CriAtomExOutputPortHn output_port_hn, CriAtomExCategoryId category_id, CriBool ignore_parameters);
 
 /*JP
- * \brief �o�̓|�[�g�ɐݒ肵���w��J�e�S���̃p�����[�^�𖳎�����ݒ�����Z�b�g
+ * \brief 出力ポートに設定した指定カテゴリのパラメータを無視する設定をリセット
  * \ingroup ATOMEXLIB_OUTPUT_PORT
- * \param[in]	output_port_hn			�o�̓|�[�g�n���h��
- * \par ����:
- * �o�̓|�[�g�ɐݒ肵���w��J�e�S���̃p�����[�^�𖳎�����ݒ�����Z�b�g���܂��B<br>
- * \par ���l:
- * �o�̓|�[�g�ɑ΂��Ďw�肵���J�e�S��ID�̃p�����[�^�𖳎�����ݒ�����ׂă��Z�b�g���܂��B<br>
- * �ݒ肳��Ă���J�e�S���̐������Z�b�g����邽�ߐV���ɃJ�e�S�����w�肵�ăJ�e�S���̃p�����[�^�𖳎�����ݒ���s���܂��B
- * \par ���l:
- * ���̊֐��Őݒ�͍Đ����ɔ��f����܂��B
+ * \param[in]	output_port_hn			出力ポートハンドル
+ * \par 説明:
+ * 出力ポートに設定した指定カテゴリのパラメータを無視する設定をリセットします。<br>
+ * \par 備考:
+ * 出力ポートに対して指定したカテゴリIDのパラメータを無視する設定をすべてリセットします。<br>
+ * 設定されているカテゴリの数もリセットされるため新たにカテゴリを指定してカテゴリのパラメータを無視する設定を行えます。
+ * \par 備考:
+ * この関数で設定は再生時に反映されます。
  * \sa criAtomExOutputPort_Create, criAtomExOutputPort_IgnoreCategoryParametersById
  */
 void CRIAPI criAtomExOutputPort_ResetIgnoreCategory(CriAtomExOutputPortHn output_port_hn);
@@ -4959,49 +5133,49 @@ void CRIAPI criAtomExOutputPort_ResetIgnoreCategory(CriAtomExOutputPortHn output
  *      CRI AtomEx API
  *=========================================================================*/
 /*JP
- * \brief ���[�UPCM�o�͕����p���[�N�̈�T�C�Y�v�Z
+ * \brief ユーザPCM出力方式用ワーク領域サイズ計算
  * \ingroup ATOMEXLIB_GLOBAL
- * \param[in]	config		�������p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \par ����:
- * ���[�UPCM�o�͕����Ń��C�u���������������邽�߂ɕK�v�ȁA
- * ���[�N�̈�̃T�C�Y���擾���܂��B<br>
- * \par ���l:
- * ���C�u�������K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A���C�u�����������p�R���t�B�O
- * �\���́i ::CriAtomExConfigForUserPcmOutput �j�̓��e�ɂ���ĕω����܂��B<br>
+ * \param[in]	config		初期化用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \par 説明:
+ * ユーザPCM出力方式でライブラリを初期化するために必要な、
+ * ワーク領域のサイズを取得します。<br>
+ * \par 備考:
+ * ライブラリが必要とするワーク領域のサイズは、ライブラリ初期化用コンフィグ
+ * 構造体（ ::CriAtomExConfigForUserPcmOutput ）の内容によって変化します。<br>
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐��� ::criAtomEx_InitializeForUserPcmOutput �֐����g�p����
- * ���C�u����������������ꍇ�Ɏg�p���܂��B<br>
- * ::criAtomEx_Initialize �֐����g�p����ꍇ�ɂ́A�{�֐��ł͂Ȃ�
- * ::criAtomEx_CalculateWorkSize �֐����g�p���ă��[�N�̈�T�C�Y���v�Z���Ă��������B<br>
+ * 本関数は ::criAtomEx_InitializeForUserPcmOutput 関数を使用して
+ * ライブラリを初期化する場合に使用します。<br>
+ * ::criAtomEx_Initialize 関数を使用する場合には、本関数ではなく
+ * ::criAtomEx_CalculateWorkSize 関数を使用してワーク領域サイズを計算してください。<br>
  * \sa CriAtomExConfigForUserPcmOutput, criAtomEx_InitializeForUserPcmOutput
  */
 CriSint32 CRIAPI criAtomEx_CalculateWorkSizeForUserPcmOutput(
 	const CriAtomExConfigForUserPcmOutput *config);
 
 /*JP
- * \brief ���[�UPCM�o�͗p���C�u����������
+ * \brief ユーザPCM出力用ライブラリ初期化
  * \ingroup ATOMEXLIB_GLOBAL
- * \param[in]	config		�������p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \par ����:
- * ���[�UPCM�o�̓��[�h�Ń��C�u���������������܂��B<br>
+ * \param[in]	config		初期化用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \par 説明:
+ * ユーザPCM出力モードでライブラリを初期化します。<br>
  * <br>
- * �{�֐����g�p���ď������������s�����ꍇ�AAtom���C�u�����͉����o�͂��s���܂���B<br>
- * ���[�U�� ::criAtomExAsr_GetPcmDataFloat32 
- * �֐����g�p���ă��C�u�����������I��PCM�f�[�^���擾���A
- * �A�v���P�[�V�������ŉ����o�͂��s���K�v������܂��B<br>
+ * 本関数を使用して初期化処理を行った場合、Atomライブラリは音声出力を行いません。<br>
+ * ユーザは ::criAtomExAsr_GetPcmDataFloat32 
+ * 関数を使用してライブラリから定期的にPCMデータを取得し、
+ * アプリケーション側で音声出力を行う必要があります。<br>
  * \attention
- * �{�֐��ƈȉ��̊֐��͕��p�ł��܂���B<br>
+ * 本関数と以下の関数は併用できません。<br>
  * 	- ::criAtomEx_Initialize
  * 	- ::criAtomExAsr_Initialize
  * 	- ::criAtomExHcaMx_Initialize
- * 	- �e�v���b�g�t�H�[���ɂ�����Atom���C�u�����������֐�
+ * 	- 各プラットフォームにおけるAtomライブラリ初期化関数
  * \sa CriAtomExConfigForUserPcmOutput, criAtomEx_FinalizeForUserPcmOutput,
  * criAtomExAsr_GetPcmDataFloat32, criAtomEx_CalculateWorkSizeForUserPcmOutput
  */
@@ -5009,26 +5183,26 @@ void CRIAPI criAtomEx_InitializeForUserPcmOutput(
 	const CriAtomExConfigForUserPcmOutput *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ���[�UPCM�o�͗p���C�u�����I������
+ * \brief ユーザPCM出力用ライブラリ終了処理
  * \ingroup ATOMEXLIB_GLOBAL
- * \par ����:
- * ���[�UPCM�o�̓��[�h�ŏ��������ꂽ���C�u�����ɑ΂��A�I���������s���܂��B<br>
+ * \par 説明:
+ * ユーザPCM出力モードで初期化されたライブラリに対し、終了処理を行います。<br>
  * \attention
- * �{�֐��� ::criAtomEx_InitializeForUserPcmOutput
- * �֐����g�p���ă��C�u�����������������ꍇ�Ɏg�p���܂��B<br>
- * ::criAtomEx_Initialize �֐����g�p�����ꍇ�ɂ́A�{�֐��ł͂Ȃ�
- * ::criAtomEx_Finalize �֐����g�p���ďI���������s���Ă��������B<br>
+ * 本関数は ::criAtomEx_InitializeForUserPcmOutput
+ * 関数を使用してライブラリを初期化した場合に使用します。<br>
+ * ::criAtomEx_Initialize 関数を使用した場合には、本関数ではなく
+ * ::criAtomEx_Finalize 関数を使用して終了処理を行ってください。<br>
  * \sa criAtomEx_InitializeForUserPcmOutput
  */
 void CRIAPI criAtomEx_FinalizeForUserPcmOutput(void);
 
 /***************************************************************************
- *      �b��API�i�g�p�͂��T���������j
+ *      暫定API（使用はお控え下さい）
  *      Tentative API (Please don't use it)
  ***************************************************************************/
-/* �ȉ��ɐ錾����Ă���֐���Atom�̓��������p�A�Q�[���G���W���Ƃ̘A�g���ɂ�
- * �b��I�Ɏg�p����Ă���API�ł��B
- * ����̃A�b�v�f�[�g�ɂė\���Ȃ��ύX�E�폜���s���邽�߁A�g�p�͂��T���������B
+/* 以下に宣言されている関数はAtomの内部処理用、ゲームエンジンとの連携等にて
+ * 暫定的に使用されているAPIです。
+ * 今後のアップデートにて予告なく変更・削除が行われるため、使用はお控え下さい。
  */
 #define criAtomExAsr_GetEffectName(bus_name, index)	\
 	criAtomExAsrRack_GetEffectName((CRIATOMEXASR_RACK_DEFAULT_ID), (bus_name), (index))
@@ -5052,38 +5226,57 @@ const CriChar8* CRIAPI criAtomExAsrRack_GetEffectName(
 	CriAtomExAsrRackId rack_id, const CriChar8* bus_name, CriUint32 index);
 
 /*JP
- * \brief �`�����l���x�[�X �Đ��p ASR ���b�NID���擾
+ * \brief チャンネルベース 再生用 ASR ラックIDを取得
  * \ingroup ATOMEXLIB_ASR
- * \return	CriSint32	ASR���b�NID
- * \par ����:
- * �`�����l���x�[�X �Đ��݂̂��s��ASR���b�N��ID���擾���܂��B<br>
- * �쐬����Ă��Ȃ��ꍇ�ACRIATOMEXASR_RACK_ILLEGAL_ID���Ԃ���܂��B
+ * \return	CriAtomExAsrRackId	ASRラックID
+ * \par 説明:
+ * チャンネルベース再生用ASRラックは、出力ポート「_7_1_4」の設定で<br>
+ * 「専用のミキサーを使用する」にTrueを指定しているACFの登録により自動で作成されます。<br>
+ * 取得したASRラックIDはACF登録中のみ有効です。<br>
+ * ACFの登録を解除すると、チャンネルベース再生用ASRラックも削除されるため取得したASRラックIDは無効になります。<br>
+ * チャンネルベース再生用ASRラックが作成されていない場合、CRIATOMEXASR_RACK_ILLEGAL_IDを返します。
  */
-CriSint32 CRIAPI criAtomExAsrRack_GetChannelBasedAudioRackId(void);
+CriAtomExAsrRackId CRIAPI criAtomExAsrRack_GetChannelBasedAudioRackId(void);
 
 /*JP
- * \brief ObjectBasedAudio �Đ��pASR���b�NID���擾
+ * \brief ObjectBasedAudio 再生用ASRラックIDを取得
  * \ingroup ATOMEXLIB_ASR
- * \return	CriSint32	ASR���b�NID
- * \par ����:
- * ObjectBasedAudio �Đ��݂̂��s��ASR���b�N��ID���擾���܂��B<br>
- * �쐬����Ă��Ȃ��ꍇ�ACRIATOMEXASR_RACK_ILLEGAL_ID���Ԃ���܂��B
+ * \return	CriAtomExAsrRackId	ASRラックID
+ * \par 説明:
+ * ObjectBasedAudio再生に使用するASRラックIDを取得します。<br>
+ * ObjectBasedAudio再生用ASRラックは、出力ポート「_object_based_audio」の設定があるACFの登録により自動で作成されます。<br>
+ * 取得したASRラックIDはACF登録中のみ有効です。<br>
+ * ACFの登録を解除すると、ObjectBasedAudio再生用ASRラックも削除されるため取得したASRラックIDは無効になります。<br>
+ * ObjectBasedAudio再生用ASRラックが作成されていない場合、CRIATOMEXASR_RACK_ILLEGAL_IDを返します。
  */
-CriSint32 CRIAPI criAtomExAsrRack_GetObjectBasedAudioRackId(void);
+CriAtomExAsrRackId CRIAPI criAtomExAsrRack_GetObjectBasedAudioRackId(void);
 
 /*JP
- * \brief SoundxR�v���O�C���C���^�[�t�F�[�X�̓o�^
+ * \brief パススルー再生用ASRラックIDを取得
  * \ingroup ATOMEXLIB_ASR
- * \param[in]	soundxr_interface		SoundxR�v���O�C���̃C���^�[�t�F�[�X
- * \return		�o�^�ɐ����������H�iCRI_TRUE:�o�^�ɐ�������, CRI_FALSE:�o�^�Ɏ��s�����j
- * \par ����:
- * SoundxR�v���O�C���̃C���^�[�t�F�[�X��o�^���܂��B<br>
- * �c�[����Ńo�C�m�[�����C�U�[�� Sound xR ��ݒ肵�� ACF ��o�^����K�v������܂��B<br>
- * �قȂ�o�C�m�[�����C�U�[�ݒ�� ACF ��o�^�����ꍇ�͈ȉ��̋����ɂȂ�܂��B
- * - �o�C�m�[�����C�U�[�ݒ肪���݂��Ȃ��Â� ACF		 : �o�C�m�[�������ʂ������ɂȂ�B
- * - �o�C�m�[�����C�U�[�ݒ肪 CRI Binauralizer �� ACF : �o�C�m�[�������ʂ������ɂȂ�B
+ * \return	CriAtomExAsrRackId	ASRラックID
+ * \par 説明:
+ * パススルー再生に使用するASRラックIDを取得します。<br>
+ * パススルー再生用ASRラックは、出力ポート「_pass_through」の設定があるACFの登録により自動で作成されます。<br>
+ * 取得したASRラックIDはACF登録中のみ有効です。<br>
+ * ACFの登録を解除すると、パススルー再生用ASRラックも削除されるため取得したASRラックIDは無効になります。<br>
+ * パススルー再生用ASRラックが作成されていない場合、CRIATOMEXASR_RACK_ILLEGAL_IDを返します。
+ */
+CriAtomExAsrRackId CRIAPI criAtomExAsrRack_GetPassThroughRackId(void);
+
+/*JP
+ * \brief SoundxRプラグインインターフェースの登録
+ * \ingroup ATOMEXLIB_ASR
+ * \param[in]	soundxr_interface		SoundxRプラグインのインターフェース
+ * \return		登録に成功したか？（CRI_TRUE:登録に成功した, CRI_FALSE:登録に失敗した）
+ * \par 説明:
+ * SoundxRプラグインのインターフェースを登録します。<br>
+ * ツール上でバイノーラライザーに Sound xR を設定した ACF を登録する必要があります。<br>
+ * 異なるバイノーラライザー設定の ACF を登録した場合は以下の挙動になります。
+ * - バイノーラライザー設定が存在しない古い ACF		 : バイノーラル結果が無音になる。
+ * - バイノーラライザー設定が CRI Binauralizer の ACF : バイノーラル結果が無音になる。
  * \attention
- * �{�֐��́A���C�u�����̏������O�Ɏ��s���Ă��������B
+ * 本関数は、ライブラリの初期化前に実行してください。
  */
 CriBool CRIAPI criAtomExAsr_RegisterSoundxRInterface(const void* soundxr_interface);
 
@@ -5092,7 +5285,7 @@ CriBool CRIAPI criAtomExAsr_RegisterSoundxRInterface(const void* soundxr_interfa
 #endif
 
 /***************************************************************************
- *      ���o�[�W�����Ƃ̌݊��p
+ *      旧バージョンとの互換用
  *      For compatibility with old version
  ***************************************************************************/
 #define CRIATOMEXASR_DEFAULT_NUM_BASES	(CRIATOMEXASR_DEFAULT_NUM_BUSES)
@@ -5105,11 +5298,11 @@ CriBool CRIAPI criAtomExAsr_RegisterSoundxRInterface(const void* soundxr_interfa
 	criAtomEx_AttachDspBusSetting(setting, work, work_size)
 #define criAtomExAsr_DetachDspBusSetting() \
 	criAtomEx_DetachDspBusSetting()
-/* �����_���[�̏o��Ch���ݒ�ɉ����āA�����Ń_�E���~�b�N�X���邽�߉��L2�֐��͖����ɂ��Ă��܂� */
+/* レンダラーの出力Ch数設定に応じて、自動でダウンミックスするため下記2関数は無効にしています */
 #define criAtomExAsr_SetDownmixMode(downmix_mode)
 #define criAtomExAsrRack_SetDownmixMode(rack_id, downmix_mode)
 
-/* ��\�L�}�N�� */
+/* 誤表記マクロ */
 #define CRIATOMEXASR_BIQUAD_FILTER_ANALYZER_NAME				"CRIWARE/Biquad"
 #define CRIATOMEXASR_BANDPASS_FILTER_PARAMETER_TYPE				(-1)
 #define CRIATOMEXASR_BUTTERWORTH_FILTER_PARAMETER_TYPE			(-1)
@@ -5118,19 +5311,19 @@ CriBool CRIAPI criAtomExAsr_RegisterSoundxRInterface(const void* soundxr_interfa
 #define CRIATOMEXASR_BUTTERWORTH_FILTER_NUM_PARAMETERS			(2)
 
 /*
- * CRI Atom Ver.2.26.126 �ȍ~�ł́A�}�g���N�X���̃G�t�F�N�g��
- * �C�ӂ̃`�����l�����ő���ł���悤�ɕύX���Ă��܂��B
- * ���̕ύX�ɔ����]���̍ő�`�����l�������}�g���N�X�̃f�t�H���g�̃`�����l�����ɂȂ�܂��B
- * �ߋ��݊��ׁ̈A�G�C���A�X���c���܂��B
+ * CRI Atom Ver.2.26.126 以降では、マトリクスがのエフェクトを
+ * 任意のチャンネル数で操作できるように変更しています。
+ * この変更に伴い従来の最大チャンネル数がマトリクスのデフォルトのチャンネル数になります。
+ * 過去互換の為、エイリアスを残します。
  */
 #define CRIATOMEXASR_MATRIX_MAX_NUM_CHANNELS (CRIATOMEXASR_MATRIX_DEFAULT_NUM_CHANNELS)
 #define CRIATOMEXASR_MATRIX_MAX_NUM_PARAMETERS (CRIATOMEXASR_MATRIX_DEFAULT_NUM_PARAMETERS)
 
 /* 
- * CRI Atom Ver.2.13.00 �ȍ~�ł́AASR�o�X�Ɏg�p����G�t�F�N�g�̎��ʂ�
- * id�i�񋓌^�j���當����ɕύX���A�܂��G�t�F�N�g�̃p�����[�^�[�͍\���̂���float�z��ɕύX���Ă��܂��B
- * ���̕ύX�ɔ����A�ȉ��̗񋓌^�ƍ\���͓̂����I�Ɏg�p���܂���B
- * �ߋ��݊��ׁ̈A�^��`�������c���܂��B
+ * CRI Atom Ver.2.13.00 以降では、ASRバスに使用するエフェクトの識別を
+ * id（列挙型）から文字列に変更し、またエフェクトのパラメーターは構造体からfloat配列に変更しています。
+ * この変更に伴い、以下の列挙型と構造体は内部的に使用しません。
+ * 過去互換の為、型定義だけを残します。
  */
 typedef enum {
 	CRIATOMEXASR_DSP_ID_INVALID = 0,		
@@ -5381,256 +5574,256 @@ extern "C" {
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsr_SetEffectParameter �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsr_SetEffectParameter 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetDspParameter(
 	CriSint32 bus_no, CriAtomExAsrDspId dsp_id, const void* parameter);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsr_SetEffectParameter �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsr_SetEffectParameter 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetDspParameterByName(
 	const CriChar8* bus_name, CriAtomExAsrDspId dsp_id, const void* parameter);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsr_GetEffectParameter �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsr_GetEffectParameter 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_GetDspParameter(
 	CriSint32 bus_no, CriAtomExAsrDspId dsp_id, void* parameter_buf, CriSint32 parameter_size);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsr_GetEffectParameter �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsr_GetEffectParameter 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_GetDspParameterByName(
 	const CriChar8* bus_name, CriAtomExAsrDspId dsp_id, void* parameter_buf, CriSint32 parameter_size);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsrRack_SetEffectBypass �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsrRack_SetEffectBypass 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetDspBypass(
 	CriSint32 bus_no, CriAtomExAsrDspId dsp_id, CriBool bypass);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƌx�����������܂����A�����͍s���܂��B
- * ::criAtomExAsrRack_SetEffectBypass �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すと警告が発生しますが、処理は行われます。
+ * ::criAtomExAsrRack_SetEffectBypass 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetDspBypassByName(
 	const CriChar8* bus_name, CriAtomExAsrDspId dsp_id, CriBool bypass);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_SetBusVolumeByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_SetBusVolumeByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetBusVolume(CriSint32 bus_no, CriFloat32 volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_GetBusVolumeByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_GetBusVolumeByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_GetBusVolume(CriSint32 bus_no, CriFloat32 *volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_SetBusPanInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_SetBusPanInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetBusPan3d(CriSint32 bus_no, 
 	CriFloat32 pan3d_angle, CriFloat32 pan3d_distance, CriFloat32 pan3d_volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_GetBusPanInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_GetBusPanInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_GetBusPan3d(CriSint32 bus_no, 
 	CriFloat32 *pan3d_angle, CriFloat32 *pan3d_distance, CriFloat32 *pan3d_volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_SetBusPanInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_SetBusPanInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetBusPan3dByName(const CriChar8* bus_name,
 	CriFloat32 pan3d_angle, CriFloat32 pan3d_distance, CriFloat32 pan3d_volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_GetBusPanInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_GetBusPanInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_GetBusPan3dByName(const CriChar8* bus_name,
 	CriFloat32 *pan3d_angle, CriFloat32 *pan3d_distance, CriFloat32 *pan3d_volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_SetBusMatrixByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_SetBusMatrixByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetBusMatrix(CriSint32 bus_no, 
 	CriSint32 input_channels, CriSint32 output_channels, const CriFloat32 matrix[]);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_SetBusSendLevelByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_SetBusSendLevelByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetBusSendLevel(
 	CriSint32 bus_no, CriSint32 sendto_no, CriFloat32 level);
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_AttachBusAnalyzerByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_AttachBusAnalyzerByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_AttachBusAnalyzer(
 	CriSint32 bus_no, const CriAtomExAsrBusAnalyzerConfig* config);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_DetachBusAnalyzerByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_DetachBusAnalyzerByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_DetachBusAnalyzer(CriSint32 bus_no);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_GetBusAnalyzerInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_GetBusAnalyzerInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_GetBusAnalyzerInfo(
 	CriSint32 bus_no, CriAtomExAsrBusAnalyzerInfo *info);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsr_SetBusFilterCallbackByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsr_SetBusFilterCallbackByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsr_SetBusFilterCallback(CriSint32 bus_no, 
 	CriAtomExAsrBusFilterCbFunc pre_func, CriAtomExAsrBusFilterCbFunc post_func, void *obj);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsrRack_SetEffectParameter �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsrRack_SetEffectParameter 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetDspParameter(CriAtomExAsrRackId rack_id, 
 	CriSint32 bus_no, CriAtomExAsrDspId dsp_id, const void* parameter);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsrRack_SetEffectParameter �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsrRack_SetEffectParameter 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetDspParameterByName(CriAtomExAsrRackId rack_id, 
 	const CriChar8* bus_name, CriAtomExAsrDspId dsp_id, const void* parameter);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsrRack_GetEffectParameter �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsrRack_GetEffectParameter 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_GetDspParameter(CriAtomExAsrRackId rack_id, 
 	CriSint32 bus_no, CriAtomExAsrDspId dsp_id, void* parameter_buf, CriSint32 parameter_size);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsrRack_GetEffectParameter �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsrRack_GetEffectParameter 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_GetDspParameterByName(CriAtomExAsrRackId rack_id, 
 	const CriChar8* bus_name, CriAtomExAsrDspId dsp_id, void* parameter_buf, CriSint32 parameter_size);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƃG���[�R�[���o�b�N���Ԃ�܂��B
- * ::criAtomExAsrRack_SetEffectBypass �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すとエラーコールバックが返ります。
+ * ::criAtomExAsrRack_SetEffectBypass 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetDspBypass(CriAtomExAsrRackId rack_id, 
 	CriSint32 bus_no, CriAtomExAsrDspId dsp_id, CriBool bypass);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * �Ăяo���ƌx�����������܂����A�����͍s���܂��B
- * ::criAtomExAsrRack_SetEffectBypass �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * 呼び出すと警告が発生しますが、処理は行われます。
+ * ::criAtomExAsrRack_SetEffectBypass 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetDspBypassByName(CriAtomExAsrRackId rack_id, 
 	const CriChar8* bus_name, CriAtomExAsrDspId dsp_id, CriBool bypass);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_SetBusVolumeByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_SetBusVolumeByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetBusVolume(CriAtomExAsrRackId rack_id, 
 	CriSint32 bus_no, CriFloat32 volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_GetBusVolumeByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_GetBusVolumeByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_GetBusVolume(CriAtomExAsrRackId rack_id, 
 	CriSint32 bus_no, CriFloat32* volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_SetBusPanInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_SetBusPanInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetBusPan3d(CriAtomExAsrRackId rack_id, CriSint32 bus_no, 
 	CriFloat32 pan3d_angle, CriFloat32 pan3d_distance, CriFloat32 pan3d_volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_GetBusPanInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_GetBusPanInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_GetBusPan3d(CriAtomExAsrRackId rack_id, CriSint32 bus_no, 
 	CriFloat32 *pan3d_angle, CriFloat32 *pan3d_distance, CriFloat32 *pan3d_volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_SetBusPanInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_SetBusPanInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetBusPan3dByName(CriAtomExAsrRackId rack_id, const CriChar8* bus_name,
 	CriFloat32 pan3d_angle, CriFloat32 pan3d_distance, CriFloat32 pan3d_volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_GetBusPanInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_GetBusPanInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_GetBusPan3dByName(CriAtomExAsrRackId rack_id, const CriChar8* bus_name,
 	CriFloat32 *pan3d_angle, CriFloat32 *pan3d_distance, CriFloat32 *pan3d_volume);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_SetBusMatrixByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_SetBusMatrixByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetBusMatrix(
 	CriAtomExAsrRackId rack_id, CriSint32 bus_no, CriSint32 input_channels, 
@@ -5638,40 +5831,40 @@ void CRIAPI criAtomExAsrRack_SetBusMatrix(
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_SetBusSendLevelByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_SetBusSendLevelByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetBusSendLevel(CriAtomExAsrRackId rack_id,
 	CriSint32 bus_no, CriSint32 sendto_no, CriFloat32 level);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_AttachBusAnalyzerByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_AttachBusAnalyzerByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_AttachBusAnalyzer(CriAtomExAsrRackId rack_id, 
 	CriSint32 bus_no, const CriAtomExAsrBusAnalyzerConfig* config);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_DetachBusAnalyzerByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_DetachBusAnalyzerByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_DetachBusAnalyzer(
 	CriAtomExAsrRackId rack_id, CriSint32 bus_no);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_GetBusAnalyzerInfoByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_GetBusAnalyzerInfoByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_GetBusAnalyzerInfo(CriAtomExAsrRackId rack_id, 
 	CriSint32 bus_no, CriAtomExAsrBusAnalyzerInfo *info);
 
 /*JP
  * \deprecated
- * �폜�\��̔񐄏�API�ł��B
- * ::criAtomExAsrRack_SetBusFilterCallbackByName �֐��̎g�p���������ĉ������B
+ * 削除予定の非推奨APIです。
+ * ::criAtomExAsrRack_SetBusFilterCallbackByName 関数の使用を検討して下さい。
  */
 void CRIAPI criAtomExAsrRack_SetBusFilterCallback(CriAtomExAsrRackId rack_id, 
 	CriSint32 bus_no, CriAtomExAsrBusFilterCbFunc pre_func, 

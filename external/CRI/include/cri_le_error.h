@@ -16,7 +16,7 @@
  */
 /*JP
  * \addtogroup CRI_ERROR
- * ƒGƒ‰[ƒnƒ“ƒhƒŠƒ“ƒO—pŠÖ”ŒQ
+ * ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°ç”¨é–¢æ•°ç¾¤
  * @{
  */
 /*EN
@@ -34,53 +34,53 @@
  *		MACRO CONSTANT														* 
  ****************************************************************************/
 
-/* ƒo[ƒWƒ‡ƒ“”Ô† */
+/* ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå· */
 /*	Version number */
 #define CRIERROR_VER_NAME				"CRI Error"
 #define CRIERROR_VER_NUM				"1.4.5"
 #define CRIERROR_VER_OPTION
 
 /*JP
- * \brief ƒGƒ‰[ƒR[ƒh
+ * \brief ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
  */
 /*EN
  * \brief Error codes
  */
 typedef enum {
-	CRIERR_OK = 0,							/*JP< ³íI—¹ */
+	CRIERR_OK = 0,							/*JP< æ­£å¸¸çµ‚äº† */
 											/*EN< Succeeded */
-	CRIERR_NG = -1,							/*JP< ƒGƒ‰[‚ª”­¶ */
+	CRIERR_NG = -1,							/*JP< ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿ */
 											/*EN< Error occurred */
-	CRIERR_INVALID_PARAMETER = -2,			/*JP< ˆø”‚ª•s³ */
+	CRIERR_INVALID_PARAMETER = -2,			/*JP< å¼•æ•°ãŒä¸æ­£ */
 											/*EN< Invalid argument */
-	CRIERR_FAILED_TO_ALLOCATE_MEMORY = -3,	/*JP< ƒƒ‚ƒŠ‚ÌŠm•Û‚É¸”s */
+	CRIERR_FAILED_TO_ALLOCATE_MEMORY = -3,	/*JP< ãƒ¡ãƒ¢ãƒªã®ç¢ºä¿ã«å¤±æ•— */
 											/*EN< Failed to allocate memory */
-	CRIERR_UNSAFE_FUNCTION_CALL = -4,		/*JP< ”ñƒXƒŒƒbƒhƒZ[ƒtŠÖ”‚Ì•À—ñÀs */
+	CRIERR_UNSAFE_FUNCTION_CALL = -4,		/*JP< éã‚¹ãƒ¬ãƒƒãƒ‰ã‚»ãƒ¼ãƒ•é–¢æ•°ã®ä¸¦åˆ—å®Ÿè¡Œ */
 											/*EN< Parallel execution of thread-unsafe function */
-	CRIERR_FUNCTION_NOT_IMPLEMENTED = -5,	/*JP< –¢À‘•ŠÖ”‚ÌÀs */
+	CRIERR_FUNCTION_NOT_IMPLEMENTED = -5,	/*JP< æœªå®Ÿè£…é–¢æ•°ã®å®Ÿè¡Œ */
 											/*EN< Function not implemented */
-	CRIERR_LIBRARY_NOT_INITIALIZED = -6,	/*JP< ƒ‰ƒCƒuƒ‰ƒŠ‚ª–¢‰Šú‰» */
+	CRIERR_LIBRARY_NOT_INITIALIZED = -6,	/*JP< ãƒ©ã‚¤ãƒ–ãƒ©ãƒªãŒæœªåˆæœŸåŒ– */
 											/*EN< Library not initialized */
 	/* enum be 4bytes */
 	CRIERR_ENUM_BE_SINT32 = 0x7FFFFFFF
 } CriError;
 
 /*JP
- * \brief ƒGƒ‰[’Ê’mƒŒƒxƒ‹
+ * \brief ã‚¨ãƒ©ãƒ¼é€šçŸ¥ãƒ¬ãƒ™ãƒ«
  */
 /*EN
  * \brief Error notification level
  */
 typedef enum {
-	CRIERR_NOTIFY_ALL = 0,		/*JP< ‘S‚Ä‚ÌƒGƒ‰[‚ğ’Ê’m */
+	CRIERR_NOTIFY_ALL = 0,		/*JP< å…¨ã¦ã®ã‚¨ãƒ©ãƒ¼ã‚’é€šçŸ¥ */
 								/*EN< Notify all errors */
-	CRIERR_NOTIFY_FATAL = 1,	/*JP< ƒGƒ‰[‚Ì‚İ’Ê’miŒx‚Í–³‹j */
+	CRIERR_NOTIFY_FATAL = 1,	/*JP< ã‚¨ãƒ©ãƒ¼ã®ã¿é€šçŸ¥ï¼ˆè­¦å‘Šã¯ç„¡è¦–ï¼‰ */
 								/*EN< Notify error (Disregards warning) */
 	/* enum be 4bytes */
 	CRIERR_NOTIFY_ENUM_BE_SINT32 = 0x7FFFFFFF
 } CriErrorNotificationLevel;
 
-/* ƒGƒ‰[ƒŒƒxƒ‹ */
+/* ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ« */
 /* Error level */
 typedef enum {
 	CRIERR_LEVEL_ERROR = 0,
@@ -94,14 +94,14 @@ typedef enum {
  ****************************************************************************/
 
 #if defined(CRIERROR_SIMPLIFY)
-	/* ƒGƒ‰[‚Ì’Ê’m */
+	/* ã‚¨ãƒ©ãƒ¼ã®é€šçŸ¥ */
 	/* Notification of Error */
 	#define criErr_NotifyError(id, msg)							criErr_NotifyErrorSimple()
 	#define criErr_NotifyError1(id, msg, p1)					criErr_NotifyErrorSimple()
 	#define criErr_NotifyError2(id, msg, p1, p2)				criErr_NotifyErrorSimple()
 	#define criErr_NotifyErrorPrmArray(id, msg, p1, p2, pa)		criErr_NotifyErrorSimple()
 	#define criErr_NotifyErrorGeneric(_error_id, _error_no)		criErr_NotifyErrorSimple()
-	/* Œx‚Ì’Ê’m */
+	/* è­¦å‘Šã®é€šçŸ¥ */
 	/* Notification of Warning */
 	#define criErr_NotifyWarning(id, msg)						criErr_NotifyWarningSimple()
 	#define criErr_NotifyWarning1(id, msg, p1)					criErr_NotifyWarningSimple()
@@ -109,14 +109,14 @@ typedef enum {
 	#define criErr_NotifyWarningPrmArray(id, msg, p1, p2, pa)	criErr_NotifyWarningSimple()
 	#define criErr_NotifyWarningGeneric(_error_id, _error_no)	criErr_NotifyWarningSimple()
 #else
-	/* ƒGƒ‰[‚Ì’Ê’m */
+	/* ã‚¨ãƒ©ãƒ¼ã®é€šçŸ¥ */
 	/* Notification of Error */
 	#define criErr_NotifyError(id, msg)							criErr_Notify(CRIERR_LEVEL_ERROR, id ":" msg)
 	#define criErr_NotifyError1(id, msg, p1)					criErr_Notify1(CRIERR_LEVEL_ERROR, (id ":" msg), (CriUintPtr)(p1))
 	#define criErr_NotifyError2(id, msg, p1, p2)				criErr_Notify2(CRIERR_LEVEL_ERROR, (id ":" msg), (CriUintPtr)(p1), (CriUintPtr)(p2))
 	#define criErr_NotifyErrorPrmArray(id, msg, p1, p2, pa)		criErr_NotifyPrmArray(CRIERR_LEVEL_ERROR, (id ":" msg), (CriUintPtr)(p1), (CriUintPtr)(p2), (CriUintPtr *)(pa))
 	#define criErr_NotifyErrorGeneric(_error_id, _error_no)		criErr_NotifyGeneric(CRIERR_LEVEL_ERROR, _error_id, _error_no)
-	/* Œx‚Ì’Ê’m */
+	/* è­¦å‘Šã®é€šçŸ¥ */
 	/* Notification of Warning */
 	#define criErr_NotifyWarning(id, msg)						criErr_Notify(CRIERR_LEVEL_WARNING, id ":" msg)
 	#define criErr_NotifyWarning1(id, msg, p1)					criErr_Notify1(CRIERR_LEVEL_WARNING, (id ":" msg), (CriUintPtr)(p1))
@@ -133,10 +133,10 @@ typedef enum {
 typedef void (CRIAPI *CriErrCbFunc)(const CriChar8 *errid, CriUint32 p1, CriUint32 p2, CriUint32 *parray);
 
 /****************************************************************************
- *		•Ï”‚ÌéŒ¾															*
+ *		å¤‰æ•°ã®å®£è¨€															*
  *      Variable Declaration												*
  ****************************************************************************/
-/* ƒGƒ‰[o—ÍÈ—ª—p•Ï” */
+/* ã‚¨ãƒ©ãƒ¼å‡ºåŠ›çœç•¥ç”¨å¤‰æ•° */
 /* default argument of CriError */
 #ifdef __cplusplus
 namespace criErr {
@@ -145,7 +145,7 @@ namespace criErr {
 #endif	/* __cplusplus */
 
 /****************************************************************************
- *		ŠÖ”‚ÌéŒ¾															*
+ *		é–¢æ•°ã®å®£è¨€															*
  *      Function Declaration												*
  ****************************************************************************/
 
@@ -154,15 +154,15 @@ extern "C" {
 #endif /* __cplusplus */
 
 /*JP
- * \brief		ƒGƒ‰[ID•¶š—ñ‚©‚çƒGƒ‰[ƒƒbƒZ[ƒW‚Ö•ÏŠ·
+ * \brief		ã‚¨ãƒ©ãƒ¼IDæ–‡å­—åˆ—ã‹ã‚‰ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¸å¤‰æ›
  * \ingroup 	CRI_ERROR
- * \param[in]	errid	ƒGƒ‰[ID•¶š—ñ
- * \return		ƒGƒ‰[ƒƒbƒZ[ƒW
- * \par à–¾:
- * ƒGƒ‰[ID•¶š—ñ‚©‚çÚ×‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚Ö•ÏŠ·‚µ‚Ü‚·B<br>
+ * \param[in]	errid	ã‚¨ãƒ©ãƒ¼IDæ–‡å­—åˆ—
+ * \return		ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+ * \par èª¬æ˜:
+ * ã‚¨ãƒ©ãƒ¼IDæ–‡å­—åˆ—ã‹ã‚‰è©³ç´°ãªã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¸å¤‰æ›ã—ã¾ã™ã€‚<br>
  * \attention
- * ‚±‚ÌŠÖ”‚Í‹Œd—l‚ÌŠÖ”‚Å‚·B<br>
- * ‘ã‚í‚è‚É ::criErr_ConvertIdToMessage ŠÖ”‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
+ * ã“ã®é–¢æ•°ã¯æ—§ä»•æ§˜ã®é–¢æ•°ã§ã™ã€‚<br>
+ * ä»£ã‚ã‚Šã« ::criErr_ConvertIdToMessage é–¢æ•°ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
  * \sa criErr_ConvertIdToMessage
  */
 /*EN
@@ -180,15 +180,15 @@ extern "C" {
 const CriChar8* CRIAPI criErr_ConvertIdToMsg(const CriChar8 *errid);
 
 /*JP
- * \brief		ƒGƒ‰[ID•¶š—ñ‚©‚çƒGƒ‰[ƒƒbƒZ[ƒW‚Ö•ÏŠ·
+ * \brief		ã‚¨ãƒ©ãƒ¼IDæ–‡å­—åˆ—ã‹ã‚‰ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¸å¤‰æ›
  * \ingroup 	CRI_ERROR
- * \param[in]	errid	ƒGƒ‰[ID•¶š—ñ
- * \param[in]	p1		•â‘«î•ñ1
- * \param[in]	p2		•â‘«î•ñ2
- * \return		ƒGƒ‰[ƒƒbƒZ[ƒW
- * \par à–¾:
- * ƒGƒ‰[ID•¶š—ñ‚©‚çÚ×‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚Ö•ÏŠ·‚µ‚Ü‚·B<br>
- * \par —p—á:
+ * \param[in]	errid	ã‚¨ãƒ©ãƒ¼IDæ–‡å­—åˆ—
+ * \param[in]	p1		è£œè¶³æƒ…å ±1
+ * \param[in]	p2		è£œè¶³æƒ…å ±2
+ * \return		ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+ * \par èª¬æ˜:
+ * ã‚¨ãƒ©ãƒ¼IDæ–‡å­—åˆ—ã‹ã‚‰è©³ç´°ãªã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¸å¤‰æ›ã—ã¾ã™ã€‚<br>
+ * \par ç”¨ä¾‹:
  * \code
  * void user_error_callback_func(const CriChar8 *errid, CriUint32 p1, CriUint32 p2, CriUint32 *parray);
  * {
@@ -220,14 +220,14 @@ const CriChar8* CRIAPI criErr_ConvertIdToMsg(const CriChar8 *errid);
 const CriChar8* CRIAPI criErr_ConvertIdToMessage(const CriChar8 *errid, CriUint32 p1, CriUint32 p2);
 
 /*JP
- * \brief		ƒGƒ‰[ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^
+ * \brief		ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ç™»éŒ²
  * \ingroup 	CRI_ERROR
- * \param[in]	cbf	ƒGƒ‰[ƒR[ƒ‹ƒoƒbƒNŠÖ”
- * \return		‚È‚µ
- * \par à–¾:
- * ƒGƒ‰[ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚µ‚Ü‚·B<br>
- * “o˜^‚³‚ê‚½ŠÖ”‚ÍACRIƒ~ƒhƒ‹ƒEƒGƒAƒ‰ƒCƒuƒ‰ƒŠ“à‚ÅƒGƒ‰[‚ª”­¶‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B<br>
- * \par —p—á:
+ * \param[in]	cbf	ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
+ * \return		ãªã—
+ * \par èª¬æ˜:
+ * ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã‚’ç™»éŒ²ã—ã¾ã™ã€‚<br>
+ * ç™»éŒ²ã•ã‚ŒãŸé–¢æ•°ã¯ã€CRIãƒŸãƒ‰ãƒ«ã‚¦ã‚¨ã‚¢ãƒ©ã‚¤ãƒ–ãƒ©ãƒªå†…ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸã¨ãã«å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚<br>
+ * \par ç”¨ä¾‹:
  * \code
  * void user_error_callback_func(const CriChar8 *errid, CriUint32 p1, CriUint32 p2, CriUint32 *parray);
  * {
@@ -238,20 +238,20 @@ const CriChar8* CRIAPI criErr_ConvertIdToMessage(const CriChar8 *errid, CriUint3
  * 
  * void main(int ac, char *av[])
  * {
- * 		F
- * 	// ƒGƒ‰[ƒR[ƒ‹ƒoƒbƒN‚Ì“o˜^
+ * 		ï¼š
+ * 	// ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã®ç™»éŒ²
  * 	criErr_SetCallback(user_error_callback_func);
- * 		F
+ * 		ï¼š
  * }
  * \endcode
  * \attention
- * “¯‚É“o˜^‚Å‚«‚éƒGƒ‰[ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Í‚P‚Â‚Å‚·B<br>
- * “o˜^Œã‚ÉÄ“x–{ŠÖ”‚ğŒÄ‚Ño‚µ‚½ê‡‚ÍŒ»İ‚Ì“o˜^‚ğã‘‚«‚µ‚Ü‚·B<br>
+ * åŒæ™‚ã«ç™»éŒ²ã§ãã‚‹ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã¯ï¼‘ã¤ã§ã™ã€‚<br>
+ * ç™»éŒ²å¾Œã«å†åº¦æœ¬é–¢æ•°ã‚’å‘¼ã³å‡ºã—ãŸå ´åˆã¯ç¾åœ¨ã®ç™»éŒ²ã‚’ä¸Šæ›¸ãã—ã¾ã™ã€‚<br>
  * <br>
- * ƒGƒ‰[ƒR[ƒ‹ƒoƒbƒN‚Ìã‘‚«‚ª”­¶‚µ‚½ê‡Aã‘‚«‚µ‚½‘¤A‚³‚ê‚½‘¤‘o•û‚ÉŒx‚ª•Ô‚³‚ê‚Ü‚·B<br>
- * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì³í‚Èˆ—‚Ì—¬‚ê‚Æ‚µ‚ÄAˆÓ}“I‚ÉƒGƒ‰[ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì·‚µ‘Ö‚¦‚ğs‚¤ƒP[ƒX‚ª‚ ‚éê‡‚É‚ÍA
- * ˆê’UucriErr_SetCallback(NULL);v‚ğÀs‚µ‚ÄƒR[ƒ‹ƒoƒbƒN‚Ì“o˜^‚ğ‰ğœ‚µA
- * ‚»‚ÌŒã‚É‰ü‚ß‚ÄƒGƒ‰[ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^‚ğs‚Á‚Ä‚­‚¾‚³‚¢B
+ * ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã®ä¸Šæ›¸ããŒç™ºç”Ÿã—ãŸå ´åˆã€ä¸Šæ›¸ãã—ãŸå´ã€ã•ã‚ŒãŸå´åŒæ–¹ã«è­¦å‘ŠãŒè¿”ã•ã‚Œã¾ã™ã€‚<br>
+ * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®æ­£å¸¸ãªå‡¦ç†ã®æµã‚Œã¨ã—ã¦ã€æ„å›³çš„ã«ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®å·®ã—æ›¿ãˆã‚’è¡Œã†ã‚±ãƒ¼ã‚¹ãŒã‚ã‚‹å ´åˆã«ã¯ã€
+ * ä¸€æ—¦ã€ŒcriErr_SetCallback(NULL);ã€ã‚’å®Ÿè¡Œã—ã¦ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã®ç™»éŒ²ã‚’è§£é™¤ã—ã€
+ * ãã®å¾Œã«æ”¹ã‚ã¦ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ç™»éŒ²ã‚’è¡Œã£ã¦ãã ã•ã„ã€‚
  */
 /*EN
  * \brief		Register error callback function
@@ -282,12 +282,12 @@ const CriChar8* CRIAPI criErr_ConvertIdToMessage(const CriChar8 *errid, CriUint3
 void CRIAPI criErr_SetCallback(CriErrCbFunc cbf);
 
 /*JP
- *  \brief		ƒGƒ‰[’Ê’mƒŒƒxƒ‹‚Ì•ÏX
+ *  \brief		ã‚¨ãƒ©ãƒ¼é€šçŸ¥ãƒ¬ãƒ™ãƒ«ã®å¤‰æ›´
  *	\ingroup 	CRI_ERROR
- *	\param[in]	level	ƒGƒ‰[’Ê’mƒŒƒxƒ‹
- *	\return		‚È‚µ
- *	\par à–¾:
- *	ƒGƒ‰[ƒR[ƒ‹ƒoƒbƒN‚É’Ê’m‚·‚éƒGƒ‰[‚ÌƒŒƒxƒ‹‚ğ•ÏX‚µ‚Ü‚·B
+ *	\param[in]	level	ã‚¨ãƒ©ãƒ¼é€šçŸ¥ãƒ¬ãƒ™ãƒ«
+ *	\return		ãªã—
+ *	\par èª¬æ˜:
+ *	ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã«é€šçŸ¥ã™ã‚‹ã‚¨ãƒ©ãƒ¼ã®ãƒ¬ãƒ™ãƒ«ã‚’å¤‰æ›´ã—ã¾ã™ã€‚
  */
 /*EN
  * \brief Change error notification level
@@ -300,12 +300,12 @@ void CRIAPI criErr_SetCallback(CriErrCbFunc cbf);
 void CRIAPI criErr_SetErrorNotificationLevel(CriErrorNotificationLevel level);
 
 /*JP
- *  \brief		ƒGƒ‰[”­¶‰ñ”‚Ìæ“¾
+ *  \brief		ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°ã®å–å¾—
  *	\ingroup 	CRI_ERROR
- *	\param[in]	level	ƒGƒ‰[ƒŒƒxƒ‹
- *	\return		ƒGƒ‰[”­¶‰ñ”
- *	\par à–¾:
- *	ƒGƒ‰[”­¶‰ñ”‚ğæ“¾‚µ‚Ü‚·B
+ *	\param[in]	level	ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«
+ *	\return		ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°
+ *	\par èª¬æ˜:
+ *	ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
  */
 /*EN
  * \brief Retrieve error count
@@ -318,12 +318,12 @@ void CRIAPI criErr_SetErrorNotificationLevel(CriErrorNotificationLevel level);
 CriUint32 CRIAPI criErr_GetErrorCount(CriErrorLevel level);
 
 /*JP
- *  \brief		ƒGƒ‰[”­¶‰ñ”‚ÌƒŠƒZƒbƒg
+ *  \brief		ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°ã®ãƒªã‚»ãƒƒãƒˆ
  *	\ingroup 	CRI_ERROR
- *	\param[in]	level	ƒGƒ‰[ƒŒƒxƒ‹
- *	\return		‚È‚µ
- *	\par à–¾:
- *	ƒGƒ‰[”­¶‰ñ”‚ÌƒJƒEƒ“ƒ^‚ğ0‚É–ß‚µ‚Ü‚·B
+ *	\param[in]	level	ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«
+ *	\return		ãªã—
+ *	\par èª¬æ˜:
+ *	ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿå›æ•°ã®ã‚«ã‚¦ãƒ³ã‚¿ã‚’0ã«æˆ»ã—ã¾ã™ã€‚
  */
 /*EN
  * \brief Resets error count
@@ -335,7 +335,7 @@ CriUint32 CRIAPI criErr_GetErrorCount(CriErrorLevel level);
  */
 void CRIAPI criErr_ResetErrorCount(CriErrorLevel level);
 
-/* ƒGƒ‰[ƒR[ƒ‹ƒoƒbƒN‚ğ”­¶‚³‚¹‚é (“à•”ŠÖ”) */
+/* ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’ç™ºç”Ÿã•ã›ã‚‹ (å†…éƒ¨é–¢æ•°) */
 /* Error notification (Internal functions) */
 
 #ifdef __cplusplus
@@ -343,7 +343,7 @@ void CRIAPI criErr_ResetErrorCount(CriErrorLevel level);
 #endif /* __cplusplus */
 
 /***************************************************************************
- *      ‹Œƒo[ƒWƒ‡ƒ“‚Æ‚ÌŒİŠ·—p
+ *      æ—§ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¨ã®äº’æ›ç”¨
  *      For compatibility with old versions
  ***************************************************************************/
 

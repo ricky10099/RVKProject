@@ -13,13 +13,13 @@
  *	\file		cri_atom_wasapi.h
  */
 
-/* ���d��`�h�~					*/
+/* 多重定義防止					*/
 /* Prevention of redefinition	*/
 #ifndef CRI_INCL_CRI_ATOM_WASAPI_H
 #define CRI_INCL_CRI_ATOM_WASAPI_H
 
 /***************************************************************************
- *      �C���N���[�h�t�@�C��
+ *      インクルードファイル
  *      Include files
  ***************************************************************************/
 #include <Windows.h>
@@ -33,28 +33,28 @@
 #include <cri_le_atom_asr.h>
 
 /***************************************************************************
- *      �萔�}�N��
+ *      定数マクロ
  *      Macro Constants
  ***************************************************************************/
 
 /***************************************************************************
- *      �����}�N��
+ *      処理マクロ
  *      Macro Functions
  ***************************************************************************/
 /*==========================================================================
  *      CRI Atom API
  *=========================================================================*/
 /*JP
- * \brief ���C�u�����������p�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * \brief ライブラリ初期化用コンフィグ構造体にデフォルト値をセット
  * \ingroup ATOMLIB_WASAPI
- * \param[out]	p_config	�������p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtom_Initialize_WASAPI �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomConfig_WASAPI �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtom_Initialize_WASAPI 関数に設定するコンフィグ構造体
+ * （ ::CriAtomConfig_WASAPI ）に、デフォルトの値をセットします。<br>
  * \attention
- * �{�}�N���͉��ʃ��C��������API�ł��B<br>
- * AtomEx���C���̋@�\�𗘗p����ۂɂ́A�{�}�N���̑���� 
- * ::criAtomEx_SetDefaultConfig_WASAPI �}�N���������p���������B
+ * 本マクロは下位レイヤ向けのAPIです。<br>
+ * AtomExレイヤの機能を利用する際には、本マクロの代わりに 
+ * ::criAtomEx_SetDefaultConfig_WASAPI マクロをご利用ください。
  * \sa CriAtomConfig_WASAPI
  */
 #define criAtom_SetDefaultConfig_WASAPI(p_config)			\
@@ -68,12 +68,12 @@
  *      CRI AtomEx API
  *=========================================================================*/
 /*JP
- * \brief ���C�u�����������p�R���t�B�O�\���̂Ƀf�t�H���g�l���Z�b�g
+ * \brief ライブラリ初期化用コンフィグ構造体にデフォルト値をセット
  * \ingroup ATOMLIB_WASAPI
- * \param[out]	p_config	�������p�R���t�B�O�\���̂ւ̃|�C���^
- * \par ����:
- * ::criAtomEx_Initialize_WASAPI �֐��ɐݒ肷��R���t�B�O�\����
- * �i ::CriAtomExConfig_WASAPI �j�ɁA�f�t�H���g�̒l���Z�b�g���܂��B<br>
+ * \param[out]	p_config	初期化用コンフィグ構造体へのポインタ
+ * \par 説明:
+ * ::criAtomEx_Initialize_WASAPI 関数に設定するコンフィグ構造体
+ * （ ::CriAtomExConfig_WASAPI ）に、デフォルトの値をセットします。<br>
  * \sa CriAtomExConfig_WASAPI
  */
 #define criAtomEx_SetDefaultConfig_WASAPI(p_config)			\
@@ -85,52 +85,52 @@
 }
 
 /***************************************************************************
- *      �f�[�^�^�錾
+ *      データ型宣言
  *      Data Type Declarations
  ***************************************************************************/
 /*==========================================================================
  *      CRI Atom API
  *=========================================================================*/
 /*JP
- * \brief Atom���C�u�����������p�R���t�B�O�\����
+ * \brief Atomライブラリ初期化用コンフィグ構造体
  * \ingroup ATOMLIB_WASAPI
- * CRI Atom���C�u�����̓���d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtom_Initialize_WASAPI �֐��̈����Ɏw�肵�܂��B<br>
+ * CRI Atomライブラリの動作仕様を指定するための構造体です。<br>
+ * ::criAtom_Initialize_WASAPI 関数の引数に指定します。<br>
  * \attention
- * �{�\���͉̂��ʃ��C��������API�ł��B<br>
- * AtomEx���C���̋@�\�𗘗p����ۂɂ́A�{�\���̂̑���� 
- * ::CriAtomExConfig_WASAPI �\���̂������p���������B
+ * 本構造体は下位レイヤ向けのAPIです。<br>
+ * AtomExレイヤの機能を利用する際には、本構造体の代わりに 
+ * ::CriAtomExConfig_WASAPI 構造体をご利用ください。
  * \sa criAtom_Initialize_WASAPI, criAtom_SetDefaultConfig_WASAPI
  */
 typedef struct CriAtomConfigTag_WASAPI {
-	CriAtomConfig			atom;		/*JP< Atom�������p�R���t�B�O�\����		*/
-	CriAtomAsrConfig		asr;		/*JP< ASR�������p�R���t�B�O			*/
-	CriAtomHcaMxConfig		hca_mx;		/*JP< HCA-MX�������p�R���t�B�O�\����	*/
+	CriAtomConfig			atom;		/*JP< Atom初期化用コンフィグ構造体		*/
+	CriAtomAsrConfig		asr;		/*JP< ASR初期化用コンフィグ			*/
+	CriAtomHcaMxConfig		hca_mx;		/*JP< HCA-MX初期化用コンフィグ構造体	*/
 } CriAtomConfig_WASAPI;
 
 /*JP
- * \brief �I�[�f�B�I�G���h�|�C���g�񋓃R�[���o�b�N
+ * \brief オーディオエンドポイント列挙コールバック
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	object				���[�U�w��I�u�W�F�N�g
- * \param[in]	device				IMMDevice�C���X�^���X
- * \par ����:
- * �I�[�f�B�I�G���h�|�C���g�̒ʒm�Ɏg�p�����A�R�[���o�b�N�֐��̌^�ł��B<br>
- * ::criAtom_EnumAudioEndpoints_WASAPI �֐��ɖ{�֐��^�̃R�[���o�b�N�֐���o�^���邱�ƂŁA
- * IMMDevice�C���X�^���X���R�[���o�b�N�o�R�Ŏ󂯎�邱�Ƃ��\�ł��B<br>
+ * \param[in]	object				ユーザ指定オブジェクト
+ * \param[in]	device				IMMDeviceインスタンス
+ * \par 説明:
+ * オーディオエンドポイントの通知に使用される、コールバック関数の型です。<br>
+ * ::criAtom_EnumAudioEndpoints_WASAPI 関数に本関数型のコールバック関数を登録することで、
+ * IMMDeviceインスタンスをコールバック経由で受け取ることが可能です。<br>
  * \attention
- * IMMDevice�C���X�^���X���R�[���o�b�N�֐����Ŕj�����Ă͂����܂���B<br>
+ * IMMDeviceインスタンスをコールバック関数内で破棄してはいけません。<br>
  * \sa criAtom_EnumAudioEndpoints_WASAPI
  */
 typedef void (CRIAPI *CriAtomAudioEndpointCbFunc_WASAPI)(void *object, IMMDevice *device);
 
 /*JP
- * \brief �f�o�C�X�X�V�ʒm�R�[���o�b�N
+ * \brief デバイス更新通知コールバック
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	object				���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �f�o�C�X�̍X�V�ʒm�Ɏg�p�����A�R�[���o�b�N�֐��̌^�ł��B<br>
- * ::criAtom_SetDeviceUpdateCallback_WASAPI �֐��ɖ{�֐��^�̃R�[���o�b�N�֐���o�^���邱�ƂŁA
- * �f�o�C�X���X�V���ꂽ�ۂɃR�[���o�b�N�o�R�Œʒm���󂯎�邱�Ƃ��\�ł��B<br>
+ * \param[in]	object				ユーザ指定オブジェクト
+ * \par 説明:
+ * デバイスの更新通知に使用される、コールバック関数の型です。<br>
+ * ::criAtom_SetDeviceUpdateCallback_WASAPI 関数に本関数型のコールバック関数を登録することで、
+ * デバイスが更新された際にコールバック経由で通知を受け取ることが可能です。<br>
  * \sa criAtom_SetDeviceUpdateCallback_WASAPI
  */
 typedef void (CRIAPI *CriAtomDeviceUpdateCbFunc_WASAPI)(void *object);
@@ -139,25 +139,25 @@ typedef void (CRIAPI *CriAtomDeviceUpdateCbFunc_WASAPI)(void *object);
  *      CRI AtomEx API
  *=========================================================================*/
 /*JP
- * \brief Atom���C�u�����������p�R���t�B�O�\����
+ * \brief Atomライブラリ初期化用コンフィグ構造体
  * \ingroup ATOMLIB_WASAPI
- * CRI Atom���C�u�����̓���d�l���w�肷�邽�߂̍\���̂ł��B<br>
- * ::criAtomEx_Initialize_WASAPI �֐��̈����Ɏw�肵�܂��B<br>
+ * CRI Atomライブラリの動作仕様を指定するための構造体です。<br>
+ * ::criAtomEx_Initialize_WASAPI 関数の引数に指定します。<br>
  * \sa criAtomEx_Initialize_WASAPI, criAtomEx_SetDefaultConfig_WASAPI
  */
 typedef struct CriAtomExConfigTag_WASAPI {
-	CriAtomExConfig			atom_ex;	/*JP< AtomEx�������p�R���t�B�O�\����	*/
-	CriAtomExAsrConfig		asr;		/*JP< ASR�������p�R���t�B�O			*/
-	CriAtomExHcaMxConfig	hca_mx;		/*JP< HCA-MX�������p�R���t�B�O�\����	*/
+	CriAtomExConfig			atom_ex;	/*JP< AtomEx初期化用コンフィグ構造体	*/
+	CriAtomExAsrConfig		asr;		/*JP< ASR初期化用コンフィグ			*/
+	CriAtomExHcaMxConfig	hca_mx;		/*JP< HCA-MX初期化用コンフィグ構造体	*/
 } CriAtomExConfig_WASAPI;
 
 /***************************************************************************
- *      �ϐ��錾
+ *      変数宣言
  *      Prototype Variables
  ***************************************************************************/
 
 /***************************************************************************
- *      �֐��錾
+ *      関数宣言
  *      Prototype Functions
  ***************************************************************************/
 #ifdef __cplusplus
@@ -168,67 +168,67 @@ extern "C" {
  *      CRI Atom API
  *=========================================================================*/
 /*JP
- * \brief ���C�u�����������p���[�N�̈�T�C�Y�̌v�Z
+ * \brief ライブラリ初期化用ワーク領域サイズの計算
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	config		�������p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \par ����:
- * ���C�u�������g�p���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
- * \par ���l:
- * ���C�u�������K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A���C�u�����������p�R���t�B�O
- * �\���́i ::CriAtomConfig_WASAPI �j�̓��e�ɂ���ĕω����܂��B<br>
+ * \param[in]	config		初期化用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \par 説明:
+ * ライブラリを使用するために必要な、ワーク領域のサイズを取得します。<br>
+ * \par 備考:
+ * ライブラリが必要とするワーク領域のサイズは、ライブラリ初期化用コンフィグ
+ * 構造体（ ::CriAtomConfig_WASAPI ）の内容によって変化します。<br>
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐��͉��ʃ��C��������API�ł��B<br>
- * AtomEx���C���̋@�\�𗘗p����ۂɂ́A�{�֐��̑���� 
- * ::criAtomEx_CalculateWorkSize_WASAPI �֐��������p���������B
+ * 本関数は下位レイヤ向けのAPIです。<br>
+ * AtomExレイヤの機能を利用する際には、本関数の代わりに 
+ * ::criAtomEx_CalculateWorkSize_WASAPI 関数をご利用ください。
  * \sa CriAtomConfig_WASAPI, criAtom_Initialize_WASAPI
  */
 CriSint32 CRIAPI criAtom_CalculateWorkSize_WASAPI(const CriAtomConfig_WASAPI *config);
 
 /*JP
- * \brief ���C�u�����̏�����
+ * \brief ライブラリの初期化
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	config		�������p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \par ����:
- * ���C�u���������������܂��B<br>
- * ���C�u�����̋@�\�𗘗p����ɂ́A�K�����̊֐������s����K�v������܂��B<br>
- * �i���C�u�����̋@�\�́A�{�֐������s��A ::criAtom_Finalize_WASAPI �֐������s����܂ł̊ԁA
- * ���p�\�ł��B�j<br>
+ * \param[in]	config		初期化用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \par 説明:
+ * ライブラリを初期化します。<br>
+ * ライブラリの機能を利用するには、必ずこの関数を実行する必要があります。<br>
+ * （ライブラリの機能は、本関数を実行後、 ::criAtom_Finalize_WASAPI 関数を実行するまでの間、
+ * 利用可能です。）<br>
  * <br>
- * ���C�u����������������ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���C�u�������K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�������p�R���t�B�O�\���̂̓��e�ɉ�����
- * �ω����܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�ɂ́A ::criAtom_CalculateWorkSize_WASAPI 
- * �֐����g�p���Ă��������B<br>
- * \par ���l:
- * ::criAtom_SetUserAllocator �}�N�����g�p���ăA���P�[�^�[��o�^�ς݂̏ꍇ�A
- * �{�֐��Ƀ��[�N�̈���w�肷��K�v�͂���܂���B<br>
- * �i work �� NULL �A work_size �� 0 ���w�肷�邱�ƂŁA�o�^�ς݂̃A���P�[�^�[
- * ����K�v�ȃ��[�N�̈�T�C�Y���̃����������I�Ɋm�ۂ���܂��B�j
+ * ライブラリを初期化する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ライブラリが必要とするワーク領域のサイズは、初期化用コンフィグ構造体の内容に応じて
+ * 変化します。<br>
+ * ワーク領域サイズの計算には、 ::criAtom_CalculateWorkSize_WASAPI 
+ * 関数を使用してください。<br>
+ * \par 備考:
+ * ::criAtom_SetUserAllocator マクロを使用してアロケーターを登録済みの場合、
+ * 本関数にワーク領域を指定する必要はありません。<br>
+ * （ work に NULL 、 work_size に 0 を指定することで、登録済みのアロケーター
+ * から必要なワーク領域サイズ分のメモリが動的に確保されます。）
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐��͓����I�Ɉȉ��̊֐������s���܂��B<br>
+ * 本関数は内部的に以下の関数を実行します。<br>
  * 	- ::criAtom_Initialize
  * 	- ::criAtomAsr_Initialize
  * 	- ::criAtomHcaMx_Initialize
- * �{�֐������s����ꍇ�A��L�֐������s���Ȃ��ł��������B<br>
+ * 本関数を実行する場合、上記関数を実行しないでください。<br>
  * <br>
- * �{�֐������s��A�K���΂ɂȂ� ::criAtom_Finalize_WASAPI �֐������s���Ă��������B<br>
- * �܂��A ::criAtom_Finalize_WASAPI �֐������s����܂ł́A�{�֐����ēx���s���Ȃ��ł��������B<br>
+ * 本関数を実行後、必ず対になる ::criAtom_Finalize_WASAPI 関数を実行してください。<br>
+ * また、 ::criAtom_Finalize_WASAPI 関数を実行するまでは、本関数を再度実行しないでください。<br>
  * <br>
- * �{�֐��͉��ʃ��C��������API�ł��B<br>
- * AtomEx���C���̋@�\�𗘗p����ۂɂ́A�{�֐��̑���� 
- * ::criAtomEx_Initialize_WASAPI �֐��������p���������B
+ * 本関数は下位レイヤ向けのAPIです。<br>
+ * AtomExレイヤの機能を利用する際には、本関数の代わりに 
+ * ::criAtomEx_Initialize_WASAPI 関数をご利用ください。
  * \sa CriAtomConfig_WASAPI, criAtom_Finalize_WASAPI,
  * criAtom_SetUserAllocator, criAtom_CalculateWorkSize_WASAPI
  */
@@ -236,277 +236,277 @@ void CRIAPI criAtom_Initialize_WASAPI(
 	const CriAtomConfig_WASAPI *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ���C�u�����̏I��
+ * \brief ライブラリの終了
  * \ingroup ATOMLIB_WASAPI
- * \par ����:
- * ���C�u�������I�����܂��B<br>
+ * \par 説明:
+ * ライブラリを終了します。<br>
  * \attention
- * �{�֐��͓����I�Ɉȉ��̊֐������s���܂��B<br>
+ * 本関数は内部的に以下の関数を実行します。<br>
  * 	- ::criAtom_Finalize
  * 	- ::criAtomAsr_Finalize
  * 	- ::criAtomHcaMx_Finalize
- * �{�֐������s����ꍇ�A��L�֐������s���Ȃ��ł��������B<br>
+ * 本関数を実行する場合、上記関数を実行しないでください。<br>
  * <br>
- * ::criAtom_Initialize_WASAPI �֐����s�O�ɖ{�֐������s���邱�Ƃ͂ł��܂���B<br>
+ * ::criAtom_Initialize_WASAPI 関数実行前に本関数を実行することはできません。<br>
  * <br>
- * �{�֐��͉��ʃ��C��������API�ł��B<br>
- * AtomEx���C���̋@�\�𗘗p����ۂɂ́A�{�֐��̑���� 
- * ::criAtomEx_Finalize_WASAPI �֐��������p���������B
+ * 本関数は下位レイヤ向けのAPIです。<br>
+ * AtomExレイヤの機能を利用する際には、本関数の代わりに 
+ * ::criAtomEx_Finalize_WASAPI 関数をご利用ください。
  * \sa criAtom_Initialize_WASAPI
  */
 void CRIAPI criAtom_Finalize_WASAPI(void);
 
 /*JP
- * \brief �f�t�H���g�f�o�C�X��ʂ̎w��
+ * \brief デフォルトデバイス種別の指定
  * \ingroup ATOMLIB_WASAPI
- * \param[out]	role		�f�t�H���g�f�o�C�X�Ƃ��Ďg�p����f�o�C�X�̎��
- * \par ����:
- * �f�t�H���g�f�o�C�X�̎�ʂ��w�肵�܂��B
- * role��eConsole���w�肵���ꍇ�AAtom���C�u�����͊���̃f�o�C�X���g�p���ĉ������o�͂��܂��B<br>
- * role��eCommunications���w�肵���ꍇ�AAtom���C�u�����͊���̒ʐM�f�o�C�X���g�p���ĉ������o�͂��܂��B
+ * \param[out]	role		デフォルトデバイスとして使用するデバイスの種別
+ * \par 説明:
+ * デフォルトデバイスの種別を指定します。
+ * roleにeConsoleを指定した場合、Atomライブラリは既定のデバイスを使用して音声を出力します。<br>
+ * roleにeCommunicationsを指定した場合、Atomライブラリは既定の通信デバイスを使用して音声を出力します。
  * \attention
- * �{�֐��̓��C�u�����������O�Ɏg�p����K�v������܂��B<br>
+ * 本関数はライブラリ初期化前に使用する必要があります。<br>
  */
 #if !defined(XPT_TGT_WINRT)
 void CRIAPI criAtom_SetDefaultDeviceRole_WASAPI(ERole role);
 #endif
 
 /*JP
- * \brief �~�L�T�t�H�[�}�b�g�̎擾
+ * \brief ミキサフォーマットの取得
  * \ingroup ATOMLIB_WASAPI
- * \param[out]	format		�~�L�T�̃t�H�[�}�b�g
- * \return		CriBool		�~�L�T�̃t�H�[�}�b�g���擾�ł������ǂ����i CRI_TRUE = �����ACRI_FALSE = ���s�j
- * \par ����:
- * ���L���[�h���Ɏg�p�����~�L�T�̃t�H�[�}�b�g���擾���܂��B<br>
- * \par ���l:
- * �{�֐��� IAudioClient::GetMixFormat �֐��̃��b�p�[�ł��B<br>
- * �{�֐������s����ƁA�֐����� AudioClient ���쐬���AGetMixFormat �֐������s���܂��B<br>
+ * \param[out]	format		ミキサのフォーマット
+ * \return		CriBool		ミキサのフォーマットが取得できたかどうか（ CRI_TRUE = 成功、CRI_FALSE = 失敗）
+ * \par 説明:
+ * 共有モード時に使用されるミキサのフォーマットを取得します。<br>
+ * \par 備考:
+ * 本関数は IAudioClient::GetMixFormat 関数のラッパーです。<br>
+ * 本関数を実行すると、関数内で AudioClient を作成し、GetMixFormat 関数を実行します。<br>
  * \attention
- * �{�֐��̓��C�u�����������O�ɂ̂ݎg�p�\�ł��B<br>
+ * 本関数はライブラリ初期化前にのみ使用可能です。<br>
  * <br>
- * ���L���[�h�Ɣr�����[�h�Ƃł́A�g�p�ł���t�H�[�}�b�g���قȂ�܂��B<br>
- * �{�֐��Ŏ擾���� WAVEFORMATEXTENSIBLE �\���̂� IEEE float �`����PCM�f�[�^�t�H�[�}�b�g��Ԃ��܂����A
- * ���̃t�H�[�}�b�g�͔r�����[�h�ł͂قƂ�ǂ̏ꍇ�g�p�ł��܂���B<br>
+ * 共有モードと排他モードとでは、使用できるフォーマットが異なります。<br>
+ * 本関数で取得する WAVEFORMATEXTENSIBLE 構造体は IEEE float 形式のPCMデータフォーマットを返しますが、
+ * このフォーマットは排他モードではほとんどの場合使用できません。<br>
  */
 CriBool CRIAPI criAtom_GetAudioClientMixFormat_WASAPI(WAVEFORMATEXTENSIBLE *format);
 
 /*JP
- * \brief �w�肵���t�H�[�}�b�g�����p�\���ǂ����`�F�b�N
+ * \brief 指定したフォーマットが利用可能かどうかチェック
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	format		�g�p����t�H�[�}�b�g
- * \return		CriBool		�w�肳�ꂽ�t�H�[�}�b�g�����p�\���ǂ����i CRI_TRUE = ���p�\�ACRI_FALSE = ���p�s�\�j
- * \par ����:
- * �����Ŏw�肵���t�H�[�}�b�g���A�r�����[�h�ŗ��p�\���ǂ������`�F�b�N���܂��B<br>
- * \par ���l:
- * �{�֐��� IAudioClient::IsFormatSupported �֐��̃��b�p�[�ł��B<br>
- * �{�֐������s����ƁA�֐����� AudioClient ���쐬���AIsFormatSupported �֐������s���܂��B<br>
+ * \param[in]	format		使用するフォーマット
+ * \return		CriBool		指定されたフォーマットが利用可能かどうか（ CRI_TRUE = 利用可能、CRI_FALSE = 利用不可能）
+ * \par 説明:
+ * 引数で指定したフォーマットが、排他モードで利用可能かどうかをチェックします。<br>
+ * \par 備考:
+ * 本関数は IAudioClient::IsFormatSupported 関数のラッパーです。<br>
+ * 本関数を実行すると、関数内で AudioClient を作成し、IsFormatSupported 関数を実行します。<br>
  * \attention
- * �{�֐��̓��C�u�����������O�ɂ̂ݎg�p�\�ł��B<br>
+ * 本関数はライブラリ初期化前にのみ使用可能です。<br>
  * <br>
- * �ꕔ�̃f�o�C�X�^�p�����[�^�[�ɂ��āA�{�֐�����������ɂ�������炸�A
- * WASAPI �̏������Ɏ��s����P�[�X���m�F����Ă��܂��B<br>
- * �{�֐��� CRI_TRUE ��Ԃ����ɂ�������炸�A���C�u�����̏������Ɏ��s����ꍇ�ɂ́A
- * �w�肷��t�H�[�}�b�g��ύX���邩�A�܂��͋��L���[�h�����g�p���������B<br>
+ * 一部のデバイス／パラメーターについて、本関数が成功するにもかかわらず、
+ * WASAPI の初期化に失敗するケースが確認されています。<br>
+ * 本関数が CRI_TRUE を返したにもかかわらず、ライブラリの初期化に失敗する場合には、
+ * 指定するフォーマットを変更するか、または共有モードをご使用ください。<br>
  */
 CriBool CRIAPI criAtom_GetAudioClientIsFormatSupported_WASAPI(const WAVEFORMATEX *format);
 
 /*JP
- * \brief ���L�����̎w��
+ * \brief 共有方式の指定
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	mode	�g�p���郂�[�h
- * \par ����:
- * WASAPI�����L���[�h�Ŏg�p���邩�A�r�����[�h�Ŏg�p���邩���w�肵�܂��B<br>
+ * \param[in]	mode	使用するモード
+ * \par 説明:
+ * WASAPIを共有モードで使用するか、排他モードで使用するかを指定します。<br>
  * <br>
- * �{�֐������s���Ȃ��ꍇ��A AUDCLNT_SHAREMODE_SHARED ���w�肵�Ď��s�����ꍇ�A
- * Atom���C�u������ WASAPI �����L���[�h�ŏ��������܂��B<br>
- * AUDCLNT_SHAREMODE_EXCLUSIVE ���w�肵�Ė{�֐������s�����ꍇ�A
- * Atom���C�u������ WASAPI ��r�����[�h�ŏ��������܂��B<br>
+ * 本関数を実行しない場合や、 AUDCLNT_SHAREMODE_SHARED を指定して実行した場合、
+ * Atomライブラリは WASAPI を共有モードで初期化します。<br>
+ * AUDCLNT_SHAREMODE_EXCLUSIVE を指定して本関数を実行した場合、
+ * Atomライブラリは WASAPI を排他モードで初期化します。<br>
  * \attention
- * �{�֐��̓��C�u�����̏�����������Ɏ��s���Ă����K�v������܂��B<br>
+ * 本関数はライブラリの初期化よりも先に実行しておく必要があります。<br>
  * <br>
- * �r�����[�h���g�p����ꍇ�A�{�֐��ł̃��[�h�w��ɉ����A
- * ::criAtom_SetAudioClientFormat_WASAPI �֐��ɂ��t�H�[�}�b�g�̎w�肪�K�v�ł��B<br>
+ * 排他モードを使用する場合、本関数でのモード指定に加え、
+ * ::criAtom_SetAudioClientFormat_WASAPI 関数によるフォーマットの指定が必要です。<br>
  * \sa criAtom_SetAudioClientFormat_WASAPI
  */
 void CRIAPI criAtom_SetAudioClientShareMode_WASAPI(AUDCLNT_SHAREMODE mode);
 
 /*JP
- * \brief ���L�����̎擾
+ * \brief 共有方式の取得
  * \ingroup ATOMLIB_WASAPI
- * \return	AUDCLNT_SHAREMODE	���L����
- * \par ����:
- * ���ݎw�肳��Ă��鋤�L�������擾���܂��B
+ * \return	AUDCLNT_SHAREMODE	共有方式
+ * \par 説明:
+ * 現在指定されている共有方式を取得します。
  * \sa criAtom_SetAudioClientShareMode_WASAPI
  */
 AUDCLNT_SHAREMODE CRIAPI criAtom_GetAudioClientShareMode_WASAPI(void);
 
 /*JP
- * \brief �o�̓t�H�[�}�b�g�̎w��
+ * \brief 出力フォーマットの指定
  * \ingroup ATOMLIB_WASAPI
- * \par ����:
- * \param[in]	format		�g�p����t�H�[�}�b�g
- * \par ����:
- * �r�����[�h�Ŏg�p����t�H�[�}�b�g���w�肵�܂��B<br>
- * \par ���l:
- * �{�֐��Ɏw�肵���t�H�[�}�b�g���A IAudioClient::Initialize �֐��ɓn����܂��B<br>
+ * \par 説明:
+ * \param[in]	format		使用するフォーマット
+ * \par 説明:
+ * 排他モードで使用するフォーマットを指定します。<br>
+ * \par 備考:
+ * 本関数に指定したフォーマットが、 IAudioClient::Initialize 関数に渡されます。<br>
  * \attention
- * �{�֐��̓��C�u�����̏�����������Ɏ��s���Ă����K�v������܂��B<br>
+ * 本関数はライブラリの初期化よりも先に実行しておく必要があります。<br>
  * <br>
- * �r�����[�h���g�p����ꍇ�A�{�֐��ł̃��[�h�w��ɉ����A
- * ::criAtom_SetAudioClientShareMode_WASAPI �֐��ɂ�郂�[�h�w�肪�K�v�ł��B<br>
+ * 排他モードを使用する場合、本関数でのモード指定に加え、
+ * ::criAtom_SetAudioClientShareMode_WASAPI 関数によるモード指定が必要です。<br>
  * \sa criAtom_SetAudioClientShareMode_WASAPI
  */
 void CRIAPI criAtom_SetAudioClientFormat_WASAPI(const WAVEFORMATEX *format);
 
 /*JP
- * \brief �o�b�t�@�����O���Ԃ̎w��
+ * \brief バッファリング時間の指定
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	ref_time	�o�b�t�@�����O����
- * \par ����:
- * WASAPI ���������Ɏw�肷��o�b�t�@�����O���Ԃ��w�肵�܂��B<br>
- * Atom���C�u�����́A�{�֐��Ŏw�肳�ꂽ���ԕ��̃f�[�^��ێ��\�ȃT�C�Y�̃T�E���h�o�b�t�@�[���m�ۂ��܂��B<br>
- * \par ���l:
- * �{�֐��Ɏw�肵���l�� IAudioClient::Initialize �֐��ɓn����܂��B<br>
+ * \param[in]	ref_time	バッファリング時間
+ * \par 説明:
+ * WASAPI 初期化時に指定するバッファリング時間を指定します。<br>
+ * Atomライブラリは、本関数で指定された時間分のデータを保持可能なサイズのサウンドバッファーを確保します。<br>
+ * \par 備考:
+ * 本関数に指定した値が IAudioClient::Initialize 関数に渡されます。<br>
  * <br>
- * ref_time��0���w�肵���ꍇ��A�{�֐����g�p���Ȃ��ꍇ�A
- * Atom���C�u�����͏��������Ɏw�肳���T�[�o�[�������g���̒l����A
- * �K�؂ȃo�b�t�@�����O���Ԃ��v�Z���܂��B<br>
+ * ref_timeに0を指定した場合や、本関数を使用しない場合、
+ * Atomライブラリは初期化時に指定されるサーバー処理周波数の値から、
+ * 適切なバッファリング時間を計算します。<br>
  * <br>
- * PC���ł̓n�[�h�E�F�A���\�ɂ΂�������邽�߁A
- * ���[�X�g���\�̃n�[�h�E�F�A�ɍ��킹�ăf�t�H���g�̃o�b�t�@�����O�ʂ����߂ɐݒ肳��Ă��܂��B<br>
- * �i�f�t�H���g��Ԃł�4V���̃o�b�t�@�[�������Ă��܂��B�j
+ * PC環境ではハードウェア性能にばらつきがあるため、
+ * ワースト性能のハードウェアに合わせてデフォルトのバッファリング量が多めに設定されています。<br>
+ * （デフォルト状態では4V分のバッファーを持っています。）
  * \attention
- * �{�֐��̓��C�u�����̏�����������Ɏ��s���Ă����K�v������܂��B<br>
+ * 本関数はライブラリの初期化よりも先に実行しておく必要があります。<br>
  * <br>
- * �o�b�t�@�����O���Ԃ���������������ƁA���r�؂ꓙ�̖�肪�������܂��B<br>
+ * バッファリング時間を小さくしすぎると、音途切れ等の問題が発生します。<br>
  * <br>
- * PC���ł̓n�[�h�E�F�A�Ɉˑ����ĕK�v�ȃo�b�t�@�����O�ʂ��قȂ邽�߁A
- * �{�֐����g�p�����ꍇ�A�e�X�g���ł��܂����삵�Ă��Ă��A
- * ���[�U�̊��ɂ���Ă͉��r�؂ꂪ��������\��������܂��B<br>
- * ���̂��߁A�o�b�t�@�����O�ʂ�ύX����ꍇ�ɂ́A
- * ���[�U���ݒ�l��ύX�ł���d�g�݁i�I�v�V������ʓ��j��񋟂��邱�Ƃ����������������B
+ * PC環境ではハードウェアに依存して必要なバッファリング量が異なるため、
+ * 本関数を使用した場合、テスト環境でうまく動作していても、
+ * ユーザの環境によっては音途切れが発生する可能性があります。<br>
+ * そのため、バッファリング量を変更する場合には、
+ * ユーザが設定値を変更できる仕組み（オプション画面等）を提供することもご検討ください。
  */
 void CRIAPI criAtom_SetAudioClientBufferDuration_WASAPI(REFERENCE_TIME ref_time);
 
 /*JP
- * \brief AudioClient�̎擾
+ * \brief AudioClientの取得
  * \ingroup ATOMLIB_WASAPI
  * \return IAudioClient	AudioClient
- * \par ����:
- * Atom���C�u�������ō쐬���ꂽAudioClient���擾���܂��B
- * \par ���l:
- * �T�E���h�f�o�C�X�����ڂ���Ă��Ȃ�PC�Ŗ{�֐������s�����ꍇ�A
- * �{�֐���NULL��Ԃ��܂��B
- * \par ����:
- * �{�֐������s����O�ɁA���C�u����������������K�v������܂��B
+ * \par 説明:
+ * Atomライブラリ内で作成されたAudioClientを取得します。
+ * \par 備考:
+ * サウンドデバイスが搭載されていないPCで本関数を実行した場合、
+ * 本関数はNULLを返します。
+ * \par 注意:
+ * 本関数を実行する前に、ライブラリを初期化する必要があります。
  */
 IAudioClient * CRIAPI criAtom_GetAudioClient_WASAPI(void);
 
 /*JP
- * \brief �f�o�C�X�����������ꂽ���ǂ����̃`�F�b�N
+ * \brief デバイスが無効化されたかどうかのチェック
  * \ingroup ATOMLIB_WASAPI
- * \return	CriBool	�f�o�C�X�����������ꂽ���ǂ����iCRI_TRUE = ���������ꂽ�ACRI_FALSE = ����ɓ��쒆�j
- * \par ����:
- * �T�E���h�f�o�C�X�����������ꂽ���ǂ�����Ԃ��܂��B
- * \par ���l:
- * �{�֐���CRI_TRUE��Ԃ��̂́A�A�v���P�[�V�������s���ɃT�E���h�f�o�C�X�𖳌��������ꍇ�݂̂ł��B<br>
- * ���X�T�E���h�f�o�C�X�����ڂ���Ă��Ȃ�PC�Ŗ{�֐������s�����ꍇ�A�{�֐���CRI_FALSE��Ԃ��܂��B<br>
- * �i�T�E���h�f�o�C�X�̗L���͕ʓr ::criAtom_GetAudioClient_WASAPI �֐��Ń`�F�b�N����K�v������܂��B�j
+ * \return	CriBool	デバイスが無効化されたかどうか（CRI_TRUE = 無効化された、CRI_FALSE = 正常に動作中）
+ * \par 説明:
+ * サウンドデバイスが無効化されたかどうかを返します。
+ * \par 備考:
+ * 本関数がCRI_TRUEを返すのは、アプリケーション実行中にサウンドデバイスを無効化した場合のみです。<br>
+ * 元々サウンドデバイスが搭載されていないPCで本関数を実行した場合、本関数はCRI_FALSEを返します。<br>
+ * （サウンドデバイスの有無は別途 ::criAtom_GetAudioClient_WASAPI 関数でチェックする必要があります。）
  * \sa criAtom_GetAudioClient_WASAPI
  */
 CriBool CRIAPI criAtom_IsDeviceInvalidated_WASAPI(void);
 
 /*JP
- * \brief �T�E���h�f�o�C�X�̎w��
+ * \brief サウンドデバイスの指定
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	type		�T�E���h�����_���^�C�v
- * \param[in]	device_id	�f�o�C�XID
- * \par ����:
- * �T�E���h�����_���^�C�v�ƃT�E���h�f�o�C�X�̕R�Â����s���܂��B<br>
+ * \param[in]	type		サウンドレンダラタイプ
+ * \param[in]	device_id	デバイスID
+ * \par 説明:
+ * サウンドレンダラタイプとサウンドデバイスの紐づけを行います。<br>
  * <br>
- * �{�֐��ŃT�E���h�����_���ɑ΂��ăf�o�C�XID��ݒ肷��ƁA
- * ���Y�T�E���h�����_�����w�肵�ďo�͂��������́A
- * �S�Ďw�肵��ID�ɍ��v����T�E���h�f�o�C�X����o�͂���܂��B
+ * 本関数でサウンドレンダラに対してデバイスIDを設定すると、
+ * 当該サウンドレンダラを指定して出力した音声は、
+ * 全て指定したIDに合致するサウンドデバイスから出力されます。
  * <br>
- * type �ɂ́A�ȉ��̒l���w��\�ł��B<br>
- * 	- CRIATOM_SOUND_RENDERER_HW1�iCRIATOM_SOUND_RENDERER_NATIVE�Ɠ����l�j
+ * type には、以下の値が指定可能です。<br>
+ * 	- CRIATOM_SOUND_RENDERER_HW1（CRIATOM_SOUND_RENDERER_NATIVEと同じ値）
  * 	- CRIATOM_SOUND_RENDERER_HW2
  * 	- CRIATOM_SOUND_RENDERER_HW3
  * 	- CRIATOM_SOUND_RENDERER_HW4
- * ��2�����idevice_id�j��NULL�܂��͒���0�̕�������w�肵���ꍇ�A
- * ���Y�T�E���h�����_���ƃf�o�C�XID�̕R�Â�����������܂��B<br>
- * �i����̃f�o�C�X���特�����o�͂���悤�A���삪�ύX����܂��B�j
- * \par ���l:
- * �T�E���h�f�o�C�X��ID�� IMMDevice::GetId �Ŏ擾����K�v������܂��B<br>
- * �w�肳�ꂽID�Ɉ�v����T�E���h�f�o�C�X��������Ȃ��ꍇ�A
- * ���Y�f�o�C�X���w�肵�čĐ����ꂽ�����́A����̃f�o�C�X����o�͂���܂��B<br>
+ * 第2引数（device_id）にNULLまたは長さ0の文字列を指定した場合、
+ * 当該サウンドレンダラとデバイスIDの紐づけが解除されます。<br>
+ * （既定のデバイスから音声を出力するよう、動作が変更されます。）
+ * \par 備考:
+ * サウンドデバイスのIDは IMMDevice::GetId で取得する必要があります。<br>
+ * 指定されたIDに一致するサウンドデバイスが見つからない場合、
+ * 当該デバイスを指定して再生された音声は、既定のデバイスから出力されます。<br>
  */
 void CRIAPI criAtom_SetDeviceId_WASAPI(CriAtomSoundRendererType type, LPCWSTR device_id);
 
 /*JP
- * \brief �I�[�f�B�I�G���h�|�C���g�̗�
+ * \brief オーディオエンドポイントの列挙
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	callback	�I�[�f�B�I�G���h�|�C���g�R�[���o�b�N�֐�
- * \param[in]	object		���[�U�w��I�u�W�F�N�g
- * \return		CriSint32	�񋓂��ꂽACB�n���h���̐�
- * \par ����:
- * �I�[�f�B�I�G���h�|�C���g��񋓂��܂��B<br>
+ * \param[in]	callback	オーディオエンドポイントコールバック関数
+ * \param[in]	object		ユーザ指定オブジェクト
+ * \return		CriSint32	列挙されたACBハンドルの数
+ * \par 説明:
+ * オーディオエンドポイントを列挙します。<br>
  * <br>
- * �{�֐������s����ƁA�� 1 �����i callback �j
- * �ŃZ�b�g���ꂽ�R�[���o�b�N�֐����I�[�f�B�I�G���h�|�C���g���������Ăяo����܂��B<br>
- * �R�[���o�b�N�֐��ɂ́AIMMDevice�C���X�^���X�������Ƃ��ēn����܂��B<br>
- * \par ���l:
- * �� 2 �����i object �j�ɃZ�b�g�����l�́A�R�[���o�b�N�֐��̈����Ƃ��ēn����܂��B<br>
- * �R�[���o�b�N�֐��̂��̑��̈����ɂ��ẮA
- * �ʓr ::CriAtomAudioEndpointCbFunc_WASAPI �̐��������Q�Ƃ��������B<br>
+ * 本関数を実行すると、第 1 引数（ callback ）
+ * でセットされたコールバック関数がオーディオエンドポイント数分だけ呼び出されます。<br>
+ * コールバック関数には、IMMDeviceインスタンスが引数として渡されます。<br>
+ * \par 備考:
+ * 第 2 引数（ object ）にセットした値は、コールバック関数の引数として渡されます。<br>
+ * コールバック関数のその他の引数については、
+ * 別途 ::CriAtomAudioEndpointCbFunc_WASAPI の説明をご参照ください。<br>
  * <br>
- * �߂�l�͗񋓂��ꂽ�I�[�f�B�I�G���h�|�C���g�̐��i�o�^�����R�[���o�b�N�֐����Ăяo���ꂽ�񐔁j�ł��B<br>
- * �I�[�f�B�I�G���h�|�C���g�����݂��Ȃ��ꍇ�A�{�֐��� 0 ��Ԃ��܂��B<br>
- * �G���[�����������ۂɂ� -1 ��Ԃ��܂��B<br>
+ * 戻り値は列挙されたオーディオエンドポイントの数（登録したコールバック関数が呼び出された回数）です。<br>
+ * オーディオエンドポイントが存在しない場合、本関数は 0 を返します。<br>
+ * エラーが発生した際には -1 を返します。<br>
  * \attention
- * IMMDevice�C���X�^���X���R�[���o�b�N�֐����Ŕj�����Ă͂����܂���B<br>
+ * IMMDeviceインスタンスをコールバック関数内で破棄してはいけません。<br>
  * \sa CriAtomAudioEndpointCbFunc_WASAPI
  */
 CriSint32 CRIAPI criAtom_EnumAudioEndpoints_WASAPI(CriAtomAudioEndpointCbFunc_WASAPI callback, void *object);
 
 /*JP
- * \brief �f�o�C�X�X�V�ʒm�̓o�^
+ * \brief デバイス更新通知の登録
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	callback	�f�o�C�X�X�V�ʒm�R�[���o�b�N�֐�
- * \param[in]	object		���[�U�w��I�u�W�F�N�g
- * \par ����:
- * �f�o�C�X�̍X�V�ʒm���󂯎�邽�߂̃R�[���o�b�N��ݒ肵�܂��B<br>
+ * \param[in]	callback	デバイス更新通知コールバック関数
+ * \param[in]	object		ユーザ指定オブジェクト
+ * \par 説明:
+ * デバイスの更新通知を受け取るためのコールバックを設定します。<br>
  * <br>
- * �{�֐������s����ƁA�f�o�C�X���X�V���ꂽ�ہA�� 1 �����i callback �j
- * �ŃZ�b�g���ꂽ�R�[���o�b�N�֐����Ăяo����܂��B<br>
- * \par ���l:
- * �� 2 �����i object �j�ɃZ�b�g�����l�́A�R�[���o�b�N�֐��̈����Ƃ��ēn����܂��B<br>
+ * 本関数を実行すると、デバイスが更新された際、第 1 引数（ callback ）
+ * でセットされたコールバック関数が呼び出されます。<br>
+ * \par 備考:
+ * 第 2 引数（ object ）にセットした値は、コールバック関数の引数として渡されます。<br>
  * \sa CriAtomAudioEndpointCbFunc_WASAPI
  */
 void CRIAPI criAtom_SetDeviceUpdateCallback_WASAPI(CriAtomDeviceUpdateCbFunc_WASAPI callback, void *object);
 
 /*JP
- * \brief �X�y�[�V�����I�[�f�B�I�@�\�̗L����
+ * \brief スペーシャルオーディオ機能の有効化
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	type		�T�E���h�����_���^�C�v
- * \param[in]	sw			�@�\��L���ɂ��邩�ǂ����iCRI_TRUE = �L�����ACRI_FALSE = �������j
- * \par ����:
- * �X�y�[�V�����I�[�f�B�I�@�\�iMicrosoft Spatial Sound�j��L���ɂ��܂��B<br>
- * ������ type �ɂ́A�X�y�[�V�����I�[�f�B�I�@�\��L���i���͖����j�ɂ���T�E���h�����_�����w�肵�܂��B<br>
- * \par ���l:
- * ���s�̃��C�u�����ł́A�X�y�[�V�����I�[�f�B�I�@�\�̓f�t�H���g�ŗL���ł��B<br>
- * ���̂��߁A�X�y�[�V�����I�[�f�B�I�@�\�𖳌��ɂ������ꍇ�������A�{�֐��𖾎��I�ɌĂяo���K�v�͂���܂���B<br>
+ * \param[in]	type		サウンドレンダラタイプ
+ * \param[in]	sw			機能を有効にするかどうか（CRI_TRUE = 有効化、CRI_FALSE = 無効化）
+ * \par 説明:
+ * スペーシャルオーディオ機能（Microsoft Spatial Sound）を有効にします。<br>
+ * 引数の type には、スペーシャルオーディオ機能を有効（又は無効）にするサウンドレンダラを指定します。<br>
+ * \par 備考:
+ * 現行のライブラリでは、スペーシャルオーディオ機能はデフォルトで有効です。<br>
+ * そのため、スペーシャルオーディオ機能を無効にしたい場合を除き、本関数を明示的に呼び出す必要はありません。<br>
  */
 void CRIAPI criAtom_SetSpatialAudioEnabled_WASAPI(CriAtomSoundRendererType type, CriBool sw);
 
 /*JP
- * \brief �X�y�[�V�����I�[�f�B�I�@�\���L�����ǂ����̃`�F�b�N
+ * \brief スペーシャルオーディオ機能が有効かどうかのチェック
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	type		�T�E���h�����_���^�C�v
- * \return		CriBool		�@�\���L�����ǂ����iCRI_TRUE = �L���ACRI_FALSE = �����j
- * \par ����:
- * �X�y�[�V�����I�[�f�B�I�@�\���L���ɂȂ��Ă��邩�ǂ������`�F�b�N���܂��B<br>
- * ������ type �ɂ́A�X�y�[�V�����I�[�f�B�I�@�\���L�����ǂ������`�F�b�N�������T�E���h�����_�����w�肵�܂��B<br>
+ * \param[in]	type		サウンドレンダラタイプ
+ * \return		CriBool		機能が有効かどうか（CRI_TRUE = 有効、CRI_FALSE = 無効）
+ * \par 説明:
+ * スペーシャルオーディオ機能が有効になっているかどうかをチェックします。<br>
+ * 引数の type には、スペーシャルオーディオ機能が有効化どうかをチェックしたいサウンドレンダラを指定します。<br>
  */
 CriBool CRIAPI criAtom_IsSpatialAudioEnabled_WASAPI(CriAtomSoundRendererType type);
 
@@ -514,63 +514,63 @@ CriBool CRIAPI criAtom_IsSpatialAudioEnabled_WASAPI(CriAtomSoundRendererType typ
  *      CRI AtomEx API
  *=========================================================================*/
 /*JP
- * \brief ���C�u�����������p���[�N�̈�T�C�Y�̌v�Z
+ * \brief ライブラリ初期化用ワーク領域サイズの計算
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	config		�������p�R���t�B�O�\����
- * \return		CriSint32	���[�N�̈�T�C�Y
- * \par ����:
- * ���C�u�������g�p���邽�߂ɕK�v�ȁA���[�N�̈�̃T�C�Y���擾���܂��B<br>
- * \par ���l:
- * ���C�u�������K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A���C�u�����������p�R���t�B�O
- * �\���́i ::CriAtomExConfig_WASAPI �j�̓��e�ɂ���ĕω����܂��B<br>
+ * \param[in]	config		初期化用コンフィグ構造体
+ * \return		CriSint32	ワーク領域サイズ
+ * \par 説明:
+ * ライブラリを使用するために必要な、ワーク領域のサイズを取得します。<br>
+ * \par 備考:
+ * ライブラリが必要とするワーク領域のサイズは、ライブラリ初期化用コンフィグ
+ * 構造体（ ::CriAtomExConfig_WASAPI ）の内容によって変化します。<br>
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * ::CriAtomExConfig_WASAPI �\���̂�acf_info�����o�ɒl��ݒ肵�Ă���ꍇ�A�{�֐��͎��s��-1��Ԃ��܂��B<br>
- * ��������������ACF�f�[�^�̓o�^���s���ꍇ�́A�{�֐��l���g�p�����������m�ۂł͂Ȃ�ADX�V�X�e���ɂ��
- * �������A���P�[�^�[���g�p�����������m�ۏ������K�v�ɂȂ�܂��B
+ * ::CriAtomExConfig_WASAPI 構造体のacf_infoメンバに値を設定している場合、本関数は失敗し-1を返します。<br>
+ * 初期化処理内でACFデータの登録を行う場合は、本関数値を使用したメモリ確保ではなくADXシステムによる
+ * メモリアロケーターを使用したメモリ確保処理が必要になります。
  * \sa CriAtomExConfig_WASAPI, criAtomEx_Initialize_WASAPI
  */
 CriSint32 CRIAPI criAtomEx_CalculateWorkSize_WASAPI(const CriAtomExConfig_WASAPI *config);
 
 /*JP
- * \brief ���C�u�����̏�����
+ * \brief ライブラリの初期化
  * \ingroup ATOMLIB_WASAPI
- * \param[in]	config		�������p�R���t�B�O�\����
- * \param[in]	work		���[�N�̈�
- * \param[in]	work_size	���[�N�̈�T�C�Y
- * \par ����:
- * ���C�u���������������܂��B<br>
- * ���C�u�����̋@�\�𗘗p����ɂ́A�K�����̊֐������s����K�v������܂��B<br>
- * �i���C�u�����̋@�\�́A�{�֐������s��A ::criAtomEx_Finalize_WASAPI �֐������s����܂ł̊ԁA
- * ���p�\�ł��B�j<br>
+ * \param[in]	config		初期化用コンフィグ構造体
+ * \param[in]	work		ワーク領域
+ * \param[in]	work_size	ワーク領域サイズ
+ * \par 説明:
+ * ライブラリを初期化します。<br>
+ * ライブラリの機能を利用するには、必ずこの関数を実行する必要があります。<br>
+ * （ライブラリの機能は、本関数を実行後、 ::criAtomEx_Finalize_WASAPI 関数を実行するまでの間、
+ * 利用可能です。）<br>
  * <br>
- * ���C�u����������������ۂɂ́A���C�u�����������ŗ��p���邽�߂̃������̈�i���[�N�̈�j
- * ���m�ۂ���K�v������܂��B<br>
- * ���C�u�������K�v�Ƃ��郏�[�N�̈�̃T�C�Y�́A�������p�R���t�B�O�\���̂̓��e�ɉ�����
- * �ω����܂��B<br>
- * ���[�N�̈�T�C�Y�̌v�Z�ɂ́A ::criAtomEx_CalculateWorkSize_WASAPI 
- * �֐����g�p���Ă��������B<br>
- * \par ���l:
- * ::criAtomEx_SetUserAllocator �}�N�����g�p���ăA���P�[�^�[��o�^�ς݂̏ꍇ�A
- * �{�֐��Ƀ��[�N�̈���w�肷��K�v�͂���܂���B<br>
- * �i work �� NULL �A work_size �� 0 ���w�肷�邱�ƂŁA�o�^�ς݂̃A���P�[�^�[
- * ����K�v�ȃ��[�N�̈�T�C�Y���̃����������I�Ɋm�ۂ���܂��B�j
+ * ライブラリを初期化する際には、ライブラリが内部で利用するためのメモリ領域（ワーク領域）
+ * を確保する必要があります。<br>
+ * ライブラリが必要とするワーク領域のサイズは、初期化用コンフィグ構造体の内容に応じて
+ * 変化します。<br>
+ * ワーク領域サイズの計算には、 ::criAtomEx_CalculateWorkSize_WASAPI 
+ * 関数を使用してください。<br>
+ * \par 備考:
+ * ::criAtomEx_SetUserAllocator マクロを使用してアロケーターを登録済みの場合、
+ * 本関数にワーク領域を指定する必要はありません。<br>
+ * （ work に NULL 、 work_size に 0 を指定することで、登録済みのアロケーター
+ * から必要なワーク領域サイズ分のメモリが動的に確保されます。）
  * <br>
- * ���� config �̏��́A�֐����ł̂ݎQ�Ƃ���܂��B<br>
- * �֐��𔲂�����͎Q�Ƃ���܂���̂ŁA�֐����s��� config �̗̈��������Ă�
- * ��肠��܂���B
+ * 引数 config の情報は、関数内でのみ参照されます。<br>
+ * 関数を抜けた後は参照されませんので、関数実行後に config の領域を解放しても
+ * 問題ありません。
  * \attention
- * �{�֐��͓����I�Ɉȉ��̊֐������s���܂��B<br>
+ * 本関数は内部的に以下の関数を実行します。<br>
  * 	- ::criAtomEx_Initialize
  * 	- ::criAtomExAsr_Initialize
  * 	- ::criAtomExHcaMx_Initialize
- * �{�֐������s����ꍇ�A��L�֐������s���Ȃ��ł��������B<br>
+ * 本関数を実行する場合、上記関数を実行しないでください。<br>
  * <br>
- * �{�֐������s��A�K���΂ɂȂ� ::criAtomEx_Finalize_WASAPI �֐������s���Ă��������B<br>
- * �܂��A ::criAtomEx_Finalize_WASAPI �֐������s����܂ł́A�{�֐����ēx���s���Ȃ��ł��������B<br>
+ * 本関数を実行後、必ず対になる ::criAtomEx_Finalize_WASAPI 関数を実行してください。<br>
+ * また、 ::criAtomEx_Finalize_WASAPI 関数を実行するまでは、本関数を再度実行しないでください。<br>
  * \sa CriAtomExConfig_WASAPI, criAtomEx_Finalize_WASAPI,
  * criAtomEx_SetUserAllocator, criAtomEx_CalculateWorkSize_WASAPI
  */
@@ -578,18 +578,18 @@ void CRIAPI criAtomEx_Initialize_WASAPI(
 	const CriAtomExConfig_WASAPI *config, void *work, CriSint32 work_size);
 
 /*JP
- * \brief ���C�u�����̏I��
+ * \brief ライブラリの終了
  * \ingroup ATOMLIB_WASAPI
- * \par ����:
- * ���C�u�������I�����܂��B<br>
+ * \par 説明:
+ * ライブラリを終了します。<br>
  * \attention
- * �{�֐��͓����I�Ɉȉ��̊֐������s���܂��B<br>
+ * 本関数は内部的に以下の関数を実行します。<br>
  * 	- ::criAtomEx_Finalize
  * 	- ::criAtomExAsr_Finalize
  * 	- ::criAtomExHcaMx_Finalize
- * �{�֐������s����ꍇ�A��L�֐������s���Ȃ��ł��������B<br>
+ * 本関数を実行する場合、上記関数を実行しないでください。<br>
  * <br>
- * ::criAtomEx_Initialize_WASAPI �֐����s�O�ɖ{�֐������s���邱�Ƃ͂ł��܂���B<br>
+ * ::criAtomEx_Initialize_WASAPI 関数実行前に本関数を実行することはできません。<br>
  * \sa criAtomEx_Initialize_WASAPI
  */
 void CRIAPI criAtomEx_Finalize_WASAPI(void);
@@ -599,7 +599,7 @@ void CRIAPI criAtomEx_Finalize_WASAPI(void);
 #endif
 
 /***************************************************************************
- *      ���o�[�W�����Ƃ̌݊��p
+ *      旧バージョンとの互換用
  *      For compatibility with old version
  ***************************************************************************/
 #define CRIATOM_SOUND_RENDERER_SPATIAL_AUDIO CRIATOM_SOUND_RENDERER_DEFAULT

@@ -7,25 +7,25 @@
  *	\file		crisoundxr_le_plugin.h
  */
 
-/* ‘½d’è‹`–h~ */
+/* å¤šé‡å®šç¾©é˜²æ­¢ */
 /* Prevention of redefinition */
 #ifndef	CRI_INCL_SOUNDXR_LE_PLUGIN_H
 #define	CRI_INCL_SOUNDXR_LE_PLUGIN_H
 
 /***************************************************************************
- *      Œ^’è‹`
+ *      å‹å®šç¾©
  *      Type Definition
  ***************************************************************************/
 
 /***************************************************************************
- *      ’è”ƒ}ƒNƒ
+ *      å®šæ•°ãƒã‚¯ãƒ­
  *      Macro Constants
  ***************************************************************************/
 
 /*!
- * \brief ƒ‚ƒWƒ…[ƒ‹–¼•¶š—ñ
- * \par à–¾:
- * CRI Sound xR ƒ‚ƒWƒ…[ƒ‹‚ğ¦‚·•¶š—ñ‚Å‚·B
+ * \brief ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åæ–‡å­—åˆ—
+ * \par èª¬æ˜:
+ * CRI Sound xR ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ç¤ºã™æ–‡å­—åˆ—ã§ã™ã€‚
  */
 /*
  * Module Name
@@ -35,39 +35,39 @@
 #define CRISOUNDXR_MODULE_NAME	"CRI Sound xR"
 
 /*!
- * \brief ƒo[ƒWƒ‡ƒ“•¶š—ñ
- * \par à–¾:
- * CRI Sound xR ƒ‚ƒWƒ…[ƒ‹‚Ìƒo[ƒWƒ‡ƒ“‚ğ¦‚·•¶š—ñ‚Å‚·B
+ * \brief ãƒãƒ¼ã‚¸ãƒ§ãƒ³æ–‡å­—åˆ—
+ * \par èª¬æ˜:
+ * CRI Sound xR ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ç¤ºã™æ–‡å­—åˆ—ã§ã™ã€‚
  */
 /*
  * Version String
  * Description:
  * A string indicating the version of the CRI Sound xR module.
  */
-#define CRISOUNDXR_VERSION_STRING	"1.01.00"
+#define CRISOUNDXR_VERSION_STRING	"1.01.01"
 
 /*!
- * \brief ƒo[ƒWƒ‡ƒ“”Ô†
- * \par à–¾:
- * CRI Sound xR ƒ‚ƒWƒ…[ƒ‹‚Ìƒo[ƒWƒ‡ƒ“‚ğ¦‚·”Ô†‚Å‚·B<br>
- * ::CRISOUNDXR_VERSION_STRING ‚É‘Î‰‚µ‚Ü‚·B
+ * \brief ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·
+ * \par èª¬æ˜:
+ * CRI Sound xR ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ç¤ºã™ç•ªå·ã§ã™ã€‚<br>
+ * ::CRISOUNDXR_VERSION_STRING ã«å¯¾å¿œã—ã¾ã™ã€‚
  */
 /*
  * Version Number
  * Description:
  * A number indicating the version of the CRI Sound xR module.
  */
-#define CRISOUNDXR_VERSION_NUM	(0x01010000)
+#define CRISOUNDXR_VERSION_NUM	(0x01010100)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /*JP
- * \brief Sound xR‚ÌŠÖ”ƒCƒ“ƒ^ƒtƒF[ƒX‚Ìæ“¾
- * \retrun Sound xR‚Ìƒo[ƒWƒ‡ƒ“î•ñ•t‚«ŠÖ”ƒCƒ“ƒ^ƒtƒF[ƒX
- * \par à–¾:
- * Sound xR‚ÌAPI‚ğAtomƒ‰ƒCƒuƒ‰ƒŠ“à‚Åg—p‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^ƒtƒF[ƒX‚ğæ“¾‚µ‚Ü‚·B<br>
+ * \brief Sound xRã®é–¢æ•°ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã®å–å¾—
+ * \retrun Sound xRã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ä»˜ãé–¢æ•°ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹
+ * \par èª¬æ˜:
+ * Sound xRã®APIã‚’Atomãƒ©ã‚¤ãƒ–ãƒ©ãƒªå†…ã§ä½¿ç”¨ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å–å¾—ã—ã¾ã™ã€‚<br>
  */
 const void* criSoundxR_GetInterface(void);
 

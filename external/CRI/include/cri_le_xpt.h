@@ -22,97 +22,97 @@
 #endif
 
 /*****************************************************************************
- * Šî–{ƒf[ƒ^Œ^éŒ¾
+ * åŸºæœ¬ãƒ‡ãƒ¼ã‚¿å‹å®£è¨€
  *****************************************************************************/
 
 #if !defined(_TYPEDEF_CriUint8)
 #define _TYPEDEF_CriUint8
-typedef unsigned char			CriUint8;		/* •„†‚È‚µ‚PƒoƒCƒg®” */
+typedef unsigned char			CriUint8;		/* ç¬¦å·ãªã—ï¼‘ãƒã‚¤ãƒˆæ•´æ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriSint8)
 #define _TYPEDEF_CriSint8
-typedef signed char				CriSint8;		/* •„†‚Â‚«‚PƒoƒCƒg®” */
+typedef signed char				CriSint8;		/* ç¬¦å·ã¤ãï¼‘ãƒã‚¤ãƒˆæ•´æ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriUint16)
 #define _TYPEDEF_CriUint16
-typedef unsigned short			CriUint16;		/* •„†‚È‚µ‚QƒoƒCƒg®” */
+typedef unsigned short			CriUint16;		/* ç¬¦å·ãªã—ï¼’ãƒã‚¤ãƒˆæ•´æ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriSint16)
 #define _TYPEDEF_CriSint16
-typedef signed short			CriSint16;		/* •„†‚Â‚«‚QƒoƒCƒg®” */
+typedef signed short			CriSint16;		/* ç¬¦å·ã¤ãï¼’ãƒã‚¤ãƒˆæ•´æ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriUint32)
 #define _TYPEDEF_CriUint32
-typedef unsigned long			CriUint32;		/* •„†‚È‚µ‚SƒoƒCƒg®” */
+typedef unsigned long			CriUint32;		/* ç¬¦å·ãªã—ï¼”ãƒã‚¤ãƒˆæ•´æ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriSint32)
 #define _TYPEDEF_CriSint32
-typedef signed long				CriSint32;		/* •„†‚Â‚«‚SƒoƒCƒg®” */
+typedef signed long				CriSint32;		/* ç¬¦å·ã¤ãï¼”ãƒã‚¤ãƒˆæ•´æ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriUint64)
 #define _TYPEDEF_CriUint64
-typedef unsigned __int64		CriUint64;		/* •„†‚È‚µ‚WƒoƒCƒg®” */
+typedef unsigned __int64		CriUint64;		/* ç¬¦å·ãªã—ï¼˜ãƒã‚¤ãƒˆæ•´æ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriSint64)
 #define _TYPEDEF_CriSint64
-typedef signed __int64			CriSint64;		/* •„†‚Â‚«‚WƒoƒCƒg®” */
+typedef signed __int64			CriSint64;		/* ç¬¦å·ã¤ãï¼˜ãƒã‚¤ãƒˆæ•´æ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriUint128)
 #define _TYPEDEF_CriUint128
-typedef struct {								/* •„†‚È‚µ16ƒoƒCƒg®” */
-	CriUint64	h;								/* ãˆÊ64ƒrƒbƒg */
-	CriUint64	l;								/* ‰ºˆÊ64ƒrƒbƒg */
+typedef struct {								/* ç¬¦å·ãªã—16ãƒã‚¤ãƒˆæ•´æ•° */
+	CriUint64	h;								/* ä¸Šä½64ãƒ“ãƒƒãƒˆ */
+	CriUint64	l;								/* ä¸‹ä½64ãƒ“ãƒƒãƒˆ */
 } CriUint128;
 #endif
 
 #if !defined(_TYPEDEF_CriSint128)
 #define _TYPEDEF_CriSint128
-typedef struct {								/* •„†‚Â‚«16ƒoƒCƒg®” */
-	CriSint64	h;								/* ãˆÊ64ƒrƒbƒg */
-	CriUint64	l;								/* ‰ºˆÊ64ƒrƒbƒg */
+typedef struct {								/* ç¬¦å·ã¤ã16ãƒã‚¤ãƒˆæ•´æ•° */
+	CriSint64	h;								/* ä¸Šä½64ãƒ“ãƒƒãƒˆ */
+	CriUint64	l;								/* ä¸‹ä½64ãƒ“ãƒƒãƒˆ */
 } CriSint128;
 #endif
 
 #if !defined(_TYPEDEF_CriFloat16)
 #define _TYPEDEF_CriFloat16
-typedef signed short			CriFloat16;		/* ‚QƒoƒCƒgÀ” */
+typedef signed short			CriFloat16;		/* ï¼’ãƒã‚¤ãƒˆå®Ÿæ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriFloat32)
 #define _TYPEDEF_CriFloat32
-typedef float					CriFloat32;		/* ‚SƒoƒCƒgÀ” */
+typedef float					CriFloat32;		/* ï¼”ãƒã‚¤ãƒˆå®Ÿæ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriFloat64)
 #define _TYPEDEF_CriFloat64
-typedef double					CriFloat64;		/* ‚WƒoƒCƒgÀ” */
+typedef double					CriFloat64;		/* ï¼˜ãƒã‚¤ãƒˆå®Ÿæ•° */
 #endif
 
 #if !defined(_TYPEDEF_CriFixed32)
 #define _TYPEDEF_CriFixed32
-typedef signed long				CriFixed32;		/* ŒÅ’è¬”“_32ƒrƒbƒg */
+typedef signed long				CriFixed32;		/* å›ºå®šå°æ•°ç‚¹32ãƒ“ãƒƒãƒˆ */
 #endif
 
 #if !defined(_TYPEDEF_CriBool)
 #define _TYPEDEF_CriBool
-typedef CriSint32				CriBool;		/* ˜_—Œ^i˜_—’è”‚ğ’l‚É‚Æ‚éj */
+typedef CriSint32				CriBool;		/* è«–ç†å‹ï¼ˆè«–ç†å®šæ•°ã‚’å€¤ã«ã¨ã‚‹ï¼‰ */
 #endif
 
 #if !defined(_TYPEDEF_CriChar8)
 #define _TYPEDEF_CriChar8
-typedef char					CriChar8;		/* •¶šŒ^ */
+typedef char					CriChar8;		/* æ–‡å­—å‹ */
 #endif
 
 /*****************************************************************************
- * ƒ|ƒCƒ“ƒ^‚ğŠi”[‰Â”\‚È®”Œ^
+ * ãƒã‚¤ãƒ³ã‚¿ã‚’æ ¼ç´å¯èƒ½ãªæ•´æ•°å‹
  *****************************************************************************/
 
 #if defined(CRI_WIN64) || defined(_WIN64) || defined(_M_X64)
@@ -158,11 +158,11 @@ typedef CriUint32				CriUintPtr;
 #endif	/* end of _WIN64 */
 
 /*****************************************************************************
- * ’è”ƒ}ƒNƒ
+ * å®šæ•°ãƒã‚¯ãƒ­
  * Macros of constant value
  *****************************************************************************/
 
-/* NULL ƒ|ƒCƒ“ƒ^Œ^ */
+/* NULL ãƒã‚¤ãƒ³ã‚¿å‹ */
 #if !defined(CRI_NULL)
 #ifdef __cplusplus
 #define CRI_NULL	(0)
@@ -171,7 +171,7 @@ typedef CriUint32				CriUintPtr;
 #endif
 #endif
 
-/* ˜_—’è”‚Pi‹UA^j */
+/* è«–ç†å®šæ•°ï¼‘ï¼ˆå½ã€çœŸï¼‰ */
 #if !defined(CRI_FALSE)
 #define CRI_FALSE	(0)
 #endif
@@ -179,7 +179,7 @@ typedef CriUint32				CriUintPtr;
 #define CRI_TRUE	(1)
 #endif
 
-/* ˜_—’è”‚QiƒXƒCƒbƒ`j */
+/* è«–ç†å®šæ•°ï¼’ï¼ˆã‚¹ã‚¤ãƒƒãƒï¼‰ */
 #if !defined(CRI_OFF)
 #define CRI_OFF		(0)
 #endif
@@ -187,17 +187,17 @@ typedef CriUint32				CriUintPtr;
 #define CRI_ON		(1)
 #endif
 
-/* Œ‹‰Ê”»’è‚Ì’è”i¬Œ÷A¸”sj */
+/* çµæœåˆ¤å®šã®å®šæ•°ï¼ˆæˆåŠŸã€å¤±æ•—ï¼‰ */
 #if !defined(CRI_OK)
-#define CRI_OK		(0)			/* ¬Œ÷ */
+#define CRI_OK		(0)			/* æˆåŠŸ */
 #endif
 #if !defined(CRI_NG)
-#define CRI_NG		(-1)		/* ¸”s */
+#define CRI_NG		(-1)		/* å¤±æ•— */
 #endif
 
 /*****************************************************************************
- * ƒ|ƒCƒ“ƒ^‚Ü‚½‚Í64ƒrƒbƒgƒAƒhƒŒƒX‚ğŠi”[‚Å‚«‚é®”Œ^
- * ”õl: ƒ|ƒCƒ“ƒ^32bit‚©‚ÂROMƒAƒhƒŒƒX‹óŠÔ64bit‚ÌŠÂ‹«‚ÅA—¼Ò‚ğ“§‰ß“I‚Éˆµ‚¦‚éB
+ * ãƒã‚¤ãƒ³ã‚¿ã¾ãŸã¯64ãƒ“ãƒƒãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ ¼ç´ã§ãã‚‹æ•´æ•°å‹
+ * å‚™è€ƒ: ãƒã‚¤ãƒ³ã‚¿32bitã‹ã¤ROMã‚¢ãƒ‰ãƒ¬ã‚¹ç©ºé–“64bitã®ç’°å¢ƒã§ã€ä¸¡è€…ã‚’é€éçš„ã«æ‰±ãˆã‚‹ã€‚
  * The integer type which can hold an pointer or an address up to 64 bits.
  * NOTE: In the environment of pointer 32bit and ROM address space 64bit, 
  *       this type can treat both transparently. 
@@ -205,7 +205,7 @@ typedef CriUint32				CriUintPtr;
 
 #if !defined(_TYPEDEF_CriUint64Adr)
 #define _TYPEDEF_CriUint64Adr
-typedef CriUint64				CriUint64Adr;		/* ƒ|ƒCƒ“ƒ^‚Ü‚½‚Í64ƒrƒbƒgƒAƒhƒŒƒX‚ğŠi”[‚Å‚«‚é®”Œ^ */
+typedef CriUint64				CriUint64Adr;		/* ãƒã‚¤ãƒ³ã‚¿ã¾ãŸã¯64ãƒ“ãƒƒãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ ¼ç´ã§ãã‚‹æ•´æ•°å‹ */
 #endif
 
 #if !defined(CRI_PTR_TO_UINT64ADR)
@@ -217,7 +217,7 @@ typedef CriUint64				CriUint64Adr;		/* ƒ|ƒCƒ“ƒ^‚Ü‚½‚Í64ƒrƒbƒgƒAƒhƒŒƒX‚ğŠi”[‚Å‚«‚
 #endif
 
 /*****************************************************************************
- * ŒÄ‚Ño‚µ‹K–ñ
+ * å‘¼ã³å‡ºã—è¦ç´„
  *****************************************************************************/
 
 #if !defined(CRIAPI)

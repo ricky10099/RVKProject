@@ -9,8 +9,8 @@ namespace RVK {
 		~SceneCamera() = default;
 
 		void SetOrthographicProjection(
-			float left, float right, float top, float bottom, float near, float far);
-		void SetPerspectiveProjection(float fovy, float aspect, float near, float far);
+			float left, float right, float top, float bottom, float zNear, float zFar);
+		void SetPerspectiveProjection(float fovy, float aspect, float zNear, float zFar);
 		/*void SetViewDirection(
 			glm::vec3 position, glm::vec3 direction, glm::vec3 up = glm::vec3{ 0.f, 1.f, 0.f });*/
 		void SetViewTarget(

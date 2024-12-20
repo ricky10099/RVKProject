@@ -5,8 +5,6 @@
 		#define NOMINMAX
 	#endif
 	#include <Windows.h>
-	#undef near
-	#undef far
 #endif
 
 #include <iostream>
