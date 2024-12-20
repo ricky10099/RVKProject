@@ -11,22 +11,29 @@
 
 #include "../audio/WorkUnit_0/BGM.h"
 #include "../audio/WorkUnit_0/SE.h"
+#include "../audio/Basic.h"
+#include "../audio/WorkUnit_0/SE.h"
 
-static const std::string_view CRI_ACF = "../audio/ADXtest.acf";
+static const std::string_view CRI_ACF = "../audio/ADX2_samples.acf";
 static const std::string_view CRI_ACB_BGM = "../audio/WorkUnit_0/BGM.acb";
+static const std::string_view CRI_ACB_BASIC = "../audio/Basic.acb";
+static const std::string_view CRI_AWB_BASIC = "../audio/Basic.awb";
 static const std::string_view CRI_ACB_SE = "../audio/WorkUnit_0/SE.acb";
 
-#define ACF_FILE    "../audio/ADXtest.acf"
-#define ACB_FILE    "../audio/WorkUnit_0/BGM.acb"
-
-static const int MAX_VOICE = 20;
-static const int MAX_VIRTUAL_VOICE = 60;
-static const int MAX_CRIFS_LOADER = 60;
+static const int MAX_VOICE = 24;
+static const int MAX_VIRTUAL_VOICE = 128;
+static const int MAX_CRIFS_LOADER = 64;
+#define MAX_SAMPLING_RATE	(48000*2)
+#define SAMPLINGRATE_HCAMX		(32000)
+#define PITCH_CHANGE_VALUE			(-200.0f)
 
 static void UserErrorCallbackFunc(const CriChar8* errid, CriUint32 p1, CriUint32 p2, CriUint32* parray)
 {
 	const CriChar8* errmsg;
 	errmsg = criErr_ConvertIdToMessage(errid, p1, p2);
+
+	VK_CORE_ERROR(errmsg);
+
 	return;
 }
 
@@ -89,36 +96,41 @@ namespace RVK {
 		physx::PxRigidStatic* groundPlane = PxCreatePlane(*m_pPhysics, physx::PxPlane(0, 1, 0, 50), *m_pMaterial);
 		m_pScene->addActor(*groundPlane);
 		/////////////////////////////////////////////////////////////////
-
+		m_playbackID = 0;
+		m_cueIndex = 0;
 		criErr_SetCallback(UserErrorCallbackFunc);
 		criAtomEx_SetUserAllocator(UserAllocFunc, UserFreeFunc, NULL);
-		criAtomEx_SetDefaultConfig(&m_atomexConfig);
-		m_atomexConfig.max_virtual_voices = MAX_VIRTUAL_VOICE;
-		criAtomEx_Initialize(&m_atomexConfig, NULL, 0);
-		criAtomEx_RegisterAcfFile(NULL, CRI_ACB_SE.data(), NULL, 0);
-		/*CriAtomExConfig_WASAPI lib_config;
+		CriAtomExConfig_WASAPI lib_config;
 		CriFsConfig fs_config;
 		criAtomEx_SetDefaultConfig_WASAPI(&lib_config);
 		criFs_SetDefaultConfig(&fs_config);
 		lib_config.atom_ex.max_virtual_voices = MAX_VIRTUAL_VOICE;
+		lib_config.hca_mx.output_sampling_rate = SAMPLINGRATE_HCAMX;
 		fs_config.num_loaders = MAX_CRIFS_LOADER;
-		lib_config.atom_ex.fs_config = &fs_config;*/
-		criAtomEx_Initialize_WASAPI(NULL, NULL, 0);
+		lib_config.atom_ex.fs_config = &fs_config;
+		criAtomEx_Initialize_WASAPI(&lib_config, NULL, 0);
+
+		m_dbasID = criAtomDbas_Create(NULL, NULL, 0);
 
 		criAtomEx_RegisterAcfFile(NULL, CRI_ACF.data(), NULL, 0);
-		bgm_acb_hn = criAtomExAcb_LoadAcbFile(NULL, CRI_ACB_BGM.data(), NULL, NULL, NULL, 0);
-		se_acb_hn = criAtomExAcb_LoadAcbFile(NULL, CRI_ACB_SE.data(), NULL, NULL, NULL, 0);
+		//criAtomEx_AttachDspBusSetting("DspBusSetting_0", NULL, 0);
+
 		criAtomExVoicePool_SetDefaultConfigForAdxVoicePool(&m_adxVoicePoolpconfig);
-		//adxvp_config.num_voices = 10;
-		//CriAtomExStandardVoicePoolConfig standard_vpool_config;
-		//criAtomExVoicePool_SetDefaultConfigForStandardVoicePool(&standard_vpool_config);
-		//standard_vpool_config.num_voices = MAX_VOICE;
-		m_voicePool = criAtomExVoicePool_AllocateStandardVoicePool(NULL, NULL, 0);
+		/* ボイスプールの作成（最大ボイス数変更／最大ピッチ変更／ストリーム再生対応） */
+		CriAtomExStandardVoicePoolConfig standard_vpool_config;
+		criAtomExVoicePool_SetDefaultConfigForStandardVoicePool(&standard_vpool_config);
+		standard_vpool_config.num_voices = MAX_VOICE;
+		standard_vpool_config.player_config.max_sampling_rate = 48000*2;
+		standard_vpool_config.player_config.streaming_flag = CRI_TRUE;
+		m_voicePool = criAtomExVoicePool_AllocateStandardVoicePool(&standard_vpool_config, NULL, 0);
+
+		bgm_acb_hn = criAtomExAcb_LoadAcbFile(NULL, CRI_ACB_BASIC.data(), NULL, CRI_AWB_BASIC.data(), NULL, 0);
+		//se_acb_hn = criAtomExAcb_LoadAcbFile(NULL, CRI_ACB_SE.data(), NULL, NULL, NULL, 0);
 		m_BGMplayer = criAtomExPlayer_Create(NULL, NULL, 0);
 		m_SEplayer = criAtomExPlayer_Create(NULL, NULL, 0);
 
-		criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
-		criAtomExPlayer_Start(m_BGMplayer);
+		//criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
+		//criAtomExPlayer_Start(m_BGMplayer);
 		/////////////////////////////////////////////////////////////
 		LoadScene(std::make_unique<Scene>());
 		LoadGameObjects();
@@ -138,13 +150,15 @@ namespace RVK {
 		}
 		m_pFoundation->release();
 		/////////////////////////////////////////////////////////////
+		criAtomEx_DetachDspBusSetting();
 
 		criAtomExPlayer_Destroy(m_BGMplayer);
 		criAtomExPlayer_Destroy(m_SEplayer);
 		criAtomExVoicePool_Free(m_voicePool);
 		criAtomExAcb_Release(bgm_acb_hn);
-		criAtomExAcb_Release(se_acb_hn);
+		//criAtomExAcb_Release(se_acb_hn);
 		criAtomEx_UnregisterAcf();
+		criAtomDbas_Destroy(m_dbasID);
 		criAtomEx_Finalize_WASAPI();
 		/////////////////////////////////////////////////////////////
 
@@ -249,8 +263,8 @@ namespace RVK {
 		m_testLight.AddComponent<Components::Transform>(glm::vec3(0.f, 0.f, 0.f));
 		m_testLight.AddComponent<Components::PointLight>(glm::vec3(1.f, 0.f, 0.f), 0.1f, 0.1f );
 
-		criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
-		criAtomExPlayer_Start(m_BGMplayer);
+		//criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
+		//criAtomExPlayer_Start(m_BGMplayer);
 
 		while (!m_rvkWindow.ShouldClose()) {
 			glfwPollEvents();
@@ -286,7 +300,7 @@ namespace RVK {
 					const glm::vec3 upDir{ 0.f, 1.f, 0.f };
 
 					glm::vec3 moveDir{ 0.f };
-					if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_UP) == GLFW_PRESS) moveDir += forwardDir;
+					if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_UP) == GLFW_PRESS && glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_UP) != GLFW_REPEAT) moveDir += forwardDir;
 					if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_DOWN) == GLFW_PRESS) moveDir -= forwardDir;
 					if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_LEFT) == GLFW_PRESS) moveDir -= rightDir;
 					if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_RIGHT) == GLFW_PRESS) moveDir += rightDir;
@@ -303,20 +317,20 @@ namespace RVK {
 			}
 
 			if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_Z) == GLFW_PRESS) {
-				criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_W006);
-				criAtomExPlayer_Start(m_BGMplayer);
+				criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BASIC_MUSIC1);
+				m_playbackID = criAtomExPlayer_Start(m_BGMplayer);
 			}
 			if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_X) == GLFW_PRESS) {
-				criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
-				criAtomExPlayer_Start(m_BGMplayer);
+				criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BASIC_MUSIC2);
+				m_playbackID = criAtomExPlayer_Start(m_BGMplayer);
 			}
 			if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_C) == GLFW_PRESS) {
-				criAtomExPlayer_SetCueId(m_SEplayer, se_acb_hn, CRI_SE_BOSSATTACK);
-				criAtomExPlayer_Start(m_SEplayer);
+				criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BASIC_GUNSHOT);
+				m_playbackID = criAtomExPlayer_Start(m_BGMplayer);
 			}
 			if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_V) == GLFW_PRESS) {
-				criAtomExPlayer_SetCueId(m_SEplayer, se_acb_hn, CRI_SE_SWORDHIT);
-				criAtomExPlayer_Start(m_SEplayer);
+				criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BASIC_KALIMBA);
+				m_playbackID = criAtomExPlayer_Start(m_BGMplayer);
 			}
 
 			//{

@@ -63,6 +63,9 @@ namespace RVK {
 	  CriAtomExAdxVoicePoolConfig m_adxVoicePoolpconfig;
 	  CriAtomExAcbHn bgm_acb_hn;
 	  CriAtomExAcbHn se_acb_hn;
+	  CriAtomDbasId	m_dbasID;
+	  CriAtomExPlaybackId m_playbackID;
+	  CriSint32 m_cueIndex;
 	  ///////////////////////////////////////////////////////////////
 
 	};
