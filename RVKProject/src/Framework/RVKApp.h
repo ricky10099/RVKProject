@@ -10,6 +10,7 @@
 #include "Framework/Vulkan/RVKWindow.h"
 #include "Framework/Vulkan/RVKRenderer.h"
 #include "Framework/Vulkan/RVKDescriptors.h"
+#include "Framework/Timestep.h"
 #include "Framework/Scene.h"
 #include "Framework/Entity.h"
 
@@ -20,6 +21,7 @@ namespace RVK {
 	  static constexpr int HEIGHT = 720;
 	  // note: order of declarations matters
 	  std::unique_ptr<RVKDescriptorPool> globalPool{};
+	  static RVKApp* appInstance;
 
 	public:
 	  RVKApp();
@@ -30,13 +32,19 @@ namespace RVK {
 	  void Run();
 	  void LoadScene(std::unique_ptr<Scene> scene);
 
+	  float GetTimestep() { return m_timestep; }
+
 	 private:
 	  void LoadGameObjects();
 
 	  RVKWindow m_rvkWindow{WIDTH, HEIGHT, "Vulkan App"};
 	  RVKRenderer m_rvkRenderer{m_rvkWindow};
 
+	  Timestep m_timestep{0ms};
+	  std::chrono::steady_clock::time_point m_timeLastFrame;
 	  std::unique_ptr<Scene> m_currentScene;
+
+
 
 	  Entity m_test;
 	  Entity m_test2;

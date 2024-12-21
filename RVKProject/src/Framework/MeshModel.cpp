@@ -21,6 +21,8 @@ namespace RVK {
 		CopyMeshes(builder.meshes);
 		CreateVertexBuffers(builder.vertices);
 		CreateIndexBuffers(builder.indices);
+		m_skeleton = std::move(builder.skeleton);
+		m_skeletonBuffer = builder.shaderData;
 	}
 
 	MeshModel::~MeshModel() {}
@@ -170,6 +172,7 @@ namespace RVK {
 			throw std::runtime_error("Failed to load model! (" + filepath + ")");
 		}
 
+		LoadSkeletons(scene);
 		LoadMaterials(scene);
 		meshes.clear();
 
@@ -415,23 +418,292 @@ namespace RVK {
 		VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);
 	}
 
-	void MeshModel::AssimpBuilder::AssignMaterial(Mesh& submesh, int const materialIndex) {
-		// material
+	//void MeshModel::AssimpBuilder::AssignMaterial(Mesh& submesh, int const materialIndex) {
+	//	// material
+	//	{
+	//		if (!(static_cast<size_t>(materialIndex) < materials.size())) {
+	//			VK_CORE_CRITICAL("AssignMaterial: materialIndex must be less than m_Materials.size()");
+	//		}
+
+	//		Material& material = submesh.material;
+
+	//		if (materialIndex != -1) {
+	//			material = materials[materialIndex];
+	//		}
+
+	//		// create material descriptor
+	//		//material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(material.m_materialTextures);
+	//	}
+
+	//	VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);
+	//}
+
+	void MeshModel::AssimpBuilder::LoadSkeletons(const aiScene* scene)
+	{
+		u32 numberOfSkeletons = 0;
+		u32 meshIndex = 0;
+		// iterate over all meshes and check if they have a skeleton
+		for (u32 index = 0; index < scene->mNumMeshes; ++index)
 		{
-			if (!(static_cast<size_t>(materialIndex) < materials.size())) {
-				VK_CORE_CRITICAL("AssignMaterial: materialIndex must be less than m_Materials.size()");
+			aiMesh* mesh = scene->mMeshes[index];
+			if (mesh->mNumBones)
+			{
+				++numberOfSkeletons;
+				meshIndex = index;
 			}
-
-			Material& material = submesh.material;
-
-			if (materialIndex != -1) {
-				material = materials[materialIndex];
-			}
-
-			// create material descriptor
-			//material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(material.m_materialTextures);
+		}
+		if (!numberOfSkeletons)
+		{
+			return;
 		}
 
-		VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);
+		if (numberOfSkeletons > 1)
+		{
+			VK_CORE_WARN("A model should only have a single skin/armature/skeleton. Using skin {0}.",
+				numberOfSkeletons - 1);
+		}
+
+		//m_Animations = std::make_shared<SkeletalAnimations>();
+		skeleton = std::make_shared<Skeleton>();
+		std::unordered_map<std::string, int> nameToBoneIndex;
+
+		// load skeleton
+		{
+
+			aiMesh* mesh = scene->mMeshes[meshIndex];
+			size_t numberOfJoints = mesh->mNumBones;
+			auto& joints =
+				skeleton->joints; // just a reference to the joints std::vector of that skeleton (to make code easier)
+
+			joints.resize(numberOfJoints);
+			skeleton->shaderData.finalJointsMatrices.resize(numberOfJoints);
+
+			// set up map to find the names of bones when traversing the node hierarchy
+			// by iterating the mBones array of the mesh
+			for (u32 boneIndex = 0; boneIndex < numberOfJoints; ++boneIndex)
+			{
+				aiBone* bone = mesh->mBones[boneIndex];
+				std::string boneName = bone->mName.C_Str();
+				nameToBoneIndex[boneName] = boneIndex;
+
+				// compatibility code with glTF loader; needed in skeletalAnimation.cpp
+				// m_Channels.m_Node must be set up accordingly
+				skeleton->globalNodeToJointIndex[boneIndex] = boneIndex;
+			}
+
+			// lambda to convert aiMatrix4x4 to glm::mat4
+			auto mat4AssetImporterToGlm = [](aiMatrix4x4 const& mat4AssetImporter)
+				{
+					glm::mat4 mat4Glm;
+					for (u32 glmRow = 0; glmRow < 4; ++glmRow)
+					{
+						for (u32 glmColumn = 0; glmColumn < 4; ++glmColumn)
+						{
+							mat4Glm[glmColumn][glmRow] = mat4AssetImporter[glmRow][glmColumn];
+						}
+					}
+					return mat4Glm;
+				};
+
+			// recursive lambda to traverse fbx node hierarchy
+			std::function<void(aiNode*, u32&, int)> traverseNodeHierarchy = [&](aiNode* node, u32& jointIndex, int parent){
+					size_t numberOfChildren = node->mNumChildren;
+
+					// does the node name correspond to a bone name?
+					std::string nodeName = node->mName.C_Str();
+					bool isBone = nameToBoneIndex.contains(nodeName);
+
+					int parentForChildren = parent;
+					if (isBone)
+					{
+						parentForChildren = jointIndex;
+						joints[jointIndex].name = nodeName;
+						u32 boneIndex = nameToBoneIndex[nodeName];
+						aiBone* bone = mesh->mBones[boneIndex];
+						joints[jointIndex].inverseBindMatrix = mat4AssetImporterToGlm(bone->mOffsetMatrix);
+						joints[jointIndex].parentJoint = parent;
+						++jointIndex;
+					}
+					for (u32 childIndex = 0; childIndex < numberOfChildren; ++childIndex)
+					{
+						if (isBone)
+						{
+							std::string childNodeName = node->mChildren[childIndex]->mName.C_Str();
+							bool childIsBone = nameToBoneIndex.contains(childNodeName);
+							if (childIsBone)
+							{
+								joints[parentForChildren].children.push_back(jointIndex);
+							}
+						}
+						traverseNodeHierarchy(node->mChildren[childIndex], jointIndex, parentForChildren);
+					}
+			};
+
+			u32 jointIndex = 0;
+			traverseNodeHierarchy(scene->mRootNode, jointIndex, NO_PARENT);
+			// skeleton->Traverse();
+
+			int bufferSize = numberOfJoints * sizeof(glm::mat4); // in bytes
+			//shaderData = Buffer::Create(bufferSize);
+			shaderData = std::make_shared<RVKBuffer>(bufferSize,
+				1,
+				VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+				RVKDevice::s_rvkDevice->m_properties.limits.minUniformBufferOffsetAlignment);
+			shaderData->Map();
+		}
+
+		//size_t numberOfAnimations = scene->mNumAnimations;
+		//for (size_t animationIndex = 0; animationIndex < numberOfAnimations; ++animationIndex)
+		//{
+		//	aiAnimation& fbxAnimation = *scene->mAnimations[animationIndex];
+
+		//	std::string animationName(fbxAnimation.mName.C_Str());
+		//	// the asset importer includes animations twice,
+		//	// as "armature|name" and "name"
+		//	if (animationName.find("|") != std::string::npos)
+		//	{
+		//		continue;
+		//	}
+		//	std::shared_ptr<Animation> animation = std::make_shared<SkeletalAnimation>(animationName);
+
+		//	// animation speed
+		//	double ticksPerSecond = 0.0;
+		//	if (fbxAnimation.mTicksPerSecond > std::numeric_limits<float>::epsilon())
+		//	{
+		//		ticksPerSecond = fbxAnimation.mTicksPerSecond;
+		//	}
+		//	else
+		//	{
+		//		LOG_CORE_ERROR("no speed information found in fbx file");
+		//		ticksPerSecond = 30.0;
+		//	}
+
+		//	{
+		//		u32 channelAndSamplerIndex = 0;
+		//		u32 numberOfFbxChannels = fbxAnimation.mNumChannels;
+		//		for (u32 fbxChannelIndex = 0; fbxChannelIndex < numberOfFbxChannels; ++fbxChannelIndex)
+		//		{
+		//			aiNodeAnim& fbxChannel = *fbxAnimation.mChannels[fbxChannelIndex];
+		//			std::string fbxChannelName(fbxChannel.mNodeName.C_Str());
+
+		//			// use fbx channels that actually belong to bones
+		//			bool isBone = nameToBoneIndex.contains(fbxChannelName);
+		//			if (isBone)
+		//			{
+		//				// helper lambdas to convert asset importer formats to glm
+		//				auto vec3AssetImporterToGlm = [](aiVector3D const& vec3AssetImporter)
+		//					{ return glm::vec3(vec3AssetImporter.x, vec3AssetImporter.y, vec3AssetImporter.z); };
+
+		//				auto quaternionAssetImporterToGlmVec4 = [](aiQuaternion const& quaternionAssetImporter)
+		//					{
+		//						glm::vec4 vec4GLM;
+		//						vec4GLM.x = quaternionAssetImporter.x;
+		//						vec4GLM.y = quaternionAssetImporter.y;
+		//						vec4GLM.z = quaternionAssetImporter.z;
+		//						vec4GLM.w = quaternionAssetImporter.w;
+
+		//						return vec4GLM;
+		//					};
+
+		//				// Each node of the skeleton has channels that point to samplers
+		//				{ // set up channels
+		//					{
+		//						SkeletalAnimation::Channel channel;
+		//						channel.m_Path = SkeletalAnimation::Path::TRANSLATION;
+		//						channel.m_SamplerIndex = channelAndSamplerIndex + 0;
+		//						channel.m_Node = nameToBoneIndex[fbxChannelName];
+
+		//						animation->m_Channels.push_back(channel);
+		//					}
+		//					{
+		//						SkeletalAnimation::Channel channel;
+		//						channel.m_Path = SkeletalAnimation::Path::ROTATION;
+		//						channel.m_SamplerIndex = channelAndSamplerIndex + 1;
+		//						channel.m_Node = nameToBoneIndex[fbxChannelName];
+
+		//						animation->m_Channels.push_back(channel);
+		//					}
+		//					{
+		//						SkeletalAnimation::Channel channel;
+		//						channel.m_Path = SkeletalAnimation::Path::SCALE;
+		//						channel.m_SamplerIndex = channelAndSamplerIndex + 2;
+		//						channel.m_Node = nameToBoneIndex[fbxChannelName];
+
+		//						animation->m_Channels.push_back(channel);
+		//					}
+		//				}
+
+		//				{ // set up samplers
+		//					{
+		//						u32 numberOfKeys = fbxChannel.mNumPositionKeys;
+
+		//						SkeletalAnimation::Sampler sampler;
+		//						sampler.m_Timestamps.resize(numberOfKeys);
+		//						sampler.m_TRSoutputValuesToBeInterpolated.resize(numberOfKeys);
+		//						sampler.m_Interpolation = SkeletalAnimation::InterpolationMethod::LINEAR;
+		//						for (u32 key = 0; key < numberOfKeys; ++key)
+		//						{
+		//							aiVector3D& value = fbxChannel.mPositionKeys[key].mValue;
+		//							sampler.m_TRSoutputValuesToBeInterpolated[key] =
+		//								glm::vec4(vec3AssetImporterToGlm(value), 0.0f);
+		//							sampler.m_Timestamps[key] = fbxChannel.mPositionKeys[key].mTime / ticksPerSecond;
+		//						}
+
+		//						animation->m_Samplers.push_back(sampler);
+		//					}
+		//					{
+		//						u32 numberOfKeys = fbxChannel.mNumRotationKeys;
+
+		//						SkeletalAnimation::Sampler sampler;
+		//						sampler.m_Timestamps.resize(numberOfKeys);
+		//						sampler.m_TRSoutputValuesToBeInterpolated.resize(numberOfKeys);
+		//						sampler.m_Interpolation = SkeletalAnimation::InterpolationMethod::LINEAR;
+		//						for (u32 key = 0; key < numberOfKeys; ++key)
+		//						{
+		//							aiQuaternion& value = fbxChannel.mRotationKeys[key].mValue;
+		//							sampler.m_TRSoutputValuesToBeInterpolated[key] = quaternionAssetImporterToGlmVec4(value);
+		//							sampler.m_Timestamps[key] = fbxChannel.mPositionKeys[key].mTime / ticksPerSecond;
+		//						}
+
+		//						animation->m_Samplers.push_back(sampler);
+		//					}
+		//					{
+		//						u32 numberOfKeys = fbxChannel.mNumScalingKeys;
+
+		//						SkeletalAnimation::Sampler sampler;
+		//						sampler.m_Timestamps.resize(numberOfKeys);
+		//						sampler.m_TRSoutputValuesToBeInterpolated.resize(numberOfKeys);
+		//						sampler.m_Interpolation = SkeletalAnimation::InterpolationMethod::LINEAR;
+		//						for (u32 key = 0; key < numberOfKeys; ++key)
+		//						{
+		//							aiVector3D& value = fbxChannel.mScalingKeys[key].mValue;
+		//							sampler.m_TRSoutputValuesToBeInterpolated[key] =
+		//								glm::vec4(vec3AssetImporterToGlm(value), 0.0f);
+		//							sampler.m_Timestamps[key] = fbxChannel.mPositionKeys[key].mTime / ticksPerSecond;
+		//						}
+
+		//						animation->m_Samplers.push_back(sampler);
+		//					}
+		//				}
+		//				channelAndSamplerIndex += 3;
+		//			}
+		//		}
+		//	}
+
+		//	if (animation->m_Samplers.size()) // at least one sampler found
+		//	{
+		//		auto& sampler = animation->m_Samplers[0];
+		//		if (sampler.m_Timestamps.size() >= 2) // samplers have at least 2 keyframes to interpolate in between
+		//		{
+		//			animation->SetFirstKeyFrameTime(sampler.m_Timestamps[0]);
+		//			animation->SetLastKeyFrameTime(sampler.m_Timestamps.back());
+		//		}
+		//	}
+
+		//	m_Animations->Push(animation);
+		//}
+
+		//m_SkeletalAnimation = (m_Animations->Size()) ? true : false;
 	}
 }  // namespace RVK

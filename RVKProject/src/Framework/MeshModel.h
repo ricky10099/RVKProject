@@ -4,12 +4,11 @@
 #include "Framework/Vulkan/RVKBuffer.h"
 #include "Framework/Materials.h"
 #include "Framework/Texture.h"
+#include "Framework/Skeleton.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
-
-#include "ufbx/ufbx.h"
 
 namespace RVK {
 	struct Vertex {
@@ -56,6 +55,8 @@ namespace RVK {
 			std::vector<u32> indices{};
 			std::vector<Mesh> meshes{};
 			std::vector<Material> materials{};
+			std::shared_ptr<Skeleton> skeleton;
+			std::shared_ptr<RVKBuffer> shaderData;
 			//std::vector<std::shared_ptr<Texture>> textures;
 			//std::vector<VkDescriptorSet> samplerDescriptorSets;
 
@@ -63,10 +64,11 @@ namespace RVK {
 			void LoadNode(aiNode* node, const aiScene* scene);
 			void LoadMesh(aiMesh* mesh, const aiScene* scene, u32 meshIndex);
 			void LoadMaterials(const aiScene* scene);
+			void LoadSkeletons(const aiScene* scene);
 			void LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial);
 			void LoadMap(const aiMaterial* fbxMaterial, aiTextureType textureType, int materialIndex);
 			std::shared_ptr<Texture> LoadTexture(std::string const& filepath, bool useSRGB);
-			void AssignMaterial(Mesh& submesh, int const materialIndex);
+			//void AssignMaterial(Mesh& submesh, int const materialIndex);
 		};
 
 		MeshModel(const MeshModel::AssimpBuilder& builder);
@@ -81,6 +83,7 @@ namespace RVK {
 		void DrawMesh(VkCommandBuffer commandBuffer, Mesh mesh);
 
 	private:
+		// Mesh
 		std::vector<Mesh> m_meshesMap{};
 
 		std::unique_ptr<RVKBuffer> m_vertexBuffer;
@@ -89,6 +92,12 @@ namespace RVK {
 		bool m_hasIndexBuffer = false;
 		std::unique_ptr<RVKBuffer> m_indexBuffer;
 		u32 m_indexCount;
+
+	private:
+		// Skeleton
+		std::shared_ptr<Skeleton> m_skeleton;
+
+		std::shared_ptr<RVKBuffer> m_skeletonBuffer;
 
 	private:
 		void CopyMeshes(std::vector<Mesh> const& meshes);

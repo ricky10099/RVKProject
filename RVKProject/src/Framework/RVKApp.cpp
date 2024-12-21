@@ -268,13 +268,13 @@ namespace RVK {
 
 		while (!m_rvkWindow.ShouldClose()) {
 			glfwPollEvents();
-			criAtomEx_ExecuteMain();
-			auto newTime = std::chrono::high_resolution_clock::now();
-			float frameTime =
-				std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
-			currentTime = newTime;
 
-			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), frameTime, m_test2);
+			auto newTime = std::chrono::high_resolution_clock::now();
+			m_timestep = newTime - m_timeLastFrame;
+			m_timeLastFrame = newTime;
+
+			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), m_timestep, m_test2);
+			criAtomEx_ExecuteMain();
 
 			float aspect = m_rvkRenderer.GetAspectRatio();
 			for (auto [entity, cam, transform] : 
@@ -287,7 +287,7 @@ namespace RVK {
 					if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_KP_2) == GLFW_PRESS) rotate.x -= 1.f;
 
 					if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) {
-						transform.rotation += 1.5f * frameTime * glm::normalize(rotate);
+						transform.rotation += 1.5f * m_timestep * glm::normalize(rotate);
 					}
 
 					// limit pitch values between about +/- 85ish degrees
@@ -308,7 +308,7 @@ namespace RVK {
 					if (glfwGetKey(m_rvkWindow.GetGLFWwindow(), GLFW_KEY_KP_9) == GLFW_PRESS) moveDir -= upDir;
 
 					if (glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) {
-						transform.position += 3.0f * frameTime * glm::normalize(moveDir);
+						transform.position += 3.0f * m_timestep * glm::normalize(moveDir);
 					}
 
 					cam.camera.SetViewYXZ(transform.position, transform.rotation);
@@ -339,7 +339,7 @@ namespace RVK {
 			//	physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
 			//	m_pBody->setGlobalPose(t);
 			//}
-			m_pScene->simulate(frameTime);
+			m_pScene->simulate(m_timestep);
 			m_pScene->fetchResults(true);
 
 			//m_test.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p)/* - glm::vec3(0.f, 1.5f, 0.f)*/;
@@ -348,7 +348,7 @@ namespace RVK {
 				int frameIndex = m_rvkRenderer.GetFrameIndex();
 				FrameInfo frameInfo{
 					frameIndex,
-					frameTime,
+					m_timestep,
 					commandBuffer,
 					globalDescriptorSets[frameIndex],
 				};

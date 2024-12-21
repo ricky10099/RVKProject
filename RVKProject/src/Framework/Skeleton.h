@@ -21,7 +21,7 @@ namespace RVK {
 		int parentJoint;
 		std::vector<int> children;
 
-		glm::mat4 GetDeformedBindMatrix() {
+		glm::mat4 GetDeformedBindMatrix() const {
 			return glm::translate(glm::mat4{ 1.0f }, deformedNodeTranslate) *
 				glm::mat4(deformedNodeRotation) *
 				glm::scale(glm::mat4{ 1.0f }, deformedNodeScale);
@@ -40,4 +40,4 @@ namespace RVK {
 		void Update();
 		void UpdateJoint(s16 joint);
 	};
-}
+}// namespace RVK

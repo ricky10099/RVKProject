@@ -30,16 +30,13 @@ namespace RVK {
 
         // used for debugging to check if the model renders w/o deformation
         if (!isAnimated) {
-            for (s16 jointIndex = 0; jointIndex < numberOfJoints; ++jointIndex)
-            {
+            for (s16 jointIndex = 0; jointIndex < numberOfJoints; ++jointIndex) {
                 shaderData.finalJointsMatrices[jointIndex] = glm::mat4(1.0f);
             }
         }
-        else
-        {
+        else{
             // STEP 1: apply animation results
-            for (s16 jointIndex = 0; jointIndex < numberOfJoints; ++jointIndex)
-            {
+            for (s16 jointIndex = 0; jointIndex < numberOfJoints; ++jointIndex){
                 shaderData.finalJointsMatrices[jointIndex] = joints[jointIndex].GetDeformedBindMatrix();
             }
 
@@ -47,8 +44,7 @@ namespace RVK {
             UpdateJoint(ROOT_JOINT);
 
             // STEP 3: bring back into model space
-            for (s16 jointIndex = 0; jointIndex < numberOfJoints; ++jointIndex)
-            {
+            for (s16 jointIndex = 0; jointIndex < numberOfJoints; ++jointIndex){
                 shaderData.finalJointsMatrices[jointIndex] =
                     shaderData.finalJointsMatrices[jointIndex] * joints[jointIndex].inverseBindMatrix;
             }
@@ -58,23 +54,20 @@ namespace RVK {
     // Update the final joint matrices of all joints
     // traverses entire skeleton from top (a.k.a root a.k.a hip bone)
     // This way, it is guaranteed that the global parent transform is already updated
-    void Skeleton::UpdateJoint(s16 jointIndex)
-    {
+    void Skeleton::UpdateJoint(s16 jointIndex){
         auto& currentJoint = joints[jointIndex]; // just a reference for easier code
 
         s16 parentJoint = currentJoint.parentJoint;
-        if (parentJoint != NO_PARENT)
-        {
+        if (parentJoint != NO_PARENT){
             shaderData.finalJointsMatrices[jointIndex] =
                 shaderData.finalJointsMatrices[parentJoint] * shaderData.finalJointsMatrices[jointIndex];
         }
 
         // update children
         size_t numberOfChildren = currentJoint.children.size();
-        for (size_t childIndex = 0; childIndex < numberOfChildren; ++childIndex)
-        {
+        for (size_t childIndex = 0; childIndex < numberOfChildren; ++childIndex){
             int childJoint = currentJoint.children[childIndex];
             UpdateJoint(childJoint);
         }
     }
-}
+}// namespace RVK

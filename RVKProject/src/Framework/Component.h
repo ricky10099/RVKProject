@@ -9,7 +9,7 @@
 #include "Framework/Utils.h"
 #include "Framework/MeshModel.h"
 #include "Framework/Camera.h"
-
+#include "Framework/Animation.h"
 
 namespace RVK::Components {
 	struct Tag {
@@ -48,23 +48,29 @@ namespace RVK::Components {
 		void Translate(const glm::vec3& pos) { position += pos; }
 	};
 
-	struct Model {
-		std::shared_ptr<MeshModel> model;
-		Transform offset{ glm::vec3(0.0f) };
-
+	class Model {
+	public:
 		Model() = default;
 		Model(const Model&) = default;
 		Model(const std::string& path)
-			: model(MeshModel::CreateMeshModelFromFile(path)) {}
+			: m_model(MeshModel::CreateMeshModelFromFile(path)) {}
 		void SetOffsetPosition(const glm::vec3& pos) {
-			offset.position = pos;
+			m_offset.position = pos;
 		}
 		void SetOffsetRotation(const glm::vec3& rot) {
-			offset.rotation = rot;
+			m_offset.rotation = rot;
 		}
 		void SetOffetScale(const glm::vec3& scale) {
-			offset.scale = scale;
+			m_offset.scale = scale;
 		}
+
+		void AddAnimation(std::string_view name, std::string_view animationPath);
+	private:
+		std::shared_ptr<MeshModel> m_model;
+		Transform m_offset{ glm::vec3(0.0f) };
+
+		std::map<std::string_view, std::shared_ptr<Animation>> m_animations;
+		std::string_view m_currentAnim;
 	};
 
 	struct Camera {
@@ -90,7 +96,7 @@ namespace RVK::Components {
 			this->radius = radius;
 		}
 	};
-
+	
 	//struct RigidBody {
 	//	physx::PxRigidBody* rigidBody;
 	//	Transform offset{glm::vec3(0.0f)};
