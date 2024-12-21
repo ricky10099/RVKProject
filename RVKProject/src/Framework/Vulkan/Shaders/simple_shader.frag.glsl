@@ -86,6 +86,5 @@ void main() {
         specularLight += intensity * blinnTerm;
     }
   
-    //outColor = ((diffuseLight, 1.0) * fragColor + (specularLight, 1.0) * fragColor)*textureColor;
-    outColor = vec4(diffuseLight, 1.0) * textureColor;
+    outColor = vec4(diffuseLight, 1.0) * textureColor + vec4(specularLight, 1.0);
 }
