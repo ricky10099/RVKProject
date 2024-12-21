@@ -17,7 +17,9 @@ namespace RVK {
 		if (glfwGetKey(window, keys.moveDown) == GLFW_PRESS) moveDir -= upDir;
 		if (glfwGetKey(window, keys.moveLeft) == GLFW_PRESS) moveDir -= rightDir;
 		if (glfwGetKey(window, keys.moveRight) == GLFW_PRESS) moveDir += rightDir;
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) entity.GetComponent<Components::Transform>().scale -= glm::vec3(1.f, 1.f, 1.1f) * dt;
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) entity.GetComponent<Components::Transform>().scale -= glm::vec3(0.1f, 0.1f, 0.1f) * dt;
+		if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS) entity.GetComponent<Components::Transform>().position = { 0.0f, 0.0f, 0.0f };
+		if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS) entity.GetComponent<Components::Model>().animations["Test"]->Start();
 
 
 		if (glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) {

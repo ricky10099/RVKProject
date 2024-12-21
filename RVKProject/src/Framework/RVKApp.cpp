@@ -47,14 +47,14 @@ void* UserAllocFunc(void* obj, CriUint32 size)
 void UserFreeFunc(void* obj, void* ptr) { free(ptr); }
 
 namespace RVK {
-	static RVKApp* appInstance;
+	RVKApp* RVKApp::appInstance;
 
 	RVKApp& GetApp() {
-		if (!appInstance) {
+		if (!RVKApp::appInstance) {
 			VK_CORE_CRITICAL("RVKApp is not initialized");
 		}
 
-		return *appInstance;
+		return *RVKApp::appInstance;
 	}
 
 	RVKApp::RVKApp() {
@@ -82,7 +82,7 @@ namespace RVK {
 		m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_pFoundation, physx::PxTolerancesScale(), true, m_pPvd);
 		m_pDispatcher = physx::PxDefaultCpuDispatcherCreate(8);
 		physx::PxSceneDesc scene_desc(m_pPhysics->getTolerancesScale());
-		scene_desc.gravity = physx::PxVec3(0, -9, 0);
+		scene_desc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
 		scene_desc.filterShader = physx::PxDefaultSimulationFilterShader;
 		scene_desc.cpuDispatcher = m_pDispatcher;
 		m_pScene = m_pPhysics->createScene(scene_desc);
@@ -229,27 +229,30 @@ namespace RVK {
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
 
-		//m_test = m_currentScene->CreateEntity("test");
-		//m_test.AddComponent<Components::Transform>(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
-		//m_test.AddComponent<Components::Model>("models/sphere.obj").SetOffsetPosition(glm::vec3(0.0f));
-		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
-		//{
-		//	physx::PxTransform localTm(physx::PxVec3(0.0f, 3.0f, 0.f));
-		//	physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
-		//	m_pBody = m_pPhysics->createRigidDynamic(localTm);
-		//	shape->setLocalPose(relativePose);
-		//	m_pBody->attachShape(*shape);
-		//	physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
-		//	m_pScene->addActor(*m_pBody);
-		//	//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
-		//}
+		m_test = m_currentScene->CreateEntity("test");
+		m_test.AddComponent<Components::Transform>(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
+		m_test.AddComponent<Components::Model>("models/sphere.obj").SetOffsetPosition(glm::vec3(0.0f));
+		
 
 		m_test2 = m_currentScene->CreateEntity("test2");
-		m_test2.AddComponent<Components::Transform>(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
-		m_test2.AddComponent<Components::Model>("models/Helicopter.fbx").SetOffsetPosition(glm::vec3(0.0f));
+		m_test2.AddComponent<Components::Transform>(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(-90.0f, 0.0f, 0.0f), glm::vec3(0.0001f));
+		m_test2.AddComponent<Components::Model>("models/Dragon/Qishilong.fbx").SetOffsetPosition(glm::vec3(0.0f));
+		m_test2.GetComponent<Components::Model>().AddAnimation("test", "../models/Dragon/Qishilong.fbx");
+		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
+		{
+			physx::PxTransform localTm(physx::PxVec3(0.0f, 0.0f, 0.0f));
+			physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
+			m_pBody = m_pPhysics->createRigidDynamic(localTm);
+			shape->setLocalPose(relativePose);
+			m_pBody->attachShape(*shape);
+			physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
+			m_pScene->addActor(*m_pBody);
+			//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
+		}
 
-		/*m_testFloor = m_currentScene->CreateEntity("Floor");
-		m_testFloor.AddComponent<Components::Mesh>("models/quad.obj", Model::ModelType::TinyObj);
+
+		m_testFloor = m_currentScene->CreateEntity("Floor");
+		m_testFloor.AddComponent<Components::Model>("models/quad.obj");
 		m_testFloor.AddComponent<Components::Transform>(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(5.0f));
 		shape = m_pPhysics->createShape(physx::PxBoxGeometry(5.0f, 0.001f, 5.0f), *m_pMaterial);
 		{
@@ -257,7 +260,7 @@ namespace RVK {
 			m_pFloor = m_pPhysics->createRigidStatic(localTm);
 			m_pFloor->attachShape(*shape);
 			m_pScene->addActor(*m_pFloor);
-		}*/
+		}
 
 		m_testLight = m_currentScene->CreateEntity("testLight");
 		m_testLight.AddComponent<Components::Transform>(glm::vec3(0.f, 0.f, 0.f));
@@ -273,7 +276,7 @@ namespace RVK {
 			m_timestep = newTime - m_timeLastFrame;
 			m_timeLastFrame = newTime;
 
-			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), m_timestep, m_test2);
+			
 			criAtomEx_ExecuteMain();
 
 			float aspect = m_rvkRenderer.GetAspectRatio();
@@ -333,16 +336,19 @@ namespace RVK {
 				m_playbackID = criAtomExPlayer_Start(m_BGMplayer);
 			}
 
-			//{
-			//	Components::Transform pos = m_test.GetComponent<Components::Transform>();
-			//	glm::vec3 bodyPos = pos.position/* + glm::vec3(0.f, 1.5f, 0.f)*/;
-			//	physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
-			//	m_pBody->setGlobalPose(t);
-			//}
-			m_pScene->simulate(m_timestep);
-			m_pScene->fetchResults(true);
+			//m_pScene->simulate(m_timestep);
+			//m_pScene->fetchResults(true);
+			m_test2.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p)/* - glm::vec3(0.f, 1.5f, 0.f)*/;
 
-			//m_test.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p)/* - glm::vec3(0.f, 1.5f, 0.f)*/;
+			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), m_timestep, m_test2);
+
+			{
+				Components::Transform pos = m_test2.GetComponent<Components::Transform>();
+				glm::vec3 bodyPos = pos.position/* + glm::vec3(0.f, 1.5f, 0.f)*/;
+				physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
+				m_pBody->setGlobalPose(t);
+			}
+
 
 			if (auto commandBuffer = m_rvkRenderer.BeginFrame()) {
 				int frameIndex = m_rvkRenderer.GetFrameIndex();

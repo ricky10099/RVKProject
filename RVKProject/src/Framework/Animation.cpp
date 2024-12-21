@@ -2,7 +2,9 @@
 #include "Framework/Timestep.h"
 
 namespace RVK {
-	Animation::Animation(/*std::string_view name*/): /*m_name(name),*/ m_isLoop(false){}
+	Animation::Animation(/*std::string_view name*/): /*m_name(name),*/ Animation(false){}
+
+	Animation::Animation(bool isLoop) : m_isLoop(false){}
 
 	void Animation::Start() {
 		m_currentKeyFrameTime = m_firstKeyFrameTime;
@@ -45,7 +47,7 @@ namespace RVK {
 						float a = (m_currentKeyFrameTime - sampler.timestamps[i])
 							/ (sampler.timestamps[i + 1] - sampler.timestamps[i]);
 						switch (channel.path) {
-						case Path::TRANSLATE: {
+						case Path::TRANSLATION: {
 							joint.deformedNodeTranslate = glm::mix(sampler.transformToInterpolate[i],
 								sampler.transformToInterpolate[i + 1], a);
 							break;
@@ -78,7 +80,7 @@ namespace RVK {
 					}
 					case InterpolationMethod::STEP: {
 						switch (channel.path) {
-						case Path::TRANSLATE: {
+						case Path::TRANSLATION: {
 							joint.deformedNodeTranslate = glm::vec3(sampler.transformToInterpolate[i]);
 							break;
 						}

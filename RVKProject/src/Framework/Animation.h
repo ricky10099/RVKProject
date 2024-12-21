@@ -7,7 +7,7 @@ namespace RVK {
 	class Animation {
 	public:
 		enum class Path {
-			TRANSLATE,
+			TRANSLATION,
 			ROTATION,
 			SCALE,
 		};
@@ -32,6 +32,7 @@ namespace RVK {
 
 	public:
 		Animation(/*std::string_view name*/);
+		Animation(bool isLoop);
 
 		void Start();
 		void Stop();

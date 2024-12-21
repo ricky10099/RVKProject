@@ -169,7 +169,7 @@ namespace RVK {
 			aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_GenNormals |
 			aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
 		if (!scene) {
-			throw std::runtime_error("Failed to load model! (" + filepath + ")");
+			VK_CORE_ERROR("Failed to load model! (" + filepath + ")");
 		}
 
 		LoadSkeletons(scene);
@@ -272,6 +272,7 @@ namespace RVK {
 		aiString aiFilepath;
 		auto getTexture = fbxMaterial->GetTexture(textureType, 0 /* first map*/, &aiFilepath);
 		std::string fbxFilepath(aiFilepath.C_Str());
+		fbxFilepath = fbxFilepath.substr(fbxFilepath.find_last_of("\\") + 1);
 		std::string filepath("../models/" + fbxFilepath);
 		if (getTexture == aiReturn_SUCCESS) {
 			switch (textureType) {
