@@ -6,7 +6,7 @@ namespace RVK {
 	static constexpr int NO_PARENT = -1;
 	static constexpr int ROOT_JOINT = 0;
 
-	struct ShaderData {
+	struct SkeletonUbo {
 		std::vector<glm::mat4> finalJointsMatrices;
 	};
 
@@ -33,7 +33,7 @@ namespace RVK {
 		std::string name;
 		std::vector<Joint> joints;
 		std::map<int, int> globalNodeToJointIndex;
-		ShaderData shaderData;
+		SkeletonUbo shaderData;
 
 		void Traverse();
 		void Traverse(const Joint& joint, u32 indent = 0);

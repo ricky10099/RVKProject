@@ -39,7 +39,7 @@ namespace RVK {
 		bool IsRunning() const;
 		bool WillExpire(const Timestep& timestep) const;
 		void SetLoop(bool isLoop) { m_isLoop = isLoop; }
-		void Update(const Timestep& timestep, Skeleton& skeleton);
+		void Update(const Timestep& timestep, Skeleton* skeleton);
 
 		std::vector<Sampler> m_samplers;
 		std::vector<Channel> m_channels;
@@ -55,8 +55,8 @@ namespace RVK {
 		//std::string_view m_name;
 		bool m_isLoop;
 
-		float m_firstKeyFrameTime;
-		float m_lastKeyFrameTime;
+		float m_firstKeyFrameTime = 0.0f;
+		float m_lastKeyFrameTime = 0.0f;
 		float m_currentKeyFrameTime = 0.0f;
 	};
 }// namespace RVK

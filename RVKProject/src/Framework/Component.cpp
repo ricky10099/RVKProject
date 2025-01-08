@@ -213,8 +213,114 @@ namespace RVK::Components {
                     animation->SetLastKeyFrameTime(sampler.timestamps.back());
                 }
             }
-
-            animations[name] = animation;
+            animation->Start();
+            m_animations[name] = std::move(animation); // store animation in map with name as key and animation;
+            m_animationNames.push_back(name);
+            ++m_animationCount;
         }
 	}
+
+    void Model::PlayAnimation(std::string_view name, bool isLoop) {
+        if(m_animations.find(name) == m_animations.end()) {
+			VK_CORE_ERROR("Animation '{0}' not found", name);
+			return;
+		}
+
+		if (m_animations.contains(name)) {
+		    m_animations[name]->SetLoop(isLoop);
+			m_animations[name]->Start();
+            m_currentAnimation = name;
+		}
+    }
+
+    void Model::PlayAnimation(u32 index) {
+        if (!(index < m_animationNames.size())){
+            VK_CORE_ERROR("PlayAnimation(index) out of bounds");
+            return;
+        }
+
+        PlayAnimation(m_animationNames[index]);
+    }
+
+    void Model::StopAnimation() {
+        if (m_currentAnimation == "") {
+			return;
+        }
+
+        m_animations[m_currentAnimation]->Stop();
+		m_currentAnimation = "";
+    }
+
+    void Model::SetLoop(std::string_view name, bool isLoop) {
+		if (m_animations.find(name) == m_animations.end()) {
+			VK_CORE_ERROR("Animation '{0}' not found", name);
+			return;
+		}
+
+        m_animations[name]->SetLoop(isLoop);
+    }
+
+    void Model::SetLoop(u32 index, bool isLoop) {
+		if (!(index < m_animationNames.size())) {
+			VK_CORE_ERROR("SetLoop(index) out of bounds");
+			return;
+		}
+
+		SetLoop(m_animationNames[index], isLoop);
+    }
+
+    void Model::SetAllLoop(bool isLoop) {
+		for (auto& animation : m_animations) {
+			animation.second->SetLoop(isLoop);
+		}
+    }
+
+    bool Model::IsPlaying(std::string_view name) {
+        if (m_animations.find(name) == m_animations.end()) {
+            VK_CORE_ERROR("Animation '{0}' not found", name);
+            return false;
+        }
+
+        return m_animations[name]->IsRunning();
+    }
+
+    bool Model::IsPlaying(u32 index) {
+		if (!(index < m_animationNames.size())) {
+			VK_CORE_ERROR("IsPlaying(index) out of bounds");
+			return false;
+		}
+
+		return IsPlaying(m_animationNames[index]);
+    }
+
+    bool Model::WillExpire(const Timestep& timestep){
+        if (m_currentAnimation == "") {
+            return false;
+        }
+
+		return m_animations[m_currentAnimation]->WillExpire(timestep);
+    }
+
+    void Model::UpdateAnimation(const Timestep& timestep, Skeleton* skeleton, u32 frameCounter){
+		if (m_currentAnimation != "") {
+			m_animations[m_currentAnimation]->Update(timestep, skeleton);
+		}
+    }
+
+    float Model::GetDuration(std::string_view name) {
+        if (m_animations.find(name) == m_animations.end()) {
+            VK_CORE_ERROR("Animation '{0}' not found", name);
+            return 0.0f;
+        }
+
+		return m_animations[name]->GetAnimDuration();
+    }
+
+    float Model::GetCurrentAnimTime() {
+        if (m_currentAnimation == "") {
+            return 0.0f;
+        }
+
+		return m_animations[m_currentAnimation]->GetCurrentAnimTime();
+    }
 }

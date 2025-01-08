@@ -35,9 +35,9 @@ namespace RVK::Components {
 
 		glm::mat4 GetTransform() const {
 			return glm::translate(glm::mat4(1.0f), position)*
-				glm::rotate(glm::mat4(1.0f), rotation.z, glm::vec3(0.0f, 0.0f, 1.0f))*
-				glm::rotate(glm::mat4(1.0f), rotation.x, glm::vec3(1.0f, 0.0f, 0.0f))*
-				glm::rotate(glm::mat4(1.0f), rotation.y, glm::vec3(0.0f, 1.0f, 0.0f))*
+				glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f))*
+				glm::rotate(glm::mat4(1.0f), glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f))*
+				glm::rotate(glm::mat4(1.0f), glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f))*
 				glm::scale(glm::mat4(1.0f), scale);
 		}
 
@@ -51,8 +51,6 @@ namespace RVK::Components {
 	struct Model {
 		std::shared_ptr<MeshModel> model;
 		Transform offset{ glm::vec3(0.0f) };
-
-		std::map<std::string_view, std::shared_ptr<Animation>> animations;
 
 		Model() = default;
 		Model(const Model&) = default;
@@ -69,6 +67,30 @@ namespace RVK::Components {
 		}
 
 		void AddAnimation(std::string_view name, const std::string& animationPath);
+
+		void PlayAnimation(std::string_view name, bool isLoop = false);
+		void PlayAnimation(u32 index);
+		void PlayAnimation() {PlayAnimation(0);}
+		void StopAnimation();
+		void SetLoop(std::string_view name, bool isLoop);
+		void SetLoop(u32 index, bool isLoop);
+		void SetAllLoop(bool isLoop);
+		bool IsPlaying(std::string_view name);
+		bool IsPlaying(u32 index);
+		bool WillExpire(const Timestep& timestep);
+		void UpdateAnimation(const Timestep& timestep, Skeleton* skeleton, u32 frameCounter);
+
+		float GetDuration(std::string_view name);
+		float GetCurrentAnimTime();
+		u32 GetIndex (std::string_view name) { return std::find(m_animationNames.begin(), m_animationNames.end(), name) - m_animationNames.begin(); }
+		std::string_view GetCurrentAnimation() const { return m_currentAnimation; }
+		u32 GetAnimationCount() const { return m_animationCount; }
+
+	private:
+		std::map<std::string_view, std::shared_ptr<Animation>> m_animations;
+		std::vector<std::string_view> m_animationNames;
+		std::string_view m_currentAnimation{""};
+		u32 m_animationCount = 0;
 	};
 
 	struct Camera {

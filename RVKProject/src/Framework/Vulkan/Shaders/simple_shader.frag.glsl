@@ -8,27 +8,31 @@ layout (location = 0) in vec4 fragColor;
 layout (location = 1) in vec3 fragPosWorld;
 layout (location = 2) in vec3 fragNormalWorld;
 layout (location = 3) in vec2 fragUV;
+layout (location = 4) in vec3 fragTangent;
+
+layout (set = 1, binding = 1) uniform sampler2D diffuseMap;
 
 layout (location = 0) out vec4 outColor;
 
 struct PointLight {
-  vec4 position; // ignore w
-  vec4 color; // w is intensity
+    vec4 position; // ignore w
+    vec4 color; // w is intensity
 };
 
 layout(set = 0, binding = 0) uniform GlobalUbo {
-  mat4 projection;
-  mat4 view;
-  mat4 invView;
-  vec4 ambientLightColor; // w is intensity
-  PointLight pointLights[MAX_LIGHTS];
-  int numLights;
+    mat4 projection;
+    mat4 view;
+    mat4 invView;
+    vec4 ambientLightColor; // w is intensity
+    PointLight pointLights[MAX_LIGHTS];
+    int numLights;
 } ubo;
 
 layout (set = 1, binding = 0) uniform MaterialUbo {
     int features;
     float roughness;
     float metallic;
+    float spare0; // padding
 
     // byte 16 to 31
     vec4 diffuseColor;
@@ -39,10 +43,13 @@ layout (set = 1, binding = 0) uniform MaterialUbo {
 
     // byte 48 to 63
     float normalMapIntensity;
+    float spare1; // padding
+    float spare2; // padding
+    float spare3; // padding
+
+    // byte 64 to 128
+    vec4 spare4[4];
 }matUbo;
-
-layout (set = 1, binding = 1) uniform sampler2D diffuseMap;
-
 
 layout(push_constant) uniform Push {
     mat4 modelMatrix;

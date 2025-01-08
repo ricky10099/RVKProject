@@ -16,6 +16,9 @@ namespace RVK {
 		glm::vec4 color{};
 		glm::vec3 normal{};
 		glm::vec2 uv{};
+		glm::vec3 tangent;
+		glm::ivec4 jointIds;
+		glm::vec4 weights;
 
 		static std::vector<VkVertexInputBindingDescription> GetBindingDescriptions();
 		static std::vector<VkVertexInputAttributeDescription> GetAttributeDescriptions();
@@ -35,7 +38,9 @@ namespace RVK {
 		//u32 instanceCount;
 		Material material;
 		//VkDescriptorSet samplerDescriptorSet;
-
+		SkeletonUbo skeletonUbo;
+		std::shared_ptr<RVKBuffer> skeletonBuffer;
+		VkDescriptorSet skeletonDescriptorSet;
 
 		//Resources m_Resources;
 		//std::unique_ptr<RVKBuffer> m_vertexBuffer;
@@ -82,6 +87,9 @@ namespace RVK {
 		void Draw(const FrameInfo& frameInfo, const VkPipelineLayout& pipelineLayout);
 		void DrawMesh(VkCommandBuffer commandBuffer, Mesh mesh);
 
+		std::shared_ptr<Skeleton> GetSkeleton() const { return m_skeleton; }
+		std::shared_ptr<RVKBuffer> GetSkeletonBuffer() { return m_skeletonBuffer; }
+
 	private:
 		// Mesh
 		std::vector<Mesh> m_meshesMap{};
@@ -96,7 +104,6 @@ namespace RVK {
 	private:
 		// Skeleton
 		std::shared_ptr<Skeleton> m_skeleton;
-
 		std::shared_ptr<RVKBuffer> m_skeletonBuffer;
 
 	private:

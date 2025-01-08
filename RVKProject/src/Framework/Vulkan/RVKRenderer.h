@@ -11,9 +11,10 @@ namespace RVK {
 
 		NO_COPY(RVKRenderer)
 
-		VkRenderPass GetSwapChainRenderPass() const { return m_rvkSwapChain->GetRenderPass(); }
-		float GetAspectRatio() const { return m_rvkSwapChain->ExtentAspectRatio(); }
-		bool IsFrameInProgress() const { return m_isFrameStarted; }
+		VkCommandBuffer BeginFrame();
+		void EndFrame();
+		void BeginSwapChainRenderPass(VkCommandBuffer commandBuffer);
+		void EndSwapChainRenderPass(VkCommandBuffer commandBuffer);
 
 		VkCommandBuffer GetCurrentCommandBuffer() const {
 			VK_ASSERT(m_isFrameStarted, "Cannot Get Command Buffer when Frame not in progress");
@@ -25,10 +26,10 @@ namespace RVK {
 			return m_currentFrameIndex;
 		}
 
-		VkCommandBuffer BeginFrame();
-		void EndFrame();
-		void BeginSwapChainRenderPass(VkCommandBuffer commandBuffer);
-		void EndSwapChainRenderPass(VkCommandBuffer commandBuffer);
+		VkRenderPass GetSwapChainRenderPass() const { return m_rvkSwapChain->GetRenderPass(); }
+		bool IsFrameInProgress() const { return m_isFrameStarted; }
+		u32 GetFrameCounter() const { return m_frameCounter; }
+		float GetAspectRatio() const { return m_rvkSwapChain->ExtentAspectRatio(); }
 
 	private:
 		void CreateCommandBuffers();
@@ -42,5 +43,7 @@ namespace RVK {
 		u32 m_currentImageIndex;
 		int m_currentFrameIndex{ 0 };
 		bool m_isFrameStarted{ false };
+
+		u32 m_frameCounter = 0;
 	};
 }  // namespace RVK

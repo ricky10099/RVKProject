@@ -1,11 +1,31 @@
 #include "Framework/Vulkan/RVKRenderer.h"
 #include "Framework/Vulkan/RVKDevice.h"
+#include "Framework/Texture.h"
+#include "Framework/Vulkan/RVKBuffer.h"
 
 namespace RVK {
+	std::shared_ptr<Texture> gTextureAtlas;
+	std::shared_ptr<Texture> gTextureFontAtlas;
+	std::shared_ptr<RVKBuffer> gDummyBuffer;
+
 	RVKRenderer::RVKRenderer(RVKWindow& window)
 		: m_rvkWindow{ window }{
 		RecreateSwapChain();
 		CreateCommandBuffers();
+
+		{ // a dummy buffer
+			u32 dummy = 0xffffffff;
+			gDummyBuffer = std::make_shared<RVKBuffer>(
+				sizeof(u32), 
+				1,
+				VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, 
+				VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+				RVKDevice::s_rvkDevice->m_properties.limits.minUniformBufferOffsetAlignment
+			);
+			gDummyBuffer->Map();
+			gDummyBuffer->WriteToBuffer(&dummy);
+			gDummyBuffer->Flush();
+		}
 	}
 
 	RVKRenderer::~RVKRenderer() { FreeCommandBuffers(); }
@@ -67,6 +87,7 @@ namespace RVK {
 		}
 
 		m_isFrameStarted = true;
+		m_frameCounter++;
 
 		auto commandBuffer = GetCurrentCommandBuffer();
 		VkCommandBufferBeginInfo beginInfo{};

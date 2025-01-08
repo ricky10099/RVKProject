@@ -1,6 +1,8 @@
 #include "Framework/MeshModel.h"
 #include "Framework/Vulkan/RVKDevice.h"
 #include "Framework/Vulkan/MaterialDescriptor.h"
+#include "Framework/Vulkan/RVKDescriptors.h"
+#include "Framework/RVKApp.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/hash.hpp>
@@ -17,6 +19,8 @@ namespace std {
 }  // namespace std
 
 namespace RVK {
+	extern std::shared_ptr<RVKBuffer> gDummyBuffer;
+
 	MeshModel::MeshModel(const MeshModel::AssimpBuilder& builder) {
 		CopyMeshes(builder.meshes);
 		CreateVertexBuffers(builder.vertices);
@@ -29,7 +33,7 @@ namespace RVK {
 
 	std::unique_ptr<MeshModel> MeshModel::CreateMeshModelFromFile(const std::string& filepath) {
 		AssimpBuilder builder{};
-		builder.LoadMeshModel(ENGINE_DIR + filepath);
+		builder.LoadMeshModel(filepath);
 		return std::make_unique<MeshModel>(builder);
 	}
 
@@ -100,8 +104,9 @@ namespace RVK {
 		mesh.material.m_materialBuffer->Flush();
 
 		const VkDescriptorSet& materialDescriptorSet = mesh.material.m_materialDescriptor->GetDescriptorSet();
+		const VkDescriptorSet& skeletonDescriptorSet = mesh.skeletonDescriptorSet;
 
-		std::vector<VkDescriptorSet> descriptorSets = { frameInfo.globalDescriptorSet, materialDescriptorSet };
+		std::vector<VkDescriptorSet> descriptorSets = { frameInfo.globalDescriptorSet, materialDescriptorSet, skeletonDescriptorSet };
 		vkCmdBindDescriptorSets(frameInfo.commandBuffer,    // VkCommandBuffer        commandBuffer,
 			VK_PIPELINE_BIND_POINT_GRAPHICS,				// VkPipelineBindPoint    pipelineBindPoint,
 			pipelineLayout,									// VkPipelineLayout       layout,
@@ -158,6 +163,9 @@ namespace RVK {
 		attributeDescriptions.push_back({ 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(Vertex, color) });
 		attributeDescriptions.push_back({ 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal) });
 		attributeDescriptions.push_back({ 3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, uv) });
+		attributeDescriptions.push_back({ 4, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, tangent) });
+		attributeDescriptions.push_back({ 5, 0, VK_FORMAT_R32G32B32A32_SINT, offsetof(Vertex, jointIds) });
+		attributeDescriptions.push_back({ 6, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(Vertex, weights) });
 
 		return attributeDescriptions;
 	}
@@ -196,37 +204,35 @@ namespace RVK {
 		}
 	}
 
-	void MeshModel::AssimpBuilder::LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial)
-	{
-		{ // diffuse
+	void MeshModel::AssimpBuilder::LoadProperties(const aiMaterial* fbxMaterial, Material::PBRMaterial& pbrMaterial) {
+		// diffuse
+		{
 			aiColor3D diffuseColor;
-			if (fbxMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == aiReturn_SUCCESS)
-			{
+			if (fbxMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == aiReturn_SUCCESS) {
 				pbrMaterial.diffuseColor.r = diffuseColor.r;
 				pbrMaterial.diffuseColor.g = diffuseColor.g;
 				pbrMaterial.diffuseColor.b = diffuseColor.b;
 			}
 		}
-		{ // roughness
+
+		// roughness
+		{
 			float roughnessFactor;
-			if (fbxMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughnessFactor) == aiReturn_SUCCESS)
-			{
+			if (fbxMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughnessFactor) == aiReturn_SUCCESS) {
 				pbrMaterial.roughness = roughnessFactor;
 			}
-			else
-			{
+			else {
 				pbrMaterial.roughness = 0.1f;
 			}
 		}
 
-		{ // metallic
+		// metallic
+		{
 			float metallicFactor;
-			if (fbxMaterial->Get(AI_MATKEY_REFLECTIVITY, metallicFactor) == aiReturn_SUCCESS)
-			{
+			if (fbxMaterial->Get(AI_MATKEY_REFLECTIVITY, metallicFactor) == aiReturn_SUCCESS) {
 				pbrMaterial.metallic = metallicFactor;
 			}
-			else if (fbxMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallicFactor) == aiReturn_SUCCESS)
-			{
+			else if (fbxMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallicFactor) == aiReturn_SUCCESS) {
 				pbrMaterial.metallic = metallicFactor;
 			}
 			else
@@ -235,16 +241,17 @@ namespace RVK {
 			}
 		}
 
-		{ // emissive color
+		// emissive color
+		{
 			aiColor3D emission;
 			auto result = fbxMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emission);
-			if (result == aiReturn_SUCCESS)
-			{
+			if (result == aiReturn_SUCCESS) {
 				pbrMaterial.emissiveColor = glm::vec3(emission.r, emission.g, emission.b);
 			}
 		}
 
-		{ // emissive strength
+		// emissive strength
+		{
 			float emissiveStrength;
 			auto result = fbxMaterial->Get(AI_MATKEY_EMISSIVE_INTENSITY, emissiveStrength);
 			if (result == aiReturn_SUCCESS)
@@ -260,12 +267,12 @@ namespace RVK {
 		Material& material = materials[materialIndex];
 		Material::PBRMaterial& pbrMaterial = material.m_PBRMaterial;
 		Material::MaterialTextures& tmpTextures = material.m_materialTextures;
-		
+
 		u32 textureCount = fbxMaterial->GetTextureCount(textureType);
 		if (!textureCount) {
-			auto texture = LoadTexture("../models/checker.png", Texture::USE_SRGB);
+			auto texture = LoadTexture("models/checker.png", Texture::USE_SRGB);
 			tmpTextures[Material::DIFFUSE_MAP_INDEX] = texture;
-			pbrMaterial.diffuseColor.a = 0.0f;
+			pbrMaterial.diffuseColor.a = 1.0f;
 			return;
 		}
 
@@ -273,10 +280,10 @@ namespace RVK {
 		auto getTexture = fbxMaterial->GetTexture(textureType, 0 /* first map*/, &aiFilepath);
 		std::string fbxFilepath(aiFilepath.C_Str());
 		fbxFilepath = fbxFilepath.substr(fbxFilepath.find_last_of("\\") + 1);
-		std::string filepath("../models/" + fbxFilepath);
+		std::string filepath("models/" + fbxFilepath);
 		if (getTexture == aiReturn_SUCCESS) {
 			switch (textureType) {
-				// LoadTexture is inside switch statement for sRGB and UNORM
+			// LoadTexture is inside switch statement for sRGB and UNORM
 			case aiTextureType_DIFFUSE: {
 				auto texture = LoadTexture(filepath, Texture::USE_SRGB);
 				if (texture) {
@@ -353,32 +360,45 @@ namespace RVK {
 
 		u32 vertexIndex = static_cast<u32>(numVerticesBefore);
 
+		bool hasPositions = aimesh->HasPositions();
+		bool hasNormals = aimesh->HasNormals();
+		bool hasTangents = aimesh->HasTangentsAndBitangents();
+		bool hasUVs = aimesh->HasTextureCoords(0);
+		bool hasColors = aimesh->HasVertexColors(0);
+
 		// Go through each vertex and copy it across to our vertices
 		for (size_t i = 0; i < aimesh->mNumVertices; ++i) {
 			Vertex& vertex = vertices[vertexIndex];
 
 			// Set position
-			vertex.position = { aimesh->mVertices[i].x, aimesh->mVertices[i].y, aimesh->mVertices[i].z };
+			if (hasPositions) {
+				vertex.position = { aimesh->mVertices[i].x, aimesh->mVertices[i].y, aimesh->mVertices[i].z };
+			}
 
 			// Set normal
-			vertex.normal = { aimesh->mNormals[i].x, aimesh->mNormals[i].y, aimesh->mNormals[i].z };
+			if (hasNormals) {
+				vertex.normal = { aimesh->mNormals[i].x, aimesh->mNormals[i].y, aimesh->mNormals[i].z };
+			}
 
 			//Set uv coords (if they exist)
-			if (aimesh->mTextureCoords[0]) {
+			if (hasUVs) {
 				vertex.uv = { aimesh->mTextureCoords[0][i].x, aimesh->mTextureCoords[0][i].y };
 			}
 			else {
 				vertex.uv = { 0.0f, 0.0f };
 			}
 
-			// Set colour (just use white for now)
-			//vertex.color = { 1.0f, 1.0f, 1.0f ,1.0f};
+			// Set tangent
+			if (hasTangents) {
+				vertex.tangent = { aimesh->mTangents[i].x, aimesh->mTangents[i].y, aimesh->mTangents[i].z };
+			}
+
 
 			// vertex colors
 			{
 				glm::vec4 vertexColor;
 				u32 materialIndex = aimesh->mMaterialIndex;
-				if (aimesh->HasVertexColors(0)) {
+				if (hasColors) {
 					aiColor4D& colorFbx = aimesh->mColors[0][i];
 					glm::vec3 linearColor = glm::pow(glm::vec3(colorFbx.r, colorFbx.g, colorFbx.b), glm::vec3(2.2f));
 					vertexColor = glm::vec4(linearColor.r, linearColor.g, linearColor.b, colorFbx.a);
@@ -407,6 +427,60 @@ namespace RVK {
 
 		VK_CORE_INFO("mesh loaded (Assimp): {0} vertices, {1} indices", numVertices, numIndices);
 
+		// bone indices and bone weights
+		{
+			u32 numberOfBones = aimesh->mNumBones;
+			std::vector<u32> numberOfBonesBoundtoVertex;
+			numberOfBonesBoundtoVertex.resize(vertices.size(), 0);
+			for (u32 boneIndex = 0; boneIndex < numberOfBones; ++boneIndex)
+			{
+				aiBone& bone = *aimesh->mBones[boneIndex];
+				u32 numberOfWeights = bone.mNumWeights;
+
+				// loop over vertices that are bound to that bone
+				for (u32 weightIndex = 0; weightIndex < numberOfWeights; ++weightIndex) {
+					u32 vertexId = bone.mWeights[weightIndex].mVertexId;
+					VK_ASSERT(vertexId < vertices.size(), "memory violation");
+					float weight = bone.mWeights[weightIndex].mWeight;
+					switch (numberOfBonesBoundtoVertex[vertexId]) {
+					case 0:
+						vertices[vertexId].jointIds.x = boneIndex;
+						vertices[vertexId].weights.x = weight;
+						break;
+					case 1:
+						vertices[vertexId].jointIds.y = boneIndex;
+						vertices[vertexId].weights.y = weight;
+						break;
+					case 2:
+						vertices[vertexId].jointIds.z = boneIndex;
+						vertices[vertexId].weights.z = weight;
+						break;
+					case 3:
+						vertices[vertexId].jointIds.w = boneIndex;
+						vertices[vertexId].weights.w = weight;
+						break;
+					default:
+						break;
+					}
+					// track how many times this bone was hit
+					// (up to four bones can be bound to a vertex)
+					++numberOfBonesBoundtoVertex[vertexId];
+				}
+			}
+
+			// normalize weights
+			for (u32 vertexIndex = 0; vertexIndex < vertices.size(); ++vertexIndex) {
+				glm::vec4& boneWeights = vertices[vertexIndex].weights;
+				float weightSum = boneWeights.x + boneWeights.y + boneWeights.z + boneWeights.w;
+				if (weightSum > std::numeric_limits<float>::epsilon())
+				{
+					vertices[vertexIndex].weights = glm::vec4(boneWeights.x / weightSum, boneWeights.y / weightSum,
+						boneWeights.z / weightSum, boneWeights.w / weightSum);
+				}
+			}
+		}
+
+
 		int materialIndex = aimesh->mMaterialIndex;
 		if (!(static_cast<size_t>(materialIndex) < materials.size())) {
 			VK_CORE_CRITICAL("AssignMaterial: materialIndex must be less than m_Materials.size()");
@@ -415,6 +489,21 @@ namespace RVK {
 			mesh.material = materials[materialIndex];
 			mesh.material.m_materialDescriptor = std::make_shared<MaterialDescriptor>(mesh.material, mesh.material.m_materialTextures);
 		}
+
+		if (shaderData) {
+			mesh.skeletonBuffer = shaderData;
+		}
+		else {
+			mesh.skeletonBuffer = gDummyBuffer;
+		}
+
+		RVKDescriptorSetLayout::Builder builder{};
+		builder.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
+		std::unique_ptr<RVKDescriptorSetLayout> localDescriptorSetLayout = builder.Build();
+		RVKDescriptorWriter descriptorWriter(*localDescriptorSetLayout, *GetApp().globalPool);
+		VkDescriptorBufferInfo bufferInfo = mesh.skeletonBuffer->DescriptorInfo();
+		descriptorWriter.WriteBuffer(0, &bufferInfo);
+		descriptorWriter.Build(mesh.skeletonDescriptorSet);
 
 		VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);
 	}
@@ -439,8 +528,7 @@ namespace RVK {
 	//	VK_CORE_INFO("material assigned (Assimp): material index {0}", materialIndex);
 	//}
 
-	void MeshModel::AssimpBuilder::LoadSkeletons(const aiScene* scene)
-	{
+	void MeshModel::AssimpBuilder::LoadSkeletons(const aiScene* scene) {
 		u32 numberOfSkeletons = 0;
 		u32 meshIndex = 0;
 		// iterate over all meshes and check if they have a skeleton
@@ -493,51 +581,50 @@ namespace RVK {
 			}
 
 			// lambda to convert aiMatrix4x4 to glm::mat4
-			auto mat4AssetImporterToGlm = [](aiMatrix4x4 const& mat4AssetImporter)
+			auto mat4AssetImporterToGlm = [](aiMatrix4x4 const& mat4AssetImporter) {
+				glm::mat4 mat4Glm;
+				for (u32 glmRow = 0; glmRow < 4; ++glmRow)
 				{
-					glm::mat4 mat4Glm;
-					for (u32 glmRow = 0; glmRow < 4; ++glmRow)
+					for (u32 glmColumn = 0; glmColumn < 4; ++glmColumn)
 					{
-						for (u32 glmColumn = 0; glmColumn < 4; ++glmColumn)
-						{
-							mat4Glm[glmColumn][glmRow] = mat4AssetImporter[glmRow][glmColumn];
-						}
+						mat4Glm[glmColumn][glmRow] = mat4AssetImporter[glmRow][glmColumn];
 					}
-					return mat4Glm;
-				};
+				}
+				return mat4Glm;
+			};
 
 			// recursive lambda to traverse fbx node hierarchy
-			std::function<void(aiNode*, u32&, int)> traverseNodeHierarchy = [&](aiNode* node, u32& jointIndex, int parent){
-					size_t numberOfChildren = node->mNumChildren;
+			std::function<void(aiNode*, u32&, int)> traverseNodeHierarchy = [&](aiNode* node, u32& jointIndex, int parent) {
+				size_t numberOfChildren = node->mNumChildren;
 
-					// does the node name correspond to a bone name?
-					std::string nodeName = node->mName.C_Str();
-					bool isBone = nameToBoneIndex.contains(nodeName);
+				// does the node name correspond to a bone name?
+				std::string nodeName = node->mName.C_Str();
+				bool isBone = nameToBoneIndex.contains(nodeName);
 
-					int parentForChildren = parent;
+				int parentForChildren = parent;
+				if (isBone)
+				{
+					parentForChildren = jointIndex;
+					joints[jointIndex].name = nodeName;
+					u32 boneIndex = nameToBoneIndex[nodeName];
+					aiBone* bone = mesh->mBones[boneIndex];
+					joints[jointIndex].inverseBindMatrix = mat4AssetImporterToGlm(bone->mOffsetMatrix);
+					joints[jointIndex].parentJoint = parent;
+					++jointIndex;
+				}
+				for (u32 childIndex = 0; childIndex < numberOfChildren; ++childIndex)
+				{
 					if (isBone)
 					{
-						parentForChildren = jointIndex;
-						joints[jointIndex].name = nodeName;
-						u32 boneIndex = nameToBoneIndex[nodeName];
-						aiBone* bone = mesh->mBones[boneIndex];
-						joints[jointIndex].inverseBindMatrix = mat4AssetImporterToGlm(bone->mOffsetMatrix);
-						joints[jointIndex].parentJoint = parent;
-						++jointIndex;
-					}
-					for (u32 childIndex = 0; childIndex < numberOfChildren; ++childIndex)
-					{
-						if (isBone)
+						std::string childNodeName = node->mChildren[childIndex]->mName.C_Str();
+						bool childIsBone = nameToBoneIndex.contains(childNodeName);
+						if (childIsBone)
 						{
-							std::string childNodeName = node->mChildren[childIndex]->mName.C_Str();
-							bool childIsBone = nameToBoneIndex.contains(childNodeName);
-							if (childIsBone)
-							{
-								joints[parentForChildren].children.push_back(jointIndex);
-							}
+							joints[parentForChildren].children.push_back(jointIndex);
 						}
-						traverseNodeHierarchy(node->mChildren[childIndex], jointIndex, parentForChildren);
 					}
+					traverseNodeHierarchy(node->mChildren[childIndex], jointIndex, parentForChildren);
+				}
 			};
 
 			u32 jointIndex = 0;
@@ -553,158 +640,5 @@ namespace RVK {
 				RVKDevice::s_rvkDevice->m_properties.limits.minUniformBufferOffsetAlignment);
 			shaderData->Map();
 		}
-
-		//size_t numberOfAnimations = scene->mNumAnimations;
-		//for (size_t animationIndex = 0; animationIndex < numberOfAnimations; ++animationIndex)
-		//{
-		//	aiAnimation& fbxAnimation = *scene->mAnimations[animationIndex];
-
-		//	std::string animationName(fbxAnimation.mName.C_Str());
-		//	// the asset importer includes animations twice,
-		//	// as "armature|name" and "name"
-		//	if (animationName.find("|") != std::string::npos)
-		//	{
-		//		continue;
-		//	}
-		//	std::shared_ptr<Animation> animation = std::make_shared<SkeletalAnimation>(animationName);
-
-		//	// animation speed
-		//	double ticksPerSecond = 0.0;
-		//	if (fbxAnimation.mTicksPerSecond > std::numeric_limits<float>::epsilon())
-		//	{
-		//		ticksPerSecond = fbxAnimation.mTicksPerSecond;
-		//	}
-		//	else
-		//	{
-		//		LOG_CORE_ERROR("no speed information found in fbx file");
-		//		ticksPerSecond = 30.0;
-		//	}
-
-		//	{
-		//		u32 channelAndSamplerIndex = 0;
-		//		u32 numberOfFbxChannels = fbxAnimation.mNumChannels;
-		//		for (u32 fbxChannelIndex = 0; fbxChannelIndex < numberOfFbxChannels; ++fbxChannelIndex)
-		//		{
-		//			aiNodeAnim& fbxChannel = *fbxAnimation.mChannels[fbxChannelIndex];
-		//			std::string fbxChannelName(fbxChannel.mNodeName.C_Str());
-
-		//			// use fbx channels that actually belong to bones
-		//			bool isBone = nameToBoneIndex.contains(fbxChannelName);
-		//			if (isBone)
-		//			{
-		//				// helper lambdas to convert asset importer formats to glm
-		//				auto vec3AssetImporterToGlm = [](aiVector3D const& vec3AssetImporter)
-		//					{ return glm::vec3(vec3AssetImporter.x, vec3AssetImporter.y, vec3AssetImporter.z); };
-
-		//				auto quaternionAssetImporterToGlmVec4 = [](aiQuaternion const& quaternionAssetImporter)
-		//					{
-		//						glm::vec4 vec4GLM;
-		//						vec4GLM.x = quaternionAssetImporter.x;
-		//						vec4GLM.y = quaternionAssetImporter.y;
-		//						vec4GLM.z = quaternionAssetImporter.z;
-		//						vec4GLM.w = quaternionAssetImporter.w;
-
-		//						return vec4GLM;
-		//					};
-
-		//				// Each node of the skeleton has channels that point to samplers
-		//				{ // set up channels
-		//					{
-		//						SkeletalAnimation::Channel channel;
-		//						channel.m_Path = SkeletalAnimation::Path::TRANSLATION;
-		//						channel.m_SamplerIndex = channelAndSamplerIndex + 0;
-		//						channel.m_Node = nameToBoneIndex[fbxChannelName];
-
-		//						animation->m_Channels.push_back(channel);
-		//					}
-		//					{
-		//						SkeletalAnimation::Channel channel;
-		//						channel.m_Path = SkeletalAnimation::Path::ROTATION;
-		//						channel.m_SamplerIndex = channelAndSamplerIndex + 1;
-		//						channel.m_Node = nameToBoneIndex[fbxChannelName];
-
-		//						animation->m_Channels.push_back(channel);
-		//					}
-		//					{
-		//						SkeletalAnimation::Channel channel;
-		//						channel.m_Path = SkeletalAnimation::Path::SCALE;
-		//						channel.m_SamplerIndex = channelAndSamplerIndex + 2;
-		//						channel.m_Node = nameToBoneIndex[fbxChannelName];
-
-		//						animation->m_Channels.push_back(channel);
-		//					}
-		//				}
-
-		//				{ // set up samplers
-		//					{
-		//						u32 numberOfKeys = fbxChannel.mNumPositionKeys;
-
-		//						SkeletalAnimation::Sampler sampler;
-		//						sampler.m_Timestamps.resize(numberOfKeys);
-		//						sampler.m_TRSoutputValuesToBeInterpolated.resize(numberOfKeys);
-		//						sampler.m_Interpolation = SkeletalAnimation::InterpolationMethod::LINEAR;
-		//						for (u32 key = 0; key < numberOfKeys; ++key)
-		//						{
-		//							aiVector3D& value = fbxChannel.mPositionKeys[key].mValue;
-		//							sampler.m_TRSoutputValuesToBeInterpolated[key] =
-		//								glm::vec4(vec3AssetImporterToGlm(value), 0.0f);
-		//							sampler.m_Timestamps[key] = fbxChannel.mPositionKeys[key].mTime / ticksPerSecond;
-		//						}
-
-		//						animation->m_Samplers.push_back(sampler);
-		//					}
-		//					{
-		//						u32 numberOfKeys = fbxChannel.mNumRotationKeys;
-
-		//						SkeletalAnimation::Sampler sampler;
-		//						sampler.m_Timestamps.resize(numberOfKeys);
-		//						sampler.m_TRSoutputValuesToBeInterpolated.resize(numberOfKeys);
-		//						sampler.m_Interpolation = SkeletalAnimation::InterpolationMethod::LINEAR;
-		//						for (u32 key = 0; key < numberOfKeys; ++key)
-		//						{
-		//							aiQuaternion& value = fbxChannel.mRotationKeys[key].mValue;
-		//							sampler.m_TRSoutputValuesToBeInterpolated[key] = quaternionAssetImporterToGlmVec4(value);
-		//							sampler.m_Timestamps[key] = fbxChannel.mPositionKeys[key].mTime / ticksPerSecond;
-		//						}
-
-		//						animation->m_Samplers.push_back(sampler);
-		//					}
-		//					{
-		//						u32 numberOfKeys = fbxChannel.mNumScalingKeys;
-
-		//						SkeletalAnimation::Sampler sampler;
-		//						sampler.m_Timestamps.resize(numberOfKeys);
-		//						sampler.m_TRSoutputValuesToBeInterpolated.resize(numberOfKeys);
-		//						sampler.m_Interpolation = SkeletalAnimation::InterpolationMethod::LINEAR;
-		//						for (u32 key = 0; key < numberOfKeys; ++key)
-		//						{
-		//							aiVector3D& value = fbxChannel.mScalingKeys[key].mValue;
-		//							sampler.m_TRSoutputValuesToBeInterpolated[key] =
-		//								glm::vec4(vec3AssetImporterToGlm(value), 0.0f);
-		//							sampler.m_Timestamps[key] = fbxChannel.mPositionKeys[key].mTime / ticksPerSecond;
-		//						}
-
-		//						animation->m_Samplers.push_back(sampler);
-		//					}
-		//				}
-		//				channelAndSamplerIndex += 3;
-		//			}
-		//		}
-		//	}
-
-		//	if (animation->m_Samplers.size()) // at least one sampler found
-		//	{
-		//		auto& sampler = animation->m_Samplers[0];
-		//		if (sampler.m_Timestamps.size() >= 2) // samplers have at least 2 keyframes to interpolate in between
-		//		{
-		//			animation->SetFirstKeyFrameTime(sampler.m_Timestamps[0]);
-		//			animation->SetLastKeyFrameTime(sampler.m_Timestamps.back());
-		//		}
-		//	}
-
-		//	m_Animations->Push(animation);
-		//}
-
-		//m_SkeletalAnimation = (m_Animations->Size()) ? true : false;
 	}
 }  // namespace RVK

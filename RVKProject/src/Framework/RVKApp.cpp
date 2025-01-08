@@ -14,11 +14,11 @@
 #include "../audio/Basic.h"
 #include "../audio/WorkUnit_0/SE.h"
 
-static const std::string_view CRI_ACF = "../audio/ADX2_samples.acf";
-static const std::string_view CRI_ACB_BGM = "../audio/WorkUnit_0/BGM.acb";
-static const std::string_view CRI_ACB_BASIC = "../audio/Basic.acb";
-static const std::string_view CRI_AWB_BASIC = "../audio/Basic.awb";
-static const std::string_view CRI_ACB_SE = "../audio/WorkUnit_0/SE.acb";
+static const std::string_view CRI_ACF = "audio/ADX2_samples.acf";
+static const std::string_view CRI_ACB_BGM = "audio/WorkUnit_0/BGM.acb";
+static const std::string_view CRI_ACB_BASIC = "audio/Basic.acb";
+static const std::string_view CRI_AWB_BASIC = "audio/Basic.awb";
+static const std::string_view CRI_ACB_SE = "audio/WorkUnit_0/SE.acb";
 
 static const int MAX_VOICE = 24;
 static const int MAX_VIRTUAL_VOICE = 128;
@@ -70,8 +70,8 @@ namespace RVK {
 		globalPool =
 			RVKDescriptorPool::Builder()
 			.SetMaxSets(MAX_FRAMES_IN_FLIGHT * POOL_SIZE)
-			.AddPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT * 10)
-			.AddPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, MAX_FRAMES_IN_FLIGHT * 1000)
+			.AddPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT * 50)
+			.AddPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, MAX_FRAMES_IN_FLIGHT * 5000)
 			.Build();
 
 		/////////////////////////////////////////////////////////////////
@@ -184,7 +184,6 @@ namespace RVK {
 		std::unique_ptr<RVKDescriptorSetLayout> textureDescriptorSetLayout =
 			RVKDescriptorSetLayout::Builder()
 			.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT)
-
 			.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
 				VK_SHADER_STAGE_FRAGMENT_BIT) // diffuse color map
 			//.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
@@ -199,9 +198,9 @@ namespace RVK {
 			//	VK_SHADER_STAGE_FRAGMENT_BIT) // metallic map
 			.Build();
 
-		std::unique_ptr<RVKDescriptorSetLayout> pbrDescriptorSetLayout = 
+		std::unique_ptr<RVKDescriptorSetLayout> modelAnimationDescriptorSetLayout = 
 			RVKDescriptorSetLayout::Builder()
-			.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT)
+			.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
 			.Build();
 
 		std::vector<VkDescriptorSet> globalDescriptorSets(MAX_FRAMES_IN_FLIGHT);
@@ -214,7 +213,8 @@ namespace RVK {
 
 		std::vector<VkDescriptorSetLayout> descriptorSetLayoutsPbr = {
 			globalSetLayout->GetDescriptorSetLayout(),
-			textureDescriptorSetLayout->GetDescriptorSetLayout()
+			textureDescriptorSetLayout->GetDescriptorSetLayout(),
+			modelAnimationDescriptorSetLayout->GetDescriptorSetLayout()
 		};
 
 		EntityRenderSystem entityRenderSystem{
@@ -229,46 +229,55 @@ namespace RVK {
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
 
-		m_test = m_currentScene->CreateEntity("test");
-		m_test.AddComponent<Components::Transform>(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
-		m_test.AddComponent<Components::Model>("models/sphere.obj").SetOffsetPosition(glm::vec3(0.0f));
-		
+		//m_test = m_currentScene->CreateEntity("test");
+		//m_test.AddComponent<Components::Transform>(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.1f));
+		//m_test.AddComponent<Components::Model>("models/sphere.obj").SetOffsetPosition(glm::vec3(0.0f));
 
 		m_test2 = m_currentScene->CreateEntity("test2");
-		m_test2.AddComponent<Components::Transform>(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(-90.0f, 0.0f, 0.0f), glm::vec3(0.0001f));
-		m_test2.AddComponent<Components::Model>("models/Dragon/Qishilong.fbx").SetOffsetPosition(glm::vec3(0.0f));
-		m_test2.GetComponent<Components::Model>().AddAnimation("test", "../models/Dragon/Qishilong.fbx");
-		physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
-		{
-			physx::PxTransform localTm(physx::PxVec3(0.0f, 0.0f, 0.0f));
-			physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
-			m_pBody = m_pPhysics->createRigidDynamic(localTm);
-			shape->setLocalPose(relativePose);
-			m_pBody->attachShape(*shape);
-			physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
-			m_pScene->addActor(*m_pBody);
-			//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
-		}
+		m_test2.AddComponent<Components::Transform>(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(-90.0f, 0.0f, 0.0f), glm::vec3(0.001f));
+		//m_test2.AddComponent<Components::Model>("models/Dragon/M_B_44_Qishilong_skin_Skeleton.fbx").SetOffsetPosition(glm::vec3(0.0f));
+		//m_test2.GetComponent<Components::Model>().AddAnimation("test", "../models/Dragon/M_B_44_Qishilong_skin_Skeleton.fbx");
+		m_test2.AddComponent<Components::Model>("models/Fish.fbx").SetOffsetPosition(glm::vec3(0.0f));
+		m_test2.GetComponent<Components::Model>().AddAnimation("test", "models/Fish.fbx");
+		//physx::PxShape* shape = m_pPhysics->createShape(physx::PxCapsuleGeometry(0.5f, 1.0f), *m_pMaterial);
+		//{
+		//	physx::PxTransform localTm(physx::PxVec3(0.5f, 0.0f, 0.0f));
+		//	//physx::PxTransform relativePose(physx::PxQuat(physx::PxHalfPi, physx::PxVec3(0, 0, 1)));
+		//	m_pBody = m_pPhysics->createRigidDynamic(localTm);
+		//	//shape->setLocalPose(relativePose);
+		//	m_pBody->attachShape(*shape);
+		//	physx::PxRigidBodyExt::updateMassAndInertia(*m_pBody, 10.0f);
+		//	m_pScene->addActor(*m_pBody);
+		//	//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
+		//}
+
+		//shape = m_pPhysics->createShape(physx::PxSphereGeometry(1.0f), *m_pMaterial);
+		//{
+		//	physx::PxTransform localTm(physx::PxVec3(3.0f, 3.0f, 0.0f));
+		//	physx::PxRigidBody* body = m_pPhysics->createRigidDynamic(localTm);
+		//	body->attachShape(*shape);
+		//	physx::PxRigidBodyExt::updateMassAndInertia(*body, 1.0f);
+		//	m_pScene->addActor(*body);
+		//	//m_pBody->setRigidDynamicLockFlags(physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y);
+		//}
 
 
-		m_testFloor = m_currentScene->CreateEntity("Floor");
-		m_testFloor.AddComponent<Components::Model>("models/quad.obj");
-		m_testFloor.AddComponent<Components::Transform>(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(5.0f));
-		shape = m_pPhysics->createShape(physx::PxBoxGeometry(5.0f, 0.001f, 5.0f), *m_pMaterial);
-		{
-			physx::PxTransform localTm(physx::PxVec3(0.0f, -3.0f, 0.0f));
-			m_pFloor = m_pPhysics->createRigidStatic(localTm);
-			m_pFloor->attachShape(*shape);
-			m_pScene->addActor(*m_pFloor);
-		}
+		//m_testFloor = m_currentScene->CreateEntity("Floor");
+		//m_testFloor.AddComponent<Components::Model>("models/quad.obj");
+		//m_testFloor.AddComponent<Components::Transform>(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(0.0f), glm::vec3(5.0f));
+		//shape = m_pPhysics->createShape(physx::PxBoxGeometry(5.0f, 0.001f, 5.0f), *m_pMaterial);
+		//{
+		//	physx::PxTransform localTm(physx::PxVec3(0.0f, -3.0f, 0.0f));
+		//	m_pFloor = m_pPhysics->createRigidStatic(localTm);
+		//	m_pFloor->attachShape(*shape);
+		//	m_pScene->addActor(*m_pFloor);
+		//}
 
 		m_testLight = m_currentScene->CreateEntity("testLight");
 		m_testLight.AddComponent<Components::Transform>(glm::vec3(0.f, 0.f, 0.f));
 		m_testLight.AddComponent<Components::PointLight>(glm::vec3(1.f, 0.f, 0.f), 0.1f, 0.1f );
 
-		//criAtomExPlayer_SetCueId(m_BGMplayer, bgm_acb_hn, CRI_BGM_KS039);
-		//criAtomExPlayer_Start(m_BGMplayer);
-
+		m_timeLastFrame = std::chrono::high_resolution_clock::now();
 		while (!m_rvkWindow.ShouldClose()) {
 			glfwPollEvents();
 
@@ -276,9 +285,17 @@ namespace RVK {
 			m_timestep = newTime - m_timeLastFrame;
 			m_timeLastFrame = newTime;
 
-			
+			// -----------Audio Update-----------
 			criAtomEx_ExecuteMain();
+			// -----------Audio Update-----------
 
+			// -----------Physics Update-----------
+			m_pScene->simulate(m_timestep);
+			m_pScene->fetchResults(true);
+			//m_test2.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p)/* - glm::vec3(0.f, 1.5f, 0.f)*/;
+			// -----------Physics Update-----------
+
+			// -----------Scene Update-----------
 			float aspect = m_rvkRenderer.GetAspectRatio();
 			for (auto [entity, cam, transform] : 
 				m_currentScene->m_entityRoot.view<Components::Camera, Components::Transform>().each()) {
@@ -336,20 +353,34 @@ namespace RVK {
 				m_playbackID = criAtomExPlayer_Start(m_BGMplayer);
 			}
 
-			//m_pScene->simulate(m_timestep);
-			//m_pScene->fetchResults(true);
-			m_test2.GetComponent<Components::Transform>().position = reinterpret_cast<const glm::vec3&>(m_pBody->getGlobalPose().p)/* - glm::vec3(0.f, 1.5f, 0.f)*/;
-
 			cameraController.MoveInPlaneXZ(m_rvkWindow.GetGLFWwindow(), m_timestep, m_test2);
 
+			//{
+			//	Components::Transform pos = m_test2.GetComponent<Components::Transform>();
+			//	glm::vec3 bodyPos = pos.position/* + glm::vec3(0.f, 1.5f, 0.f)*/;
+			//	physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
+			//	m_pBody->setGlobalPose(t);
+			//}
+
+			auto view = m_currentScene->m_entityRoot.view<Components::Model, Components::Transform>();
+			for (auto entity : view)
 			{
-				Components::Transform pos = m_test2.GetComponent<Components::Transform>();
-				glm::vec3 bodyPos = pos.position/* + glm::vec3(0.f, 1.5f, 0.f)*/;
-				physx::PxTransform t{ reinterpret_cast<const physx::PxVec3&>(bodyPos) };
-				m_pBody->setGlobalPose(t);
+				auto& mesh = view.get<Components::Model>(entity);
+				auto& transform = view.get<Components::Transform>(entity);
+				auto skeleton = mesh.model->GetSkeleton();
+				u32 frameCounter = m_rvkRenderer.GetFrameCounter();
+				if (mesh.GetAnimationCount() > 0) {
+					mesh.UpdateAnimation(m_timestep, skeleton.get(), frameCounter);
+					skeleton->Update();
+
+					// update ubo
+					static_cast<RVKBuffer*>(mesh.model->GetSkeletonBuffer().get())->WriteToBuffer(skeleton->shaderData.finalJointsMatrices.data());
+					static_cast<RVKBuffer*>(mesh.model->GetSkeletonBuffer().get())->Flush();
+				}
 			}
+			// -----------Scene Update-----------
 
-
+			// -----------Render Update-----------
 			if (auto commandBuffer = m_rvkRenderer.BeginFrame()) {
 				int frameIndex = m_rvkRenderer.GetFrameIndex();
 				FrameInfo frameInfo{
@@ -383,6 +414,7 @@ namespace RVK {
 				m_rvkRenderer.EndSwapChainRenderPass(commandBuffer);
 				m_rvkRenderer.EndFrame();
 			}
+			// -----------Render Update-----------
 		}
 
 		vkDeviceWaitIdle(RVKDevice::s_rvkDevice->GetDevice());

@@ -55,7 +55,7 @@ namespace RVK {
         // Open stream from given file
         // std::ios::binary tells stream to read file as binary
         // std::ios::ate tells stream to start reading from the and of file
-        std::string enginePath = ENGINE_DIR + filename;
+        std::string enginePath = filename;
 
         std::ifstream file(enginePath, std::ios::binary | std::ios::ate);
 

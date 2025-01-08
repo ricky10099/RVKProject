@@ -30,6 +30,8 @@ project "RVKProject"
 	cppdialect "C++20"
 	staticruntime "off"
 
+	debugdir "$(SolutionDir)"
+
 	targetdir ("bin/" ..outputdir.. "/%{prj.name}")
 	objdir ("bin-int/" ..outputdir.. "/%{prj.name}")
 

@@ -22,7 +22,7 @@ namespace RVK {
 		return (!m_isLoop && ((m_currentKeyFrameTime + timestep) > m_lastKeyFrameTime));
 	}
 
-	void Animation::Update(const Timestep& timestep, Skeleton& skeleton) {
+	void Animation::Update(const Timestep& timestep, Skeleton* skeleton) {
 		if (!IsRunning()) {
 			//VK_CORE_WARN("Animation '{0}' expired", m_name);
 			return;
@@ -36,8 +36,8 @@ namespace RVK {
 
 		for (auto& channel : m_channels) {
 			auto& sampler = m_samplers[channel.samplerIndex];
-			int jointIndex = skeleton.globalNodeToJointIndex[channel.node];
-			auto& joint = skeleton.joints[jointIndex];
+			int jointIndex = skeleton->globalNodeToJointIndex[channel.node];
+			auto& joint = skeleton->joints[jointIndex];
 
 			for (size_t i = 0; i < sampler.timestamps.size() - 1; ++i) {
 				if ((m_currentKeyFrameTime >= sampler.timestamps[i])
